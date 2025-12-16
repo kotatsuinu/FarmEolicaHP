@@ -1,0 +1,38 @@
+name: Deploy to ConoHa WING
+
+on:
+  push:
+    branches: [ main ] # mainブランチが更新されたら実行
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Astro
+        run: npm run build
+
+      - name: Deploy to ConoHa via SSH (Rsync)
+        uses: easingthemes/ssh-deploy@v5.0.0
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          REMOTE_PORT: 8022 # ConoHaのポート番号
+          # 送信元のフォルダ（Astroは通常 dist/ ）
+          SOURCE: "dist/"
+          # 送信先のフォルダ（devサブドメインの公開フォルダ）
+          # ※ public_html/dev.farmeolica.com/ というパスになることが多いです。
+          # ConoHaのファイルマネージャーで実際のパスを確認してください。
+          TARGET: "/home/${{ secrets.SSH_USER }}/public_html/devfarmeolica.com/"
+          ARGS: "-rltgoDzvO --delete" # 変更があったファイルだけ同期＆古いファイル削除
