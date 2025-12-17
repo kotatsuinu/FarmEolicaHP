@@ -34,5 +34,5 @@ jobs:
           # 送信先のフォルダ（devサブドメインの公開フォルダ）
           # ※ public_html/dev.farmeolica.com/ というパスになることが多いです。
           # ConoHaのファイルマネージャーで実際のパスを確認してください。
-          TARGET: "/home/${{ secrets.SSH_USER }}/public_html/devfarmeolica.com/"
+          TARGET: "/home/${{ secrets.SSH_USER }}/public_html/dev.farmeolica.com/"
           ARGS: "-rltgoDzvO --delete" # 変更があったファイルだけ同期＆古いファイル削除
