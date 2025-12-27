@@ -1,39 +1,44 @@
 import { defineCollection, z } from 'astro:content';
 
 /**
- * 栽培記録コレクション
- * 日々の農作業や花の成長過程を記録
+ * 栽培記録コレクション (B2B出荷予報ボード用)
+ * 市場関係者向けの出荷予報情報を管理
  */
 const cultivationCollection = defineCollection({
   type: 'content',
   schema: ({ image }) => z.object({
     // 基本情報
-    title: z.string(),                    // タイトル（例: "カーネーションの定植作業"）
+    title: z.string(),                    // タイトル（例: "カーネーション（ピンク系）"）
     date: z.date(),                       // 記録日
-    description: z.string().optional(),   // 概要説明
+    flowerType: z.string(),               // 花卉種類（例: "カーネーション"）
+    variety: z.string().optional(),       // 品種名（例: "ノラ"）
 
-    // カテゴリ・タグ
-    category: z.enum([
-      'planting',      // 定植
-      'maintenance',   // 管理
-      'harvest',       // 収穫
-      'shipping'       // 出荷
+    // 出荷予報情報 (B2B向け)
+    status: z.enum([
+      'excellent',     // 🟢 順調
+      'good',          // 🟡 やや遅延
+      'delay',         // 🟠 遅延
+      'trouble'        // 🔴 大幅遅延・問題発生
     ]),
-    flowers: z.array(z.string()),        // 対象花卉（例: ["カーネーション", "トルコキキョウ"]）
-    tags: z.array(z.string()).optional(), // タグ（例: ["ハウス栽培", "露地栽培"]）
+    shippingPeriod: z.string(),           // 出荷予定時期（例: "2025-03下旬"）
+    expectedQuantity: z.number(),         // 予想出荷本数
+
+    // 生育データ
+    currentHeight: z.number().optional(), // 現在の草丈（cm）
+    growthStage: z.string().optional(),   // 生育ステージ（例: "蕾形成期"）
+    defects: z.array(z.string()).optional(), // 欠点情報（例: ["葉先枯れ若干あり"]）
+    environmentData: z.object({
+      temperature: z.number().optional(),
+      humidity: z.number().optional(),
+      lightHours: z.number().optional(),
+    }).optional(),
 
     // メディア
-    coverImage: image().optional(),       // カバー写真
-    images: z.array(image()).optional(),  // 追加写真
+    images: z.array(image()).optional(),  // 定点観測写真
 
-    // ステータス
-    status: z.enum([
-      'draft',         // 下書き
-      'published',     // 公開済み
-      'growing',       // 栽培中
-      'harvesting'     // 出荷中
-    ]).default('draft'),
-    featured: z.boolean().default(false), // 注目記事として表示
+    // その他
+    tags: z.array(z.string()).optional(),
+    archived: z.boolean().default(false), // アーカイブフラグ
   }),
 });
 
@@ -54,6 +59,8 @@ const productsCollection = defineCollection({
     category: z.enum([
       'loss_flower',   // ロスフラワー
       'imperfect',     // 規格外
+      'craft',         // クラフト用（ドライフラワー向け等）
+      'aroma',         // アロマ・香り用
       'market'         // 市場出荷品（展示のみ）
     ]),
     season: z.array(z.enum([
@@ -75,6 +82,14 @@ const productsCollection = defineCollection({
     // 特徴・タグ
     flowerType: z.string().optional(),    // 花の種類（例: "カーネーション"）
     tags: z.array(z.string()).optional(), // その他タグ
+
+    // スペック情報（追加）
+    spec: z.object({
+      length: z.number().optional(),      // 長さ（cm）
+      headSize: z.number().optional(),    // 花径（cm）
+      color: z.string().optional(),       // 色
+      fragrance: z.boolean().optional(),  // 香りの有無
+    }).optional(),
 
     // 表示設定
     featured: z.boolean().default(false), // おすすめ商品

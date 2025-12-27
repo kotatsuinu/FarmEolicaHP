@@ -10,11 +10,13 @@ export default {
         mono: ['Courier Prime', 'Space Mono', 'monospace'], // Lab感のための等幅フォント
       },
       colors: {
-        // Botanical Lab カラーパレット
-        'stone-white': '#F2F2F0',
-        'greige': '#E8E6E3',
-        'dark-slate': '#2F4F4F',
-        'rust': '#8B4513',
+        // Mineral & Soil カラーパレット (Organic Lab v2.2)
+        'eolica-green': '#005243', // ブランドカラー: 深い森、知性
+        'wet-soil': '#4A3B32',     // 湿った土: 日本語見出し、強調
+        'old-copper': '#B87333',   // 使い込まれた銅: アクセント、アクション
+        'stone-white': '#F2F2F0',  // 背景色（既存維持）
+
+        // 補助カラー
         'warm-gray': {
           50: '#F2F2F0',
           100: '#E8E6E3',
@@ -23,11 +25,11 @@ export default {
           400: '#9A9894',
           500: '#7D7B77',
         },
-        'lab-green': {
-          DEFAULT: '#2F4F4F',
-          light: '#3D6363',
-          dark: '#1F3333',
-        },
+
+        // 旧カラー（互換性のため残す、段階的に削除予定）
+        'dark-slate': '#2F4F4F',
+        'rust': '#8B4513',
+        'lab-green': '#2F4F4F',
       },
       backgroundImage: {
         // ノイズテクスチャ（紙・土のような質感）
