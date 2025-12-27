@@ -56,10 +56,30 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- Prologue Section (NEW) -->
-  <section class="py-32 md:py-40 bg-stone-white" data-animate="wind">
-    <div class="max-w-4xl mx-auto px-6 lg:px-12 text-center">
-      <div class="space-y-8">
-        <p class="text-xl md:text-2xl leading-loose text-wet-soil font-serif wind-text">
+  <section class="relative py-32 md:py-40 bg-stone-white overflow-hidden">
+    <!-- Decorative Images -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <!-- 画像1: 右上、上下浮遊 -->
+      <img
+        src="/images/top/prologue_1.jpg"
+        alt=""
+        class="absolute top-10 right-0 md:right-10 w-48 md:w-64 opacity-50 animate-float z-0"
+        loading="lazy"
+      />
+
+      <!-- 画像2: 左下、左右漂う -->
+      <img
+        src="/images/top/prologue_2.jpg"
+        alt=""
+        class="absolute bottom-10 left-0 md:left-10 w-40 md:w-56 opacity-50 animate-drift z-0"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-4xl mx-auto px-6 lg:px-12 text-center">
+      <div class="space-y-12">
+        <p class="text-xl md:text-2xl leading-[3.5rem] md:leading-[4rem] text-wet-soil font-serif animate-fade-in-up">
           Farm Eolicaは、福島県浪江町にある小さな農場です。<br />
           季節の花を育てるのは、わたし一人と、家族の手伝い。<br />
           風と土と科学が共存する、自然の中のアトリエ。<br />
@@ -330,6 +350,53 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
+  /* Prologue: シンプルな下から浮き出るアニメーション */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 1.2s ease-out forwards;
+  }
+
+  /* Prologue: 画像1の上下浮遊アニメーション */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Prologue: 画像2の左右漂うアニメーション */
+  @keyframes drift {
+    0%, 100% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(10px, -5px);
+    }
+    75% {
+      transform: translate(-10px, 5px);
+    }
+  }
+
+  .animate-drift {
+    animation: drift 8s ease-in-out infinite;
+  }
+
   /* 風の演出: ふわっと浮遊するアニメーション */
   @keyframes wind-float {
     from {
@@ -359,37 +426,8 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
-  /* 風の演出: テキストが微かに揺らぐ */
-  @keyframes gentle-sway {
-    0%, 100% {
-      transform: translateX(0) translateY(0);
-    }
-    25% {
-      transform: translateX(2px) translateY(-1px);
-    }
-    75% {
-      transform: translateX(-2px) translateY(1px);
-    }
-  }
-
   .animate-fade-in {
     animation: fade-in 1.5s ease-out forwards;
-  }
-
-  /* Prologue セクションの風アニメーション */
-  [data-animate="wind"] {
-    opacity: 0;
-    transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  [data-animate="wind"].animate-in {
-    opacity: 1;
-    animation: wind-float 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  }
-
-  /* テキストが微かに揺らぐ */
-  .wind-text {
-    animation: gentle-sway 8s ease-in-out infinite;
   }
 
   /* 画像の風アニメーション */
