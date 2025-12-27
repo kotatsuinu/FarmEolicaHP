@@ -29,8 +29,20 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
   <body class="min-h-screen bg-stone-white text-gray-900 font-serif antialiased relative">
     <!-- ノイズテクスチャ背景 -->
     <div class="fixed inset-0 bg-noise pointer-events-none z-0"></div>
+
+    <!-- 構築中通知バー -->
+    <div class="fixed top-0 left-0 right-0 z-[60] bg-wet-soil text-stone-white py-2">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <p class="font-mono text-xs tracking-wide">
+          <span class="opacity-80">現在サイト構築中です</span>
+          <span class="mx-2 opacity-40">|</span>
+          <span class="opacity-80">System Construction in Progress</span>
+        </p>
+      </div>
+    </div>
+
     <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-stone-white/90 backdrop-blur-sm border-b border-warm-gray-200">
+    <header class="fixed top-8 left-0 right-0 z-50 bg-stone-white/90 backdrop-blur-sm border-b border-warm-gray-200">
       <nav class="max-w-7xl mx-auto px-6 lg:px-12 py-6">
         <div class="flex items-center justify-between">
           <!-- Logo -->
@@ -39,20 +51,29 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
           </a>
 
           <!-- Navigation Menu -->
-          <ul class="flex gap-8 lg:gap-12 text-xs tracking-wider uppercase font-mono text-wet-soil">
+          <ul class="flex gap-6 lg:gap-10 font-mono text-wet-soil">
             <li>
-              <a href="/cultivation" class="hover:text-old-copper transition-colors duration-300">
-                Shipment
+              <a href="/cultivation" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-xs tracking-widest uppercase">SHIPMENT</span>
+                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">出荷予報</span>
               </a>
             </li>
             <li>
-              <a href="/products" class="hover:text-old-copper transition-colors duration-300">
-                Products
+              <a href="/products" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-xs tracking-widest uppercase">PRODUCTS</span>
+                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">研究成果</span>
               </a>
             </li>
             <li>
-              <a href="/about" class="hover:text-old-copper transition-colors duration-300">
-                About
+              <a href="/about" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-xs tracking-widest uppercase">ABOUT</span>
+                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">農園について</span>
+              </a>
+            </li>
+            <li>
+              <a href="/contact" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-xs tracking-widest uppercase">CONTACT</span>
+                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">お問い合わせ</span>
               </a>
             </li>
           </ul>

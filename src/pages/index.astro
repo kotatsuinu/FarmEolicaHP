@@ -28,6 +28,9 @@ import Layout from '../layouts/Layout.astro';
         <p class="text-lg md:text-xl tracking-wide font-light opacity-90 font-serif italic" style="animation-delay: 0.3s;">
           Living with Wind, Evolving with Data.
         </p>
+        <p class="text-sm md:text-base tracking-wider font-serif opacity-70 mt-3" style="animation-delay: 0.5s;">
+          - 風と共に生き、データと共に進化する。-
+        </p>
       </div>
     </div>
 
@@ -53,25 +56,20 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- Prologue Section (NEW) -->
-  <section class="py-32 md:py-40 bg-stone-white" data-animate>
+  <section class="py-32 md:py-40 bg-stone-white" data-animate="wind">
     <div class="max-w-4xl mx-auto px-6 lg:px-12 text-center">
       <div class="space-y-8">
-        <p class="text-xl md:text-2xl leading-relaxed text-wet-soil font-serif">
-          Farm Eolicaは、福島県浪江町にある実験農場です。<br />
-          ここは工場ではなく、風と土と科学が共存するアトリエ。<br />
+        <p class="text-xl md:text-2xl leading-loose text-wet-soil font-serif wind-text">
+          Farm Eolicaは、福島県浪江町にある小さな農場です。<br />
+          季節の花を育てるのは、わたし一人と、家族の手伝い。<br />
+          風と土と科学が共存する、自然の中のアトリエ。<br />
           自然の声に耳を傾け、データと共に進化する。<br />
           そんな私たちの「研究成果」を、どうぞご覧ください。
         </p>
 
         <!-- Signature -->
         <div class="flex justify-center pt-8">
-          <!-- フォールバック: 画像がない場合は筆記体フォント -->
-          <p class="font-display italic text-2xl text-wet-soil opacity-70">
-            Takuma Sekiguchi
-          </p>
-          <!-- 将来的に画像を配置する場合:
           <img src="/images/top/signature.png" alt="Signature" class="h-16 opacity-70" loading="lazy" />
-          -->
         </div>
 
         <!-- CTA -->
@@ -95,7 +93,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="relative">
         <!-- Image (Large, Left) -->
-        <div class="w-full md:w-3/5 aspect-[3/4]">
+        <div class="w-full md:w-3/5 aspect-[3/4]" data-animate="image-wind">
           <div class="w-full h-full bg-gradient-to-br from-warm-gray-200 to-warm-gray-100 overflow-hidden">
             <img
               src="/images/top/atelier.jpg"
@@ -190,7 +188,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <!-- Image (Narrower, Tall) -->
-        <div class="md:col-span-5">
+        <div class="md:col-span-5" data-animate="image-wind">
           <div class="aspect-[3/5] bg-gradient-to-br from-warm-gray-200 to-warm-gray-100 overflow-hidden shadow-lab">
             <img
               src="/images/top/forecast.jpg"
@@ -212,7 +210,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="grid md:grid-cols-12 gap-12 items-center">
         <!-- Image (Wide, Landscape) -->
-        <div class="md:col-span-8 order-2 md:order-1">
+        <div class="md:col-span-8 order-2 md:order-1" data-animate="image-wind">
           <div class="aspect-[4/3] bg-gradient-to-br from-warm-gray-200 to-warm-gray-100 overflow-hidden">
             <img
               src="/images/top/dialogue.jpg"
@@ -332,8 +330,77 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
+  /* 風の演出: ふわっと浮遊するアニメーション */
+  @keyframes wind-float {
+    from {
+      opacity: 0;
+      transform: translateY(60px) scale(0.98);
+      filter: blur(2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  /* 風の演出: 画像が風で揺らぐように現れる */
+  @keyframes wind-sway {
+    0% {
+      opacity: 0;
+      transform: translateX(-30px) translateY(30px) rotate(-2deg) scale(0.95);
+    }
+    60% {
+      transform: translateX(5px) translateY(-5px) rotate(0.5deg) scale(1.01);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0) translateY(0) rotate(0) scale(1);
+    }
+  }
+
+  /* 風の演出: テキストが微かに揺らぐ */
+  @keyframes gentle-sway {
+    0%, 100% {
+      transform: translateX(0) translateY(0);
+    }
+    25% {
+      transform: translateX(2px) translateY(-1px);
+    }
+    75% {
+      transform: translateX(-2px) translateY(1px);
+    }
+  }
+
   .animate-fade-in {
     animation: fade-in 1.5s ease-out forwards;
+  }
+
+  /* Prologue セクションの風アニメーション */
+  [data-animate="wind"] {
+    opacity: 0;
+    transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  [data-animate="wind"].animate-in {
+    opacity: 1;
+    animation: wind-float 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  /* テキストが微かに揺らぐ */
+  .wind-text {
+    animation: gentle-sway 8s ease-in-out infinite;
+  }
+
+  /* 画像の風アニメーション */
+  [data-animate="image-wind"] {
+    opacity: 0;
+    transition: opacity 1.5s ease-out;
+  }
+
+  [data-animate="image-wind"].animate-in {
+    opacity: 1;
+    animation: wind-sway 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   }
 
   /* Fallback for images */
