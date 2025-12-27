@@ -1,0 +1,89 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販売' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-white text-gray-900 font-serif">
+    <!-- Header -->
+    <header class="border-b border-gray-200">
+      <nav class="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+        <div class="flex items-center justify-between">
+          <!-- Logo -->
+          <a href="/" class="text-2xl font-light tracking-wide hover:opacity-70 transition-opacity">
+            Farm Eolica
+          </a>
+
+          <!-- Navigation Menu -->
+          <ul class="flex gap-8 text-sm font-light">
+            <li>
+              <a href="/cultivation" class="hover:opacity-70 transition-opacity">
+                栽培記録
+              </a>
+            </li>
+            <li>
+              <a href="/products" class="hover:opacity-70 transition-opacity">
+                商品
+              </a>
+            </li>
+            <li>
+              <a href="/about" class="hover:opacity-70 transition-opacity">
+                About
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 mt-24">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+          <!-- Copyright -->
+          <p class="text-sm font-light text-gray-600">
+            &copy; {new Date().getFullYear()} Farm Eolica. All rights reserved.
+          </p>
+
+          <!-- Social Links -->
+          <div class="flex gap-6">
+            <a
+              href="https://instagram.com/farm_eolica"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm font-light text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              Instagram
+            </a>
+            <a
+              href="https://twitter.com/farm_eolica"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm font-light text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              X (Twitter)
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

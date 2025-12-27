@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Farm Eolica | 花農家の栽培記録と商品販売">
+  <!-- Hero Section -->
+  <section class="-mx-6 lg:-mx-8 -mt-16 relative">
+    <!-- Full-width Hero Image -->
+    <div class="relative h-screen w-screen">
+      <!-- Placeholder Background with Gradient -->
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100"
+        style="background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1600&h=900&fit=crop'); background-size: cover; background-position: center;"
+      >
+        <!-- Overlay for better text readability -->
+        <div class="absolute inset-0 bg-white/40"></div>
+      </div>
+
+      <!-- Centered Content -->
+      <div class="relative h-full flex items-center justify-center">
+        <div class="text-center px-6">
+          <h1 class="text-5xl md:text-7xl font-light tracking-wide mb-4">
+            Farm Eolica
+          </h1>
+          <p class="text-xl md:text-2xl font-light text-gray-700 tracking-wider">
+            Data & Story
+          </p>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <svg
+          class="w-6 h-6 text-gray-600"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+          ></path>
+        </svg>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -2,40 +2,44 @@ import { defineCollection, z } from 'astro:content';
 
 /**
  * 栽培記録コレクション
- * 日々の農作業や作物の成長過程を記録
+ * 日々の農作業や花の成長過程を記録
  */
 const cultivationCollection = defineCollection({
   type: 'content',
   schema: ({ image }) => z.object({
     // 基本情報
-    title: z.string(),                    // タイトル（例: "トマトの定植作業"）
+    title: z.string(),                    // タイトル（例: "カーネーションの定植作業"）
     date: z.date(),                       // 記録日
     description: z.string().optional(),   // 概要説明
 
     // カテゴリ・タグ
     category: z.enum([
-      'planting',      // 種まき・定植
-      'maintenance',   // 日常管理
+      'planting',      // 定植
+      'maintenance',   // 管理
       'harvest',       // 収穫
-      'processing',    // 加工
-      'other'          // その他
+      'shipping'       // 出荷
     ]),
-    crops: z.array(z.string()),          // 対象作物（例: ["トマト", "ミニトマト"]）
-    tags: z.array(z.string()).optional(), // タグ（例: ["有機栽培", "露地栽培"]）
+    flowers: z.array(z.string()),        // 対象花卉（例: ["カーネーション", "トルコキキョウ"]）
+    tags: z.array(z.string()).optional(), // タグ（例: ["ハウス栽培", "露地栽培"]）
 
     // メディア
     coverImage: image().optional(),       // カバー写真
     images: z.array(image()).optional(),  // 追加写真
 
     // ステータス
-    status: z.enum(['draft', 'published']).default('draft'),
+    status: z.enum([
+      'draft',         // 下書き
+      'published',     // 公開済み
+      'growing',       // 栽培中
+      'harvesting'     // 出荷中
+    ]).default('draft'),
     featured: z.boolean().default(false), // 注目記事として表示
   }),
 });
 
 /**
  * 商品情報コレクション
- * 販売する農産物や加工品の情報
+ * 販売する花卉の情報
  */
 const productsCollection = defineCollection({
   type: 'content',
@@ -44,14 +48,13 @@ const productsCollection = defineCollection({
     name: z.string(),                     // 商品名
     description: z.string(),              // 商品説明
     price: z.number().positive(),         // 価格（円）
-    unit: z.string().default('個'),      // 単位（個、kg、パックなど）
+    unit: z.string().default('本'),      // 単位（本、束、パックなど）
 
     // カテゴリ・分類
     category: z.enum([
-      'vegetable',     // 野菜
-      'fruit',         // 果物
-      'processed',     // 加工品
-      'other'          // その他
+      'loss_flower',   // ロスフラワー
+      'imperfect',     // 規格外
+      'market'         // 市場出荷品（展示のみ）
     ]),
     season: z.array(z.enum([
       'spring',        // 春
@@ -70,8 +73,7 @@ const productsCollection = defineCollection({
     availableUntil: z.date().optional(),  // 販売終了日
 
     // 特徴・タグ
-    organic: z.boolean().default(false),  // 有機栽培
-    pesticide_free: z.boolean().default(false), // 無農薬
+    flowerType: z.string().optional(),    // 花の種類（例: "カーネーション"）
     tags: z.array(z.string()).optional(), // その他タグ
 
     // 表示設定
