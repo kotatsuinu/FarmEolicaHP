@@ -35,7 +35,7 @@ jobs:
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'Update Instagram images [skip ci]'
+          commit_message: 'Update Instagram images'
           file_pattern: 'public/images/instagram/*.jpg'
           commit_user_name: 'github-actions[bot]'
           commit_user_email: 'github-actions[bot]@users.noreply.github.com'
