@@ -41,8 +41,11 @@ FarmEolicaHP/
 │   ├── images/
 │   │   ├── top/              # ヒーロー画像、コンセプトセクション画像
 │   │   ├── products/         # 商品画像
-│   │   └── cultivation/      # 栽培状況写真（年次フォルダ推奨: 2025/, 2024/）
+│   │   ├── cultivation/      # 栽培状況写真（年次フォルダ推奨: 2025/, 2024/）
+│   │   └── instagram/        # Instagram自動取得画像（01.jpg〜09.jpg）
 │   └── favicon.svg
+├── scripts/
+│   └── fetch_instagram.mjs   # Instagram画像自動取得スクリプト
 ├── src/
 │   ├── components/           # Reactコンポーネント（必要に応じて）
 │   ├── layouts/
@@ -159,9 +162,11 @@ npm run preview
 
 ## 🔄 Deployment
 
-### GitHub Actions Workflow
+### GitHub Actions Workflows
 
-`.github/workflows/deploy.yml` により、以下のフローで自動デプロイされます:
+#### 1. Deploy Workflow (`.github/workflows/deploy.yml`)
+
+`main` ブランチへのPushで自動デプロイされます:
 
 1. **Trigger**: `main` ブランチへのPush
 2. **Build**: `npm run build` で静的ファイル生成
@@ -169,6 +174,93 @@ npm run preview
 
 **デプロイ先サーバー**: ConoHa WING
 **デプロイURL**: https://dev.farmeolica.com
+
+#### 2. Instagram Sync Workflow (`.github/workflows/instagram_sync.yml`)
+
+毎日自動でInstagram画像を更新します:
+
+1. **Trigger**: 毎日 JST 3:00 / 手動実行
+2. **Fetch**: Instagram Graph APIから最新9件の画像を取得
+3. **Save**: `public/images/instagram/` に画像を保存
+4. **Commit**: 差分がある場合のみ自動コミット & プッシュ
+
+---
+
+## 📸 Instagram Images Auto-Sync
+
+トップページに表示するInstagram画像を自動で最新の状態に更新するシステムです。
+
+### システム概要
+
+- **スクリプト**: `scripts/fetch_instagram.mjs`
+- **実行頻度**: 毎日 JST 3:00 (GitHub Actions)
+- **取得件数**: 最新9件のInstagram投稿画像
+- **保存先**: `public/images/instagram/01.jpg` 〜 `09.jpg`
+
+### セットアップ
+
+#### 1. GitHubリポジトリのSecretsを設定
+
+以下の環境変数をGitHub Secretsに登録してください:
+
+- `IG_BUSINESS_ID`: Instagram Business Account ID
+- `IG_ACCESS_TOKEN`: Instagram Graph API Access Token (長期トークン)
+- `FB_APP_ID`: Facebook App ID
+- `FB_APP_SECRET`: Facebook App Secret
+
+**設定方法**:
+1. GitHubリポジトリページで `Settings` > `Secrets and variables` > `Actions`
+2. `New repository secret` をクリック
+3. 上記の4つのSecretsを追加
+
+#### 2. Instagram Graph API トークンの取得
+
+1. [Facebook for Developers](https://developers.facebook.com/)でアプリを作成
+2. Instagram Basic Display APIまたはInstagram Graph APIを有効化
+3. Access Tokenを生成（長期トークン推奨、60日間有効）
+4. トークンの延長: スクリプトが7日以内に期限切れを検出すると自動延長を試みます
+
+#### 3. ワークフローの確認
+
+`.github/workflows/instagram_sync.yml` により、以下のスケジュールで自動実行されます:
+
+- **定期実行**: 毎日 JST 3:00 (UTC 18:00)
+- **手動実行**: GitHubリポジトリの `Actions` タブから手動でも実行可能
+
+### トラブルシューティング
+
+#### トークンの有効期限切れ
+
+ワークフローのログに以下の警告が表示された場合:
+
+```
+⚠️ WARNING: Token will expire in X days
+```
+
+トークンの有効期限が近づいています。以下の手順で新しいトークンを取得してください:
+
+1. Facebook Graph API Explorerで新しいトークンを生成
+2. GitHub Secretsの `IG_ACCESS_TOKEN` を更新
+
+#### スクリプトのローカル実行
+
+```bash
+# 環境変数を設定
+export IG_BUSINESS_ID="your_business_id"
+export IG_ACCESS_TOKEN="your_access_token"
+export FB_APP_ID="your_app_id"
+export FB_APP_SECRET="your_app_secret"
+
+# スクリプトを実行
+node scripts/fetch_instagram.mjs
+```
+
+#### APIエラーの確認
+
+GitHub Actionsのログを確認してください:
+1. リポジトリページで `Actions` タブを開く
+2. `Instagram Images Sync` ワークフローを選択
+3. 最新の実行ログを確認
 
 ---
 

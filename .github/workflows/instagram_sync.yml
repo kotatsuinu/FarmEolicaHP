@@ -1,0 +1,40 @@
+name: Instagram Images Sync
+
+on:
+  # 毎日 JST 3:00 (UTC 18:00) に実行
+  schedule:
+    - cron: '0 18 * * *'
+
+  # 手動実行も可能
+  workflow_dispatch:
+
+jobs:
+  sync-instagram:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch Instagram images
+        env:
+          IG_BUSINESS_ID: ${{ secrets.IG_BUSINESS_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          FB_APP_ID: ${{ secrets.FB_APP_ID }}
+          FB_APP_SECRET: ${{ secrets.FB_APP_SECRET }}
+        run: node scripts/fetch_instagram.mjs
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Update Instagram images [skip ci]'
+          file_pattern: 'public/images/instagram/*.jpg'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
+          skip_dirty_check: false
