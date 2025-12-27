@@ -15,32 +15,41 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@300;400;500&family=Shippori+Mincho:wght@400;500;600&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
     <title>{title}</title>
   </head>
-  <body class="min-h-screen bg-white text-gray-900 font-serif">
+  <body class="min-h-screen bg-off-white text-gray-900 font-serif antialiased">
     <!-- Header -->
-    <header class="border-b border-gray-200">
-      <nav class="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-off-white/80 backdrop-blur-sm border-b border-gray-200/50">
+      <nav class="max-w-7xl mx-auto px-6 lg:px-12 py-6">
         <div class="flex items-center justify-between">
           <!-- Logo -->
-          <a href="/" class="text-2xl font-light tracking-wide hover:opacity-70 transition-opacity">
-            Farm Eolica
+          <a href="/" class="font-display text-xl tracking-widest hover:opacity-70 transition-opacity duration-300">
+            FARM EOLICA
           </a>
 
           <!-- Navigation Menu -->
-          <ul class="flex gap-8 text-sm font-light">
+          <ul class="flex gap-8 lg:gap-12 text-xs tracking-wider uppercase">
             <li>
-              <a href="/cultivation" class="hover:opacity-70 transition-opacity">
-                栽培記録
+              <a href="/cultivation" class="hover:opacity-70 transition-opacity duration-300">
+                Story
               </a>
             </li>
             <li>
-              <a href="/products" class="hover:opacity-70 transition-opacity">
-                商品
+              <a href="/products" class="hover:opacity-70 transition-opacity duration-300">
+                Products
               </a>
             </li>
             <li>
-              <a href="/about" class="hover:opacity-70 transition-opacity">
+              <a href="/about" class="hover:opacity-70 transition-opacity duration-300">
                 About
               </a>
             </li>
@@ -50,26 +59,21 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+    <main>
       <slot />
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-gray-200 mt-24">
-      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-          <!-- Copyright -->
-          <p class="text-sm font-light text-gray-600">
-            &copy; {new Date().getFullYear()} Farm Eolica. All rights reserved.
-          </p>
-
+    <footer class="border-t border-gray-200/30 bg-off-white">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16">
+        <div class="flex flex-col items-center gap-8">
           <!-- Social Links -->
-          <div class="flex gap-6">
+          <div class="flex gap-8">
             <a
               href="https://instagram.com/farm_eolica"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm font-light text-gray-600 hover:text-gray-900 transition-colors"
+              class="text-xs tracking-widest uppercase text-gray-500 hover:text-gray-900 transition-colors duration-300"
             >
               Instagram
             </a>
@@ -77,13 +81,55 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
               href="https://twitter.com/farm_eolica"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm font-light text-gray-600 hover:text-gray-900 transition-colors"
+              class="text-xs tracking-widest uppercase text-gray-500 hover:text-gray-900 transition-colors duration-300"
             >
-              X (Twitter)
+              X
             </a>
           </div>
+
+          <!-- Copyright -->
+          <p class="text-xs text-gray-400 tracking-wide">
+            &copy; {new Date().getFullYear()} Farm Eolica
+          </p>
         </div>
       </div>
     </footer>
+
+    <!-- Scroll Animation Script -->
+    <script>
+      // IntersectionObserver for scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // Observe all elements with data-animate attribute
+      document.addEventListener('DOMContentLoaded', () => {
+        const animatedElements = document.querySelectorAll('[data-animate]');
+        animatedElements.forEach((el) => observer.observe(el));
+      });
+    </script>
+
+    <style>
+      [data-animate] {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 1s ease-out, transform 1s ease-out;
+      }
+
+      [data-animate].animate-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
   </body>
 </html>

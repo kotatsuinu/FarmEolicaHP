@@ -2,48 +2,194 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Farm Eolica | 花農家の栽培記録と商品販売">
+<Layout title="Farm Eolica | Data & Story">
   <!-- Hero Section -->
-  <section class="-mx-6 lg:-mx-8 -mt-16 relative">
-    <!-- Full-width Hero Image -->
-    <div class="relative h-screen w-screen">
-      <!-- Placeholder Background with Gradient -->
+  <section class="relative h-screen w-full overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
       <div
-        class="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100"
-        style="background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1600&h=900&fit=crop'); background-size: cover; background-position: center;"
+        class="w-full h-full bg-gradient-to-br from-gray-100 via-gray-50 to-white"
+        style="background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=2000&h=1200&fit=crop&auto=format'); background-size: cover; background-position: center;"
       >
-        <!-- Overlay for better text readability -->
-        <div class="absolute inset-0 bg-white/40"></div>
+        <!-- Dark overlay for text readability -->
+        <div class="absolute inset-0 bg-black/20"></div>
       </div>
+    </div>
 
-      <!-- Centered Content -->
-      <div class="relative h-full flex items-center justify-center">
-        <div class="text-center px-6">
-          <h1 class="text-5xl md:text-7xl font-light tracking-wide mb-4">
-            Farm Eolica
-          </h1>
-          <p class="text-xl md:text-2xl font-light text-gray-700 tracking-wider">
-            Data & Story
-          </p>
+    <!-- Hero Content -->
+    <div class="relative h-full flex items-center justify-center">
+      <div class="text-center text-white px-6">
+        <h1 class="font-display text-6xl md:text-8xl tracking-widest mb-6 animate-fade-in">
+          FARM EOLICA
+        </h1>
+        <p class="text-lg md:text-2xl tracking-[0.3em] font-light opacity-90" style="animation-delay: 0.3s;">
+          Data & Story
+        </p>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <svg
+        class="w-6 h-6 text-white opacity-60"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+          d="M19 14l-7 7m0 0l-7-7m7 7V3"
+        ></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Concept Section: Loss Flowers -->
+  <section class="py-24 md:py-32" data-animate>
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <!-- Image Left -->
+        <div class="order-2 md:order-1">
+          <div class="aspect-[4/5] bg-gradient-to-br from-gray-200 to-gray-100 rounded-sm overflow-hidden">
+            <!-- Placeholder: Replace with actual image -->
+            <img
+              src="https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=800&h=1000&fit=crop&auto=format"
+              alt="Loss Flowers"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
         </div>
-      </div>
 
-      <!-- Scroll Indicator -->
-      <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <svg
-          class="w-6 h-6 text-gray-600"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          ></path>
-        </svg>
+        <!-- Text Right -->
+        <div class="order-1 md:order-2 space-y-6">
+          <h2 class="font-display text-4xl md:text-5xl tracking-wide">
+            Imperfect, yet Beautiful
+          </h2>
+          <p class="text-gray-600 leading-relaxed text-lg">
+            市場に出せない「規格外」の花たち。<br />
+            少し形が違うだけで、その美しさに変わりはありません。<br />
+            <br />
+            私たちは、もったいないを価値に変える挑戦をしています。<br />
+            あなたの手元で、新しい物語を紡いでください。
+          </p>
+          <a
+            href="/products"
+            class="inline-block mt-4 text-sm tracking-widest uppercase border-b border-gray-900 pb-1 hover:opacity-60 transition-opacity duration-300"
+          >
+            View Products →
+          </a>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- Concept Section: Data Driven -->
+  <section class="py-24 md:py-32 bg-warm-gray-50" data-animate>
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <!-- Text Left -->
+        <div class="space-y-6">
+          <h2 class="font-display text-4xl md:text-5xl tracking-wide">
+            Cultivated by Data
+          </h2>
+          <p class="text-gray-600 leading-relaxed text-lg">
+            温度、湿度、日照時間。<br />
+            IoTセンサーが24時間、ハウスの環境を見守ります。<br />
+            <br />
+            見えない数値の積み重ねが、目に見える美しさを作る。<br />
+            データに裏打ちされた栽培で、最高の花を育てています。
+          </p>
+          <a
+            href="/about"
+            class="inline-block mt-4 text-sm tracking-widest uppercase border-b border-gray-900 pb-1 hover:opacity-60 transition-opacity duration-300"
+          >
+            About Technology →
+          </a>
+        </div>
+
+        <!-- Image Right -->
+        <div>
+          <div class="aspect-[4/5] bg-gradient-to-br from-gray-200 to-gray-100 rounded-sm overflow-hidden">
+            <!-- Placeholder: Replace with actual image -->
+            <img
+              src="https://images.unsplash.com/photo-1530027644375-9c83053d392e?w=800&h=1000&fit=crop&auto=format"
+              alt="Data Driven Cultivation"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Concept Section: Dialogue -->
+  <section class="py-24 md:py-32" data-animate>
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <!-- Image Left -->
+        <div class="order-2 md:order-1">
+          <div class="aspect-[4/5] bg-gradient-to-br from-gray-200 to-gray-100 rounded-sm overflow-hidden">
+            <!-- Placeholder: Replace with actual image -->
+            <img
+              src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=800&h=1000&fit=crop&auto=format"
+              alt="Dialogue with Customers"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <!-- Text Right -->
+        <div class="order-1 md:order-2 space-y-6">
+          <h2 class="font-display text-4xl md:text-5xl tracking-wide">
+            Grown with You
+          </h2>
+          <p class="text-gray-600 leading-relaxed text-lg">
+            「こんな花が欲しい」「この色をもっと濃く」<br />
+            あなたの声が、次の栽培計画を作ります。<br />
+            <br />
+            農家と消費者が対話しながら育てる、新しい農業のかたち。<br />
+            一緒に、次の季節の花を育てませんか。
+          </p>
+          <a
+            href="/contact"
+            class="inline-block mt-4 text-sm tracking-widest uppercase border-b border-gray-900 pb-1 hover:opacity-60 transition-opacity duration-300"
+          >
+            Join Request →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing Section -->
+  <section class="py-32 md:py-40" data-animate>
+    <div class="max-w-4xl mx-auto text-center px-6">
+      <p class="font-display text-2xl md:text-3xl tracking-wide leading-relaxed text-gray-700">
+        花と、データと、物語を。<br />
+        <span class="text-gray-500">Farm Eolicaは、新しい農業の可能性を探求しています。</span>
+      </p>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 1.5s ease-out forwards;
+  }
+</style>
