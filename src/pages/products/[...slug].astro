@@ -1,0 +1,190 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+interface Props {
+  product: CollectionEntry<'products'>;
+}
+
+const { product } = Astro.props;
+const { Content } = await product.render();
+
+// カテゴリの日本語表示
+const categoryLabels = {
+  loss_flower: 'ロスフラワー',
+  imperfect: '規格外品',
+  market: '市場出荷品',
+};
+
+// 季節の日本語表示
+const seasonLabels = {
+  spring: '春',
+  summer: '夏',
+  autumn: '秋',
+  winter: '冬',
+};
+---
+
+<Layout title={`${product.data.name} | Farm Eolica`} description={product.data.description}>
+  <div class="pt-32 pb-24 min-h-screen">
+    <!-- Hero Image Section -->
+    <section class="mb-16" data-animate>
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <!-- Main Image -->
+          <div class="aspect-[3/4] overflow-hidden bg-warm-gray-100 shadow-lab-lg">
+            <img
+              src={product.data.image.src}
+              alt={product.data.name}
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <!-- Product Info -->
+          <div class="lg:sticky lg:top-32">
+            <div class="mb-6">
+              <p class="font-mono text-xs tracking-widest text-rust mb-4">
+                {categoryLabels[product.data.category]}
+              </p>
+              <h1 class="font-serif text-4xl md:text-5xl text-dark-slate mb-6 leading-tight">
+                {product.data.name}
+              </h1>
+              <p class="text-lg text-warm-gray-600 leading-relaxed mb-8">
+                {product.data.description}
+              </p>
+            </div>
+
+            <!-- Price -->
+            <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
+              <div class="flex items-baseline gap-2 mb-2">
+                <p class="font-mono text-3xl text-rust">
+                  ¥{product.data.price.toLocaleString()}
+                </p>
+                <span class="text-warm-gray-500 font-mono text-sm">/ {product.data.unit}</span>
+              </div>
+              {!product.data.inStock && (
+                <p class="font-mono text-xs text-warm-gray-400 mt-2">現在品切れ中です</p>
+              )}
+            </div>
+
+            <!-- Specs -->
+            <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
+              <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+                SPECIFICATIONS
+              </h3>
+              <dl class="space-y-3 text-sm">
+                {product.data.flowerType && (
+                  <div class="flex justify-between border-b border-warm-gray-200 pb-2">
+                    <dt class="text-warm-gray-500 font-mono">花の種類</dt>
+                    <dd class="text-dark-slate font-serif">{product.data.flowerType}</dd>
+                  </div>
+                )}
+                <div class="flex justify-between border-b border-warm-gray-200 pb-2">
+                  <dt class="text-warm-gray-500 font-mono">カテゴリ</dt>
+                  <dd class="text-dark-slate font-serif">{categoryLabels[product.data.category]}</dd>
+                </div>
+                {product.data.season && product.data.season.length > 0 && (
+                  <div class="flex justify-between border-b border-warm-gray-200 pb-2">
+                    <dt class="text-warm-gray-500 font-mono">旬の季節</dt>
+                    <dd class="text-dark-slate font-serif">
+                      {product.data.season.map(s => seasonLabels[s]).join('・')}
+                    </dd>
+                  </div>
+                )}
+                {product.data.availableFrom && (
+                  <div class="flex justify-between border-b border-warm-gray-200 pb-2">
+                    <dt class="text-warm-gray-500 font-mono">販売期間</dt>
+                    <dd class="text-dark-slate font-mono text-xs">
+                      {new Date(product.data.availableFrom).toLocaleDateString('ja-JP')}
+                      {product.data.availableUntil && ` 〜 ${new Date(product.data.availableUntil).toLocaleDateString('ja-JP')}`}
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+
+            <!-- Purchase Buttons -->
+            <div class="space-y-4">
+              <a
+                href="#"
+                class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-rust hover:bg-rust hover:text-white transition-all duration-300 {!product.data.inStock && 'opacity-50 cursor-not-allowed'}"
+              >
+                {product.data.inStock ? 'LINE で購入・問い合わせ' : '在庫切れ'}
+              </a>
+              <a
+                href="#"
+                class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-lab-green hover:bg-lab-green hover:text-white transition-all duration-300"
+              >
+                フォームで問い合わせ
+              </a>
+            </div>
+
+            {product.data.tags && product.data.tags.length > 0 && (
+              <div class="mt-8">
+                <div class="flex flex-wrap gap-2">
+                  {product.data.tags.map((tag) => (
+                    <span class="px-3 py-1 text-xs font-mono bg-warm-gray-100 text-warm-gray-600 rounded-full">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Story (Markdown Content) -->
+    <section class="mb-16" data-animate>
+      <div class="max-w-4xl mx-auto px-6 lg:px-12">
+        <div class="bg-stone-white/95 backdrop-blur-sm p-12 shadow-lab-lg">
+          <div class="prose prose-slate max-w-none">
+            <Content />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery (if exists) -->
+    {product.data.gallery && product.data.gallery.length > 0 && (
+      <section class="mb-16" data-animate>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+          <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
+            GALLERY
+          </h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {product.data.gallery.map((image, index) => (
+              <div class="aspect-square overflow-hidden bg-warm-gray-100">
+                <img
+                  src={image.src}
+                  alt={`${product.data.name} - ${index + 1}`}
+                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Back to Products -->
+    <div class="text-center" data-animate>
+      <a
+        href="/products"
+        class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-rust pb-1 hover:border-lab-green transition-colors duration-300"
+      >
+        ← Back to Products
+      </a>
+    </div>
+  </div>
+</Layout>

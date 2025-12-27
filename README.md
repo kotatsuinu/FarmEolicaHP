@@ -9,6 +9,11 @@ Farm Eolicaの栽培記録と商品販売を行うための公式ホームペー
 - **Tailwind CSS** - スタイリング
 - **TypeScript** - 型安全性
 
+## デザインコンセプト: "Botanical Lab"
+
+「植物研究所」をテーマに、YARI FLOWER FARMのミニマルさと、Shimizu Gardenのアトリエ感を融合。
+IoTデータ農業の要素をタイプライターフォントで表現し、情緒的な写真と共存させています。
+
 ## プロジェクト構成
 
 ```
