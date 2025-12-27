@@ -10,7 +10,7 @@ const cultivationCollection = defineCollection({
     // 基本情報
     title: z.string(),                    // タイトル（例: "カーネーション（ピンク系）"）
     date: z.date(),                       // 記録日
-    flowerType: z.string(),               // 花卉種類（例: "カーネーション"）
+    flowerType: z.string().optional(),    // 花卉種類（例: "カーネーション"）
     variety: z.string().optional(),       // 品種名（例: "ノラ"）
 
     // 出荷予報情報 (B2B向け)
@@ -19,9 +19,9 @@ const cultivationCollection = defineCollection({
       'good',          // 🟡 やや遅延
       'delay',         // 🟠 遅延
       'trouble'        // 🔴 大幅遅延・問題発生
-    ]),
-    shippingPeriod: z.string(),           // 出荷予定時期（例: "2025-03下旬"）
-    expectedQuantity: z.number(),         // 予想出荷本数
+    ]).optional(),
+    shippingPeriod: z.string().optional(),           // 出荷予定時期（例: "2025-03下旬"）
+    expectedQuantity: z.number().optional(),         // 予想出荷本数
 
     // 生育データ
     currentHeight: z.number().optional(), // 現在の草丈（cm）
@@ -34,7 +34,7 @@ const cultivationCollection = defineCollection({
     }).optional(),
 
     // メディア
-    images: z.array(image()).optional(),  // 定点観測写真
+    images: z.array(z.string()).optional(),  // 定点観測写真 - 文字列パス配列
 
     // その他
     tags: z.array(z.string()).optional(),
@@ -71,8 +71,8 @@ const productsCollection = defineCollection({
     ])).optional(),                       // 旬の季節
 
     // メディア
-    image: image(),                       // 商品画像（必須）
-    gallery: z.array(image()).optional(), // ギャラリー画像
+    image: z.string(),                    // 商品画像（必須）- 文字列パス
+    gallery: z.array(z.string()).optional(), // ギャラリー画像 - 文字列パス配列
 
     // 在庫・販売情報
     inStock: z.boolean().default(true),   // 在庫有無
