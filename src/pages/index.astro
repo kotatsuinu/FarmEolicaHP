@@ -55,51 +55,55 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <!-- Prologue Section (NEW) -->
-  <section class="relative py-32 md:py-40 bg-stone-white overflow-hidden">
-    <!-- Decorative Images -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden">
-      <!-- 画像1: 右上、上下浮遊 -->
-      <img
-        src="/images/top/prologue_1.jpg"
-        alt=""
-        class="absolute top-10 right-0 md:right-10 w-48 md:w-64 opacity-50 animate-float z-0"
-        loading="lazy"
-      />
+  <!-- Prologue Section -->
+  <section class="py-32 md:py-40 bg-stone-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left: Text -->
+        <div class="space-y-8">
+          <p class="text-xl md:text-2xl leading-loose md:leading-[3rem] text-wet-soil font-serif text-left animate-fade-in-up">
+            Farm Eolicaは、福島県浪江町にある小さな農場です。<br />
+            季節の花を育てるのは、わたし一人と、家族の手伝い。<br />
+            風と土と科学が共存する、自然の中のアトリエ。<br />
+            自然の声に耳を傾け、データと共に進化する。<br />
+            そんな私たちの「研究成果」を、どうぞご覧ください。
+          </p>
 
-      <!-- 画像2: 左下、左右漂う -->
-      <img
-        src="/images/top/prologue_2.jpg"
-        alt=""
-        class="absolute bottom-10 left-0 md:left-10 w-40 md:w-56 opacity-50 animate-drift z-0"
-        loading="lazy"
-      />
-    </div>
+          <!-- Signature (右寄せ) -->
+          <div class="flex justify-end pt-4">
+            <img src="/images/top/signature.png" alt="Signature" class="h-16 opacity-70" loading="lazy" />
+          </div>
 
-    <!-- Content -->
-    <div class="relative z-10 max-w-4xl mx-auto px-6 lg:px-12 text-center">
-      <div class="space-y-12">
-        <p class="text-xl md:text-2xl leading-[3.5rem] md:leading-[4rem] text-wet-soil font-serif animate-fade-in-up">
-          Farm Eolicaは、福島県浪江町にある小さな農場です。<br />
-          季節の花を育てるのは、わたし一人と、家族の手伝い。<br />
-          風と土と科学が共存する、自然の中のアトリエ。<br />
-          自然の声に耳を傾け、データと共に進化する。<br />
-          そんな私たちの「研究成果」を、どうぞご覧ください。
-        </p>
-
-        <!-- Signature -->
-        <div class="flex justify-center pt-8">
-          <img src="/images/top/signature.png" alt="Signature" class="h-16 opacity-70" loading="lazy" />
+          <!-- CTA (左寄せ) -->
+          <div class="pt-4">
+            <a
+              href="/about"
+              class="inline-block px-12 py-4 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
+            >
+              Read Our Story
+            </a>
+          </div>
         </div>
 
-        <!-- CTA -->
-        <div class="pt-8">
-          <a
-            href="/about"
-            class="inline-block px-12 py-4 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
-          >
-            Read Our Story
-          </a>
+        <!-- Right: Images (2枚を重ねる) -->
+        <div class="relative h-[500px] md:h-[600px]">
+          <!-- 画像1: 奥 -->
+          <img
+            src="/images/top/prologue_1.jpg"
+            alt="Farm Eolica"
+            class="absolute top-0 left-0 w-4/5 h-3/5 object-cover shadow-lab animate-slide-in-right opacity-0"
+            loading="lazy"
+            style="animation-delay: 0.2s;"
+          />
+
+          <!-- 画像2: 手前、少しずらす -->
+          <img
+            src="/images/top/prologue_2.jpg"
+            alt="Farm Eolica"
+            class="absolute bottom-0 right-0 w-4/5 h-3/5 object-cover shadow-lab animate-slide-in-right opacity-0"
+            loading="lazy"
+            style="animation-delay: 0.4s;"
+          />
         </div>
       </div>
     </div>
@@ -279,7 +283,7 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- Instagram Section: Updates from the Lab -->
   <section class="py-32 md:py-40 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="max-w-4xl mx-auto px-6 lg:px-12">
       <!-- Section Header -->
       <div class="text-center mb-16">
         <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
@@ -293,7 +297,7 @@ import Layout from '../layouts/Layout.astro';
         </p>
       </div>
 
-      <!-- Instagram Grid (3x3) -->
+      <!-- Instagram Grid (3x3) - Lab Style -->
       <div class="grid grid-cols-3 gap-2 md:gap-4 mb-12">
         <!-- Instagram画像: /images/instagram/01.jpg ~ 09.jpg -->
         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
@@ -301,7 +305,7 @@ import Layout from '../layouts/Layout.astro';
             <img
               src={`/images/instagram/${String(num).padStart(2, '0')}.jpg`}
               alt={`Instagram Post ${num}`}
-              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              class="w-full h-full object-cover grayscale hover:grayscale-0 hover:scale-105 transition-all duration-500"
               loading="lazy"
             />
           </div>
@@ -364,37 +368,6 @@ import Layout from '../layouts/Layout.astro';
 
   .animate-fade-in-up {
     animation: fade-in-up 1.2s ease-out forwards;
-  }
-
-  /* Prologue: 画像1の上下浮遊アニメーション */
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  /* Prologue: 画像2の左右漂うアニメーション */
-  @keyframes drift {
-    0%, 100% {
-      transform: translate(0, 0);
-    }
-    25% {
-      transform: translate(10px, -5px);
-    }
-    75% {
-      transform: translate(-10px, 5px);
-    }
-  }
-
-  .animate-drift {
-    animation: drift 8s ease-in-out infinite;
   }
 
   /* 風の演出: ふわっと浮遊するアニメーション */

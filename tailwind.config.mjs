@@ -62,7 +62,7 @@ export default {
         slideInRight: {
           '0%': {
             opacity: '0',
-            transform: 'translateX(-40px)',
+            transform: 'translateX(50px)',
           },
           '100%': {
             opacity: '1',
