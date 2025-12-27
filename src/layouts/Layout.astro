@@ -20,36 +20,38 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@300;400;500&family=Shippori+Mincho:wght@400;500;600&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@300;400;500&family=Shippori+Mincho:wght@400;500;600&family=Zen+Old+Mincho:wght@400;500;600&family=Courier+Prime:wght@400;700&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
 
     <title>{title}</title>
   </head>
-  <body class="min-h-screen bg-off-white text-gray-900 font-serif antialiased">
+  <body class="min-h-screen bg-stone-white text-gray-900 font-serif antialiased relative">
+    <!-- ノイズテクスチャ背景 -->
+    <div class="fixed inset-0 bg-noise pointer-events-none z-0"></div>
     <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-off-white/80 backdrop-blur-sm border-b border-gray-200/50">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-stone-white/90 backdrop-blur-sm border-b border-warm-gray-200">
       <nav class="max-w-7xl mx-auto px-6 lg:px-12 py-6">
         <div class="flex items-center justify-between">
           <!-- Logo -->
-          <a href="/" class="font-display text-xl tracking-widest hover:opacity-70 transition-opacity duration-300">
+          <a href="/" class="font-display text-xl tracking-[0.2em] hover:opacity-70 transition-opacity duration-300 text-dark-slate">
             FARM EOLICA
           </a>
 
           <!-- Navigation Menu -->
-          <ul class="flex gap-8 lg:gap-12 text-xs tracking-wider uppercase">
+          <ul class="flex gap-8 lg:gap-12 text-xs tracking-wider uppercase font-mono">
             <li>
-              <a href="/cultivation" class="hover:opacity-70 transition-opacity duration-300">
+              <a href="/cultivation" class="hover:text-lab-green transition-colors duration-300">
                 Story
               </a>
             </li>
             <li>
-              <a href="/products" class="hover:opacity-70 transition-opacity duration-300">
+              <a href="/products" class="hover:text-lab-green transition-colors duration-300">
                 Products
               </a>
             </li>
             <li>
-              <a href="/about" class="hover:opacity-70 transition-opacity duration-300">
+              <a href="/about" class="hover:text-lab-green transition-colors duration-300">
                 About
               </a>
             </li>
@@ -59,21 +61,21 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
     </header>
 
     <!-- Main Content -->
-    <main>
+    <main class="relative z-10">
       <slot />
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-gray-200/30 bg-off-white">
+    <footer class="relative z-10 border-t border-warm-gray-200 bg-stone-white">
       <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16">
         <div class="flex flex-col items-center gap-8">
           <!-- Social Links -->
-          <div class="flex gap-8">
+          <div class="flex gap-8 font-mono">
             <a
               href="https://instagram.com/farm_eolica"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-xs tracking-widest uppercase text-gray-500 hover:text-gray-900 transition-colors duration-300"
+              class="text-xs tracking-widest uppercase text-warm-gray-500 hover:text-lab-green transition-colors duration-300"
             >
               Instagram
             </a>
@@ -81,15 +83,15 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
               href="https://twitter.com/farm_eolica"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-xs tracking-widest uppercase text-gray-500 hover:text-gray-900 transition-colors duration-300"
+              class="text-xs tracking-widest uppercase text-warm-gray-500 hover:text-lab-green transition-colors duration-300"
             >
               X
             </a>
           </div>
 
           <!-- Copyright -->
-          <p class="text-xs text-gray-400 tracking-wide">
-            &copy; {new Date().getFullYear()} Farm Eolica
+          <p class="text-xs text-warm-gray-400 tracking-wide font-mono">
+            &copy; {new Date().getFullYear()} Farm Eolica — Botanical Lab
           </p>
         </div>
       </div>

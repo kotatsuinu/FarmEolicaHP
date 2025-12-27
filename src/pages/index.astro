@@ -2,60 +2,65 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Farm Eolica | Data & Story">
+<Layout title="Farm Eolica | Botanical Lab - Data & Story">
   <!-- Hero Section -->
   <section class="relative h-screen w-full overflow-hidden">
     <!-- Background Image -->
     <div class="absolute inset-0">
       <div
-        class="w-full h-full bg-gradient-to-br from-gray-100 via-gray-50 to-white"
-        style="background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=2000&h=1200&fit=crop&auto=format'); background-size: cover; background-position: center;"
+        class="w-full h-full bg-gradient-to-br from-warm-gray-100 via-stone-white to-greige"
+        style="background-image: url('/images/top/hero.jpg'); background-size: cover; background-position: center;"
       >
-        <!-- Dark overlay for text readability -->
-        <div class="absolute inset-0 bg-black/20"></div>
+        <!-- Overlay with lab-green tint -->
+        <div class="absolute inset-0 bg-lab-green/30"></div>
       </div>
     </div>
 
     <!-- Hero Content -->
     <div class="relative h-full flex items-center justify-center">
-      <div class="text-center text-white px-6">
-        <h1 class="font-display text-6xl md:text-8xl tracking-widest mb-6 animate-fade-in">
+      <div class="text-center text-white px-6 max-w-4xl">
+        <p class="font-mono text-xs tracking-[0.3em] mb-4 opacity-80">
+          [ BOTANICAL LABORATORY ]
+        </p>
+        <h1 class="font-display text-6xl md:text-8xl tracking-[0.15em] mb-6 animate-fade-in">
           FARM EOLICA
         </h1>
-        <p class="text-lg md:text-2xl tracking-[0.3em] font-light opacity-90" style="animation-delay: 0.3s;">
+        <p class="text-lg md:text-2xl tracking-[0.4em] font-light opacity-90 font-serif" style="animation-delay: 0.3s;">
           Data & Story
         </p>
       </div>
     </div>
 
     <!-- Scroll Indicator -->
-    <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce">
-      <svg
-        class="w-6 h-6 text-white opacity-60"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.5"
-          d="M19 14l-7 7m0 0l-7-7m7 7V3"
-        ></path>
-      </svg>
+    <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2">
+      <div class="font-mono text-xs text-white opacity-60 flex flex-col items-center gap-2">
+        <span>SCROLL</span>
+        <svg
+          class="w-5 h-5 animate-bounce"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+          ></path>
+        </svg>
+      </div>
     </div>
   </section>
 
-  <!-- Concept Section: Loss Flowers -->
-  <section class="py-24 md:py-32" data-animate>
+  <!-- Concept Section: Loss Flowers (Overlap Layout) -->
+  <section class="py-32 md:py-40 overflow-hidden" data-animate>
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-        <!-- Image Left -->
-        <div class="order-2 md:order-1">
-          <div class="aspect-[4/5] bg-gradient-to-br from-gray-200 to-gray-100 rounded-sm overflow-hidden">
-            <!-- Placeholder: Replace with actual image -->
+      <div class="relative">
+        <!-- Image (Large, Left) -->
+        <div class="w-full md:w-3/5 aspect-[3/4]">
+          <div class="w-full h-full bg-gradient-to-br from-warm-gray-200 to-warm-gray-100 overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=800&h=1000&fit=crop&auto=format"
+              src="/images/top/loss_flower.jpg"
               alt="Loss Flowers"
               class="w-full h-full object-cover"
               loading="lazy"
@@ -63,21 +68,31 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
 
-        <!-- Text Right -->
-        <div class="order-1 md:order-2 space-y-6">
-          <h2 class="font-display text-4xl md:text-5xl tracking-wide">
+        <!-- Text Box (Overlapping, Right) -->
+        <div
+          class="md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2 md:w-1/2
+                 bg-stone-white/95 backdrop-blur-sm p-12 lg:p-16 shadow-lab-lg
+                 mt-8 md:mt-0"
+        >
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+            01 — IMPERFECT
+          </p>
+          <h2 class="font-display text-3xl md:text-5xl tracking-wide text-dark-slate mb-8">
             Imperfect, yet Beautiful
           </h2>
-          <p class="text-gray-600 leading-relaxed text-lg">
-            市場に出せない「規格外」の花たち。<br />
-            少し形が違うだけで、その美しさに変わりはありません。<br />
-            <br />
-            私たちは、もったいないを価値に変える挑戦をしています。<br />
-            あなたの手元で、新しい物語を紡いでください。
-          </p>
+          <div class="space-y-4 text-warm-gray-600 leading-relaxed">
+            <p>
+              市場に出せない「規格外」の花たち。<br />
+              少し形が違うだけで、その美しさに変わりはありません。
+            </p>
+            <p>
+              私たちは、もったいないを価値に変える挑戦をしています。<br />
+              あなたの手元で、新しい物語を紡いでください。
+            </p>
+          </div>
           <a
             href="/products"
-            class="inline-block mt-4 text-sm tracking-widest uppercase border-b border-gray-900 pb-1 hover:opacity-60 transition-opacity duration-300"
+            class="inline-block mt-8 text-xs tracking-widest uppercase font-mono border-b-2 border-rust pb-1 hover:border-lab-green transition-colors duration-300"
           >
             View Products →
           </a>
@@ -86,36 +101,65 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <!-- Concept Section: Data Driven -->
-  <section class="py-24 md:py-32 bg-warm-gray-50" data-animate>
+  <!-- Spacer (Breathing Space) -->
+  <div class="h-32 md:h-48"></div>
+
+  <!-- Concept Section: Data Driven (Asymmetric Layout) -->
+  <section class="py-32 md:py-40 bg-warm-gray-50/50" data-animate>
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-        <!-- Text Left -->
-        <div class="space-y-6">
-          <h2 class="font-display text-4xl md:text-5xl tracking-wide">
-            Cultivated by Data
+      <!-- Section Label -->
+      <div class="mb-16">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500">
+          02 — DATA DRIVEN
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-12 gap-12 items-start">
+        <!-- Text (Wider Column) -->
+        <div class="md:col-span-7 space-y-8">
+          <h2 class="font-display text-4xl md:text-6xl tracking-wide text-dark-slate leading-tight">
+            Cultivated<br />by Data
           </h2>
-          <p class="text-gray-600 leading-relaxed text-lg">
-            温度、湿度、日照時間。<br />
-            IoTセンサーが24時間、ハウスの環境を見守ります。<br />
-            <br />
-            見えない数値の積み重ねが、目に見える美しさを作る。<br />
-            データに裏打ちされた栽培で、最高の花を育てています。
-          </p>
+          <div class="space-y-4 text-warm-gray-600 leading-relaxed text-lg">
+            <p>
+              温度、湿度、日照時間。<br />
+              IoTセンサーが24時間、ハウスの環境を見守ります。
+            </p>
+            <p>
+              見えない数値の積み重ねが、目に見える美しさを作る。<br />
+              データに裏打ちされた栽培で、最高の花を育てています。
+            </p>
+          </div>
+
+          <!-- Data Points (Lab Style) -->
+          <div class="grid grid-cols-3 gap-6 pt-8 border-t border-warm-gray-300">
+            <div>
+              <p class="font-mono text-2xl text-rust font-bold">24/7</p>
+              <p class="font-mono text-xs text-warm-gray-500 mt-1">Monitoring</p>
+            </div>
+            <div>
+              <p class="font-mono text-2xl text-rust font-bold">IoT</p>
+              <p class="font-mono text-xs text-warm-gray-500 mt-1">Sensors</p>
+            </div>
+            <div>
+              <p class="font-mono text-2xl text-rust font-bold">Data</p>
+              <p class="font-mono text-xs text-warm-gray-500 mt-1">Analysis</p>
+            </div>
+          </div>
+
           <a
             href="/about"
-            class="inline-block mt-4 text-sm tracking-widest uppercase border-b border-gray-900 pb-1 hover:opacity-60 transition-opacity duration-300"
+            class="inline-block mt-8 text-xs tracking-widest uppercase font-mono border-b-2 border-rust pb-1 hover:border-lab-green transition-colors duration-300"
           >
             About Technology →
           </a>
         </div>
 
-        <!-- Image Right -->
-        <div>
-          <div class="aspect-[4/5] bg-gradient-to-br from-gray-200 to-gray-100 rounded-sm overflow-hidden">
-            <!-- Placeholder: Replace with actual image -->
+        <!-- Image (Narrower, Tall) -->
+        <div class="md:col-span-5">
+          <div class="aspect-[3/5] bg-gradient-to-br from-warm-gray-200 to-warm-gray-100 overflow-hidden shadow-lab">
             <img
-              src="https://images.unsplash.com/photo-1530027644375-9c83053d392e?w=800&h=1000&fit=crop&auto=format"
+              src="/images/top/cultivation.jpg"
               alt="Data Driven Cultivation"
               class="w-full h-full object-cover"
               loading="lazy"
@@ -126,16 +170,18 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <!-- Concept Section: Dialogue -->
-  <section class="py-24 md:py-32" data-animate>
+  <!-- Spacer (Breathing Space) -->
+  <div class="h-32 md:h-48"></div>
+
+  <!-- Concept Section: Dialogue (Broken Grid) -->
+  <section class="py-32 md:py-40" data-animate>
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-        <!-- Image Left -->
-        <div class="order-2 md:order-1">
-          <div class="aspect-[4/5] bg-gradient-to-br from-gray-200 to-gray-100 rounded-sm overflow-hidden">
-            <!-- Placeholder: Replace with actual image -->
+      <div class="grid md:grid-cols-12 gap-12 items-center">
+        <!-- Image (Wide, Landscape) -->
+        <div class="md:col-span-8 order-2 md:order-1">
+          <div class="aspect-[4/3] bg-gradient-to-br from-warm-gray-200 to-warm-gray-100 overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=800&h=1000&fit=crop&auto=format"
+              src="/images/top/dialogue.jpg"
               alt="Dialogue with Customers"
               class="w-full h-full object-cover"
               loading="lazy"
@@ -143,21 +189,31 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
 
-        <!-- Text Right -->
-        <div class="order-1 md:order-2 space-y-6">
-          <h2 class="font-display text-4xl md:text-5xl tracking-wide">
-            Grown with You
-          </h2>
-          <p class="text-gray-600 leading-relaxed text-lg">
-            「こんな花が欲しい」「この色をもっと濃く」<br />
-            あなたの声が、次の栽培計画を作ります。<br />
-            <br />
-            農家と消費者が対話しながら育てる、新しい農業のかたち。<br />
-            一緒に、次の季節の花を育てませんか。
+        <!-- Text (Compact Box) -->
+        <div class="md:col-span-4 order-1 md:order-2 space-y-6">
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500">
+            03 — DIALOGUE
           </p>
+          <h2 class="font-display text-3xl md:text-4xl tracking-wide text-dark-slate">
+            Grown<br />with You
+          </h2>
+          <div class="text-warm-gray-600 leading-relaxed">
+            <p>
+              「こんな花が欲しい」<br />
+              「この色をもっと濃く」
+            </p>
+            <p class="mt-4">
+              あなたの声が、<br />
+              次の栽培計画を作ります。
+            </p>
+            <p class="mt-4">
+              農家と消費者が対話しながら育てる、<br />
+              新しい農業のかたち。
+            </p>
+          </div>
           <a
             href="/contact"
-            class="inline-block mt-4 text-sm tracking-widest uppercase border-b border-gray-900 pb-1 hover:opacity-60 transition-opacity duration-300"
+            class="inline-block mt-8 text-xs tracking-widest uppercase font-mono border-b-2 border-rust pb-1 hover:border-lab-green transition-colors duration-300"
           >
             Join Request →
           </a>
@@ -167,11 +223,16 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- Closing Section -->
-  <section class="py-32 md:py-40" data-animate>
+  <section class="py-40 md:py-52 bg-lab-green text-white" data-animate>
     <div class="max-w-4xl mx-auto text-center px-6">
-      <p class="font-display text-2xl md:text-3xl tracking-wide leading-relaxed text-gray-700">
-        花と、データと、物語を。<br />
-        <span class="text-gray-500">Farm Eolicaは、新しい農業の可能性を探求しています。</span>
+      <p class="font-mono text-xs tracking-[0.3em] mb-8 opacity-60">
+        — BOTANICAL LABORATORY —
+      </p>
+      <p class="font-display text-3xl md:text-4xl tracking-wide leading-relaxed">
+        花と、データと、物語を。
+      </p>
+      <p class="mt-8 text-lg opacity-80 font-serif">
+        Farm Eolicaは、新しい農業の可能性を探求しています。
       </p>
     </div>
   </section>
@@ -191,5 +252,13 @@ import Layout from '../layouts/Layout.astro';
 
   .animate-fade-in {
     animation: fade-in 1.5s ease-out forwards;
+  }
+
+  /* Fallback for images */
+  img[src="/images/top/hero.jpg"],
+  img[src="/images/top/loss_flower.jpg"],
+  img[src="/images/top/cultivation.jpg"],
+  img[src="/images/top/dialogue.jpg"] {
+    background: linear-gradient(135deg, #D5D3CF 0%, #B8B6B2 100%);
   }
 </style>
