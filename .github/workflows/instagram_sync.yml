@@ -8,6 +8,9 @@ on:
   # 手動実行も可能
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   sync-instagram:
     runs-on: ubuntu-latest
