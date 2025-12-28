@@ -1,0 +1,121 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE_CONFIG } from '../config/site';
+---
+
+<Layout title="Contact | Farm Eolica">
+  <div class="pt-32 pb-24 min-h-screen">
+    <div class="max-w-4xl mx-auto px-6 lg:px-12">
+      <!-- Header -->
+      <div class="mb-16 text-center" data-animate>
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+          GET IN TOUCH
+        </p>
+        <h1 class="font-display text-4xl md:text-5xl tracking-wide text-eolica-green mb-6">
+          Contact
+        </h1>
+        <p class="text-wet-soil font-serif text-lg leading-relaxed">
+          お問い合わせは、以下の方法で受け付けています。
+        </p>
+      </div>
+
+      <!-- Contact Methods -->
+      <div class="space-y-8" data-animate>
+        <!-- Instagram DM -->
+        <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab hover:shadow-lab-lg transition-shadow duration-300">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h2 class="font-serif text-2xl text-wet-soil mb-2">Instagram DM</h2>
+              <p class="text-warm-gray-600 text-sm">
+                日々の栽培記録や商品情報を発信しています。DMでのお問い合わせもお気軽にどうぞ。
+              </p>
+            </div>
+            <div>
+              <a
+                href={SITE_CONFIG.sns.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
+              >
+                Open Instagram →
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- LINE Official Account -->
+        <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab hover:shadow-lab-lg transition-shadow duration-300">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h2 class="font-serif text-2xl text-wet-soil mb-2">LINE公式アカウント</h2>
+              <p class="text-warm-gray-600 text-sm mb-2">
+                新商品のお知らせや、栽培へのご要望など、お気軽にご連絡ください。
+              </p>
+              <p class="font-mono text-xs text-warm-gray-500">
+                ID: {SITE_CONFIG.contact.lineId}
+              </p>
+            </div>
+            <div>
+              <a
+                href={SITE_CONFIG.sns.line}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
+              >
+                Add Friend →
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab hover:shadow-lab-lg transition-shadow duration-300">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h2 class="font-serif text-2xl text-wet-soil mb-2">Email</h2>
+              <p class="text-warm-gray-600 text-sm mb-2">
+                メールでのお問い合わせも承っております。お気軽にご連絡ください。
+              </p>
+              <p class="font-mono text-sm text-wet-soil">
+                {SITE_CONFIG.contact.email}
+              </p>
+            </div>
+            <div>
+              <a
+                href={`mailto:${SITE_CONFIG.contact.email}`}
+                class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
+              >
+                Send Email →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Note -->
+      <div class="mt-12 text-center" data-animate>
+        <p class="text-warm-gray-600 text-sm font-serif mb-8">
+          その他、noteでも記事を発信しています。農園の想いや日々の取り組みをご覧ください。
+        </p>
+        <a
+          href={SITE_CONFIG.sns.note}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper text-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+        >
+          Visit Note →
+        </a>
+      </div>
+
+      <!-- Back to Home -->
+      <div class="mt-16 text-center" data-animate>
+        <a
+          href="/"
+          class="inline-block text-xs tracking-widest uppercase font-mono border-b border-warm-gray-400 pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+        >
+          ← Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { SITE_CONFIG } from '../config/site';
 ---
 
 <Layout title="Privacy Policy | Farm Eolica">
@@ -128,8 +129,9 @@ import Layout from '../layouts/Layout.astro';
             </p>
             <div class="bg-warm-gray-50 p-6 rounded font-mono text-sm text-warm-gray-700">
               <p class="mb-2">Farm Eolica</p>
-              <p class="mb-2">Email: info@farmeolica.com</p>
-              <p>LINE公式アカウント: @farmeolica</p>
+              <p class="mb-2">Email: {SITE_CONFIG.contact.email}</p>
+              <p class="mb-2">LINE公式アカウント: {SITE_CONFIG.contact.lineId}</p>
+              <p>LINE URL: <a href={SITE_CONFIG.sns.line} target="_blank" rel="noopener noreferrer" class="text-old-copper hover:underline">{SITE_CONFIG.sns.line}</a></p>
             </div>
           </section>
 
