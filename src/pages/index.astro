@@ -89,7 +89,7 @@ import { SITE_CONFIG } from '../config/site';
 
           <!-- Signature (右寄せ) -->
           <div class="flex justify-end pt-12 mt-12 !bg-transparent">
-            <img src="/images/top/signature.png" alt="Signature" class="h-16 opacity-70 !bg-transparent mix-blend-multiply" loading="lazy" />
+            <img src="/images/top/signature.png" alt="Signature" class="h-32 opacity-70 !bg-transparent mix-blend-multiply" loading="lazy" />
           </div>
 
           <!-- CTA (左寄せ) -->
@@ -428,7 +428,7 @@ import { SITE_CONFIG } from '../config/site';
   }
 
   /* Fallback for images */
-  img[src^="/images/top/"],
+  img[src^="/images/top/"]:not([src*="signature"]),
   img[src^="/images/instagram/"] {
     background: linear-gradient(135deg, #D5D3CF 0%, #B8B6B2 100%);
   }
