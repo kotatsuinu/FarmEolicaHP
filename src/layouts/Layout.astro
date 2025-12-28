@@ -27,6 +27,34 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
     />
 
     <title>{title}</title>
+
+    <!-- 開発環境用パスワードロック -->
+    <script is:inline>
+      (function() {
+        // 開発環境のみで実行
+        if (window.location.hostname === 'dev.farmeolica.com') {
+          const AUTH_KEY = 'dev_auth_farmeolica';
+          const CORRECT_PASSWORD = 'farmeolica';
+          const PRODUCTION_URL = 'https://farm-eolica.com';
+
+          // 認証済みかチェック
+          const isAuthenticated = sessionStorage.getItem(AUTH_KEY);
+
+          if (!isAuthenticated) {
+            // パスワードプロンプト表示
+            const password = prompt('開発環境へのアクセスにはパスワードが必要です');
+
+            if (password === CORRECT_PASSWORD) {
+              // 認証成功
+              sessionStorage.setItem(AUTH_KEY, 'true');
+            } else {
+              // 認証失敗または キャンセル → 本番サイトへリダイレクト
+              window.location.href = PRODUCTION_URL;
+            }
+          }
+        }
+      })();
+    </script>
   </head>
   <body class="min-h-screen bg-stone-white text-gray-900 font-serif antialiased relative">
     <!-- ノイズテクスチャ背景 -->
