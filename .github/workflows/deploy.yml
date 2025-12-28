@@ -2,7 +2,7 @@ name: Deploy to ConoHa WING
 
 on:
   push:
-    branches: [ main ] # mainブランチが更新されたら実行
+    branches: [ develop ] # developブランチが更新されたら実行
 
 jobs:
   build-and-deploy:
