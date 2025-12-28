@@ -2,36 +2,295 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="About | Farm Eolica" description="Farm Eolicaについてのページは現在準備中です。">
-  <div class="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center">
-    <div data-animate>
-      <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
-        ABOUT US
-      </p>
-      <h1 class="font-serif text-4xl md:text-5xl text-eolica-green mb-6 tracking-wide">
-        Coming Soon
-      </h1>
-      <p class="font-mono text-sm text-wet-soil tracking-widest mb-4">
-        現在準備中です
-      </p>
-      <p class="text-warm-gray-600 text-base max-w-md mx-auto leading-relaxed mb-12 font-serif">
-        農園についてのページは現在制作中です。<br />
-        Farm Eolicaについて詳しく知りたい方は、<a href="/contact" class="text-old-copper hover:underline">お問い合わせページ</a>よりご連絡ください。
-      </p>
-      <div class="flex gap-6 justify-center">
-        <a
-          href="/"
-          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+<Layout title="About | Farm Eolica" description="風を読み、土を耕し、未来を咲かせる。Farm Eolicaの思想と背景。">
+  <!-- Hero Section -->
+  <section class="relative h-[70vh] md:h-screen w-full overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+      <img
+        src="/images/about/hero.jpg"
+        alt="Farm Eolica"
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-eolica-green/40"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative h-full flex items-center justify-center">
+      <div class="text-center text-white px-6 max-w-4xl">
+        <p class="font-mono text-xs tracking-[0.3em] mb-4 opacity-80 uppercase">
+          About Farm Eolica
+        </p>
+        <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl tracking-wide leading-tight">
+          風を読み、土を耕し、<br class="hidden md:inline">未来を咲かせる。
+        </h1>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2">
+      <div class="font-mono text-xs text-white opacity-60 flex flex-col items-center gap-2">
+        <span>SCROLL</span>
+        <svg
+          class="w-5 h-5 animate-bounce"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
         >
-          Return to Top
-        </a>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+          ></path>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1: Origin (Left Image, Right Text) -->
+  <section class="py-20 md:py-32 bg-stone-white" data-animate>
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left: Image -->
+        <div class="order-2 md:order-1" data-animate>
+          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm">
+            <img
+              src="/images/about/origin.jpg"
+              alt="Origin - 風とともに生きる農園"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <!-- Right: Text -->
+        <div class="order-1 md:order-2 space-y-6" data-animate>
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
+            ORIGIN
+          </p>
+          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green leading-tight">
+            「風」とともに生きる農園
+          </h2>
+          <div class="font-serif text-wet-soil leading-relaxed space-y-4">
+            <p>
+              「Farm Eolica(ファーム・エオリカ)」という名前は、ギリシャ神話に登場する風の神「アイオロス(Aeolus)」に由来しています。
+            </p>
+            <p>
+              私たちの農園がある福島県浪江町は、海と山に囲まれ、常に心地よい風が吹き抜ける場所です。時に厳しく、時に優しく吹くこの土地の「風」を受け入れ、味方にし、自然と共生しながら美しい花を育てたい。そんな願いを込めて名付けました。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Identity (Right Image, Left Text) -->
+  <section class="py-20 md:py-32 bg-white" data-animate>
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left: Text -->
+        <div class="space-y-6" data-animate>
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
+            IDENTITY
+          </p>
+          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green leading-tight">
+            言葉を紡ぐ手から、<br class="hidden md:inline">命を育む手へ
+          </h2>
+          <div class="font-serif text-wet-soil leading-relaxed space-y-4">
+            <p>
+              園主は元々、タウン情報誌の編集者として働いていました。地域の魅力や人の想いを「言葉」で伝える仕事から、自らの手で価値を生み出す「農業」の世界へ。
+            </p>
+            <p>
+              異業種から参入したからこそ、既存の枠にとらわれない視点を大切にしています。一輪の花が持つ美しさだけでなく、それがお客様の手に渡るまでのストーリーも大切に紡いでいきます。
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Image -->
+        <div data-animate>
+          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm">
+            <img
+              src="/images/about/identity.jpg"
+              alt="Identity - 言葉を紡ぐ手から、命を育む手へ"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Technology (Left Image, Right Text) -->
+  <section class="py-20 md:py-32 bg-stone-white" data-animate>
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left: Image -->
+        <div class="order-2 md:order-1" data-animate>
+          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm">
+            <img
+              src="/images/about/technology.jpg"
+              alt="Technology - データが支え、感性が仕上げる"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <!-- Right: Text -->
+        <div class="order-1 md:order-2 space-y-6" data-animate>
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
+            TECHNOLOGY
+          </p>
+          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green leading-tight">
+            データが支え、<br class="hidden md:inline">感性が仕上げる
+          </h2>
+          <div class="font-serif text-wet-soil leading-relaxed space-y-4">
+            <p>
+              Farm Eolicaでは、温度・湿度・日射量などの環境データをリアルタイムで収集・分析する「スマート農業」を実践しています。
+            </p>
+            <p>
+              植物の声なき声(データ)に耳を傾け、最適な環境を整えること。そうして生まれた余裕を、一輪一輪の花と向き合う「人の目」と「人の手」に注ぐこと。
+            </p>
+            <p>
+              最新のテクノロジーと、昔ながらの職人仕事。この両輪で、高品質な花づくりを追求しています。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Location (Right Image, Left Text) -->
+  <section class="py-20 md:py-32 bg-white" data-animate>
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left: Text -->
+        <div class="space-y-6" data-animate>
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
+            LOCATION
+          </p>
+          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green leading-tight">
+            浪江の地から、<br class="hidden md:inline">新しい色を
+          </h2>
+          <div class="font-serif text-wet-soil leading-relaxed space-y-4">
+            <p>
+              震災からの復興が進む浪江町。一度は更地になったこの場所だからこそ、描ける未来があります。
+            </p>
+            <p>
+              彩りのなかった土地に、ハウスを建て、苗を植え、花が咲く。その景色そのものが、復興の歩みです。私たちはこの地で、農業を通じて新しいコミュニティと風景を創り出していきます。
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Image -->
+        <div data-animate>
+          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm">
+            <img
+              src="/images/about/location.jpg"
+              alt="Location - 浪江の地から、新しい色を"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Profile -->
+  <section class="py-20 md:py-32 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6 lg:px-12">
+      <!-- Section Header -->
+      <div class="text-center mb-12">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase mb-4">
+          PROFILE
+        </p>
+        <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green">
+          農園概要
+        </h2>
+      </div>
+
+      <!-- Profile Table -->
+      <div class="bg-white shadow-lg rounded-sm overflow-hidden">
+        <table class="w-full">
+          <tbody class="divide-y divide-warm-gray-200">
+            <tr class="hover:bg-warm-gray-50/50 transition-colors duration-200">
+              <th class="px-6 py-5 text-left font-mono text-xs tracking-widest text-warm-gray-500 uppercase w-1/3 md:w-1/4">
+                屋号
+              </th>
+              <td class="px-6 py-5 font-serif text-wet-soil">
+                Farm Eolica（ファーム・エオリカ）
+              </td>
+            </tr>
+            <tr class="hover:bg-warm-gray-50/50 transition-colors duration-200">
+              <th class="px-6 py-5 text-left font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
+                代表
+              </th>
+              <td class="px-6 py-5 font-serif text-wet-soil">
+                [代表者名]
+              </td>
+            </tr>
+            <tr class="hover:bg-warm-gray-50/50 transition-colors duration-200">
+              <th class="px-6 py-5 text-left font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
+                所在地
+              </th>
+              <td class="px-6 py-5 font-serif text-wet-soil">
+                福島県双葉郡浪江町
+              </td>
+            </tr>
+            <tr class="hover:bg-warm-gray-50/50 transition-colors duration-200">
+              <th class="px-6 py-5 text-left font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
+                事業内容
+              </th>
+              <td class="px-6 py-5 font-serif text-wet-soil">
+                トルコギキョウ、スプレーマム、ストック等の切り花生産・販売
+              </td>
+            </tr>
+            <tr class="hover:bg-warm-gray-50/50 transition-colors duration-200">
+              <th class="px-6 py-5 text-left font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
+                設立
+              </th>
+              <td class="px-6 py-5 font-serif text-wet-soil">
+                2024年
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing Section -->
+  <section class="py-32 md:py-40 bg-eolica-green text-white" data-animate>
+    <div class="max-w-4xl mx-auto text-center px-6">
+      <p class="font-mono text-xs tracking-[0.3em] mb-8 opacity-60 uppercase">
+        — ORGANIC LABORATORY —
+      </p>
+      <p class="font-serif text-3xl md:text-4xl tracking-wide leading-relaxed">
+        風を読み、土を耕し、未来を咲かせる。
+      </p>
+      <p class="mt-8 text-lg opacity-80 font-serif">
+        Farm Eolicaの物語は、これからも続きます。
+      </p>
+      <div class="mt-12">
         <a
           href="/contact"
-          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+          class="inline-block px-12 py-4 text-xs tracking-widest uppercase font-mono border-2 border-white text-white hover:bg-white hover:text-eolica-green transition-all duration-300"
         >
           Contact Us
         </a>
       </div>
     </div>
-  </div>
+  </section>
 </Layout>
+
+<style>
+  /* 画像のフォールバック背景 */
+  img[src^="/images/about/"] {
+    background: linear-gradient(135deg, #D5D3CF 0%, #B8B6B2 100%);
+  }
+</style>
