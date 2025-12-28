@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { SITE_CONFIG } from '../config/site';
 ---
 
 <Layout title="Farm Eolica | Organic Lab - Living with Wind, Evolving with Data">
@@ -60,22 +61,39 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
         <!-- Left: Text -->
-        <div class="space-y-8">
-          <p class="text-xl md:text-2xl leading-loose md:leading-[3rem] text-wet-soil font-serif text-left animate-fade-in-up">
-            Farm Eolicaは、福島県浪江町にある小さな農場です。<br />
-            季節の花を育てるのは、わたし一人と、家族の手伝い。<br />
-            風と土と科学が共存する、自然の中のアトリエ。<br />
-            自然の声に耳を傾け、データと共に進化する。<br />
-            そんな私たちの「研究成果」を、どうぞご覧ください。
-          </p>
+        <div>
+          <div class="space-y-12 text-left font-serif text-wet-soil tracking-widest leading-loose animate-fade-in-up">
+            <p class="text-lg md:text-xl">
+              Farm Eolicaは、<br class="hidden md:inline">
+              福島県浪江町にある小さな農場です。
+            </p>
+
+            <p class="text-lg md:text-xl">
+              季節の花を育てるのは、<br class="hidden md:inline">
+              わたし一人と、家族の手伝い。
+            </p>
+
+            <p class="text-lg md:text-xl">
+              風と土と科学が共存する、自然の中のアトリエ。
+            </p>
+
+            <p class="text-lg md:text-xl">
+              自然の声に耳を傾け、データと共に進化する。
+            </p>
+
+            <p class="text-lg md:text-xl">
+              そんな私たちの「研究成果」を、<br class="hidden md:inline">
+              どうぞご覧ください。
+            </p>
+          </div>
 
           <!-- Signature (右寄せ) -->
-          <div class="flex justify-end pt-4">
+          <div class="flex justify-end pt-12 mt-12">
             <img src="/images/top/signature.png" alt="Signature" class="h-16 opacity-70" loading="lazy" />
           </div>
 
           <!-- CTA (左寄せ) -->
-          <div class="pt-4">
+          <div class="pt-8">
             <a
               href="/about"
               class="inline-block px-12 py-4 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
@@ -113,12 +131,12 @@ import Layout from '../layouts/Layout.astro';
   <div class="h-32 md:h-48"></div>
 
   <!-- Section 01: PRODUCTS (ATELIER) -->
-  <section class="py-32 md:py-40 overflow-hidden" data-animate>
+  <section class="py-20 md:py-28 overflow-hidden" data-animate>
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="relative">
-        <!-- Image (Large, Left) -->
-        <div class="w-full md:w-3/5 aspect-[3/4]" data-animate="image-wind">
-          <div class="w-full h-full bg-gradient-to-br from-warm-gray-200 to-warm-gray-100 overflow-hidden">
+      <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <!-- Left: Image (横長) -->
+        <div class="aspect-[3/2] md:aspect-[16/10]" data-animate="image-wind">
+          <div class="w-full h-full bg-gradient-to-br from-warm-gray-200 to-warm-gray-100 overflow-hidden shadow-lab">
             <img
               src="/images/top/atelier.jpg"
               alt="Atelier - Products & Works"
@@ -128,16 +146,12 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
 
-        <!-- Text Box (Overlapping, Right) -->
-        <div
-          class="md:absolute md:right-0 md:top-1/2 md:-translate-y-1/2 md:w-1/2
-                 bg-stone-white/95 backdrop-blur-sm p-12 lg:p-16 shadow-lab-lg
-                 mt-8 md:mt-0"
-        >
-          <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+        <!-- Right: Text -->
+        <div class="space-y-6">
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500">
             01 — ATELIER
           </p>
-          <h2 class="font-serif text-3xl md:text-5xl tracking-wide text-eolica-green mb-8">
+          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green">
             Products & Works
           </h2>
           <div class="space-y-4 text-wet-soil leading-relaxed">
@@ -148,7 +162,7 @@ import Layout from '../layouts/Layout.astro';
           </div>
           <a
             href="/products"
-            class="inline-block mt-8 text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
+            class="inline-block mt-6 text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
           >
             Visit Atelier →
           </a>
@@ -160,68 +174,67 @@ import Layout from '../layouts/Layout.astro';
   <!-- Spacer -->
   <div class="h-32 md:h-48"></div>
 
-  <!-- Section 02: CULTIVATION (FORECAST) -->
-  <section class="py-32 md:py-40 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+  <!-- Section 02: CULTIVATION (FORECAST) - Full Width Background -->
+  <section class="relative py-24 md:py-32 overflow-hidden" data-animate>
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 z-0">
+      <img
+        src="/images/top/forecast.jpg"
+        alt="Cultivation Background"
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+      <!-- Dark Overlay for Text Readability -->
+      <div class="absolute inset-0 bg-wet-soil/85"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-5xl mx-auto px-6 lg:px-12">
       <!-- Section Label -->
-      <div class="mb-16">
-        <p class="font-mono text-xs tracking-widest text-warm-gray-500">
+      <div class="mb-12">
+        <p class="font-mono text-xs tracking-widest text-stone-white/70">
           02 — FORECAST
         </p>
       </div>
 
-      <div class="grid md:grid-cols-12 gap-12 items-start">
-        <!-- Text (Wider Column) -->
-        <div class="md:col-span-7 space-y-8">
-          <h2 class="font-serif text-4xl md:text-6xl tracking-wide text-eolica-green leading-tight">
-            Shipment Log
-          </h2>
-          <div class="space-y-4 text-wet-soil leading-relaxed text-lg">
-            <p>
-              市場・生花店様へ。<br />
-              現在の生育状況と出荷予報をリアルタイムで公開しています。
-            </p>
-            <p>
-              温度、湿度、日照時間。<br />
-              データに裏打ちされた栽培で、最高の品質を目指しています。
-            </p>
-          </div>
-
-          <!-- Data Points (Lab Style) -->
-          <div class="grid grid-cols-3 gap-6 pt-8 border-t border-warm-gray-300">
-            <div>
-              <p class="font-mono text-2xl text-old-copper font-bold">24/7</p>
-              <p class="font-mono text-xs text-warm-gray-500 mt-1">Monitoring</p>
-            </div>
-            <div>
-              <p class="font-mono text-2xl text-old-copper font-bold">IoT</p>
-              <p class="font-mono text-xs text-warm-gray-500 mt-1">Sensors</p>
-            </div>
-            <div>
-              <p class="font-mono text-2xl text-old-copper font-bold">B2B</p>
-              <p class="font-mono text-xs text-warm-gray-500 mt-1">Forecast</p>
-            </div>
-          </div>
-
-          <a
-            href="/cultivation"
-            class="inline-block mt-8 text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
-          >
-            Check Forecast →
-          </a>
+      <!-- Dashboard Style Content -->
+      <div class="space-y-8">
+        <h2 class="font-serif text-3xl md:text-5xl tracking-wide text-white leading-tight">
+          Shipment Log
+        </h2>
+        <div class="space-y-4 text-stone-white/90 leading-relaxed text-base md:text-lg">
+          <p>
+            市場・生花店様へ。<br />
+            現在の生育状況と出荷予報をリアルタイムで公開しています。
+          </p>
+          <p>
+            温度、湿度、日照時間。<br />
+            データに裏打ちされた栽培で、最高の品質を目指しています。
+          </p>
         </div>
 
-        <!-- Image (Narrower, Tall) -->
-        <div class="md:col-span-5" data-animate="image-wind">
-          <div class="aspect-[3/5] bg-gradient-to-br from-warm-gray-200 to-warm-gray-100 overflow-hidden shadow-lab">
-            <img
-              src="/images/top/forecast.jpg"
-              alt="Shipment Forecast"
-              class="w-full h-full object-cover"
-              loading="lazy"
-            />
+        <!-- Data Points (Dashboard Style) -->
+        <div class="grid grid-cols-3 gap-6 pt-8 border-t border-stone-white/30">
+          <div>
+            <p class="font-mono text-2xl md:text-3xl text-old-copper font-bold">24/7</p>
+            <p class="font-mono text-xs text-stone-white/70 mt-1">Monitoring</p>
+          </div>
+          <div>
+            <p class="font-mono text-2xl md:text-3xl text-old-copper font-bold">IoT</p>
+            <p class="font-mono text-xs text-stone-white/70 mt-1">Sensors</p>
+          </div>
+          <div>
+            <p class="font-mono text-2xl md:text-3xl text-old-copper font-bold">B2B</p>
+            <p class="font-mono text-xs text-stone-white/70 mt-1">Forecast</p>
           </div>
         </div>
+
+        <a
+          href="/cultivation"
+          class="inline-block mt-8 text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper text-old-copper pb-1 hover:border-stone-white hover:text-stone-white transition-colors duration-300"
+        >
+          Check Forecast →
+        </a>
       </div>
     </div>
   </section>
@@ -315,7 +328,7 @@ import Layout from '../layouts/Layout.astro';
       <!-- Follow Button -->
       <div class="text-center">
         <a
-          href="https://instagram.com/farm_eolica"
+          href={SITE_CONFIG.sns.instagram}
           target="_blank"
           rel="noopener noreferrer"
           class="inline-block px-12 py-4 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"

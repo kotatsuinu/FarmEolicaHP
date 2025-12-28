@@ -1,4 +1,6 @@
 ---
+import { SITE_CONFIG } from '../config/site';
+
 interface Props {
   title: string;
   description?: string;
@@ -98,7 +100,7 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
           <!-- Social Links -->
           <div class="flex gap-8 font-mono">
             <a
-              href="https://instagram.com/farm_eolica"
+              href={SITE_CONFIG.sns.instagram}
               target="_blank"
               rel="noopener noreferrer"
               class="text-xs tracking-widest uppercase opacity-80 hover:opacity-100 hover:text-old-copper transition-all duration-300"
@@ -106,7 +108,15 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
               Instagram
             </a>
             <a
-              href="https://twitter.com/farm_eolica"
+              href={SITE_CONFIG.sns.note}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-xs tracking-widest uppercase opacity-80 hover:opacity-100 hover:text-old-copper transition-all duration-300"
+            >
+              Note
+            </a>
+            <a
+              href={SITE_CONFIG.sns.x}
               target="_blank"
               rel="noopener noreferrer"
               class="text-xs tracking-widest uppercase opacity-80 hover:opacity-100 hover:text-old-copper transition-all duration-300"
