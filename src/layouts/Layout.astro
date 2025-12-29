@@ -81,27 +81,27 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
           </a>
 
           <!-- Navigation Menu -->
-          <ul class="flex gap-6 lg:gap-10 font-mono text-wet-soil">
-            <li>
-              <a href="/cultivation" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group">
+          <ul class="flex gap-6 lg:gap-10 font-mono text-wet-soil overflow-x-auto no-scrollbar px-4 md:px-0">
+            <li class="flex-shrink-0">
+              <a href="/cultivation" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
                 <span class="text-xs tracking-widest uppercase">SHIPMENT</span>
                 <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">出荷予報</span>
               </a>
             </li>
-            <li>
-              <a href="/products" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group">
+            <li class="flex-shrink-0">
+              <a href="/products" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
                 <span class="text-xs tracking-widest uppercase">PRODUCTS</span>
                 <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">研究成果</span>
               </a>
             </li>
-            <li>
-              <a href="/about" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group">
+            <li class="flex-shrink-0">
+              <a href="/about" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
                 <span class="text-xs tracking-widest uppercase">ABOUT</span>
                 <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">農園について</span>
               </a>
             </li>
-            <li>
-              <a href="/contact" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group">
+            <li class="flex-shrink-0">
+              <a href="/contact" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
                 <span class="text-xs tracking-widest uppercase">CONTACT</span>
                 <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">お問い合わせ</span>
               </a>
@@ -213,6 +213,16 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
       [data-animate].animate-in {
         opacity: 1;
         transform: translateY(0);
+      }
+
+      /* Hide scrollbar for mobile navigation */
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
       }
     </style>
   </body>

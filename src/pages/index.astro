@@ -57,19 +57,19 @@ import { SITE_CONFIG } from '../config/site';
   </section>
 
   <!-- Prologue Section -->
-  <section class="py-32 md:py-40 bg-stone-white">
+  <section class="py-16 md:py-40 bg-stone-white">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="grid md:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center">
         <!-- Left: Text -->
         <div>
-          <div class="space-y-12 text-left font-serif text-wet-soil tracking-widest leading-loose animate-fade-in-up">
+          <div class="space-y-6 md:space-y-12 text-left font-serif text-wet-soil tracking-widest leading-relaxed md:leading-loose animate-fade-in-up">
             <p class="text-lg md:text-xl">
-              Farm Eolicaは、<br class="hidden md:inline">
+              Farm Eolicaは、<br class="hidden md:block" />
               福島県浪江町にある小さな農場です。
             </p>
 
             <p class="text-lg md:text-xl">
-              季節の花を育てるのは、<br class="hidden md:inline">
+              季節の花を育てるのは、<br class="hidden md:block" />
               わたし一人と、家族の手伝い。
             </p>
 
@@ -82,18 +82,18 @@ import { SITE_CONFIG } from '../config/site';
             </p>
 
             <p class="text-lg md:text-xl">
-              そんな私たちの「研究成果」を、<br class="hidden md:inline">
+              そんな私たちの「研究成果」を、<br class="hidden md:block" />
               どうぞご覧ください。
             </p>
           </div>
 
           <!-- Signature (右寄せ) -->
-          <div class="flex justify-end pt-12 mt-12 !bg-transparent">
-            <img src="/images/top/signature.png" alt="Signature" class="h-32 opacity-70 !bg-transparent mix-blend-multiply" loading="lazy" />
+          <div class="flex justify-end pt-6 mt-6 md:pt-12 md:mt-12 !bg-transparent">
+            <img src="/images/top/signature.png" alt="Signature" class="h-24 md:h-32 opacity-70 !bg-transparent mix-blend-multiply" loading="lazy" />
           </div>
 
           <!-- CTA (左寄せ) -->
-          <div class="pt-8">
+          <div class="pt-4 md:pt-8">
             <a
               href="/about"
               class="inline-block px-12 py-4 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
@@ -104,7 +104,7 @@ import { SITE_CONFIG } from '../config/site';
         </div>
 
         <!-- Right: Images (2枚を重ねる) -->
-        <div class="relative h-[500px] md:h-[600px]">
+        <div class="relative h-[350px] md:h-[600px]">
           <!-- 画像1: 奥 -->
           <img
             src="/images/top/prologue_1.jpg"
@@ -135,7 +135,7 @@ import { SITE_CONFIG } from '../config/site';
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
         <!-- Left: Image (横長) -->
-        <div class="aspect-[3/2] md:aspect-[16/10]" data-animate="image-wind">
+        <div class="aspect-[3/2] md:aspect-[16/10] relative" data-animate="image-wind">
           <div class="w-full h-full bg-gradient-to-br from-warm-gray-200 to-warm-gray-100 overflow-hidden shadow-lab">
             <img
               src="/images/top/atelier.jpg"
@@ -143,6 +143,10 @@ import { SITE_CONFIG } from '../config/site';
               class="w-full h-full object-cover"
               loading="lazy"
             />
+          </div>
+          <!-- Coming Soon Badge -->
+          <div class="absolute top-4 right-4 bg-old-copper text-white px-4 py-2 font-mono text-xs tracking-widest uppercase shadow-lg">
+            Coming Soon
           </div>
         </div>
 
@@ -186,6 +190,11 @@ import { SITE_CONFIG } from '../config/site';
       />
       <!-- Dark Overlay for Text Readability -->
       <div class="absolute inset-0 bg-wet-soil/85"></div>
+    </div>
+
+    <!-- Coming Soon Badge -->
+    <div class="absolute top-8 right-8 z-20 bg-old-copper text-white px-4 py-2 font-mono text-xs tracking-widest uppercase shadow-lg">
+      Coming Soon
     </div>
 
     <!-- Content -->
@@ -247,7 +256,7 @@ import { SITE_CONFIG } from '../config/site';
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <div class="grid md:grid-cols-12 gap-12 items-center">
         <!-- Image (Wide, Landscape) -->
-        <div class="md:col-span-8 order-2 md:order-1" data-animate="image-wind">
+        <div class="md:col-span-8 order-2 md:order-1 relative" data-animate="image-wind">
           <div class="aspect-[4/3] bg-gradient-to-br from-warm-gray-200 to-warm-gray-100 overflow-hidden">
             <img
               src="/images/top/dialogue.jpg"
@@ -255,6 +264,10 @@ import { SITE_CONFIG } from '../config/site';
               class="w-full h-full object-cover"
               loading="lazy"
             />
+          </div>
+          <!-- Coming Soon Badge -->
+          <div class="absolute top-4 right-4 bg-old-copper text-white px-4 py-2 font-mono text-xs tracking-widest uppercase shadow-lg">
+            Coming Soon
           </div>
         </div>
 
