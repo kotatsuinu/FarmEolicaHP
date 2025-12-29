@@ -80,36 +80,98 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
             Farm Eolica
           </a>
 
-          <!-- Navigation Menu -->
-          <ul class="flex gap-6 lg:gap-10 font-mono text-wet-soil overflow-x-auto no-scrollbar px-4 md:px-0">
-            <li class="flex-shrink-0">
+          <!-- Desktop Navigation Menu (hidden on mobile) -->
+          <ul class="hidden md:flex gap-6 lg:gap-10 font-mono text-wet-soil">
+            <li>
               <a href="/cultivation" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
                 <span class="text-xs tracking-widest uppercase">SHIPMENT</span>
                 <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">出荷予報</span>
               </a>
             </li>
-            <li class="flex-shrink-0">
+            <li>
               <a href="/products" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
                 <span class="text-xs tracking-widest uppercase">PRODUCTS</span>
                 <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">研究成果</span>
               </a>
             </li>
-            <li class="flex-shrink-0">
+            <li>
               <a href="/about" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
                 <span class="text-xs tracking-widest uppercase">ABOUT</span>
                 <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">農園について</span>
               </a>
             </li>
-            <li class="flex-shrink-0">
+            <li>
               <a href="/contact" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
                 <span class="text-xs tracking-widest uppercase">CONTACT</span>
                 <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">お問い合わせ</span>
               </a>
             </li>
           </ul>
+
+          <!-- Mobile Hamburger Button (visible on mobile only) -->
+          <button
+            id="hamburger-btn"
+            class="md:hidden flex flex-col items-center justify-center w-12 h-12 gap-1.5 hover:opacity-70 transition-opacity duration-300"
+            aria-label="メニューを開く"
+          >
+            <span class="w-6 h-0.5 bg-wet-soil transition-all duration-300"></span>
+            <span class="w-6 h-0.5 bg-wet-soil transition-all duration-300"></span>
+            <span class="w-6 h-0.5 bg-wet-soil transition-all duration-300"></span>
+          </button>
         </div>
       </nav>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 z-[70] bg-stone-white/95 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300"
+    >
+      <div class="flex flex-col h-full">
+        <!-- Close Button -->
+        <div class="flex justify-end p-6 mt-8">
+          <button
+            id="close-menu-btn"
+            class="flex items-center justify-center w-12 h-12 hover:opacity-70 transition-opacity duration-300"
+            aria-label="メニューを閉じる"
+          >
+            <svg class="w-8 h-8 text-wet-soil" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile Navigation Links -->
+        <nav class="flex-1 flex items-center justify-center">
+          <ul class="flex flex-col items-center gap-12 font-mono text-wet-soil">
+            <li>
+              <a href="/cultivation" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-base tracking-widest uppercase">SHIPMENT</span>
+                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">出荷予報</span>
+              </a>
+            </li>
+            <li>
+              <a href="/products" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-base tracking-widest uppercase">PRODUCTS</span>
+                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">研究成果</span>
+              </a>
+            </li>
+            <li>
+              <a href="/about" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-base tracking-widest uppercase">ABOUT</span>
+                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">農園について</span>
+              </a>
+            </li>
+            <li>
+              <a href="/contact" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-base tracking-widest uppercase">CONTACT</span>
+                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">お問い合わせ</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
 
     <!-- Main Content -->
     <main class="relative z-10">
@@ -200,6 +262,53 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
       document.addEventListener('DOMContentLoaded', () => {
         const animatedElements = document.querySelectorAll('[data-animate]');
         animatedElements.forEach((el) => observer.observe(el));
+      });
+    </script>
+
+    <!-- Mobile Menu Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+        // Open menu
+        const openMenu = () => {
+          mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+          mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+          document.body.style.overflow = 'hidden';
+        };
+
+        // Close menu
+        const closeMenu = () => {
+          mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+          mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+          document.body.style.overflow = '';
+        };
+
+        // Event listeners
+        hamburgerBtn?.addEventListener('click', openMenu);
+        closeMenuBtn?.addEventListener('click', closeMenu);
+
+        // Close menu when clicking on a link
+        mobileMenuLinks.forEach(link => {
+          link.addEventListener('click', closeMenu);
+        });
+
+        // Close menu when clicking outside
+        mobileMenu?.addEventListener('click', (e) => {
+          if (e.target === mobileMenu) {
+            closeMenu();
+          }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && mobileMenu.classList.contains('opacity-100')) {
+            closeMenu();
+          }
+        });
       });
     </script>
 
