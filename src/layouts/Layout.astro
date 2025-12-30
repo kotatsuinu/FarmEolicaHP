@@ -26,6 +26,15 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
       rel="stylesheet"
     />
 
+    <!-- Google Analytics 4 -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-KCNMWNSTCG"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KCNMWNSTCG');
+    </script>
+
     <title>{title}</title>
 
     <!-- 開発環境用パスワードロック -->
