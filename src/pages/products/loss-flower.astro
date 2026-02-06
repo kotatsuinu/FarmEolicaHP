@@ -1,0 +1,345 @@
+---
+/**
+ * ロスフラワーページ
+ * Notionコンテンツを参考に構成
+ * 価格は花の種類に関わらず一律（ページレベルで固定表示）
+ */
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import ProductCard from '../../components/products/ProductCard.astro';
+import PriceTable from '../../components/products/PriceTable.astro';
+import ShippingInfo from '../../components/products/ShippingInfo.astro';
+import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
+
+// ロスフラワーの商品を取得
+const lossFlowerProducts = (await getCollection('products'))
+  .filter(p => p.data.category === 'loss_flower')
+  .sort((a, b) => {
+    // 販売中を先に、その後は表示順
+    if (a.data.saleStatus === 'available' && b.data.saleStatus !== 'available') return -1;
+    if (a.data.saleStatus !== 'available' && b.data.saleStatus === 'available') return 1;
+    return (a.data.order || 999) - (b.data.order || 999);
+  });
+
+// 販売中の商品数
+const availableCount = lossFlowerProducts.filter(p => p.data.saleStatus === 'available').length;
+
+// 価格一覧（固定）
+const priceList = [
+  { size: '小箱（60サイズ）', quantity: '約80輪', price: 1300, note: '個人クラフト・撮影に' },
+  { size: '中箱（80サイズ）', quantity: '約160輪', price: 2000, note: '中規模アレンジに' },
+  { size: '大箱（100サイズ）', quantity: '約320輪', price: 3200, note: '単価18%お得' },
+];
+---
+
+<Layout
+  title="ロスフラワー | Farm Eolica (ファームエオリカ)"
+  description="廃棄される花に新しい命を。Farm Eolicaのロスフラワーをクラフト・ドライフラワー用にお届けします。"
+>
+  <!-- Hero Section -->
+  <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-warm-gray-100 via-stone-white to-warm-gray-200">
+      <div class="absolute inset-0 bg-old-copper/15"></div>
+    </div>
+    <div class="relative z-10 text-center px-6" data-animate>
+      <p class="font-mono text-xs tracking-widest text-old-copper mb-4">
+        LOSS FLOWER
+      </p>
+      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-wet-soil mb-6 tracking-wide">
+        ロスフラワー
+      </h1>
+      <p class="font-serif text-lg md:text-xl text-warm-gray-600 max-w-2xl mx-auto leading-relaxed">
+        廃棄される花に、<br class="md:hidden" />新しい命を
+      </p>
+    </div>
+  </section>
+
+  <!-- Introduction Section -->
+  <section class="py-20 md:py-28" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="space-y-8 text-center">
+        <p class="font-serif text-lg md:text-xl text-wet-soil leading-relaxed">
+          福島県浜通り、浪江町の小さな花農家です。
+        </p>
+        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
+          毎日、ハウスで大切に育てた花を市場へ出荷していますが、
+          その作業過程で発生するのが「花頭」の部分。<br />
+          切り花として出荷するには茎の部分が重要ですが、
+          この美しい花の部分だけが余ってしまうのです。
+        </p>
+        <div class="py-6">
+          <p class="font-serif text-base text-warm-gray-500 italic">
+            色とりどりの花頭たち。<br />
+            一つひとつ丁寧に手作業で選別され、<br />
+            本来ならその役目を終えてしまう花材たち...
+          </p>
+        </div>
+        <p class="font-serif text-xl text-eolica-green font-medium">
+          「このまま廃棄してしまうのはもったいない」
+        </p>
+        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
+          そんな想いから、クラフト作家さんや<br class="hidden md:inline" />
+          ハンドメイドを楽しむ皆さまに、<br />
+          これらの花材を大切に使っていただけないかと考えました。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Usage Section -->
+  <section class="py-16 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
+        USAGE
+      </h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-stone-white p-6 shadow-lab text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-old-copper/10 rounded-full">
+            <svg class="w-6 h-6 text-old-copper" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-sm text-wet-soil mb-2">ドライフラワー</h3>
+          <p class="text-xs text-warm-gray-600">素材として最適</p>
+        </div>
+        <div class="bg-stone-white p-6 shadow-lab text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-old-copper/10 rounded-full">
+            <svg class="w-6 h-6 text-old-copper" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-sm text-wet-soil mb-2">レジン封入</h3>
+          <p class="text-xs text-warm-gray-600">アクセサリー作りに</p>
+        </div>
+        <div class="bg-stone-white p-6 shadow-lab text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-old-copper/10 rounded-full">
+            <svg class="w-6 h-6 text-old-copper" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-sm text-wet-soil mb-2">撮影小物</h3>
+          <p class="text-xs text-warm-gray-600">フォトプロップスに</p>
+        </div>
+      </div>
+      <p class="text-center text-sm text-warm-gray-600 mt-8 font-serif">
+        切り花とは違う用途で、それぞれの花が持つ本来の美しさを活かしていただく。<br />
+        皆さまの手で新たな命を吹き込んでいただけることを、心より願っています。
+      </p>
+    </div>
+  </section>
+
+  <!-- Difference Section -->
+  <section class="py-16" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
+        <h3 class="font-serif text-lg text-wet-soil mb-4">
+          規格外切り花との違い
+        </h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="border-l-2 border-old-copper pl-4">
+            <p class="font-mono text-xs text-old-copper mb-2">ロスフラワー</p>
+            <p class="font-serif text-sm text-warm-gray-600">
+              クラフト・ドライフラワー用の花頭のみ
+            </p>
+          </div>
+          <div class="border-l-2 border-eolica-green pl-4">
+            <p class="font-mono text-xs text-eolica-green mb-2">規格外切り花</p>
+            <p class="font-serif text-sm text-warm-gray-600">
+              花瓶に生けて楽しむ切り花（茎付き）
+            </p>
+          </div>
+        </div>
+        <p class="text-xs text-warm-gray-500 mt-6">
+          用途に応じてお選びください。
+          <a href="/products/imperfect" class="text-eolica-green hover:underline">
+            規格外切り花はこちら →
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Current Products Section -->
+  <section class="py-20 md:py-28 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+          CURRENT FLOWERS
+        </p>
+        <h2 class="font-serif text-2xl md:text-3xl text-wet-soil mb-4">
+          現在お届けできる花
+        </h2>
+        {availableCount > 0 ? (
+          <p class="font-mono text-sm text-old-copper">
+            {availableCount}種類の花をご用意しています
+          </p>
+        ) : (
+          <p class="font-mono text-sm text-warm-gray-500">
+            現在販売中の商品はありません
+          </p>
+        )}
+      </div>
+
+      {lossFlowerProducts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {lossFlowerProducts.map((product) => (
+            <ProductCard
+              product={product}
+              showStatus={true}
+              showPrice={false}
+              variant="default"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16 bg-stone-white shadow-lab">
+          <p class="font-serif text-warm-gray-500">
+            商品の準備中です。<br />
+            季節ごとに順次追加していきます。
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Product Form Section -->
+  <section class="py-16" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
+        PRODUCT FORM
+      </h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-stone-white p-6 shadow-lab">
+          <h3 class="font-serif text-sm text-wet-soil mb-3">花のみ</h3>
+          <p class="text-xs text-warm-gray-600">
+            クラフト・レジン封入に最適
+          </p>
+        </div>
+        <div class="bg-stone-white p-6 shadow-lab">
+          <h3 class="font-serif text-sm text-wet-soil mb-3">花首付き（10-20cm）</h3>
+          <p class="text-xs text-warm-gray-600">
+            アレンジメント・ドライフラワーに<br />
+            <span class="text-old-copper">※事前に相談ください</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Price Section -->
+  <section class="py-16 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-8">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+          PRICE
+        </p>
+        <h2 class="font-serif text-xl text-wet-soil">
+          価格について
+        </h2>
+        <p class="text-sm text-warm-gray-600 mt-4 font-serif">
+          どの花でも同一価格です（送料別）
+        </p>
+      </div>
+      <PriceTable
+        prices={priceList}
+        title="PRICE LIST"
+        showStemLength={false}
+        note="※実費ベースの適正価格設定です。大きいサイズほど1輪あたりの料金がお得になります。"
+      />
+      <p class="text-center text-xs text-warm-gray-500 mt-6">
+        本当は無料でお渡ししたい気持ちがあるのですが、<br />
+        梱包や発送の手間もあるので、ご理解いただけると幸いです。
+      </p>
+    </div>
+  </section>
+
+  <!-- Shipping Info -->
+  <section class="py-16" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <ShippingInfo collapsible={true} />
+    </div>
+  </section>
+
+  <!-- Notice Section -->
+  <section class="py-16 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
+        NOTICE
+      </h2>
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab space-y-6">
+        <div>
+          <h3 class="font-serif text-sm text-wet-soil mb-3">商品特性</h3>
+          <ul class="space-y-2 text-sm text-warm-gray-600 font-serif">
+            <li class="flex items-start gap-2">
+              <span class="text-old-copper mt-1">•</span>
+              <span>規格外品のため、数量・品質保証はできません</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-old-copper mt-1">•</span>
+              <span>発生量に限りがあり、ご注文をお受けできない場合があります</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-old-copper mt-1">•</span>
+              <span>曲がり・色ムラ・サイズ不揃い等を含みます</span>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-serif text-sm text-wet-soil mb-3">事前予約のオススメ</h3>
+          <p class="text-sm text-warm-gray-600 font-serif">
+            ロスフラワーは出したくて出しているものではありません。
+            いつ発生するか、ご用意できるかお約束できないものになります。
+            必要な時期や用途が事前にわかるようであれば、早めにご要望を含めてご連絡いただければ、
+            可能な限り選別してご用意いたします。
+          </p>
+        </div>
+
+        <div>
+          <h3 class="font-serif text-sm text-wet-soil mb-3">梱包方法</h3>
+          <p class="text-sm text-warm-gray-600 font-serif">
+            濡れたキッチンペーパー・不織布で包み、通気性のあるスリーブに入れてお届けします。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Payment Section -->
+  <section class="py-16" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
+        <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
+          PAYMENT
+        </h3>
+        <div class="space-y-4">
+          <p class="font-serif text-sm text-warm-gray-600">
+            お支払い方法
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">PayPay</span>
+            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">銀行振込</span>
+            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">請求書</span>
+          </div>
+          <p class="text-xs text-warm-gray-500">
+            ※初回お取引については原則ご入金確認後の発送となります
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Purchase Guide -->
+  <PurchaseGuide variant="full" />
+
+  <!-- Back Link -->
+  <section class="py-16 text-center" data-animate>
+    <a
+      href="/products"
+      class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
+    >
+      ← Back to Products
+    </a>
+  </section>
+</Layout>

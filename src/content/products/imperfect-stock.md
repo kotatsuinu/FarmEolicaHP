@@ -4,6 +4,8 @@ description: "茎の太さや長さが市場規格に満たないストック。
 price: 1200
 unit: "5本束"
 category: "imperfect"
+availableSeason: "2025年冬"
+saleStatus: "discontinued"
 season: ["winter", "spring"]
 image: "/images/products/stock-white.jpg"
 inStock: true

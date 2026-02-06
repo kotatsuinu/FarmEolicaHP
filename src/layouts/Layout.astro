@@ -97,11 +97,32 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
                 <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">出荷予報</span>
               </a>
             </li>
-            <li>
+            <!-- Products with Dropdown -->
+            <li class="relative group/dropdown">
               <a href="/products" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
                 <span class="text-xs tracking-widest uppercase">PRODUCTS</span>
-                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">研究成果</span>
+                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">商品・研究成果</span>
               </a>
+              <!-- Dropdown Menu -->
+              <div class="nav-dropdown absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-300 z-[55]">
+                <div class="bg-stone-white/95 backdrop-blur-sm shadow-lab-lg py-3 min-w-[160px] border border-warm-gray-100">
+                  <a href="/products" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
+                    商品紹介
+                  </a>
+                  <a href="/products/market" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
+                    市場出荷品
+                  </a>
+                  <a href="/products/imperfect" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
+                    規格外
+                  </a>
+                  <a href="/products/loss-flower" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
+                    ロスフラワー
+                  </a>
+                  <a href="/products/research" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
+                    研究成果
+                  </a>
+                </div>
+              </div>
             </li>
             <li>
               <a href="/about" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
@@ -151,19 +172,48 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
         </div>
 
         <!-- Mobile Navigation Links -->
-        <nav class="flex-1 flex items-center justify-center">
-          <ul class="flex flex-col items-center gap-12 font-mono text-wet-soil">
+        <nav class="flex-1 flex items-center justify-center overflow-y-auto py-8">
+          <ul class="flex flex-col items-center gap-8 font-mono text-wet-soil">
             <li>
               <a href="/cultivation" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
                 <span class="text-base tracking-widest uppercase">SHIPMENT</span>
                 <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">出荷予報</span>
               </a>
             </li>
-            <li>
-              <a href="/products" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
-                <span class="text-base tracking-widest uppercase">PRODUCTS</span>
-                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">研究成果</span>
-              </a>
+            <!-- Products with Submenu -->
+            <li class="text-center">
+              <button
+                id="mobile-products-toggle"
+                class="flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group"
+              >
+                <span class="text-base tracking-widest uppercase flex items-center gap-2">
+                  PRODUCTS
+                  <svg id="mobile-products-arrow" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </span>
+                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">商品・研究成果</span>
+              </button>
+              <!-- Mobile Submenu -->
+              <div id="mobile-products-submenu" class="max-h-0 overflow-hidden transition-all duration-300">
+                <div class="pt-4 pb-2 space-y-3">
+                  <a href="/products" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
+                    商品紹介
+                  </a>
+                  <a href="/products/market" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
+                    市場出荷品
+                  </a>
+                  <a href="/products/imperfect" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
+                    規格外
+                  </a>
+                  <a href="/products/loss-flower" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
+                    ロスフラワー
+                  </a>
+                  <a href="/products/research" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
+                    研究成果
+                  </a>
+                </div>
+              </div>
             </li>
             <li>
               <a href="/about" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
@@ -316,6 +366,25 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape' && mobileMenu.classList.contains('opacity-100')) {
             closeMenu();
+          }
+        });
+
+        // Mobile Products Submenu Toggle
+        const productsToggle = document.getElementById('mobile-products-toggle');
+        const productsSubmenu = document.getElementById('mobile-products-submenu');
+        const productsArrow = document.getElementById('mobile-products-arrow');
+
+        productsToggle?.addEventListener('click', () => {
+          const isOpen = productsSubmenu.classList.contains('max-h-96');
+
+          if (isOpen) {
+            productsSubmenu.classList.remove('max-h-96');
+            productsSubmenu.classList.add('max-h-0');
+            productsArrow.classList.remove('rotate-180');
+          } else {
+            productsSubmenu.classList.remove('max-h-0');
+            productsSubmenu.classList.add('max-h-96');
+            productsArrow.classList.add('rotate-180');
           }
         });
       });

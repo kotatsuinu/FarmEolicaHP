@@ -1,0 +1,64 @@
+---
+# ===========================================
+# ロスフラワーテンプレート
+# このフォルダをコピーして新商品を追加してください
+# ===========================================
+# 使用方法:
+# 1. このフォルダ(_template)を同じディレクトリ内にコピー
+# 2. フォルダ名を「連番_年-シーズン-花の種類」に変更
+#    例: 01_2026-winter-lisianthus, 02_2026-summer-carnation
+# 3. 下記の項目を編集
+# 4. main.jpg, gallery/01.jpg等の画像を差し替え
+# 5. 販売終了時は saleStatus を 'discontinued' に変更
+# ===========================================
+# 【重要】ロスフラワーの価格について
+# ロスフラワーは花の種類に関わらず価格一律です。
+# 価格はページレベル(loss-flower.astro)で固定表示されるため、
+# このファイルにpriceTableは設定しません。
+# ===========================================
+
+name: "【ここに商品名を入力】（ロスフラワー）"
+description: "【ここに商品説明を入力】"
+flowerType: "【花の種類を入力 例: トルコギキョウ、カーネーション】"
+
+category: "loss_flower"
+availableSeason: "【販売時期 例: 2026年冬】"
+saleStatus: "available"  # available / out_of_stock / seasonal / discontinued
+
+# メイン画像（必須）- このフォルダ内のmain.jpgに差し替え
+image: "/images/products/placeholder.jpg"
+
+# ギャラリー画像（任意）
+gallery:
+  - "/images/products/placeholder-gallery-1.jpg"
+  - "/images/products/placeholder-gallery-2.jpg"
+
+# 花の特徴
+features:
+  - "【特徴1を入力】"
+  - "【特徴2を入力】"
+
+# 旬の季節
+season:
+  - "winter"  # spring / summer / autumn / winter
+
+# タグ
+tags:
+  - "ロスフラワー"
+  - "【追加タグ】"
+
+order: 1  # 表示順（連番）
+---
+
+【ここに商品の詳細説明を入力】
+
+切り花出荷時に発生する花頭部分です。茎はほぼ無いか短いですが、花本来の美しさはそのまま。
+
+**おすすめの用途**
+- ドライフラワー・押し花
+- レジンクラフト・アクセサリー
+- フラワーアレンジメント
+- ポプリ・香り袋
+
+**ご注意**
+花頭のみの商品です。茎付きの切り花をご希望の場合は「規格外切り花」をご覧ください。

@@ -42,7 +42,7 @@ const seasonLabels = {
           <!-- Main Image -->
           <div class="aspect-[3/4] overflow-hidden bg-warm-gray-100 shadow-lab-lg">
             <img
-              src={product.data.image.src}
+              src={product.data.image}
               alt={product.data.name}
               class="w-full h-full object-cover"
             />
@@ -63,17 +63,37 @@ const seasonLabels = {
             </div>
 
             <!-- Price -->
-            <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
-              <div class="flex items-baseline gap-2 mb-2">
-                <p class="font-mono text-3xl text-rust">
-                  ¥{product.data.price.toLocaleString()}
-                </p>
-                <span class="text-warm-gray-500 font-mono text-sm">/ {product.data.unit}</span>
+            {product.data.price ? (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
+                <div class="flex items-baseline gap-2 mb-2">
+                  <p class="font-mono text-3xl text-rust">
+                    ¥{product.data.price.toLocaleString()}
+                  </p>
+                  <span class="text-warm-gray-500 font-mono text-sm">/ {product.data.unit}</span>
+                </div>
+                {!product.data.inStock && (
+                  <p class="font-mono text-xs text-warm-gray-400 mt-2">現在品切れ中です</p>
+                )}
               </div>
-              {!product.data.inStock && (
-                <p class="font-mono text-xs text-warm-gray-400 mt-2">現在品切れ中です</p>
-              )}
-            </div>
+            ) : product.data.priceTable && product.data.priceTable.length > 0 ? (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
+                <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">PRICE TABLE</h3>
+                <div class="space-y-2">
+                  {product.data.priceTable.map((item: { size: string; quantity: string; price: number; note?: string }) => (
+                    <div class="flex justify-between items-center border-b border-warm-gray-200 pb-2">
+                      <span class="text-sm text-warm-gray-600">
+                        {item.size}（{item.quantity}）
+                      </span>
+                      <span class="font-mono text-rust">¥{item.price.toLocaleString()}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
+                <p class="font-mono text-sm text-warm-gray-500">価格はお問い合わせください</p>
+              </div>
+            )}
 
             <!-- Specs -->
             <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
@@ -162,10 +182,10 @@ const seasonLabels = {
             GALLERY
           </h2>
           <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {product.data.gallery.map((image, index) => (
+            {product.data.gallery.map((image: string, index: number) => (
               <div class="aspect-square overflow-hidden bg-warm-gray-100">
                 <img
-                  src={image.src}
+                  src={image}
                   alt={`${product.data.name} - ${index + 1}`}
                   class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   loading="lazy"

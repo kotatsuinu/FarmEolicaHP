@@ -1,0 +1,88 @@
+---
+/**
+ * FlowerCareGuide - 花を長く楽しむコツ
+ */
+interface Props {
+  flowerType?: string;
+  collapsible?: boolean;
+}
+
+const { flowerType, collapsible = true } = Astro.props;
+---
+
+<div class="bg-stone-white/95 backdrop-blur-sm shadow-lab">
+  {collapsible ? (
+    <details class="group">
+      <summary class="p-6 md:p-8 cursor-pointer list-none flex justify-between items-center hover:bg-warm-gray-50/50 transition-colors duration-200">
+        <h3 class="font-mono text-xs tracking-widest text-warm-gray-500">
+          FLOWER CARE
+        </h3>
+        <span class="font-mono text-xs text-old-copper group-open:rotate-180 transition-transform duration-300">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </span>
+      </summary>
+      <div class="px-6 md:px-8 pb-6 md:pb-8 space-y-6">
+        <div>
+          <h4 class="font-serif text-sm text-wet-soil mb-3">基本の水揚げ方法</h4>
+          <ol class="space-y-2 text-sm text-warm-gray-600 font-serif list-decimal list-inside">
+            <li><span class="text-wet-soil font-medium">茎を斜めにカット</span> - 水の吸い上げが良くなります</li>
+            <li><span class="text-wet-soil font-medium">深水に生ける</span> - 最初は深めの水で水揚げ</li>
+            <li><span class="text-wet-soil font-medium">涼しい場所</span> - 直射日光・暖房を避けて</li>
+          </ol>
+        </div>
+
+        <div>
+          <h4 class="font-serif text-sm text-wet-soil mb-3">日々のお手入れ</h4>
+          <ul class="space-y-2 text-sm text-warm-gray-600 font-serif">
+            <li class="flex items-start gap-2">
+              <span class="text-old-copper mt-1">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span><span class="text-wet-soil font-medium">水替え</span>：2〜3日に一度、茎の切り戻しも</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-old-copper mt-1">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span><span class="text-wet-soil font-medium">葉の除去</span>：水に浸かる部分の葉は取り除く</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-old-copper mt-1">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span><span class="text-wet-soil font-medium">室温管理</span>：涼しい環境で1〜2週間お楽しみいただけます</span>
+            </li>
+          </ul>
+        </div>
+
+        {flowerType === 'トルコギキョウ' && (
+          <div class="pt-4 border-t border-warm-gray-200">
+            <h4 class="font-serif text-sm text-wet-soil mb-3">トルコギキョウのポイント</h4>
+            <p class="text-sm text-warm-gray-600 font-serif">
+              蕾の状態でも徐々に咲き進むことがあります。開花促進には市販の切り花保持剤の使用がおすすめです。
+            </p>
+          </div>
+        )}
+
+        <p class="text-xs text-warm-gray-500 pt-2">
+          ※花の品種や状態により、日持ちは異なります
+        </p>
+      </div>
+    </details>
+  ) : (
+    <div class="p-6 md:p-8">
+      <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
+        FLOWER CARE
+      </h3>
+      <!-- 同じ内容を展開表示 -->
+    </div>
+  )}
+</div>

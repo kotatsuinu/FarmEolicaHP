@@ -4,6 +4,8 @@ description: "市場規格外のカーネーション。少し茎が短かった
 price: 800
 unit: "10本束"
 category: "loss_flower"
+availableSeason: "2025年冬"
+saleStatus: "discontinued"
 season: ["spring", "winter"]
 image: "/images/products/carnation-mix.jpg"
 inStock: true

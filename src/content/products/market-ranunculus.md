@@ -4,6 +4,8 @@ description: "市場向けに出荷している、最高品質のラナンキュ
 price: 2500
 unit: "5本束"
 category: "market"
+availableSeason: "2025年春"
+saleStatus: "seasonal"
 season: ["spring"]
 image: "/images/products/ranunculus.jpg"
 inStock: false

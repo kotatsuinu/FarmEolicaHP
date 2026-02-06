@@ -1,0 +1,76 @@
+---
+/**
+ * PriceTable - 価格表コンポーネント
+ * サイズ展開対応（小箱/中箱/大箱）
+ */
+interface PriceItem {
+  size: string;
+  stemLength?: string;
+  quantity: string;
+  price: number;
+  note?: string;
+}
+
+interface Props {
+  prices: PriceItem[];
+  title?: string;
+  showStemLength?: boolean;
+  note?: string;
+}
+
+const {
+  prices,
+  title = 'PRICE LIST',
+  showStemLength = false,
+  note
+} = Astro.props;
+---
+
+<div class="bg-stone-white/95 backdrop-blur-sm p-6 md:p-8 shadow-lab">
+  <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
+    {title}
+  </h3>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b border-warm-gray-200">
+          <th class="text-left font-mono text-xs text-warm-gray-500 pb-3">サイズ</th>
+          {showStemLength && (
+            <th class="text-left font-mono text-xs text-warm-gray-500 pb-3">切花長</th>
+          )}
+          <th class="text-left font-mono text-xs text-warm-gray-500 pb-3">目安数量</th>
+          <th class="text-right font-mono text-xs text-warm-gray-500 pb-3">価格(税込)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {prices.map((item, index) => (
+          <tr class:list={[
+            "border-b border-warm-gray-100 hover:bg-warm-gray-50/50 transition-colors duration-200",
+            index === prices.length - 1 && "border-b-0"
+          ]}>
+            <td class="py-4 font-serif text-wet-soil">{item.size}</td>
+            {showStemLength && (
+              <td class="py-4 font-mono text-xs text-warm-gray-600">{item.stemLength || '-'}</td>
+            )}
+            <td class="py-4 font-mono text-xs text-warm-gray-600">{item.quantity}</td>
+            <td class="py-4 text-right">
+              <span class="font-mono text-old-copper font-medium">
+                ¥{item.price.toLocaleString()}
+              </span>
+              {item.note && (
+                <span class="block text-[10px] text-eolica-green mt-0.5">{item.note}</span>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  {note && (
+    <p class="mt-4 text-xs text-warm-gray-500 font-serif">
+      {note}
+    </p>
+  )}
+</div>

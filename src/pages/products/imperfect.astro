@@ -1,0 +1,265 @@
+---
+/**
+ * 規格外切り花ページ
+ * Notionコンテンツを参考に構成
+ */
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import ProductCard from '../../components/products/ProductCard.astro';
+import ShippingInfo from '../../components/products/ShippingInfo.astro';
+import FlowerCareGuide from '../../components/products/FlowerCareGuide.astro';
+import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
+
+// 規格外品の商品を取得
+const imperfectProducts = (await getCollection('products'))
+  .filter(p => p.data.category === 'imperfect')
+  .sort((a, b) => {
+    // 販売中を先に、その後は表示順
+    if (a.data.saleStatus === 'available' && b.data.saleStatus !== 'available') return -1;
+    if (a.data.saleStatus !== 'available' && b.data.saleStatus === 'available') return 1;
+    return (a.data.order || 999) - (b.data.order || 999);
+  });
+
+// 販売中の商品数
+const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'available').length;
+---
+
+<Layout
+  title="規格外切り花 | Farm Eolica (ファームエオリカ)"
+  description="市場規格外でも美しさは変わらない。Farm Eolicaの規格外切り花を農家直送でお届けします。"
+>
+  <!-- Hero Section -->
+  <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-warm-gray-100 via-stone-white to-warm-gray-200">
+      <div class="absolute inset-0 bg-eolica-green/20"></div>
+    </div>
+    <div class="relative z-10 text-center px-6" data-animate>
+      <p class="font-mono text-xs tracking-widest text-eolica-green mb-4">
+        IMPERFECT FLOWERS
+      </p>
+      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-wet-soil mb-6 tracking-wide">
+        規格外切り花
+      </h1>
+      <p class="font-serif text-lg md:text-xl text-warm-gray-600 max-w-2xl mx-auto leading-relaxed">
+        規格に縛られない<br class="md:hidden" />自然な美しさを
+      </p>
+    </div>
+  </section>
+
+  <!-- Introduction Section -->
+  <section class="py-20 md:py-28" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="space-y-8 text-center">
+        <p class="font-serif text-lg md:text-xl text-wet-soil leading-relaxed">
+          福島県浜通り、浪江町の小さな花農家です。
+        </p>
+        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
+          毎日、ハウスで大切に育てた花を市場へ出荷していますが、
+          市場の厳しい規格により、花は美しく咲いているにも関わらず
+          「規格外」として分けられる花たちがあります。
+        </p>
+        <div class="py-6 space-y-4">
+          <p class="font-serif text-sm text-warm-gray-500 italic">
+            「茎の長さが少し足りない」<br />
+            「全体の形がわずかに規格に合わない」<br />
+            「色合いが微妙に基準と異なる」
+          </p>
+        </div>
+        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
+          そんな理由だけで市場に出せない花たち。<br />
+          でも、<span class="text-eolica-green font-medium">その美しさは市場品と何ら変わりません。</span>
+        </p>
+        <p class="font-serif text-base md:text-lg text-wet-soil leading-relaxed pt-4">
+          より多くの方に花のある暮らしを楽しんでいただきたく、<br class="hidden md:inline" />
+          季節ごとの規格外切り花をご自宅へ直接お届けすることにいたしました。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Difference Section -->
+  <section class="py-16 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
+        DIFFERENCE
+      </h2>
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
+        <h3 class="font-serif text-lg text-wet-soil mb-4">
+          ロスフラワーとの違い
+        </h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="border-l-2 border-eolica-green pl-4">
+            <p class="font-mono text-xs text-eolica-green mb-2">規格外切り花</p>
+            <p class="font-serif text-sm text-warm-gray-600">
+              花瓶に生けて楽しむ切り花（茎付き）
+            </p>
+          </div>
+          <div class="border-l-2 border-old-copper pl-4">
+            <p class="font-mono text-xs text-old-copper mb-2">ロスフラワー</p>
+            <p class="font-serif text-sm text-warm-gray-600">
+              クラフト・ドライフラワー用の花頭のみ
+            </p>
+          </div>
+        </div>
+        <p class="text-xs text-warm-gray-500 mt-6">
+          用途に応じてお選びください。
+          <a href="/products/loss-flower" class="text-old-copper hover:underline">
+            ロスフラワーはこちら →
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Current Products Section -->
+  <section class="py-20 md:py-28" data-animate>
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+          CURRENT PRODUCTS
+        </p>
+        <h2 class="font-serif text-2xl md:text-3xl text-wet-soil mb-4">
+          現在販売中の花
+        </h2>
+        {availableCount > 0 ? (
+          <p class="font-mono text-sm text-eolica-green">
+            {availableCount}種類の花をお届けできます
+          </p>
+        ) : (
+          <p class="font-mono text-sm text-warm-gray-500">
+            現在販売中の商品はありません
+          </p>
+        )}
+      </div>
+
+      {imperfectProducts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {imperfectProducts.map((product) => (
+            <ProductCard
+              product={product}
+              showStatus={true}
+              showPrice={false}
+              variant="default"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16 bg-warm-gray-50/50">
+          <p class="font-serif text-warm-gray-500">
+            商品の準備中です。<br />
+            季節ごとに順次追加していきます。
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Notice Section -->
+  <section class="py-16 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
+        NOTICE
+      </h2>
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab space-y-6">
+        <div>
+          <h3 class="font-serif text-sm text-wet-soil mb-3">商品特性</h3>
+          <ul class="space-y-2 text-sm text-warm-gray-600 font-serif">
+            <li class="flex items-start gap-2">
+              <span class="text-old-copper mt-1">•</span>
+              <span><span class="text-wet-soil">規格外品</span>のため、市場品のような均一性はありません</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-old-copper mt-1">•</span>
+              <span><span class="text-wet-soil">発生量に限り</span>があり、ご注文をお受けできない場合があります</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-old-copper mt-1">•</span>
+              <span><span class="text-wet-soil">季節変動</span>：時期により取扱品目が変わります</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-old-copper mt-1">•</span>
+              <span><span class="text-wet-soil">自然の個性</span>：曲がり・色ムラ・サイズ不揃いを含みます</span>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-serif text-sm text-wet-soil mb-3">梱包・配送について</h3>
+          <ul class="space-y-2 text-sm text-warm-gray-600 font-serif">
+            <li class="flex items-start gap-2">
+              <span class="text-eolica-green mt-1">•</span>
+              <span><span class="text-wet-soil">保水処理</span>：茎を水で湿らせた状態で梱包</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-eolica-green mt-1">•</span>
+              <span><span class="text-wet-soil">専用梱包</span>：フラワースリーブで花束を保護</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-eolica-green mt-1">•</span>
+              <span><span class="text-wet-soil">配送方法</span>：佐川急便（通常宅配便）</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="pt-4 border-t border-warm-gray-200">
+          <h3 class="font-serif text-sm text-wet-soil mb-3">到着後のお願い</h3>
+          <p class="text-sm text-warm-gray-600 font-serif">
+            到着後はすぐに茎を切り戻して水に生けてください。
+            2〜3日に一度の水替えで長くお楽しみいただけます。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shipping Info -->
+  <section class="py-16" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <ShippingInfo collapsible={true} />
+    </div>
+  </section>
+
+  <!-- Flower Care Guide -->
+  <section class="py-16 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <FlowerCareGuide collapsible={true} />
+    </div>
+  </section>
+
+  <!-- Payment Section -->
+  <section class="py-16" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
+        <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
+          PAYMENT
+        </h3>
+        <div class="space-y-4">
+          <p class="font-serif text-sm text-warm-gray-600">
+            お支払い方法
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">PayPay</span>
+            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">銀行振込</span>
+            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">請求書</span>
+          </div>
+          <p class="text-xs text-warm-gray-500">
+            ※初回お取引については原則ご入金確認後の発送となります
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Purchase Guide -->
+  <PurchaseGuide variant="full" />
+
+  <!-- Back Link -->
+  <section class="py-16 text-center" data-animate>
+    <a
+      href="/products"
+      class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
+    >
+      ← Back to Products
+    </a>
+  </section>
+</Layout>
