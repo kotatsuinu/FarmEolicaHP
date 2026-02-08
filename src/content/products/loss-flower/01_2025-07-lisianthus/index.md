@@ -4,13 +4,13 @@ description: "出荷時に発生する花頭部分。レジンクラフトやド
 flowerType: "トルコギキョウ"
 
 category: "loss_flower"
-availableSeason: "2026年冬"
-saleStatus: "available"
+availableSeason: "2025年夏"
+saleStatus: "out_of_stock"
 
-image: "/images/products/lisianthus-loss.jpg"
+image: "./main.jpg"
 gallery:
-  - "/images/products/lisianthus-loss-01.jpg"
-  - "/images/products/lisianthus-loss-02.jpg"
+  - "./sub1.jpg"
+  - "./sub2.jpg"
 
 features:
   - "幾重にも重なる繊細な花びら"

@@ -7,10 +7,10 @@ category: "imperfect"
 availableSeason: "2026年冬"
 saleStatus: "available"
 
-image: "/images/products/stock-imperfect.jpg"
+image: "./main.jpg"
 gallery:
-  - "/images/products/stock-imperfect-01.jpg"
-  - "/images/products/stock-imperfect-02.jpg"
+  - "./sub1.jpg"
+  - "./sub2.jpg"
 
 priceTable:
   - size: "小箱(80サイズ)"
