@@ -5,6 +5,7 @@
  * ステータスバッジ表示対応
  */
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 
 interface Props {
   product: CollectionEntry<'products'>;
@@ -57,11 +58,12 @@ const categoryLabels: Record<string, string> = {
     variant === 'compact' && "aspect-square",
     variant === 'gallery' && "aspect-[3/4]",
   ]}>
-    <img
+    <Image
       src={product.data.image}
       alt={product.data.name}
       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-      loading="lazy"
+      width={600}
+      height={800}
     />
 
     <!-- ステータスバッジ -->
