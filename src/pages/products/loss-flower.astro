@@ -133,22 +133,36 @@ const priceList = [
   <section class="py-16" data-animate>
     <div class="max-w-4xl mx-auto px-6">
       <div class="bg-stone-white p-6 md:p-8 shadow-lab">
-        <h3 class="font-serif text-lg text-wet-soil mb-4">
+        <h3 class="font-serif text-lg text-wet-soil mb-6">
           規格外切り花との違い
         </h3>
-        <div class="grid md:grid-cols-2 gap-6">
-          <div class="border-l-2 border-old-copper pl-4">
-            <p class="font-mono text-xs text-old-copper mb-2">ロスフラワー</p>
-            <p class="font-serif text-sm text-warm-gray-600">
-              クラフト・ドライフラワー用の花頭のみ
-            </p>
-          </div>
-          <div class="border-l-2 border-eolica-green pl-4">
-            <p class="font-mono text-xs text-eolica-green mb-2">規格外切り花</p>
-            <p class="font-serif text-sm text-warm-gray-600">
-              花瓶に生けて楽しむ切り花（茎付き）
-            </p>
-          </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-warm-gray-200">
+                <th class="text-left py-3 pr-4 font-mono text-xs text-warm-gray-500 w-24"></th>
+                <th class="text-center py-3 px-4 font-mono text-xs text-old-copper">ロスフラワー</th>
+                <th class="text-center py-3 pl-4 font-mono text-xs text-eolica-green">規格外切り花</th>
+              </tr>
+            </thead>
+            <tbody class="font-serif">
+              <tr class="border-b border-warm-gray-100">
+                <td class="py-3 pr-4 text-wet-soil">形態</td>
+                <td class="py-3 px-4 text-center text-warm-gray-600">花頭のみ</td>
+                <td class="py-3 pl-4 text-center text-warm-gray-600">茎付き（切り花）</td>
+              </tr>
+              <tr class="border-b border-warm-gray-100">
+                <td class="py-3 pr-4 text-wet-soil">用途</td>
+                <td class="py-3 px-4 text-center text-warm-gray-600">クラフト・ドライフラワー</td>
+                <td class="py-3 pl-4 text-center text-warm-gray-600">花瓶に生けて鑑賞</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-4 text-wet-soil">価格</td>
+                <td class="py-3 px-4 text-center text-warm-gray-600">一律価格</td>
+                <td class="py-3 pl-4 text-center text-warm-gray-600">花の種類により異なる</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <p class="text-xs text-warm-gray-500 mt-6">
           用途に応じてお選びください。

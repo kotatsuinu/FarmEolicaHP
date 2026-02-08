@@ -41,7 +41,7 @@ const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'avai
         規格外切り花
       </h1>
       <p class="font-serif text-lg md:text-xl text-warm-gray-600 max-w-2xl mx-auto leading-relaxed">
-        規格に縛られない<br class="md:hidden" />自然な美しさを
+        咲き誇る花に、<br class="md:hidden" />規格はいらない。
       </p>
     </div>
   </section>
@@ -58,8 +58,8 @@ const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'avai
           市場の厳しい規格により、花は美しく咲いているにも関わらず
           「規格外」として分けられる花たちがあります。
         </p>
-        <div class="py-6 space-y-4">
-          <p class="font-serif text-sm text-warm-gray-500 italic">
+        <div class="py-6 space-y-4 border-l-4 border-old-copper/30 pl-6 max-w-md mx-auto">
+          <p class="font-serif text-sm text-warm-gray-500 italic text-left">
             「茎の長さが少し足りない」<br />
             「全体の形がわずかに規格に合わない」<br />
             「色合いが微妙に基準と異なる」
@@ -84,22 +84,36 @@ const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'avai
         DIFFERENCE
       </h2>
       <div class="bg-stone-white p-6 md:p-8 shadow-lab">
-        <h3 class="font-serif text-lg text-wet-soil mb-4">
+        <h3 class="font-serif text-lg text-wet-soil mb-6">
           ロスフラワーとの違い
         </h3>
-        <div class="grid md:grid-cols-2 gap-6">
-          <div class="border-l-2 border-eolica-green pl-4">
-            <p class="font-mono text-xs text-eolica-green mb-2">規格外切り花</p>
-            <p class="font-serif text-sm text-warm-gray-600">
-              花瓶に生けて楽しむ切り花（茎付き）
-            </p>
-          </div>
-          <div class="border-l-2 border-old-copper pl-4">
-            <p class="font-mono text-xs text-old-copper mb-2">ロスフラワー</p>
-            <p class="font-serif text-sm text-warm-gray-600">
-              クラフト・ドライフラワー用の花頭のみ
-            </p>
-          </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-warm-gray-200">
+                <th class="text-left py-3 pr-4 font-mono text-xs text-warm-gray-500 w-24"></th>
+                <th class="text-center py-3 px-4 font-mono text-xs text-eolica-green">規格外切り花</th>
+                <th class="text-center py-3 pl-4 font-mono text-xs text-old-copper">ロスフラワー</th>
+              </tr>
+            </thead>
+            <tbody class="font-serif">
+              <tr class="border-b border-warm-gray-100">
+                <td class="py-3 pr-4 text-wet-soil">形態</td>
+                <td class="py-3 px-4 text-center text-warm-gray-600">茎付き（切り花）</td>
+                <td class="py-3 pl-4 text-center text-warm-gray-600">花頭のみ</td>
+              </tr>
+              <tr class="border-b border-warm-gray-100">
+                <td class="py-3 pr-4 text-wet-soil">用途</td>
+                <td class="py-3 px-4 text-center text-warm-gray-600">花瓶に生けて鑑賞</td>
+                <td class="py-3 pl-4 text-center text-warm-gray-600">クラフト・ドライフラワー</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-4 text-wet-soil">価格</td>
+                <td class="py-3 px-4 text-center text-warm-gray-600">花の種類により異なる</td>
+                <td class="py-3 pl-4 text-center text-warm-gray-600">一律価格</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <p class="text-xs text-warm-gray-500 mt-6">
           用途に応じてお選びください。
