@@ -1,7 +1,7 @@
 ---
-name: "スプレーストック（規格外品）"
+name: "ストック"
 description: "甘い香りが魅力の冬の定番。草丈・咲き進み・枝数など様々な理由で市場規格に満たないものの、花はきれいに咲き誇ります。"
-flowerType: "スプレーストック"
+flowerType: "ストック"
 
 category: "imperfect"
 availableSeason: "2026年2月"
@@ -11,13 +11,14 @@ image: "./main.jpg"
 gallery:
   - "./sub1.jpg"
   - "./sub2.jpg"
+  - "./sub3.jpg"
 
 priceTable:
   - size: "80サイズ"
     stemLength: "約30cm〜"
     quantity: "約30本"
     price: 2640
-    note: "1本あたり88円"
+    note: "1本あたり約88円"
   - size: "100サイズ"
     stemLength: "約40cm〜"
     quantity: "約45本"
@@ -55,7 +56,7 @@ spec:
 order: 1
 ---
 
-冬の花の代表格、スプレーストックの規格外品です。
+冬の花の代表格、ストックの規格外品です。
 
 草丈が足りない、花が咲き進んでしまった、枝数が少ない、枝が細い...様々な理由で市場の厳しい規格には満たないものの、花そのものはとてもきれいに咲き誇っています。
 
