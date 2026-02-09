@@ -91,7 +91,7 @@ const productsCollection = defineCollection({
     })).optional(),
 
     // メディア
-    image: image(),                       // メイン商品画像（相対パス対応）
+    image: image().optional(),            // メイン商品画像（相対パス対応、オプショナル）
     gallery: z.array(image()).optional(), // ギャラリー画像（相対パス対応）
 
     // 旬の季節（表示用）

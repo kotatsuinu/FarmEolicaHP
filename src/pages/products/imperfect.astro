@@ -7,6 +7,7 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import ProductCard from '../../components/products/ProductCard.astro';
 import ShippingInfo from '../../components/products/ShippingInfo.astro';
+import NoticeInfo from '../../components/products/NoticeInfo.astro';
 import FlowerCareGuide from '../../components/products/FlowerCareGuide.astro';
 import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
 
@@ -22,6 +23,31 @@ const imperfectProducts = (await getCollection('products'))
 
 // 販売中の商品数
 const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'available').length;
+
+// Notice用の情報
+const noticeItems = [
+  {
+    title: '商品特性',
+    items: [
+      '規格外品のため、市場品のような均一性はありません',
+      '発生量に限りがあり、ご注文をお受けできない場合があります',
+      '季節変動：時期により取扱品目が変わります',
+      '自然の個性：曲がり・色ムラ・サイズ不揃いを含みます',
+    ]
+  },
+  {
+    title: '梱包・配送について',
+    items: [
+      '保水処理：茎を水で湿らせた状態で梱包',
+      '専用梱包：フラワースリーブで花束を保護',
+      '配送方法：佐川急便（通常宅配便）',
+    ]
+  },
+  {
+    title: '到着後のお願い',
+    text: '到着後はすぐに茎を切り戻して水に生けてください。2〜3日に一度の水替えで長くお楽しみいただけます。'
+  }
+];
 ---
 
 <Layout
@@ -47,18 +73,18 @@ const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'avai
   </section>
 
   <!-- Introduction Section -->
-  <section class="py-20 md:py-28" data-animate>
+  <section class="py-16 md:py-20" data-animate>
     <div class="max-w-4xl mx-auto px-6">
-      <div class="space-y-8 text-center">
+      <div class="space-y-6 text-center">
         <p class="font-serif text-lg md:text-xl text-wet-soil leading-relaxed">
           福島県浜通り、浪江町の小さな花農家です。
         </p>
         <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
-          毎日、ハウスで大切に育てた花を市場へ出荷していますが、
-          市場の厳しい規格により、花は美しく咲いているにも関わらず
+          毎日、ハウスで大切に育てた花を市場へ出荷していますが、<br />
+          市場の厳しい規格により、花は美しく咲いているにも関わらず<br />
           「規格外」として分けられる花たちがあります。
         </p>
-        <div class="py-6 space-y-4 border-l-4 border-old-copper/30 pl-6 max-w-md mx-auto">
+        <div class="py-4 border-l-4 border-old-copper/30 pl-6 max-w-md mx-auto">
           <p class="font-serif text-sm text-warm-gray-500 italic text-left">
             「茎の長さが少し足りない」<br />
             「全体の形がわずかに規格に合わない」<br />
@@ -69,7 +95,7 @@ const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'avai
           そんな理由だけで市場に出せない花たち。<br />
           でも、<span class="text-eolica-green font-medium">その美しさは市場品と何ら変わりません。</span>
         </p>
-        <p class="font-serif text-base md:text-lg text-wet-soil leading-relaxed pt-4">
+        <p class="font-serif text-base md:text-lg text-wet-soil leading-relaxed">
           より多くの方に花のある暮らしを楽しんでいただきたく、<br class="hidden md:inline" />
           季節ごとの規格外切り花をご自宅へ直接お届けすることにいたしました。
         </p>
@@ -77,12 +103,52 @@ const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'avai
     </div>
   </section>
 
+  <!-- Current Products Section（Introduction直後に配置）-->
+  <section class="py-16 md:py-20 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+          CURRENT PRODUCTS
+        </p>
+        <h2 class="font-serif text-2xl md:text-3xl text-wet-soil mb-4">
+          現在販売中の花
+        </h2>
+        {availableCount > 0 ? (
+          <p class="font-mono text-sm text-eolica-green">
+            {availableCount}種類の花をお届けできます
+          </p>
+        ) : (
+          <p class="font-mono text-sm text-warm-gray-500">
+            現在販売中の商品はありません
+          </p>
+        )}
+      </div>
+
+      {imperfectProducts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {imperfectProducts.map((product) => (
+            <ProductCard
+              product={product}
+              showStatus={true}
+              showPrice={false}
+              variant="default"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16 bg-stone-white shadow-lab">
+          <p class="font-serif text-warm-gray-500">
+            商品の準備中です。<br />
+            季節ごとに順次追加していきます。
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
   <!-- Difference Section -->
-  <section class="py-16 bg-warm-gray-50/50" data-animate>
+  <section class="py-12 md:py-16" data-animate>
     <div class="max-w-4xl mx-auto px-6">
-      <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
-        DIFFERENCE
-      </h2>
       <div class="bg-stone-white p-6 md:p-8 shadow-lab">
         <h3 class="font-serif text-lg text-wet-soil mb-6">
           ロスフラワーとの違い
@@ -125,101 +191,29 @@ const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'avai
     </div>
   </section>
 
-  <!-- Current Products Section -->
-  <section class="py-20 md:py-28" data-animate>
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-12">
-        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
-          CURRENT PRODUCTS
-        </p>
-        <h2 class="font-serif text-2xl md:text-3xl text-wet-soil mb-4">
-          現在販売中の花
-        </h2>
-        {availableCount > 0 ? (
-          <p class="font-mono text-sm text-eolica-green">
-            {availableCount}種類の花をお届けできます
-          </p>
-        ) : (
-          <p class="font-mono text-sm text-warm-gray-500">
-            現在販売中の商品はありません
-          </p>
-        )}
-      </div>
-
-      {imperfectProducts.length > 0 ? (
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {imperfectProducts.map((product) => (
-            <ProductCard
-              product={product}
-              showStatus={true}
-              showPrice={false}
-              variant="default"
-            />
-          ))}
-        </div>
-      ) : (
-        <div class="text-center py-16 bg-warm-gray-50/50">
-          <p class="font-serif text-warm-gray-500">
-            商品の準備中です。<br />
-            季節ごとに順次追加していきます。
-          </p>
-        </div>
-      )}
-    </div>
-  </section>
-
-  <!-- Notice Section -->
-  <section class="py-16 bg-warm-gray-50/50" data-animate>
+  <!-- Price Section -->
+  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
     <div class="max-w-4xl mx-auto px-6">
-      <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
-        NOTICE
-      </h2>
-      <div class="bg-stone-white p-6 md:p-8 shadow-lab space-y-6">
-        <div>
-          <h3 class="font-serif text-sm text-wet-soil mb-3">商品特性</h3>
-          <ul class="space-y-2 text-sm text-warm-gray-600 font-serif">
-            <li class="flex items-start gap-2">
-              <span class="text-old-copper mt-1">•</span>
-              <span><span class="text-wet-soil">規格外品</span>のため、市場品のような均一性はありません</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-old-copper mt-1">•</span>
-              <span><span class="text-wet-soil">発生量に限り</span>があり、ご注文をお受けできない場合があります</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-old-copper mt-1">•</span>
-              <span><span class="text-wet-soil">季節変動</span>：時期により取扱品目が変わります</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-old-copper mt-1">•</span>
-              <span><span class="text-wet-soil">自然の個性</span>：曲がり・色ムラ・サイズ不揃いを含みます</span>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="font-serif text-sm text-wet-soil mb-3">梱包・配送について</h3>
-          <ul class="space-y-2 text-sm text-warm-gray-600 font-serif">
-            <li class="flex items-start gap-2">
-              <span class="text-eolica-green mt-1">•</span>
-              <span><span class="text-wet-soil">保水処理</span>：茎を水で湿らせた状態で梱包</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-eolica-green mt-1">•</span>
-              <span><span class="text-wet-soil">専用梱包</span>：フラワースリーブで花束を保護</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-eolica-green mt-1">•</span>
-              <span><span class="text-wet-soil">配送方法</span>：佐川急便（通常宅配便）</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="pt-4 border-t border-warm-gray-200">
-          <h3 class="font-serif text-sm text-wet-soil mb-3">到着後のお願い</h3>
-          <p class="text-sm text-warm-gray-600 font-serif">
-            到着後はすぐに茎を切り戻して水に生けてください。
-            2〜3日に一度の水替えで長くお楽しみいただけます。
+      <div class="text-center mb-8">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+          PRICE
+        </p>
+        <h2 class="font-serif text-xl text-wet-soil">
+          価格について
+        </h2>
+      </div>
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
+        <p class="font-serif text-sm text-warm-gray-600 mb-4">
+          規格外切り花の価格は、<span class="text-wet-soil font-medium">花の種類や時期によって異なります</span>。
+        </p>
+        <p class="font-serif text-sm text-warm-gray-600 mb-6">
+          同じ花でも、季節や出荷状況によって規格外となる理由や量が変わるため、
+          都度適正な価格を設定しています。
+        </p>
+        <div class="border-t border-warm-gray-200 pt-4">
+          <p class="text-xs text-warm-gray-500">
+            ※詳しい価格は各商品ページをご確認ください。<br />
+            ※表示価格はすべて税込・送料別となります。
           </p>
         </div>
       </div>
@@ -227,30 +221,34 @@ const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'avai
   </section>
 
   <!-- Shipping Info -->
-  <section class="py-16" data-animate>
+  <section class="py-12 md:py-16" data-animate>
     <div class="max-w-4xl mx-auto px-6">
       <ShippingInfo collapsible={true} />
     </div>
   </section>
 
+  <!-- Notice Section（折りたたみ式）-->
+  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <NoticeInfo items={noticeItems} collapsible={true} />
+    </div>
+  </section>
+
   <!-- Flower Care Guide -->
-  <section class="py-16 bg-warm-gray-50/50" data-animate>
+  <section class="py-12 md:py-16" data-animate>
     <div class="max-w-4xl mx-auto px-6">
       <FlowerCareGuide collapsible={true} />
     </div>
   </section>
 
   <!-- Payment Section -->
-  <section class="py-16" data-animate>
+  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
     <div class="max-w-4xl mx-auto px-6">
       <div class="bg-stone-white p-6 md:p-8 shadow-lab">
         <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
-          PAYMENT
+          PAYMENT <span class="font-serif">ーお支払いについてー</span>
         </h3>
         <div class="space-y-4">
-          <p class="font-serif text-sm text-warm-gray-600">
-            お支払い方法
-          </p>
           <div class="flex flex-wrap gap-4">
             <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">PayPay</span>
             <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">銀行振込</span>
@@ -268,7 +266,7 @@ const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'avai
   <PurchaseGuide variant="full" />
 
   <!-- Back Link -->
-  <section class="py-16 text-center" data-animate>
+  <section class="py-12 text-center" data-animate>
     <a
       href="/products"
       class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"

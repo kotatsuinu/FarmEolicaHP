@@ -53,16 +53,25 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
             "aspect-[3/4] overflow-hidden bg-warm-gray-100 shadow-lab-lg",
             isDiscontinued && "opacity-70"
           ]}>
-            <Image
-              src={product.data.image}
-              alt={product.data.name}
-              class:list={[
-                "w-full h-full object-cover",
-                isDiscontinued && "grayscale"
-              ]}
-              width={800}
-              height={1067}
-            />
+            {product.data.image ? (
+              <Image
+                src={product.data.image}
+                alt={product.data.name}
+                class:list={[
+                  "w-full h-full object-cover",
+                  isDiscontinued && "grayscale"
+                ]}
+                width={800}
+                height={1067}
+              />
+            ) : (
+              <div class="w-full h-full flex flex-col items-center justify-center text-warm-gray-400">
+                <svg class="w-20 h-20 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span class="font-mono text-sm">画像準備中</span>
+              </div>
+            )}
           </div>
 
           <!-- Product Info -->
@@ -118,7 +127,9 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
               </div>
             ) : product.data.priceTable && product.data.priceTable.length > 0 ? (
               <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
-                <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">PRICE TABLE</h3>
+                <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+                  PRICE TABLE <span class="font-serif">ー価格表（税込）ー</span>
+                </h3>
                 <div class="space-y-2">
                   {product.data.priceTable.map((item: { size: string; quantity: string; price: number; note?: string }) => (
                     <div class="flex justify-between items-center border-b border-warm-gray-200 pb-2">
@@ -152,6 +163,12 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
                   <dt class="text-warm-gray-500 font-mono">カテゴリ</dt>
                   <dd class="text-dark-slate font-serif">{categoryLabels[product.data.category]}</dd>
                 </div>
+                {product.data.spec?.color && (
+                  <div class="flex justify-between border-b border-warm-gray-200 pb-2">
+                    <dt class="text-warm-gray-500 font-mono">カラー</dt>
+                    <dd class="text-dark-slate font-serif">{product.data.spec.color}</dd>
+                  </div>
+                )}
                 {product.data.availableSeason && (
                   <div class="flex justify-between border-b border-warm-gray-200 pb-2">
                     <dt class="text-warm-gray-500 font-mono">発送時期</dt>
@@ -228,8 +245,14 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
     <!-- Product Story (Markdown Content) -->
     <section class="mb-16" data-animate>
       <div class="max-w-4xl mx-auto px-6 lg:px-12">
-        <div class="bg-stone-white/95 backdrop-blur-sm p-12 shadow-lab-lg">
-          <div class="prose prose-slate max-w-none prose-p:leading-relaxed prose-p:mb-6">
+        <div class="bg-stone-white/95 backdrop-blur-sm p-8 md:p-12 shadow-lab-lg">
+          <div class="prose prose-slate max-w-none
+            prose-p:leading-loose prose-p:mb-6 prose-p:text-warm-gray-600
+            prose-headings:font-serif prose-headings:text-wet-soil prose-headings:mb-4 prose-headings:mt-8
+            prose-strong:text-wet-soil prose-strong:font-medium
+            prose-ul:my-4 prose-ul:space-y-2 prose-li:text-warm-gray-600
+            prose-hr:my-8 prose-hr:border-warm-gray-200
+            first:prose-p:mt-0 last:prose-p:mb-0">
             <Content />
           </div>
         </div>

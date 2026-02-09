@@ -55,21 +55,30 @@ const categoryLabels: Record<string, string> = {
 >
   <!-- 画像部分 -->
   <div class:list={[
-    "relative overflow-hidden",
+    "relative overflow-hidden bg-warm-gray-100",
     variant === 'default' && "aspect-[4/3]",
     variant === 'compact' && "aspect-square",
     variant === 'gallery' && "aspect-[3/4]",
   ]}>
-    <Image
-      src={product.data.image}
-      alt={product.data.name}
-      class:list={[
-        "w-full h-full object-cover transition-all duration-500",
-        isDiscontinued ? "grayscale group-hover:grayscale-[50%]" : "group-hover:scale-105",
-      ]}
-      width={600}
-      height={800}
-    />
+    {product.data.image ? (
+      <Image
+        src={product.data.image}
+        alt={product.data.name}
+        class:list={[
+          "w-full h-full object-cover transition-all duration-500",
+          isDiscontinued ? "grayscale group-hover:grayscale-[50%]" : "group-hover:scale-105",
+        ]}
+        width={600}
+        height={800}
+      />
+    ) : (
+      <div class="w-full h-full flex flex-col items-center justify-center text-warm-gray-400">
+        <svg class="w-12 h-12 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <span class="font-mono text-xs">画像準備中</span>
+      </div>
+    )}
 
     <!-- ステータスバッジ -->
     {showStatus && (
