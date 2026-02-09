@@ -11,7 +11,6 @@ image: "./main.jpg"
 gallery:
   - "./sub1.jpg"
   - "./sub2.jpg"
-  - "./sub3.jpg"
 
 priceTable:
   - size: "80サイズ"
