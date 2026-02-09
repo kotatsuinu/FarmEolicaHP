@@ -11,6 +11,7 @@ image: "./main.jpg"
 gallery:
   - "./sub1.jpg"
   - "./sub2.jpg"
+  - "./sub3.jpg"
 
 features:
   - "甘い香りが特徴のストック"
