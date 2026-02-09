@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
+import { SITE_CONFIG } from '../../config/site';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -32,6 +33,13 @@ const seasonLabels = {
   autumn: '秋',
   winter: '冬',
 };
+
+// ロスフラワーかどうか
+const isLossFlower = product.data.category === 'loss_flower';
+
+// 販売中かどうか
+const isAvailable = product.data.saleStatus === 'available';
+const isDiscontinued = product.data.saleStatus === 'discontinued';
 ---
 
 <Layout title={`${product.data.name} | Farm Eolica`} description={product.data.description}>
@@ -41,11 +49,17 @@ const seasonLabels = {
       <div class="max-w-7xl mx-auto px-6 lg:px-12">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <!-- Main Image -->
-          <div class="aspect-[3/4] overflow-hidden bg-warm-gray-100 shadow-lab-lg">
+          <div class:list={[
+            "aspect-[3/4] overflow-hidden bg-warm-gray-100 shadow-lab-lg",
+            isDiscontinued && "opacity-70"
+          ]}>
             <Image
               src={product.data.image}
               alt={product.data.name}
-              class="w-full h-full object-cover"
+              class:list={[
+                "w-full h-full object-cover",
+                isDiscontinued && "grayscale"
+              ]}
               width={800}
               height={1067}
             />
@@ -57,9 +71,22 @@ const seasonLabels = {
               <p class="font-mono text-xs tracking-widest text-rust mb-4">
                 {categoryLabels[product.data.category]}
               </p>
-              <h1 class="font-serif text-4xl md:text-5xl text-dark-slate mb-6 leading-tight">
+              <h1 class:list={[
+                "font-serif text-4xl md:text-5xl mb-6 leading-tight",
+                isDiscontinued ? "text-warm-gray-500" : "text-dark-slate"
+              ]}>
                 {product.data.name}
               </h1>
+
+              {/* 販売終了バッジ */}
+              {isDiscontinued && (
+                <div class="mb-4">
+                  <span class="inline-block px-4 py-2 bg-warm-gray-300 text-warm-gray-600 font-mono text-xs tracking-widest">
+                    販売終了
+                  </span>
+                </div>
+              )}
+
               <p class="text-lg text-warm-gray-600 leading-relaxed mb-8">
                 {product.data.description}
               </p>
@@ -77,6 +104,17 @@ const seasonLabels = {
                 {!product.data.inStock && (
                   <p class="font-mono text-xs text-warm-gray-400 mt-2">現在品切れ中です</p>
                 )}
+              </div>
+            ) : isLossFlower ? (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
+                <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">PRICE</h3>
+                <p class="font-mono text-xl text-rust mb-2">
+                  80サイズ 1,300円（税込）〜
+                </p>
+                <p class="text-xs text-warm-gray-500">
+                  ※サイズにより価格が異なります。<br />
+                  詳しくは<a href="/products/loss-flower" class="text-old-copper hover:underline">ロスフラワーページ</a>をご確認ください。
+                </p>
               </div>
             ) : product.data.priceTable && product.data.priceTable.length > 0 ? (
               <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
@@ -114,7 +152,13 @@ const seasonLabels = {
                   <dt class="text-warm-gray-500 font-mono">カテゴリ</dt>
                   <dd class="text-dark-slate font-serif">{categoryLabels[product.data.category]}</dd>
                 </div>
-                {product.data.season && product.data.season.length > 0 && (
+                {product.data.availableSeason && (
+                  <div class="flex justify-between border-b border-warm-gray-200 pb-2">
+                    <dt class="text-warm-gray-500 font-mono">発送時期</dt>
+                    <dd class="text-dark-slate font-serif">{product.data.availableSeason}</dd>
+                  </div>
+                )}
+                {product.data.season && product.data.season.length > 0 && !product.data.availableSeason && (
                   <div class="flex justify-between border-b border-warm-gray-200 pb-2">
                     <dt class="text-warm-gray-500 font-mono">旬の季節</dt>
                     <dd class="text-dark-slate font-serif">
@@ -135,20 +179,35 @@ const seasonLabels = {
             </div>
 
             <!-- Purchase Buttons -->
-            <div class="space-y-4">
-              <a
-                href="#"
-                class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-rust hover:bg-rust hover:text-white transition-all duration-300 {!product.data.inStock && 'opacity-50 cursor-not-allowed'}"
-              >
-                {product.data.inStock ? 'LINE で購入・問い合わせ' : '在庫切れ'}
-              </a>
-              <a
-                href="#"
-                class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-lab-green hover:bg-lab-green hover:text-white transition-all duration-300"
-              >
-                フォームで問い合わせ
-              </a>
-            </div>
+            {isAvailable ? (
+              <div class="space-y-4">
+                <a
+                  href={SITE_CONFIG.sns.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-rust hover:bg-rust hover:text-white transition-all duration-300"
+                >
+                  Instagram DMで購入・問い合わせ
+                </a>
+                <div class="block w-full text-center px-8 py-4 text-xs tracking-widest font-mono border-2 border-warm-gray-300 text-warm-gray-400 cursor-not-allowed">
+                  フォームで問い合わせ（現在準備中）
+                </div>
+              </div>
+            ) : (
+              <div class="space-y-4">
+                <div class="block w-full text-center px-8 py-4 text-xs tracking-widest font-mono border-2 border-warm-gray-300 text-warm-gray-400">
+                  {isDiscontinued ? 'この商品の販売は終了しました' : '現在販売していません'}
+                </div>
+                <a
+                  href={SITE_CONFIG.sns.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-lab-green hover:bg-lab-green hover:text-white transition-all duration-300"
+                >
+                  他の商品について問い合わせ
+                </a>
+              </div>
+            )}
 
             {product.data.tags && product.data.tags.length > 0 && (
               <div class="mt-8">
@@ -170,7 +229,7 @@ const seasonLabels = {
     <section class="mb-16" data-animate>
       <div class="max-w-4xl mx-auto px-6 lg:px-12">
         <div class="bg-stone-white/95 backdrop-blur-sm p-12 shadow-lab-lg">
-          <div class="prose prose-slate max-w-none">
+          <div class="prose prose-slate max-w-none prose-p:leading-relaxed prose-p:mb-6">
             <Content />
           </div>
         </div>
@@ -204,7 +263,7 @@ const seasonLabels = {
     <!-- Back to Products -->
     <div class="text-center" data-animate>
       <a
-        href="/products"
+        href={isLossFlower ? "/products/loss-flower" : "/products"}
         class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-rust pb-1 hover:border-lab-green transition-colors duration-300"
       >
         ← Back to Products

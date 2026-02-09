@@ -33,6 +33,7 @@ const statusConfig: Record<string, { label: string; bg: string; text: string }> 
 
 const status = statusConfig[product.data.saleStatus || 'available'];
 const href = linkTo || `/products/${product.slug}`;
+const isDiscontinued = product.data.saleStatus === 'discontinued';
 
 // カテゴリラベル
 const categoryLabels: Record<string, string> = {
@@ -47,8 +48,9 @@ const categoryLabels: Record<string, string> = {
 <a
   href={href}
   class:list={[
-    "group block bg-stone-white/95 backdrop-blur-sm shadow-lab hover:shadow-lab-lg transition-all duration-300",
+    "group block bg-stone-white/95 backdrop-blur-sm shadow-lab transition-all duration-300",
     variant === 'compact' && "p-0",
+    isDiscontinued ? "opacity-70 hover:opacity-80" : "hover:shadow-lab-lg",
   ]}
 >
   <!-- 画像部分 -->
@@ -61,7 +63,10 @@ const categoryLabels: Record<string, string> = {
     <Image
       src={product.data.image}
       alt={product.data.name}
-      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      class:list={[
+        "w-full h-full object-cover transition-all duration-500",
+        isDiscontinued ? "grayscale group-hover:grayscale-[50%]" : "group-hover:scale-105",
+      ]}
       width={600}
       height={800}
     />
@@ -96,10 +101,11 @@ const categoryLabels: Record<string, string> = {
 
     <!-- 商品名 -->
     <h3 class:list={[
-      "font-serif text-wet-soil group-hover:text-eolica-green transition-colors duration-300",
+      "font-serif transition-colors duration-300",
       variant === 'default' && "text-lg",
       variant === 'compact' && "text-base",
       variant === 'gallery' && "text-base",
+      isDiscontinued ? "text-warm-gray-500" : "text-wet-soil group-hover:text-eolica-green",
     ]}>
       {product.data.name}
     </h3>

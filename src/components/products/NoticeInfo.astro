@@ -1,0 +1,82 @@
+---
+/**
+ * NoticeInfo - 注意事項コンポーネント
+ * 折りたたみ対応
+ */
+interface NoticeItem {
+  title: string;
+  items?: string[];
+  text?: string;
+}
+
+interface Props {
+  items: NoticeItem[];
+  collapsible?: boolean;
+  defaultOpen?: boolean;
+}
+
+const { items, collapsible = true, defaultOpen = false } = Astro.props;
+---
+
+<div class="bg-stone-white/95 backdrop-blur-sm shadow-lab">
+  {collapsible ? (
+    <details class="group" open={defaultOpen}>
+      <summary class="p-6 md:p-8 cursor-pointer list-none flex justify-between items-center hover:bg-warm-gray-50/50 transition-colors duration-200">
+        <h3 class="font-mono text-xs tracking-widest text-warm-gray-500">
+          NOTICE
+        </h3>
+        <span class="font-mono text-xs text-old-copper group-open:rotate-180 transition-transform duration-300">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </span>
+      </summary>
+      <div class="px-6 md:px-8 pb-6 md:pb-8">
+        <div class="space-y-6">
+          {items.map((item) => (
+            <div>
+              <h4 class="font-serif text-sm text-wet-soil mb-3">{item.title}</h4>
+              {item.items ? (
+                <ul class="space-y-2 text-sm text-warm-gray-600 font-serif">
+                  {item.items.map((text) => (
+                    <li class="flex items-start gap-2">
+                      <span class="text-old-copper mt-1">•</span>
+                      <span>{text}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : item.text ? (
+                <p class="text-sm text-warm-gray-600 font-serif">{item.text}</p>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      </div>
+    </details>
+  ) : (
+    <div class="p-6 md:p-8">
+      <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
+        NOTICE
+      </h3>
+      <div class="space-y-6">
+        {items.map((item) => (
+          <div>
+            <h4 class="font-serif text-sm text-wet-soil mb-3">{item.title}</h4>
+            {item.items ? (
+              <ul class="space-y-2 text-sm text-warm-gray-600 font-serif">
+                {item.items.map((text) => (
+                  <li class="flex items-start gap-2">
+                    <span class="text-old-copper mt-1">•</span>
+                    <span>{text}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : item.text ? (
+              <p class="text-sm text-warm-gray-600 font-serif">{item.text}</p>
+            ) : null}
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+</div>

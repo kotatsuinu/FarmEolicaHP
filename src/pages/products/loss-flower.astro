@@ -9,6 +9,7 @@ import { getCollection } from 'astro:content';
 import ProductCard from '../../components/products/ProductCard.astro';
 import PriceTable from '../../components/products/PriceTable.astro';
 import ShippingInfo from '../../components/products/ShippingInfo.astro';
+import NoticeInfo from '../../components/products/NoticeInfo.astro';
 import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
 
 // ロスフラワーの商品を取得
@@ -29,6 +30,26 @@ const priceList = [
   { size: '小箱（60サイズ）', quantity: '約80輪', price: 1300, note: '個人クラフト・撮影に' },
   { size: '中箱（80サイズ）', quantity: '約160輪', price: 2000, note: '中規模アレンジに' },
   { size: '大箱（100サイズ）', quantity: '約320輪', price: 3200, note: '単価18%お得' },
+];
+
+// Notice用の情報
+const noticeItems = [
+  {
+    title: '商品特性',
+    items: [
+      '規格外品のため、数量・品質保証はできません',
+      '発生量に限りがあり、ご注文をお受けできない場合があります',
+      '曲がり・色ムラ・サイズ不揃い等を含みます',
+    ]
+  },
+  {
+    title: '事前予約のオススメ',
+    text: 'ロスフラワーは出したくて出しているものではありません。いつ発生するか、ご用意できるかお約束できないものになります。必要な時期や用途が事前にわかるようであれば、早めにご要望を含めてご連絡いただければ、可能な限り選別してご用意いたします。'
+  },
+  {
+    title: '梱包方法',
+    text: '濡れたキッチンペーパー・不織布で包み、通気性のあるスリーブに入れてお届けします。'
+  }
 ];
 ---
 
@@ -55,9 +76,9 @@ const priceList = [
   </section>
 
   <!-- Introduction Section -->
-  <section class="py-20 md:py-28" data-animate>
+  <section class="py-16 md:py-20" data-animate>
     <div class="max-w-4xl mx-auto px-6">
-      <div class="space-y-8 text-center">
+      <div class="space-y-6 text-center">
         <p class="font-serif text-lg md:text-xl text-wet-soil leading-relaxed">
           福島県浜通り、浪江町の小さな花農家です。
         </p>
@@ -67,7 +88,7 @@ const priceList = [
           切り花として出荷するには茎の部分が重要ですが、
           この美しい花の部分だけが余ってしまうのです。
         </p>
-        <div class="py-6">
+        <div class="py-4">
           <p class="font-serif text-base text-warm-gray-500 italic">
             色とりどりの花頭たち。<br />
             一つひとつ丁寧に手作業で選別され、<br />
@@ -86,8 +107,51 @@ const priceList = [
     </div>
   </section>
 
+  <!-- Current Products Section（Introduction直後に配置）-->
+  <section class="py-16 md:py-20 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+          CURRENT FLOWERS
+        </p>
+        <h2 class="font-serif text-2xl md:text-3xl text-wet-soil mb-4">
+          現在お届けできる花
+        </h2>
+        {availableCount > 0 ? (
+          <p class="font-mono text-sm text-old-copper">
+            {availableCount}種類の花をご用意しています
+          </p>
+        ) : (
+          <p class="font-mono text-sm text-warm-gray-500">
+            現在販売中の商品はありません
+          </p>
+        )}
+      </div>
+
+      {lossFlowerProducts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {lossFlowerProducts.map((product) => (
+            <ProductCard
+              product={product}
+              showStatus={true}
+              showPrice={false}
+              variant="default"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16 bg-stone-white shadow-lab">
+          <p class="font-serif text-warm-gray-500">
+            商品の準備中です。<br />
+            季節ごとに順次追加していきます。
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
   <!-- Usage Section -->
-  <section class="py-16 bg-warm-gray-50/50" data-animate>
+  <section class="py-12 md:py-16" data-animate>
     <div class="max-w-4xl mx-auto px-6">
       <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
         USAGE
@@ -130,7 +194,7 @@ const priceList = [
   </section>
 
   <!-- Difference Section -->
-  <section class="py-16" data-animate>
+  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
     <div class="max-w-4xl mx-auto px-6">
       <div class="bg-stone-white p-6 md:p-8 shadow-lab">
         <h3 class="font-serif text-lg text-wet-soil mb-6">
@@ -174,75 +238,8 @@ const priceList = [
     </div>
   </section>
 
-  <!-- Current Products Section -->
-  <section class="py-20 md:py-28 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-12">
-        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
-          CURRENT FLOWERS
-        </p>
-        <h2 class="font-serif text-2xl md:text-3xl text-wet-soil mb-4">
-          現在お届けできる花
-        </h2>
-        {availableCount > 0 ? (
-          <p class="font-mono text-sm text-old-copper">
-            {availableCount}種類の花をご用意しています
-          </p>
-        ) : (
-          <p class="font-mono text-sm text-warm-gray-500">
-            現在販売中の商品はありません
-          </p>
-        )}
-      </div>
-
-      {lossFlowerProducts.length > 0 ? (
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {lossFlowerProducts.map((product) => (
-            <ProductCard
-              product={product}
-              showStatus={true}
-              showPrice={false}
-              variant="default"
-            />
-          ))}
-        </div>
-      ) : (
-        <div class="text-center py-16 bg-stone-white shadow-lab">
-          <p class="font-serif text-warm-gray-500">
-            商品の準備中です。<br />
-            季節ごとに順次追加していきます。
-          </p>
-        </div>
-      )}
-    </div>
-  </section>
-
-  <!-- Product Form Section -->
-  <section class="py-16" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
-        PRODUCT FORM
-      </h2>
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-stone-white p-6 shadow-lab">
-          <h3 class="font-serif text-sm text-wet-soil mb-3">花のみ</h3>
-          <p class="text-xs text-warm-gray-600">
-            クラフト・レジン封入に最適
-          </p>
-        </div>
-        <div class="bg-stone-white p-6 shadow-lab">
-          <h3 class="font-serif text-sm text-wet-soil mb-3">花首付き（10-20cm）</h3>
-          <p class="text-xs text-warm-gray-600">
-            アレンジメント・ドライフラワーに<br />
-            <span class="text-old-copper">※事前に相談ください</span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Price Section -->
-  <section class="py-16 bg-warm-gray-50/50" data-animate>
+  <section class="py-12 md:py-16" data-animate>
     <div class="max-w-4xl mx-auto px-6">
       <div class="text-center mb-8">
         <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
@@ -262,66 +259,28 @@ const priceList = [
         note="※実費ベースの適正価格設定です。大きいサイズほど1輪あたりの料金がお得になります。"
       />
       <p class="text-center text-xs text-warm-gray-500 mt-6">
-        本当は無料でお渡ししたい気持ちがあるのですが、<br />
-        梱包や発送の手間もあるので、ご理解いただけると幸いです。
+        ※目安数量はトルコキキョウの花頭換算です。<br />
+        ストックなど花の種類によって数量は前後します。
       </p>
     </div>
   </section>
 
   <!-- Shipping Info -->
-  <section class="py-16" data-animate>
+  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
     <div class="max-w-4xl mx-auto px-6">
       <ShippingInfo collapsible={true} />
     </div>
   </section>
 
-  <!-- Notice Section -->
-  <section class="py-16 bg-warm-gray-50/50" data-animate>
+  <!-- Notice Section（折りたたみ式）-->
+  <section class="py-12 md:py-16" data-animate>
     <div class="max-w-4xl mx-auto px-6">
-      <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
-        NOTICE
-      </h2>
-      <div class="bg-stone-white p-6 md:p-8 shadow-lab space-y-6">
-        <div>
-          <h3 class="font-serif text-sm text-wet-soil mb-3">商品特性</h3>
-          <ul class="space-y-2 text-sm text-warm-gray-600 font-serif">
-            <li class="flex items-start gap-2">
-              <span class="text-old-copper mt-1">•</span>
-              <span>規格外品のため、数量・品質保証はできません</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-old-copper mt-1">•</span>
-              <span>発生量に限りがあり、ご注文をお受けできない場合があります</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-old-copper mt-1">•</span>
-              <span>曲がり・色ムラ・サイズ不揃い等を含みます</span>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="font-serif text-sm text-wet-soil mb-3">事前予約のオススメ</h3>
-          <p class="text-sm text-warm-gray-600 font-serif">
-            ロスフラワーは出したくて出しているものではありません。
-            いつ発生するか、ご用意できるかお約束できないものになります。
-            必要な時期や用途が事前にわかるようであれば、早めにご要望を含めてご連絡いただければ、
-            可能な限り選別してご用意いたします。
-          </p>
-        </div>
-
-        <div>
-          <h3 class="font-serif text-sm text-wet-soil mb-3">梱包方法</h3>
-          <p class="text-sm text-warm-gray-600 font-serif">
-            濡れたキッチンペーパー・不織布で包み、通気性のあるスリーブに入れてお届けします。
-          </p>
-        </div>
-      </div>
+      <NoticeInfo items={noticeItems} collapsible={true} />
     </div>
   </section>
 
   <!-- Payment Section -->
-  <section class="py-16" data-animate>
+  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
     <div class="max-w-4xl mx-auto px-6">
       <div class="bg-stone-white p-6 md:p-8 shadow-lab">
         <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
@@ -348,7 +307,7 @@ const priceList = [
   <PurchaseGuide variant="full" />
 
   <!-- Back Link -->
-  <section class="py-16 text-center" data-animate>
+  <section class="py-12 text-center" data-animate>
     <a
       href="/products"
       class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
