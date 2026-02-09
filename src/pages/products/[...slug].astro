@@ -22,8 +22,15 @@ const { Content } = await product.render();
 // カテゴリの日本語表示
 const categoryLabels = {
   loss_flower: 'ロスフラワー',
-  imperfect: '規格外品',
+  imperfect: '規格外切り花',
   market: '市場出荷品',
+};
+
+// カテゴリの戻り先URL
+const categoryBackLinks = {
+  loss_flower: '/products/loss-flower',
+  imperfect: '/products/imperfect',
+  market: '/products',
 };
 
 // 季節の日本語表示
@@ -36,14 +43,31 @@ const seasonLabels = {
 
 // ロスフラワーかどうか
 const isLossFlower = product.data.category === 'loss_flower';
+const isImperfect = product.data.category === 'imperfect';
 
 // 販売中かどうか
 const isAvailable = product.data.saleStatus === 'available';
 const isDiscontinued = product.data.saleStatus === 'discontinued';
+
+// 戻り先URL
+const backUrl = categoryBackLinks[product.data.category] || '/products';
 ---
 
-<Layout title={`${product.data.name} | Farm Eolica`} description={product.data.description}>
+<Layout title={`${product.data.flowerType} | Farm Eolica`} description={product.data.description}>
   <div class="pt-32 pb-24 min-h-screen">
+    <!-- Back Link (Top) -->
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-6">
+      <a
+        href={backUrl}
+        class="inline-flex items-center gap-2 text-xs tracking-widest uppercase font-mono text-warm-gray-500 hover:text-eolica-green transition-colors duration-300"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        {categoryLabels[product.data.category]}一覧に戻る
+      </a>
+    </div>
+
     <!-- Hero Image Section -->
     <section class="mb-16" data-animate>
       <div class="max-w-7xl mx-auto px-6 lg:px-12">
@@ -77,14 +101,24 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
           <!-- Product Info -->
           <div class="lg:sticky lg:top-32">
             <div class="mb-6">
-              <p class="font-mono text-xs tracking-widest text-rust mb-4">
-                {categoryLabels[product.data.category]}
-              </p>
+              <!-- Category Badge (目立つ形式) -->
+              <div class="mb-4">
+                <span class:list={[
+                  "inline-block px-4 py-2 font-mono text-xs tracking-widest",
+                  isLossFlower && "bg-old-copper/10 text-old-copper border border-old-copper/30",
+                  isImperfect && "bg-eolica-green/10 text-eolica-green border border-eolica-green/30",
+                  !isLossFlower && !isImperfect && "bg-warm-gray-100 text-warm-gray-600"
+                ]}>
+                  {categoryLabels[product.data.category]}
+                </span>
+              </div>
+
+              <!-- Product Title (カテゴリ名は除去済み) -->
               <h1 class:list={[
-                "font-serif text-4xl md:text-5xl mb-6 leading-tight",
+                "font-serif text-3xl md:text-4xl mb-4 leading-tight",
                 isDiscontinued ? "text-warm-gray-500" : "text-dark-slate"
               ]}>
-                {product.data.name}
+                {product.data.flowerType}
               </h1>
 
               {/* 販売終了バッジ */}
@@ -96,59 +130,89 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
                 </div>
               )}
 
-              <p class="text-lg text-warm-gray-600 leading-relaxed mb-8">
+              <p class="text-base text-warm-gray-600 leading-relaxed mb-6">
                 {product.data.description}
               </p>
             </div>
 
-            <!-- Price -->
-            {product.data.price ? (
-              <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
-                <div class="flex items-baseline gap-2 mb-2">
-                  <p class="font-mono text-3xl text-rust">
-                    ¥{product.data.price.toLocaleString()}
-                  </p>
-                  <span class="text-warm-gray-500 font-mono text-sm">/ {product.data.unit}</span>
-                </div>
-                {!product.data.inStock && (
-                  <p class="font-mono text-xs text-warm-gray-400 mt-2">現在品切れ中です</p>
-                )}
-              </div>
-            ) : isLossFlower ? (
-              <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
-                <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">PRICE</h3>
+            <!-- Price for Loss Flower -->
+            {isLossFlower && (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
+                <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+                  PRICE <span class="font-serif">ー価格（税込）ー</span>
+                </h3>
                 <p class="font-mono text-xl text-rust mb-2">
-                  80サイズ 1,300円（税込）〜
+                  60サイズ 1,300円〜
                 </p>
                 <p class="text-xs text-warm-gray-500">
                   ※サイズにより価格が異なります。<br />
                   詳しくは<a href="/products/loss-flower" class="text-old-copper hover:underline">ロスフラワーページ</a>をご確認ください。
                 </p>
               </div>
-            ) : product.data.priceTable && product.data.priceTable.length > 0 ? (
-              <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
+            )}
+
+            <!-- Price Table for Imperfect (詳細な表形式) -->
+            {isImperfect && product.data.priceTable && product.data.priceTable.length > 0 && (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
                 <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
-                  PRICE TABLE <span class="font-serif">ー価格表（税込）ー</span>
+                  PRICE TABLE <span class="font-serif">ー価格表（税込・送料別）ー</span>
                 </h3>
-                <div class="space-y-2">
-                  {product.data.priceTable.map((item: { size: string; quantity: string; price: number; note?: string }) => (
-                    <div class="flex justify-between items-center border-b border-warm-gray-200 pb-2">
-                      <span class="text-sm text-warm-gray-600">
-                        {item.size}（{item.quantity}）
-                      </span>
-                      <span class="font-mono text-rust">¥{item.price.toLocaleString()}</span>
-                    </div>
-                  ))}
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm">
+                    <thead>
+                      <tr class="border-b border-warm-gray-200">
+                        <th class="text-left py-2 font-mono text-[10px] text-warm-gray-500">サイズ</th>
+                        <th class="text-center py-2 font-mono text-[10px] text-warm-gray-500">本数目安</th>
+                        <th class="text-center py-2 font-mono text-[10px] text-warm-gray-500">切花長</th>
+                        <th class="text-right py-2 font-mono text-[10px] text-warm-gray-500">価格</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {product.data.priceTable.map((item: { size: string; quantity: string; price: number; stemLength?: string; note?: string }, index: number) => (
+                        <tr class:list={[
+                          "border-b border-warm-gray-100",
+                          index === product.data.priceTable.length - 1 && "border-b-0"
+                        ]}>
+                          <td class="py-3 font-serif text-wet-soil">{item.size}</td>
+                          <td class="py-3 text-center font-mono text-xs text-warm-gray-600">{item.quantity}</td>
+                          <td class="py-3 text-center font-mono text-xs text-warm-gray-600">{item.stemLength || '-'}</td>
+                          <td class="py-3 text-right">
+                            <span class="font-mono text-old-copper font-medium">¥{item.price.toLocaleString()}</span>
+                            {item.note && (
+                              <span class="block text-[10px] text-eolica-green">{item.note}</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="mt-4 pt-4 border-t border-warm-gray-200 space-y-2">
+                  <p class="text-xs text-warm-gray-500">
+                    ※規格外品の特性上、品質が一定でない場合があります。<br />
+                    細い・弱いなどの場合は多めに入れるなどで対応いたします。
+                  </p>
+                  <p class="text-xs text-warm-gray-500">
+                    ※ご要望があれば事前にお知らせください。できる限り対応いたします。
+                  </p>
                 </div>
               </div>
-            ) : (
-              <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
-                <p class="font-mono text-sm text-warm-gray-500">価格はお問い合わせください</p>
+            )}
+
+            <!-- Price for other categories -->
+            {!isLossFlower && !isImperfect && product.data.price && (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
+                <div class="flex items-baseline gap-2 mb-2">
+                  <p class="font-mono text-3xl text-rust">
+                    ¥{product.data.price.toLocaleString()}
+                  </p>
+                  <span class="text-warm-gray-500 font-mono text-sm">/ {product.data.unit}</span>
+                </div>
               </div>
             )}
 
             <!-- Specs -->
-            <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
+            <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
               <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
                 SPECIFICATIONS
               </h3>
@@ -159,10 +223,6 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
                     <dd class="text-dark-slate font-serif">{product.data.flowerType}</dd>
                   </div>
                 )}
-                <div class="flex justify-between border-b border-warm-gray-200 pb-2">
-                  <dt class="text-warm-gray-500 font-mono">カテゴリ</dt>
-                  <dd class="text-dark-slate font-serif">{categoryLabels[product.data.category]}</dd>
-                </div>
                 {product.data.spec?.color && (
                   <div class="flex justify-between border-b border-warm-gray-200 pb-2">
                     <dt class="text-warm-gray-500 font-mono">カラー</dt>
@@ -180,15 +240,6 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
                     <dt class="text-warm-gray-500 font-mono">旬の季節</dt>
                     <dd class="text-dark-slate font-serif">
                       {product.data.season.map(s => seasonLabels[s]).join('・')}
-                    </dd>
-                  </div>
-                )}
-                {product.data.availableFrom && (
-                  <div class="flex justify-between border-b border-warm-gray-200 pb-2">
-                    <dt class="text-warm-gray-500 font-mono">販売期間</dt>
-                    <dd class="text-dark-slate font-mono text-xs">
-                      {new Date(product.data.availableFrom).toLocaleDateString('ja-JP')}
-                      {product.data.availableUntil && ` 〜 ${new Date(product.data.availableUntil).toLocaleDateString('ja-JP')}`}
                     </dd>
                   </div>
                 )}
@@ -227,7 +278,7 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
             )}
 
             {product.data.tags && product.data.tags.length > 0 && (
-              <div class="mt-8">
+              <div class="mt-6">
                 <div class="flex flex-wrap gap-2">
                   {product.data.tags.map((tag) => (
                     <span class="px-3 py-1 text-xs font-mono bg-warm-gray-100 text-warm-gray-600 rounded-full">
@@ -271,7 +322,7 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
               <div class="aspect-square overflow-hidden bg-warm-gray-100">
                 <Image
                   src={image}
-                  alt={`${product.data.name} - ${index + 1}`}
+                  alt={`${product.data.flowerType} - ${index + 1}`}
                   class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   width={400}
                   height={400}
@@ -283,13 +334,13 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
       </section>
     )}
 
-    <!-- Back to Products -->
+    <!-- Back to Products (Bottom) -->
     <div class="text-center" data-animate>
       <a
-        href={isLossFlower ? "/products/loss-flower" : "/products"}
+        href={backUrl}
         class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-rust pb-1 hover:border-lab-green transition-colors duration-300"
       >
-        ← Back to Products
+        ← {categoryLabels[product.data.category]}一覧に戻る
       </a>
     </div>
   </div>

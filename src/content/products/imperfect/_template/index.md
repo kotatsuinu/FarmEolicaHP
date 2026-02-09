@@ -12,10 +12,10 @@ priceTable:
     quantity: "約30本"
     price: 3300
     note: "ボリューム満点"
-image: "./main.jpg"
-gallery:
-  - "./sub1.jpg"
-  - "./sub2.jpg"
+# image: "./main.jpg"
+# gallery:
+#   - "./sub1.jpg"
+#   - "./sub2.jpg"
 season: ["summer"]
 availableFrom: 2026-06-01
 tags: ["ピンク", "八重咲き"]

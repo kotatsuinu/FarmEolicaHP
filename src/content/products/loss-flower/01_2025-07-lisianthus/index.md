@@ -7,10 +7,10 @@ category: "loss_flower"
 availableSeason: "2025年7〜8月"
 saleStatus: "discontinued"
 
-image: "./main.jpg"
-gallery:
-  - "./sub1.jpg"
-  - "./sub2.jpg"
+# image: "./main.jpg"  # 画像未準備
+# gallery:
+#   - "./sub1.jpg"
+#   - "./sub2.jpg"
 
 features:
   - "幾重にも重なる繊細な花びら"

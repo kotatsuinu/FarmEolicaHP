@@ -26,12 +26,12 @@ availableSeason: "【販売時期 例: 2026年冬】"
 saleStatus: "available"  # available / out_of_stock / seasonal / discontinued
 
 # メイン画像（必須）- このフォルダ内のmain.jpgに差し替え
-image: "./main.jpg"
+# image: "./main.jpg"
 
 # ギャラリー画像（任意）
-gallery:
-  - "./sub1.jpg"
-  - "./sub2.jpg"
+# gallery:
+#   - "./sub1.jpg"
+#   - "./sub2.jpg"
 
 # 花の特徴
 features:
