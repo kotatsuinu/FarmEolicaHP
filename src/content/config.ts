@@ -45,6 +45,11 @@ const cultivationCollection = defineCollection({
 /**
  * 商品情報コレクション
  * 販売する花卉の情報
+ *
+ * テンプレートベース管理:
+ * - 1商品 = 1フォルダ（例: imperfect/01_2026-summer-lisianthus/）
+ * - フォルダ内にindex.md + 画像を配置
+ * - _templateフォルダをコピーして新商品追加
  */
 const productsCollection = defineCollection({
   type: 'content',
@@ -52,38 +57,63 @@ const productsCollection = defineCollection({
     // 基本情報
     name: z.string(),                     // 商品名
     description: z.string(),              // 商品説明
-    price: z.number().positive(),         // 価格（円）
-    unit: z.string().default('本'),      // 単位（本、束、パックなど）
+    flowerType: z.string(),               // 花の種類（必須: トルコギキョウ、ストック等）
 
     // カテゴリ・分類
     category: z.enum([
-      'loss_flower',   // ロスフラワー
-      'imperfect',     // 規格外
+      'loss_flower',   // ロスフラワー（花頭のみ）
+      'imperfect',     // 規格外切り花（茎付き）
       'craft',         // クラフト用（ドライフラワー向け等）
       'aroma',         // アロマ・香り用
       'market'         // 市場出荷品（展示のみ）
     ]),
-    season: z.array(z.enum([
-      'spring',        // 春
-      'summer',        // 夏
-      'autumn',        // 秋
-      'winter'         // 冬
-    ])).optional(),                       // 旬の季節
+
+    // 販売時期・ステータス
+    availableSeason: z.string(),          // 販売時期（例: "2026年夏", "2026年冬"）
+    saleStatus: z.enum([
+      'available',      // 販売中
+      'out_of_stock',   // 在庫切れ
+      'seasonal',       // 季節限定（時期外）
+      'discontinued'    // 販売終了
+    ]).default('available'),
+
+    // 価格情報
+    // ロスフラワー: 価格一律のためpriceは不要（ページレベルで固定表示）
+    // 規格外品: 花の種類により単価変動 → priceTableで管理
+    price: z.number().positive().optional(),  // 単品価格（任意）
+    unit: z.string().default('本'),           // 単位
+    priceTable: z.array(z.object({
+      size: z.string(),              // "小箱(80サイズ)"
+      stemLength: z.string().optional(),  // "約30cm"（規格外品のみ）
+      quantity: z.string(),          // "約30本" or "約80輪"
+      price: z.number(),             // 2200
+      note: z.string().optional(),   // 補足（"単価18%お得"など）
+    })).optional(),
 
     // メディア
-    image: z.string(),                    // 商品画像（必須）- 文字列パス
-    gallery: z.array(z.string()).optional(), // ギャラリー画像 - 文字列パス配列
+    image: image().optional(),            // メイン商品画像（相対パス対応、オプショナル）
+    gallery: z.array(image()).optional(), // ギャラリー画像（相対パス対応）
 
-    // 在庫・販売情報
-    inStock: z.boolean().default(true),   // 在庫有無
+    // 旬の季節（表示用）
+    season: z.array(z.enum([
+      'spring', 'summer', 'autumn', 'winter'
+    ])).optional(),
+
+    // 販売期間
     availableFrom: z.date().optional(),   // 販売開始日
     availableUntil: z.date().optional(),  // 販売終了日
 
-    // 特徴・タグ
-    flowerType: z.string().optional(),    // 花の種類（例: "カーネーション"）
-    tags: z.array(z.string()).optional(), // その他タグ
+    // 後方互換性（既存データ用）
+    inStock: z.boolean().default(true),   // → saleStatusに移行予定
 
-    // スペック情報（追加）
+    // 花の特徴（規格外品用）
+    features: z.array(z.string()).optional(),     // 花の特徴リスト
+    imperfectReasons: z.array(z.string()).optional(), // 規格外となる理由
+
+    // タグ・その他
+    tags: z.array(z.string()).optional(),
+
+    // スペック情報
     spec: z.object({
       length: z.number().optional(),      // 長さ（cm）
       headSize: z.number().optional(),    // 花径（cm）
@@ -93,7 +123,7 @@ const productsCollection = defineCollection({
 
     // 表示設定
     featured: z.boolean().default(false), // おすすめ商品
-    order: z.number().optional(),         // 表示順
+    order: z.number().optional(),         // 表示順（連番から自動取得も可）
   }),
 });
 

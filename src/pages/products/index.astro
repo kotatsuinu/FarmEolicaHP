@@ -1,37 +1,227 @@
 ---
+/**
+ * 商品紹介メインLP
+ * グラフィカルで引きのあるページ
+ * 各カテゴリへのリンクカード配置
+ */
 import Layout from '../../layouts/Layout.astro';
+import { SITE_CONFIG } from '../../config/site';
+
+// カテゴリ情報
+const categories = [
+  {
+    id: 'imperfect',
+    title: '規格外切り花',
+    titleEn: 'IMPERFECT',
+    description: '市場規格に満たないけれど、美しさは変わらない。茎付きの切り花をお届けします。',
+    href: '/products/imperfect',
+    available: true,
+    image: '/images/products/category-imperfect.jpg',
+  },
+  {
+    id: 'loss-flower',
+    title: 'ロスフラワー',
+    titleEn: 'LOSS FLOWER',
+    description: '廃棄される花頭に新しい命を。クラフト・ドライフラワー素材として。',
+    href: '/products/loss-flower',
+    available: true,
+    image: '/images/products/category-loss-flower.jpg',
+  },
+  {
+    id: 'market',
+    title: '市場出荷品',
+    titleEn: 'MARKET',
+    description: '市場向けに出荷している最高品質の花。一般販売も相談可能です。',
+    href: '/products/market',
+    available: false,
+    image: null,
+  },
+  {
+    id: 'research',
+    title: '研究成果',
+    titleEn: 'RESEARCH',
+    description: 'IoTデータ分析、栽培実験記録など、公開可能な研究成果を発信。',
+    href: '/products/research',
+    available: false,
+    image: null,
+  },
+];
 ---
 
-<Layout title="Products | Farm Eolica (ファームエオリカ)" description="Farm Eolicaの商品一覧ページは現在準備中です。">
-  <div class="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center">
-    <div data-animate>
-      <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
-        PRODUCTS
+<Layout
+  title="Products | Farm Eolica (ファームエオリカ)"
+  description="Farm Eolicaの商品・研究成果。規格外切り花、ロスフラワー、市場出荷品、研究成果をご紹介します。"
+>
+  <!-- Hero Section -->
+  <section class="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0" style="background-image: url('/images/products/products-hero.jpg'); background-size: cover; background-position: center;">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50"></div>
+    </div>
+    <div class="relative z-10 text-center px-6" data-animate>
+      <p class="font-mono text-xs tracking-widest text-white/90 mb-6">
+        PRODUCTS & RESEARCH
       </p>
-      <h1 class="font-serif text-4xl md:text-5xl text-eolica-green mb-6 tracking-wide">
-        Coming Soon
+      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-8 tracking-wide drop-shadow-lg">
+        商品・研究成果
       </h1>
-      <p class="font-mono text-sm text-wet-soil tracking-widest mb-4">
-        現在準備中です
+      <p class="font-serif text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow">
+        規格外の花、ドライフラワー、実験室から生まれる<br class="hidden md:inline" />
+        すべての価値をお届けします
       </p>
-      <p class="text-warm-gray-600 text-base max-w-md mx-auto leading-relaxed mb-12 font-serif">
-        商品ページは現在制作中です。<br />
-        お問い合わせは、Instagramまたは<a href="/contact" class="text-old-copper hover:underline">お問い合わせページ</a>よりご連絡ください。
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/70">
+      <div class="flex flex-col items-center gap-2">
+        <span class="font-mono text-[10px] tracking-widest">SCROLL</span>
+        <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Introduction Section -->
+  <section class="py-20 md:py-28" data-animate>
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <p class="font-serif text-lg md:text-xl text-wet-soil leading-relaxed mb-8">
+        福島県浪江町の小さな花農家、Farm Eolica。
       </p>
-      <div class="flex gap-6 justify-center">
+      <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
+        市場への出荷だけでなく、<br class="hidden md:inline" />
+        規格外品やロスフラワーを通じて、<br />
+        より多くの方に花のある暮らしをお届けしたいと考えています。<br /><br />
+        また、IoTを活用した栽培データや実験記録など、<br class="hidden md:inline" />
+        農業の「研究成果」も公開していきます。
+      </p>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="py-20 md:py-28 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+          CATEGORIES
+        </p>
+        <h2 class="font-serif text-2xl md:text-3xl text-wet-soil">
+          カテゴリ一覧
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        {categories.map((category, index) => (
+          <a
+            href={category.href}
+            class="group block bg-stone-white shadow-lab hover:shadow-lab-lg transition-all duration-300 overflow-hidden"
+          >
+            <!-- Image -->
+            <div
+              class="relative aspect-[16/9] overflow-hidden"
+              style={category.image
+                ? `background-image: url('${category.image}'); background-size: cover; background-position: center;`
+                : 'background: linear-gradient(to bottom right, rgb(245, 245, 244), rgb(231, 229, 228));'
+              }
+            >
+              {!category.available && (
+                <div class="absolute inset-0 bg-wet-soil/50 flex items-center justify-center z-10">
+                  <span class="font-mono text-sm text-white tracking-widest">Coming Soon</span>
+                </div>
+              )}
+              {!category.image && (
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="font-display text-4xl md:text-5xl text-warm-gray-300 opacity-50 group-hover:opacity-70 transition-opacity duration-300">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 md:p-8">
+              <p class="font-mono text-[10px] tracking-widest text-warm-gray-500 mb-2">
+                {category.titleEn}
+              </p>
+              <h3 class="font-serif text-xl md:text-2xl text-wet-soil mb-3 group-hover:text-eolica-green transition-colors duration-300">
+                {category.title}
+              </h3>
+              <p class="font-serif text-sm text-warm-gray-600 leading-relaxed">
+                {category.description}
+              </p>
+
+              <!-- Arrow -->
+              <div class="mt-6 flex items-center gap-2 text-old-copper group-hover:text-eolica-green transition-colors duration-300">
+                <span class="font-mono text-xs tracking-widest">VIEW MORE</span>
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy Section -->
+  <section class="py-20 md:py-28" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center space-y-8">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500">
+          OUR PHILOSOPHY
+        </p>
+        <h2 class="font-serif text-2xl md:text-3xl text-wet-soil">
+          もったいないを、価値に変える
+        </h2>
+        <div class="space-y-6 text-warm-gray-600 font-serif leading-relaxed">
+          <p>
+            市場規格という基準があります。<br />
+            茎の長さ、太さ、花の大きさ...<br />
+            その基準に満たないものは、<br />
+            たとえ美しくても出荷できません。
+          </p>
+          <p>
+            でも、価値がないわけではありません。<br />
+            むしろ、規格という枠から自由になった花たちには、<br />
+            <span class="text-eolica-green font-medium">新しい楽しみ方</span>があるのです。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 md:py-28 bg-eolica-green text-white" data-animate>
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <p class="font-mono text-xs tracking-widest opacity-80 mb-6">
+        CONTACT
+      </p>
+      <h2 class="font-serif text-2xl md:text-3xl mb-8">
+        お問い合わせ・ご注文
+      </h2>
+      <p class="font-serif text-base opacity-90 mb-10 leading-relaxed">
+        ご不明な点がございましたら、<br class="md:hidden" />
+        お気軽にお問い合わせください。
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a
-          href="/"
-          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+          href={SITE_CONFIG.sns.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-eolica-green transition-all duration-300 font-mono text-xs tracking-widest"
         >
-          Return to Top
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+          INSTAGRAM
         </a>
         <a
           href="/contact"
-          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-eolica-green transition-all duration-300 font-mono text-xs tracking-widest"
         >
-          Contact Us
+          CONTACT
         </a>
       </div>
     </div>
-  </div>
+  </section>
 </Layout>

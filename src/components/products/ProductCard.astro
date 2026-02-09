@@ -1,0 +1,149 @@
+---
+/**
+ * ProductCard - 商品カードコンポーネント
+ * 規格外品・ロスフラワー共通で使用
+ * ステータスバッジ表示対応
+ */
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+
+interface Props {
+  product: CollectionEntry<'products'>;
+  showStatus?: boolean;
+  showPrice?: boolean;
+  variant?: 'default' | 'compact' | 'gallery';
+  linkTo?: string;
+}
+
+const {
+  product,
+  showStatus = true,
+  showPrice = false,
+  variant = 'default',
+  linkTo
+} = Astro.props;
+
+// ステータス表示設定
+const statusConfig: Record<string, { label: string; bg: string; text: string }> = {
+  available: { label: '販売中', bg: 'bg-eolica-green', text: 'text-white' },
+  out_of_stock: { label: '在庫切れ', bg: 'bg-warm-gray-400', text: 'text-white' },
+  seasonal: { label: '季節限定', bg: 'bg-old-copper', text: 'text-white' },
+  discontinued: { label: '販売終了', bg: 'bg-warm-gray-300', text: 'text-warm-gray-600' },
+};
+
+const status = statusConfig[product.data.saleStatus || 'available'];
+const href = linkTo || `/products/${product.slug}`;
+const isDiscontinued = product.data.saleStatus === 'discontinued';
+
+// カテゴリラベル
+const categoryLabels: Record<string, string> = {
+  loss_flower: 'ロスフラワー',
+  imperfect: '規格外',
+  market: '市場出荷品',
+  craft: 'クラフト用',
+  aroma: 'アロマ用',
+};
+---
+
+<a
+  href={href}
+  class:list={[
+    "group block bg-stone-white/95 backdrop-blur-sm shadow-lab transition-all duration-300",
+    variant === 'compact' && "p-0",
+    isDiscontinued ? "opacity-70 hover:opacity-80" : "hover:shadow-lab-lg",
+  ]}
+>
+  <!-- 画像部分 -->
+  <div class:list={[
+    "relative overflow-hidden bg-warm-gray-100",
+    variant === 'default' && "aspect-[4/3]",
+    variant === 'compact' && "aspect-square",
+    variant === 'gallery' && "aspect-[3/4]",
+  ]}>
+    {product.data.image ? (
+      <Image
+        src={product.data.image}
+        alt={product.data.name}
+        class:list={[
+          "w-full h-full object-cover transition-all duration-500",
+          isDiscontinued ? "grayscale group-hover:grayscale-[50%]" : "group-hover:scale-105",
+        ]}
+        width={600}
+        height={800}
+      />
+    ) : (
+      <div class="w-full h-full flex flex-col items-center justify-center text-warm-gray-400">
+        <svg class="w-12 h-12 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <span class="font-mono text-xs">画像準備中</span>
+      </div>
+    )}
+
+    <!-- ステータスバッジ -->
+    {showStatus && (
+      <span class:list={[
+        "absolute top-3 right-3 px-3 py-1 text-xs font-mono tracking-wide",
+        status.bg,
+        status.text,
+      ]}>
+        {status.label}
+      </span>
+    )}
+
+    <!-- 販売終了時のオーバーレイ -->
+    {product.data.saleStatus === 'discontinued' && (
+      <div class="absolute inset-0 bg-warm-gray-500/40" />
+    )}
+  </div>
+
+  <!-- テキスト部分 -->
+  <div class:list={[
+    variant === 'default' && "p-6",
+    variant === 'compact' && "p-4",
+    variant === 'gallery' && "p-4",
+  ]}>
+    <!-- カテゴリ -->
+    <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase mb-1">
+      {categoryLabels[product.data.category] || product.data.category}
+    </p>
+
+    <!-- 商品名 -->
+    <h3 class:list={[
+      "font-serif transition-colors duration-300",
+      variant === 'default' && "text-lg",
+      variant === 'compact' && "text-base",
+      variant === 'gallery' && "text-base",
+      isDiscontinued ? "text-warm-gray-500" : "text-wet-soil group-hover:text-eolica-green",
+    ]}>
+      {product.data.name}
+    </h3>
+
+    <!-- 花の種類 -->
+    <p class="font-mono text-xs text-warm-gray-500 mt-1">
+      {product.data.flowerType}
+    </p>
+
+    <!-- 販売時期 -->
+    {product.data.availableSeason && (
+      <p class="font-mono text-xs text-old-copper mt-2">
+        {product.data.availableSeason}
+      </p>
+    )}
+
+    <!-- 価格（オプション） -->
+    {showPrice && product.data.price && (
+      <p class="font-mono text-sm text-wet-soil mt-3">
+        ¥{product.data.price.toLocaleString()}
+        <span class="text-xs text-warm-gray-500">/ {product.data.unit}</span>
+      </p>
+    )}
+
+    <!-- 説明（defaultのみ） -->
+    {variant === 'default' && (
+      <p class="text-sm text-warm-gray-600 mt-3 line-clamp-2">
+        {product.data.description}
+      </p>
+    )}
+  </div>
+</a>

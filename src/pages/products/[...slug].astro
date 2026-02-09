@@ -1,6 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import { SITE_CONFIG } from '../../config/site';
+import ShippingInfo from '../../components/products/ShippingInfo.astro';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -20,8 +23,15 @@ const { Content } = await product.render();
 // カテゴリの日本語表示
 const categoryLabels = {
   loss_flower: 'ロスフラワー',
-  imperfect: '規格外品',
+  imperfect: '規格外切り花',
   market: '市場出荷品',
+};
+
+// カテゴリの戻り先URL
+const categoryBackLinks = {
+  loss_flower: '/products/loss-flower',
+  imperfect: '/products/imperfect',
+  market: '/products',
 };
 
 // 季節の日本語表示
@@ -31,52 +41,185 @@ const seasonLabels = {
   autumn: '秋',
   winter: '冬',
 };
+
+// ロスフラワーかどうか
+const isLossFlower = product.data.category === 'loss_flower';
+const isImperfect = product.data.category === 'imperfect';
+
+// 販売中かどうか
+const isAvailable = product.data.saleStatus === 'available';
+const isDiscontinued = product.data.saleStatus === 'discontinued';
+
+// 戻り先URL
+const backUrl = categoryBackLinks[product.data.category] || '/products';
 ---
 
-<Layout title={`${product.data.name} | Farm Eolica`} description={product.data.description}>
+<Layout title={`${product.data.flowerType} | Farm Eolica`} description={product.data.description}>
   <div class="pt-32 pb-24 min-h-screen">
+    <!-- Back Link (Top) -->
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-6">
+      <a
+        href={backUrl}
+        class="inline-flex items-center gap-2 text-xs tracking-widest uppercase font-mono text-warm-gray-500 hover:text-eolica-green transition-colors duration-300"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        {categoryLabels[product.data.category]}一覧に戻る
+      </a>
+    </div>
+
     <!-- Hero Image Section -->
     <section class="mb-16" data-animate>
       <div class="max-w-7xl mx-auto px-6 lg:px-12">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <!-- Main Image -->
-          <div class="aspect-[3/4] overflow-hidden bg-warm-gray-100 shadow-lab-lg">
-            <img
-              src={product.data.image.src}
-              alt={product.data.name}
-              class="w-full h-full object-cover"
-            />
+          <div class:list={[
+            "aspect-[3/4] overflow-hidden bg-warm-gray-100 shadow-lab-lg",
+            isDiscontinued && "opacity-70"
+          ]}>
+            {product.data.image ? (
+              <Image
+                src={product.data.image}
+                alt={product.data.name}
+                class:list={[
+                  "w-full h-full object-cover",
+                  isDiscontinued && "grayscale"
+                ]}
+                width={800}
+                height={1067}
+              />
+            ) : (
+              <div class="w-full h-full flex flex-col items-center justify-center text-warm-gray-400">
+                <svg class="w-20 h-20 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span class="font-mono text-sm">画像準備中</span>
+              </div>
+            )}
           </div>
 
           <!-- Product Info -->
           <div class="lg:sticky lg:top-32">
             <div class="mb-6">
-              <p class="font-mono text-xs tracking-widest text-rust mb-4">
-                {categoryLabels[product.data.category]}
-              </p>
-              <h1 class="font-serif text-4xl md:text-5xl text-dark-slate mb-6 leading-tight">
-                {product.data.name}
+              <!-- Category Badge (目立つ形式) -->
+              <div class="mb-4">
+                <span class:list={[
+                  "inline-block px-4 py-2 font-mono text-xs tracking-widest",
+                  isLossFlower && "bg-old-copper/10 text-old-copper border border-old-copper/30",
+                  isImperfect && "bg-eolica-green/10 text-eolica-green border border-eolica-green/30",
+                  !isLossFlower && !isImperfect && "bg-warm-gray-100 text-warm-gray-600"
+                ]}>
+                  {categoryLabels[product.data.category]}
+                </span>
+              </div>
+
+              <!-- Product Title (カテゴリ名は除去済み) -->
+              <h1 class:list={[
+                "font-serif text-3xl md:text-4xl mb-4 leading-tight",
+                isDiscontinued ? "text-warm-gray-500" : "text-dark-slate"
+              ]}>
+                {product.data.flowerType}
               </h1>
-              <p class="text-lg text-warm-gray-600 leading-relaxed mb-8">
+
+              {/* 販売終了バッジ */}
+              {isDiscontinued && (
+                <div class="mb-4">
+                  <span class="inline-block px-4 py-2 bg-warm-gray-300 text-warm-gray-600 font-mono text-xs tracking-widest">
+                    販売終了
+                  </span>
+                </div>
+              )}
+
+              <p class="text-base text-warm-gray-600 leading-relaxed mb-6">
                 {product.data.description}
               </p>
             </div>
 
-            <!-- Price -->
-            <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
-              <div class="flex items-baseline gap-2 mb-2">
-                <p class="font-mono text-3xl text-rust">
-                  ¥{product.data.price.toLocaleString()}
+            <!-- Price for Loss Flower -->
+            {isLossFlower && (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
+                <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+                  PRICE <span class="font-serif">ー価格（税込）ー</span>
+                </h3>
+                <p class="font-mono text-xl text-rust mb-2">
+                  60サイズ 1,300円〜
                 </p>
-                <span class="text-warm-gray-500 font-mono text-sm">/ {product.data.unit}</span>
+                <p class="text-xs text-warm-gray-500">
+                  ※サイズにより価格が異なります。<br />
+                  詳しくは<a href="/products/loss-flower" class="text-old-copper hover:underline">ロスフラワーページ</a>をご確認ください。
+                </p>
+                <div class="mt-4 pt-4 border-t border-warm-gray-200">
+                  <ShippingInfo collapsible={true} compact={true} />
+                </div>
               </div>
-              {!product.data.inStock && (
-                <p class="font-mono text-xs text-warm-gray-400 mt-2">現在品切れ中です</p>
-              )}
-            </div>
+            )}
+
+            <!-- Price Table for Imperfect (詳細な表形式) -->
+            {isImperfect && product.data.priceTable && product.data.priceTable.length > 0 && (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
+                <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+                  PRICE TABLE <span class="font-serif">ー価格表（税込・送料別）ー</span>
+                </h3>
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm">
+                    <thead>
+                      <tr class="border-b border-warm-gray-200">
+                        <th class="text-left py-2 font-mono text-xs text-warm-gray-500">サイズ</th>
+                        <th class="text-center py-2 font-mono text-xs text-warm-gray-500">本数目安</th>
+                        <th class="text-center py-2 font-mono text-xs text-warm-gray-500">切花長</th>
+                        <th class="text-right py-2 font-mono text-xs text-warm-gray-500">価格</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {product.data.priceTable.map((item: { size: string; quantity: string; price: number; stemLength?: string; note?: string }, index: number) => (
+                        <tr class:list={[
+                          "border-b border-warm-gray-100",
+                          index === product.data.priceTable.length - 1 && "border-b-0"
+                        ]}>
+                          <td class="py-3 font-serif text-wet-soil">{item.size}</td>
+                          <td class="py-3 text-center font-mono text-xs text-warm-gray-600">{item.quantity}</td>
+                          <td class="py-3 text-center font-mono text-xs text-warm-gray-600">{item.stemLength || '-'}</td>
+                          <td class="py-3 text-right">
+                            <span class="font-mono text-old-copper font-medium">¥{item.price.toLocaleString()}</span>
+                            {item.note && (
+                              <span class="block text-xs text-eolica-green">{item.note}</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="mt-4 pt-4 border-t border-warm-gray-200 space-y-2">
+                  <p class="text-xs text-warm-gray-500">
+                    ※規格外品の特性上、品質が一定でない場合があります。<br />
+                    細い・弱いなどの場合は多めに入れるなどで対応いたします。
+                  </p>
+                  <p class="text-xs text-warm-gray-500">
+                    ※ご要望があれば事前にお知らせください。できる限り対応いたします。
+                  </p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-warm-gray-200">
+                  <ShippingInfo collapsible={true} compact={true} />
+                </div>
+              </div>
+            )}
+
+            <!-- Price for other categories -->
+            {!isLossFlower && !isImperfect && product.data.price && (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
+                <div class="flex items-baseline gap-2 mb-2">
+                  <p class="font-mono text-3xl text-rust">
+                    ¥{product.data.price.toLocaleString()}
+                  </p>
+                  <span class="text-warm-gray-500 font-mono text-sm">/ {product.data.unit}</span>
+                </div>
+              </div>
+            )}
 
             <!-- Specs -->
-            <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab-lg mb-8">
+            <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
               <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
                 SPECIFICATIONS
               </h3>
@@ -87,11 +230,19 @@ const seasonLabels = {
                     <dd class="text-dark-slate font-serif">{product.data.flowerType}</dd>
                   </div>
                 )}
-                <div class="flex justify-between border-b border-warm-gray-200 pb-2">
-                  <dt class="text-warm-gray-500 font-mono">カテゴリ</dt>
-                  <dd class="text-dark-slate font-serif">{categoryLabels[product.data.category]}</dd>
-                </div>
-                {product.data.season && product.data.season.length > 0 && (
+                {product.data.spec?.color && (
+                  <div class="flex justify-between border-b border-warm-gray-200 pb-2">
+                    <dt class="text-warm-gray-500 font-mono">カラー</dt>
+                    <dd class="text-dark-slate font-serif">{product.data.spec.color}</dd>
+                  </div>
+                )}
+                {product.data.availableSeason && (
+                  <div class="flex justify-between border-b border-warm-gray-200 pb-2">
+                    <dt class="text-warm-gray-500 font-mono">発送時期</dt>
+                    <dd class="text-dark-slate font-serif">{product.data.availableSeason}</dd>
+                  </div>
+                )}
+                {product.data.season && product.data.season.length > 0 && !product.data.availableSeason && (
                   <div class="flex justify-between border-b border-warm-gray-200 pb-2">
                     <dt class="text-warm-gray-500 font-mono">旬の季節</dt>
                     <dd class="text-dark-slate font-serif">
@@ -99,36 +250,42 @@ const seasonLabels = {
                     </dd>
                   </div>
                 )}
-                {product.data.availableFrom && (
-                  <div class="flex justify-between border-b border-warm-gray-200 pb-2">
-                    <dt class="text-warm-gray-500 font-mono">販売期間</dt>
-                    <dd class="text-dark-slate font-mono text-xs">
-                      {new Date(product.data.availableFrom).toLocaleDateString('ja-JP')}
-                      {product.data.availableUntil && ` 〜 ${new Date(product.data.availableUntil).toLocaleDateString('ja-JP')}`}
-                    </dd>
-                  </div>
-                )}
               </dl>
             </div>
 
             <!-- Purchase Buttons -->
-            <div class="space-y-4">
-              <a
-                href="#"
-                class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-rust hover:bg-rust hover:text-white transition-all duration-300 {!product.data.inStock && 'opacity-50 cursor-not-allowed'}"
-              >
-                {product.data.inStock ? 'LINE で購入・問い合わせ' : '在庫切れ'}
-              </a>
-              <a
-                href="#"
-                class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-lab-green hover:bg-lab-green hover:text-white transition-all duration-300"
-              >
-                フォームで問い合わせ
-              </a>
-            </div>
+            {isAvailable ? (
+              <div class="space-y-4">
+                <a
+                  href={SITE_CONFIG.sns.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-rust hover:bg-rust hover:text-white transition-all duration-300"
+                >
+                  Instagram DMで購入・問い合わせ
+                </a>
+                <div class="block w-full text-center px-8 py-4 text-xs tracking-widest font-mono border-2 border-warm-gray-300 text-warm-gray-400 cursor-not-allowed">
+                  フォームで問い合わせ（現在準備中）
+                </div>
+              </div>
+            ) : (
+              <div class="space-y-4">
+                <div class="block w-full text-center px-8 py-4 text-xs tracking-widest font-mono border-2 border-warm-gray-300 text-warm-gray-400">
+                  {isDiscontinued ? 'この商品の販売は終了しました' : '現在販売していません'}
+                </div>
+                <a
+                  href={SITE_CONFIG.sns.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-lab-green hover:bg-lab-green hover:text-white transition-all duration-300"
+                >
+                  他の商品について問い合わせ
+                </a>
+              </div>
+            )}
 
             {product.data.tags && product.data.tags.length > 0 && (
-              <div class="mt-8">
+              <div class="mt-6">
                 <div class="flex flex-wrap gap-2">
                   {product.data.tags.map((tag) => (
                     <span class="px-3 py-1 text-xs font-mono bg-warm-gray-100 text-warm-gray-600 rounded-full">
@@ -146,8 +303,14 @@ const seasonLabels = {
     <!-- Product Story (Markdown Content) -->
     <section class="mb-16" data-animate>
       <div class="max-w-4xl mx-auto px-6 lg:px-12">
-        <div class="bg-stone-white/95 backdrop-blur-sm p-12 shadow-lab-lg">
-          <div class="prose prose-slate max-w-none">
+        <div class="bg-stone-white/95 backdrop-blur-sm p-8 md:p-12 shadow-lab-lg">
+          <div class="prose prose-slate max-w-none
+            prose-p:leading-loose prose-p:mb-6 prose-p:text-warm-gray-600
+            prose-headings:font-serif prose-headings:text-wet-soil prose-headings:mb-4 prose-headings:mt-8
+            prose-strong:text-wet-soil prose-strong:font-medium
+            prose-ul:my-4 prose-ul:space-y-2 prose-li:text-warm-gray-600
+            prose-hr:my-8 prose-hr:border-warm-gray-200
+            first:prose-p:mt-0 last:prose-p:mb-0">
             <Content />
           </div>
         </div>
@@ -162,13 +325,14 @@ const seasonLabels = {
             GALLERY
           </h2>
           <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {product.data.gallery.map((image, index) => (
+            {product.data.gallery.map((image, index: number) => (
               <div class="aspect-square overflow-hidden bg-warm-gray-100">
-                <img
-                  src={image.src}
-                  alt={`${product.data.name} - ${index + 1}`}
+                <Image
+                  src={image}
+                  alt={`${product.data.flowerType} - ${index + 1}`}
                   class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
+                  width={400}
+                  height={400}
                 />
               </div>
             ))}
@@ -177,13 +341,13 @@ const seasonLabels = {
       </section>
     )}
 
-    <!-- Back to Products -->
+    <!-- Back to Products (Bottom) -->
     <div class="text-center" data-animate>
       <a
-        href="/products"
+        href={backUrl}
         class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-rust pb-1 hover:border-lab-green transition-colors duration-300"
       >
-        ← Back to Products
+        ← {categoryLabels[product.data.category]}一覧に戻る
       </a>
     </div>
   </div>

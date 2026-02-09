@@ -1,0 +1,62 @@
+---
+/**
+ * 研究成果ページ（Coming Soon）
+ */
+import Layout from '../../layouts/Layout.astro';
+import { SITE_CONFIG } from '../../config/site';
+---
+
+<Layout
+  title="研究成果 | Farm Eolica (ファームエオリカ)"
+  description="Farm Eolicaの研究成果。IoTデータ分析、栽培実験記録など、公開可能な研究成果を発信します。"
+>
+  <div class="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center">
+    <div data-animate>
+      <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
+        RESEARCH
+      </p>
+      <h1 class="font-serif text-4xl md:text-5xl text-eolica-green mb-6 tracking-wide">
+        Coming Soon
+      </h1>
+      <p class="font-mono text-sm text-wet-soil tracking-widest mb-4">
+        研究成果
+      </p>
+      <p class="text-warm-gray-600 text-base max-w-lg mx-auto leading-relaxed mb-8 font-serif">
+        IoTセンサーによる環境データ分析、栽培実験の記録など、<br />
+        公開可能な研究成果を発信していく予定です。<br /><br />
+        note記事では、開発奮闘記や技術的な取り組みを<br />
+        すでに連載しています。
+      </p>
+
+      <!-- note Link -->
+      <div class="mb-10">
+        <a
+          href={SITE_CONFIG.sns.note}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-eolica-green text-white hover:bg-wet-soil transition-colors duration-300 font-mono text-xs tracking-widest"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          note記事を読む
+        </a>
+      </div>
+
+      <div class="flex gap-6 justify-center flex-wrap">
+        <a
+          href="/products"
+          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+        >
+          ← Back to Products
+        </a>
+        <a
+          href="/contact"
+          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+        >
+          Contact Us →
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

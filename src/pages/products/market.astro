@@ -1,0 +1,45 @@
+---
+/**
+ * 市場出荷品ページ（Coming Soon）
+ */
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="市場出荷品 | Farm Eolica (ファームエオリカ)"
+  description="Farm Eolicaが市場向けに出荷している最高品質の花。一般販売も相談可能です。"
+>
+  <div class="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center">
+    <div data-animate>
+      <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
+        MARKET FLOWERS
+      </p>
+      <h1 class="font-serif text-4xl md:text-5xl text-eolica-green mb-6 tracking-wide">
+        Coming Soon
+      </h1>
+      <p class="font-mono text-sm text-wet-soil tracking-widest mb-4">
+        市場出荷品
+      </p>
+      <p class="text-warm-gray-600 text-base max-w-lg mx-auto leading-relaxed mb-8 font-serif">
+        市場向けに出荷している最高品質の花を紹介するページです。<br /><br />
+        通常は市場経由でフラワーショップに卸していますが、<br />
+        <span class="text-eolica-green font-medium">一般のお客様への直接販売も相談可能</span>です。<br /><br />
+        ご興味のある方は、お気軽にお問い合わせください。
+      </p>
+      <div class="flex gap-6 justify-center flex-wrap">
+        <a
+          href="/products"
+          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+        >
+          ← Back to Products
+        </a>
+        <a
+          href="/contact"
+          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+        >
+          Contact Us →
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>
