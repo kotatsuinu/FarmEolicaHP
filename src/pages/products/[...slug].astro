@@ -165,10 +165,10 @@ const backUrl = categoryBackLinks[product.data.category] || '/products';
                   <table class="w-full text-sm">
                     <thead>
                       <tr class="border-b border-warm-gray-200">
-                        <th class="text-left py-2 font-mono text-[10px] text-warm-gray-500">サイズ</th>
-                        <th class="text-center py-2 font-mono text-[10px] text-warm-gray-500">本数目安</th>
-                        <th class="text-center py-2 font-mono text-[10px] text-warm-gray-500">切花長</th>
-                        <th class="text-right py-2 font-mono text-[10px] text-warm-gray-500">価格</th>
+                        <th class="text-left py-2 font-mono text-xs text-warm-gray-500">サイズ</th>
+                        <th class="text-center py-2 font-mono text-xs text-warm-gray-500">本数目安</th>
+                        <th class="text-center py-2 font-mono text-xs text-warm-gray-500">切花長</th>
+                        <th class="text-right py-2 font-mono text-xs text-warm-gray-500">価格</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -183,7 +183,7 @@ const backUrl = categoryBackLinks[product.data.category] || '/products';
                           <td class="py-3 text-right">
                             <span class="font-mono text-old-copper font-medium">¥{item.price.toLocaleString()}</span>
                             {item.note && (
-                              <span class="block text-[10px] text-eolica-green">{item.note}</span>
+                              <span class="block text-xs text-eolica-green">{item.note}</span>
                             )}
                           </td>
                         </tr>

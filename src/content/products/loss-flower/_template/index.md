@@ -28,10 +28,11 @@ saleStatus: "available"  # available / out_of_stock / seasonal / discontinued
 # メイン画像（必須）- このフォルダ内のmain.jpgに差し替え
 # image: "./main.jpg"
 
-# ギャラリー画像（任意）
+# ギャラリー画像（任意）- 3枚まで推奨
 # gallery:
 #   - "./sub1.jpg"
 #   - "./sub2.jpg"
+#   - "./sub3.jpg"
 
 # 花の特徴
 features:

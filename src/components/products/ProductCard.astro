@@ -104,7 +104,7 @@ const categoryLabels: Record<string, string> = {
     variant === 'gallery' && "p-4",
   ]}>
     <!-- カテゴリ -->
-    <p class="font-mono text-[10px] tracking-widest text-warm-gray-500 uppercase mb-1">
+    <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase mb-1">
       {categoryLabels[product.data.category] || product.data.category}
     </p>
 
@@ -126,7 +126,7 @@ const categoryLabels: Record<string, string> = {
 
     <!-- 販売時期 -->
     {product.data.availableSeason && (
-      <p class="font-mono text-[10px] text-old-copper mt-2">
+      <p class="font-mono text-xs text-old-copper mt-2">
         {product.data.availableSeason}
       </p>
     )}

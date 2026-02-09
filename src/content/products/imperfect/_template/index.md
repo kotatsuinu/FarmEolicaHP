@@ -16,6 +16,7 @@ priceTable:
 # gallery:
 #   - "./sub1.jpg"
 #   - "./sub2.jpg"
+#   - "./sub3.jpg"
 season: ["summer"]
 availableFrom: 2026-06-01
 tags: ["ピンク", "八重咲き"]

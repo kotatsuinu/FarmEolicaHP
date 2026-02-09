@@ -25,7 +25,7 @@ const sagawaLink = "https://www.sagawa-exp.co.jp/send/fare/faretable03.html?_ga=
       ]}>
         <span class:list={[
           "font-mono tracking-widest",
-          compact ? "text-[10px]" : "text-xs text-warm-gray-500"
+          compact ? "text-xs" : "text-xs text-warm-gray-500"
         ]}>
           {compact ? "送料について ▼" : <>SHIPPING <span class="font-serif">ー送料についてー</span></>}
         </span>
@@ -49,7 +49,7 @@ const sagawaLink = "https://www.sagawa-exp.co.jp/send/fare/faretable03.html?_ga=
           </p>
 
           <div class:list={[compact ? "text-xs" : "text-sm"]}>
-            <p class="font-mono text-[10px] text-warm-gray-500 mb-2">送料目安（税込）</p>
+            <p class="font-mono text-xs text-warm-gray-500 mb-2">送料目安（税込）</p>
             <ul class="space-y-1 text-warm-gray-600 font-serif">
               <li>東北〜関東・信越: <span class="font-mono text-wet-soil">910円〜</span></li>
               <li>東海・北陸: <span class="font-mono text-wet-soil">1,040円〜</span></li>
@@ -57,11 +57,11 @@ const sagawaLink = "https://www.sagawa-exp.co.jp/send/fare/faretable03.html?_ga=
             </ul>
           </div>
 
-          <p class="text-[10px] text-old-copper">
+          <p class="text-xs text-old-copper">
             ※夏季（6〜9月）はクール便のご利用をおすすめします（別途料金）
           </p>
 
-          <p class="text-[10px] text-warm-gray-500">
+          <p class="text-xs text-warm-gray-500">
             ※サイズ・地域により異なります。詳細は
             <a
               href={sagawaLink}
