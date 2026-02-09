@@ -16,6 +16,7 @@ const categories = [
     description: '市場規格に満たないけれど、美しさは変わらない。茎付きの切り花をお届けします。',
     href: '/products/imperfect',
     available: true,
+    image: '/images/products/category-imperfect.jpg',
   },
   {
     id: 'loss-flower',
@@ -24,6 +25,7 @@ const categories = [
     description: '廃棄される花頭に新しい命を。クラフト・ドライフラワー素材として。',
     href: '/products/loss-flower',
     available: true,
+    image: '/images/products/category-loss-flower.jpg',
   },
   {
     id: 'market',
@@ -32,6 +34,7 @@ const categories = [
     description: '市場向けに出荷している最高品質の花。一般販売も相談可能です。',
     href: '/products/market',
     available: false,
+    image: null,
   },
   {
     id: 'research',
@@ -40,6 +43,7 @@ const categories = [
     description: 'IoTデータ分析、栽培実験記録など、公開可能な研究成果を発信。',
     href: '/products/research',
     available: false,
+    image: null,
   },
 ];
 ---
@@ -111,18 +115,26 @@ const categories = [
             href={category.href}
             class="group block bg-stone-white shadow-lab hover:shadow-lab-lg transition-all duration-300 overflow-hidden"
           >
-            <!-- Image Placeholder -->
-            <div class="relative aspect-[16/9] bg-gradient-to-br from-warm-gray-100 to-warm-gray-200 overflow-hidden">
+            <!-- Image -->
+            <div
+              class="relative aspect-[16/9] overflow-hidden"
+              style={category.image
+                ? `background-image: url('${category.image}'); background-size: cover; background-position: center;`
+                : 'background: linear-gradient(to bottom right, rgb(245, 245, 244), rgb(231, 229, 228));'
+              }
+            >
               {!category.available && (
                 <div class="absolute inset-0 bg-wet-soil/50 flex items-center justify-center z-10">
                   <span class="font-mono text-sm text-white tracking-widest">Coming Soon</span>
                 </div>
               )}
-              <div class="absolute inset-0 flex items-center justify-center">
-                <span class="font-display text-4xl md:text-5xl text-warm-gray-300 opacity-50 group-hover:opacity-70 transition-opacity duration-300">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-              </div>
+              {!category.image && (
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="font-display text-4xl md:text-5xl text-warm-gray-300 opacity-50 group-hover:opacity-70 transition-opacity duration-300">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
+              )}
             </div>
 
             <!-- Content -->
