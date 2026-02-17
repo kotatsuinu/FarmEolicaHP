@@ -73,6 +73,13 @@ if (product.data.priceTable) {
     price: product.data.price,
     size: 100 // Default assumption
   }];
+} else if (isLossFlower) {
+  // ロスフラワーのデフォルト価格設定 (loss-flower.astro準拠)
+  estimateOptions = [
+    { label: '小箱（60サイズ）', price: 1300, size: 60 },
+    { label: '中箱（80サイズ）', price: 2000, size: 80 },
+    { label: '大箱（100サイズ）', price: 3200, size: 100 }
+  ];
 }
 ---
 
