@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import { SITE_CONFIG } from '../../config/site';
-import ShippingInfo from '../../components/products/ShippingInfo.astro';
+
 import EstimateCalculator from '../../components/products/EstimateCalculator';
 
 export async function getStaticPaths() {
@@ -171,9 +171,7 @@ if (product.data.priceTable) {
                   ※サイズにより価格が異なります。<br />
                   詳しくは<a href="/products/loss-flower" class="text-old-copper hover:underline">ロスフラワーページ</a>をご確認ください。
                 </p>
-                <div class="mt-4 pt-4 border-t border-warm-gray-200">
-                  <ShippingInfo collapsible={true} compact={true} />
-                </div>
+
               </div>
             )}
 
@@ -222,9 +220,7 @@ if (product.data.priceTable) {
                     ※ご要望があれば事前にお知らせください。できる限り対応いたします。
                   </p>
                 </div>
-                <div class="mt-4 pt-4 border-t border-warm-gray-200">
-                  <ShippingInfo collapsible={true} compact={true} />
-                </div>
+
               </div>
             )}
 
