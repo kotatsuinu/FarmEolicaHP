@@ -4,6 +4,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import { SITE_CONFIG } from '../../config/site';
 import ShippingInfo from '../../components/products/ShippingInfo.astro';
+import EstimateCalculator from '../../components/products/EstimateCalculator';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -52,6 +53,27 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
 
 // 戻り先URL
 const backUrl = categoryBackLinks[product.data.category] || '/products';
+
+// Estimate Options Preparation
+let estimateOptions = [];
+if (product.data.priceTable) {
+  estimateOptions = product.data.priceTable.map((p: any) => {
+    // "80サイズ" -> 80, "Sサイズ" -> 100 (default)
+    const sizeMatch = p.size.toString().match(/\d+/);
+    const size = sizeMatch ? parseInt(sizeMatch[0]) : 100;
+    return {
+      label: p.size, // e.g. "80サイズ"
+      price: p.price,
+      size: size
+    };
+  });
+} else if (product.data.price) {
+  estimateOptions = [{
+    label: '標準サイズ',
+    price: product.data.price,
+    size: 100 // Default assumption
+  }];
+}
 ---
 
 <Layout title={`${product.data.flowerType} | Farm Eolica`} description={product.data.description}>
@@ -252,6 +274,17 @@ const backUrl = categoryBackLinks[product.data.category] || '/products';
                 )}
               </dl>
             </div>
+
+            {/* Estimate Calculator */}
+            {estimateOptions.length > 0 && isAvailable && (
+              <div class="mb-8">
+                <EstimateCalculator 
+                  client:visible 
+                  options={estimateOptions} 
+                  defaultCool={false} 
+                />
+              </div>
+            )}
 
             <!-- Purchase Buttons -->
             {isAvailable ? (
