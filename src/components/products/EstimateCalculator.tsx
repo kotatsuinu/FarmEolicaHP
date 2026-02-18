@@ -47,7 +47,7 @@ export default function EstimateCalculator({ options, defaultCool = false }: Est
     let baseFee = rate.prices[sizeKey];
     if (baseFee === undefined) {
       // Try to find nearest upper size
-      const sizes: Size[] = [60, 80, 100, 120, 140, 160];
+      const sizes: Size[] = [60, 80, 100, 140, 160];
       const foundSize = sizes.find(s => s >= selectedOption.size);
       if (foundSize) {
         baseFee = rate.prices[foundSize];
