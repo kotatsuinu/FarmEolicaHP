@@ -3,7 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import { SITE_CONFIG } from '../../config/site';
-import ShippingInfo from '../../components/products/ShippingInfo.astro';
+
+import EstimateCalculator from '../../components/products/EstimateCalculator';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -52,6 +53,34 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
 
 // 戻り先URL
 const backUrl = categoryBackLinks[product.data.category] || '/products';
+
+// Estimate Options Preparation
+let estimateOptions = [];
+if (product.data.priceTable) {
+  estimateOptions = product.data.priceTable.map((p: any) => {
+    // "80サイズ" -> 80, "Sサイズ" -> 100 (default)
+    const sizeMatch = p.size.toString().match(/\d+/);
+    const size = sizeMatch ? parseInt(sizeMatch[0]) : 100;
+    return {
+      label: p.size, // e.g. "80サイズ"
+      price: p.price,
+      size: size
+    };
+  });
+} else if (product.data.price) {
+  estimateOptions = [{
+    label: '標準サイズ',
+    price: product.data.price,
+    size: 100 // Default assumption
+  }];
+} else if (isLossFlower) {
+  // ロスフラワーのデフォルト価格設定 (loss-flower.astro準拠)
+  estimateOptions = [
+    { label: '小箱（60サイズ）', price: 1300, size: 60 },
+    { label: '中箱（80サイズ）', price: 2000, size: 80 },
+    { label: '大箱（100サイズ）', price: 3200, size: 100 }
+  ];
+}
 ---
 
 <Layout title={`${product.data.flowerType} | Farm Eolica`} description={product.data.description}>
@@ -149,9 +178,7 @@ const backUrl = categoryBackLinks[product.data.category] || '/products';
                   ※サイズにより価格が異なります。<br />
                   詳しくは<a href="/products/loss-flower" class="text-old-copper hover:underline">ロスフラワーページ</a>をご確認ください。
                 </p>
-                <div class="mt-4 pt-4 border-t border-warm-gray-200">
-                  <ShippingInfo collapsible={true} compact={true} />
-                </div>
+
               </div>
             )}
 
@@ -200,9 +227,7 @@ const backUrl = categoryBackLinks[product.data.category] || '/products';
                     ※ご要望があれば事前にお知らせください。できる限り対応いたします。
                   </p>
                 </div>
-                <div class="mt-4 pt-4 border-t border-warm-gray-200">
-                  <ShippingInfo collapsible={true} compact={true} />
-                </div>
+
               </div>
             )}
 
@@ -252,6 +277,17 @@ const backUrl = categoryBackLinks[product.data.category] || '/products';
                 )}
               </dl>
             </div>
+
+            {/* Estimate Calculator */}
+            {estimateOptions.length > 0 && isAvailable && (
+              <div class="mb-8">
+                <EstimateCalculator 
+                  client:visible 
+                  options={estimateOptions} 
+                  defaultCool={false} 
+                />
+              </div>
+            )}
 
             <!-- Purchase Buttons -->
             {isAvailable ? (
