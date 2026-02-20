@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { SITE_CONFIG } from '../config/site';
+import NoteLinkCard from '../components/NoteLinkCard.astro';
 ---
 
 <Layout title="About | Farm Eolica (ファームエオリカ)" description="風を読み、土を耕し、未来を咲かせる。Farm Eolicaの思想と背景。">
@@ -106,6 +108,13 @@ import Layout from '../layouts/Layout.astro';
             <p>
               異業種から参入したからこそ、既存の枠にとらわれない視点を大切にしています。一輪の花が持つ美しさだけでなく、それがお客様の手に渡るまでのストーリーも大切に紡いでいきます。
             </p>
+            <div class="pt-4">
+              <NoteLinkCard
+                url={SITE_CONFIG.noteMagazines.newFarmerJourney.url}
+                title="新規就農のリアルを綴ったnote"
+                variant="subtle"
+              />
+            </div>
           </div>
         </div>
 

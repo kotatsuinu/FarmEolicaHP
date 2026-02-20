@@ -6,11 +6,13 @@
  */
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { SITE_CONFIG } from '../../config/site';
 import ProductCard from '../../components/products/ProductCard.astro';
 import PriceTable from '../../components/products/PriceTable.astro';
 import ShippingInfo from '../../components/products/ShippingInfo.astro';
 import NoticeInfo from '../../components/products/NoticeInfo.astro';
 import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
+import NoteLinkCard from '../../components/NoteLinkCard.astro';
 
 // ロスフラワーの商品を取得
 const lossFlowerProducts = (await getCollection('products'))
@@ -104,6 +106,21 @@ const noticeItems = [
           これらの花材を大切に使っていただけないかと考えました。
         </p>
       </div>
+    </div>
+  </section>
+
+  <!-- Note Article Link -->
+  <section class="py-8 md:py-12" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <p class="font-mono text-[10px] tracking-widest text-warm-gray-400 mb-4 text-center">
+        MORE ABOUT LOSS FLOWER
+      </p>
+      <NoteLinkCard
+        url={SITE_CONFIG.noteArticles.lossFlowerStory}
+        title="農家が語る、ロスフラワーのこと"
+        description="なぜロスフラワーが生まれるのか、農家の想いを綴ったnote記事です。"
+        variant="featured"
+      />
     </div>
   </section>
 
