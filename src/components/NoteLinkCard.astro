@@ -1,0 +1,119 @@
+---
+/**
+ * NoteLinkCard - noteリンクカードコンポーネント
+ * バリアント: featured（商品ページ用）, default（マガジンカード用）, subtle（控えめリンク用）
+ */
+interface Props {
+  url: string;
+  title: string;
+  titleEn?: string;
+  description?: string;
+  image?: string;
+  variant?: 'featured' | 'default' | 'subtle';
+}
+
+const {
+  url,
+  title,
+  titleEn,
+  description,
+  image,
+  variant = 'default',
+} = Astro.props;
+---
+
+{/* --- featured: 商品ページ内 記事リンク用 --- */}
+{variant === 'featured' && (
+  <a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="group block bg-stone-white p-6 md:p-8 shadow-lab hover:shadow-lab-lg transition-all duration-300 border-l-4 border-old-copper"
+  >
+    <div class="flex items-start gap-4">
+      <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-eolica-green/10 rounded-full group-hover:bg-eolica-green/20 transition-colors duration-300">
+        <svg class="w-5 h-5 text-eolica-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+        </svg>
+      </div>
+      <div class="flex-1">
+        <p class="font-mono text-[10px] tracking-widest text-warm-gray-500 mb-1">NOTE ARTICLE</p>
+        <h4 class="font-serif text-base md:text-lg text-wet-soil group-hover:text-eolica-green transition-colors duration-300 mb-2">
+          {title}
+        </h4>
+        {description && (
+          <p class="font-serif text-sm text-warm-gray-600 leading-relaxed">
+            {description}
+          </p>
+        )}
+        <span class="inline-flex items-center gap-1 mt-3 font-mono text-xs text-old-copper group-hover:text-eolica-green transition-colors duration-300">
+          記事を読む
+          <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </a>
+)}
+
+{/* --- default: トップページ マガジンカード用 --- */}
+{variant === 'default' && (
+  <a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="group block bg-stone-white shadow-lab hover:shadow-lab-lg transition-all duration-300 overflow-hidden"
+  >
+    {image && (
+      <div
+        class="aspect-[16/9] overflow-hidden"
+        style={`background-image: url('${image}'); background-size: cover; background-position: center;`}
+      >
+        <div class="w-full h-full bg-gradient-to-br from-warm-gray-200 to-warm-gray-100" style={`background-image: url('${image}'); background-size: cover; background-position: center;`}>
+        </div>
+      </div>
+    )}
+    <div class="p-6 md:p-8">
+      {titleEn && (
+        <p class="font-mono text-[10px] tracking-widest text-warm-gray-500 mb-2">
+          {titleEn.toUpperCase()}
+        </p>
+      )}
+      <h3 class="font-serif text-lg md:text-xl text-wet-soil group-hover:text-eolica-green transition-colors duration-300 mb-3">
+        {title}
+      </h3>
+      {description && (
+        <p class="font-serif text-sm text-warm-gray-600 leading-relaxed mb-4">
+          {description}
+        </p>
+      )}
+      <div class="flex items-center gap-2 text-old-copper group-hover:text-eolica-green transition-colors duration-300">
+        <span class="font-mono text-xs tracking-widest">READ ON NOTE</span>
+        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </div>
+    </div>
+  </a>
+)}
+
+{/* --- subtle: aboutページ 控えめリンク用 --- */}
+{variant === 'subtle' && (
+  <a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="group inline-flex items-center gap-3 py-3 px-4 bg-warm-gray-50/50 hover:bg-warm-gray-100 rounded-sm transition-colors duration-300"
+  >
+    <svg class="w-4 h-4 text-warm-gray-400 group-hover:text-eolica-green transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+    </svg>
+    <span class="font-serif text-sm text-warm-gray-500 group-hover:text-wet-soil transition-colors duration-300">
+      {title}
+    </span>
+    <svg class="w-3 h-3 text-warm-gray-400 group-hover:text-old-copper group-hover:translate-x-0.5 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+  </a>
+)}

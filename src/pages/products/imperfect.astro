@@ -10,6 +10,7 @@ import ShippingInfo from '../../components/products/ShippingInfo.astro';
 import NoticeInfo from '../../components/products/NoticeInfo.astro';
 import FlowerCareGuide from '../../components/products/FlowerCareGuide.astro';
 import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
 
 // 規格外品の商品を取得
 const imperfectProducts = (await getCollection('products'))
@@ -106,23 +107,17 @@ const noticeItems = [
   <!-- Current Products Section（Introduction直後に配置）-->
   <section class="py-16 md:py-20 bg-warm-gray-50/50" data-animate>
     <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-12">
-        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
-          CURRENT PRODUCTS
-        </p>
-        <h2 class="font-serif text-2xl md:text-3xl text-wet-soil mb-4">
-          現在販売中の花
-        </h2>
+      <SectionHeader titleJa="現在販売中の花" titleEn="CURRENT PRODUCTS">
         {availableCount > 0 ? (
-          <p class="font-mono text-sm text-eolica-green">
+          <p class="font-mono text-sm text-old-copper mt-3">
             {availableCount}種類の花をお届けできます
           </p>
         ) : (
-          <p class="font-mono text-sm text-warm-gray-500">
+          <p class="font-mono text-sm text-warm-gray-500 mt-3">
             現在販売中の商品はありません
           </p>
         )}
-      </div>
+      </SectionHeader>
 
       {imperfectProducts.length > 0 ? (
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -194,14 +189,7 @@ const noticeItems = [
   <!-- Price Section -->
   <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
     <div class="max-w-4xl mx-auto px-6">
-      <div class="text-center mb-8">
-        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
-          PRICE
-        </p>
-        <h2 class="font-serif text-xl text-wet-soil">
-          価格について
-        </h2>
-      </div>
+      <SectionHeader titleJa="価格について" titleEn="PRICE" />
       <div class="bg-stone-white p-6 md:p-8 shadow-lab">
         <p class="font-serif text-sm text-warm-gray-600 mb-4">
           規格外切り花の価格は、<span class="text-wet-soil font-medium">花の種類や時期によって異なります</span>。

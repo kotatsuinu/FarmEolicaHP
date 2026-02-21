@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { SITE_CONFIG } from '../config/site';
+import NoteLinkCard from '../components/NoteLinkCard.astro';
+import SectionHeader from '../components/SectionHeader.astro';
 ---
 
 <Layout title="Farm Eolica (ファームエオリカ) | Organic Lab - Living with Wind, Evolving with Data">
@@ -310,21 +312,40 @@ import { SITE_CONFIG } from '../config/site';
   <!-- Spacer -->
   <div class="h-32 md:h-48"></div>
 
+  <!-- Note Magazine Section: Words from the Lab -->
+  <section class="py-20 md:py-28" data-animate>
+    <div class="max-w-4xl mx-auto px-6 lg:px-12">
+      <SectionHeader titleJa="Words from the Lab" titleEn="NOTE" description="農園の日々、農業DXの実践記録をnoteで発信しています。" />
+
+      <!-- Magazine Cards (2 columns) -->
+      <div class="grid md:grid-cols-2 gap-6">
+        <NoteLinkCard
+          url={SITE_CONFIG.noteMagazines.farmerLetter.url}
+          title={SITE_CONFIG.noteMagazines.farmerLetter.title}
+          titleEn={SITE_CONFIG.noteMagazines.farmerLetter.titleEn}
+          description={SITE_CONFIG.noteMagazines.farmerLetter.description}
+          image={SITE_CONFIG.noteMagazines.farmerLetter.image}
+          variant="default"
+        />
+        <NoteLinkCard
+          url={SITE_CONFIG.noteMagazines.agriDX.url}
+          title={SITE_CONFIG.noteMagazines.agriDX.title}
+          titleEn={SITE_CONFIG.noteMagazines.agriDX.titleEn}
+          description={SITE_CONFIG.noteMagazines.agriDX.description}
+          image={SITE_CONFIG.noteMagazines.agriDX.image}
+          variant="default"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Spacer -->
+  <div class="h-16 md:h-24"></div>
+
   <!-- Instagram Section: Updates from the Lab -->
   <section class="py-32 md:py-40 bg-warm-gray-50/50" data-animate>
     <div class="max-w-4xl mx-auto px-6 lg:px-12">
-      <!-- Section Header -->
-      <div class="text-center mb-16">
-        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
-          INSTAGRAM
-        </p>
-        <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green mb-6">
-          Updates from the Lab
-        </h2>
-        <p class="text-wet-soil leading-relaxed max-w-2xl mx-auto">
-          日々の栽培記録、花の成長、ハウスの様子をInstagramで発信しています。
-        </p>
-      </div>
+      <SectionHeader titleJa="Updates from the Lab" titleEn="INSTAGRAM" description="日々の栽培記録、花の成長、ハウスの様子をInstagramで発信しています。" />
 
       <!-- Instagram Grid (3x3) - Lab Style -->
       <div class="grid grid-cols-3 gap-2 md:gap-4 mb-12">
