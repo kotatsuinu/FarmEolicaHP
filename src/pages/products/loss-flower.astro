@@ -13,6 +13,7 @@ import ShippingInfo from '../../components/products/ShippingInfo.astro';
 import NoticeInfo from '../../components/products/NoticeInfo.astro';
 import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
 import NoteLinkCard from '../../components/NoteLinkCard.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
 
 // ロスフラワーの商品を取得
 const lossFlowerProducts = (await getCollection('products'))
@@ -127,23 +128,17 @@ const noticeItems = [
   <!-- Current Products Section（Introduction直後に配置）-->
   <section class="py-16 md:py-20 bg-warm-gray-50/50" data-animate>
     <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-12">
-        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
-          CURRENT FLOWERS
-        </p>
-        <h2 class="font-serif text-2xl md:text-3xl text-wet-soil mb-4">
-          現在お届けできる花
-        </h2>
+      <SectionHeader titleJa="現在お届けできる花" titleEn="CURRENT FLOWERS">
         {availableCount > 0 ? (
-          <p class="font-mono text-sm text-old-copper">
+          <p class="font-mono text-sm text-old-copper mt-3">
             {availableCount}種類の花をご用意しています
           </p>
         ) : (
-          <p class="font-mono text-sm text-warm-gray-500">
+          <p class="font-mono text-sm text-warm-gray-500 mt-3">
             現在販売中の商品はありません
           </p>
         )}
-      </div>
+      </SectionHeader>
 
       {lossFlowerProducts.length > 0 ? (
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -170,9 +165,7 @@ const noticeItems = [
   <!-- Usage Section -->
   <section class="py-12 md:py-16" data-animate>
     <div class="max-w-4xl mx-auto px-6">
-      <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
-        USAGE
-      </h2>
+      <SectionHeader titleJa="用途" titleEn="USAGE" />
       <div class="grid md:grid-cols-3 gap-6">
         <div class="bg-stone-white p-6 shadow-lab text-center">
           <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-old-copper/10 rounded-full">
@@ -258,17 +251,7 @@ const noticeItems = [
   <!-- Price Section -->
   <section class="py-12 md:py-16" data-animate>
     <div class="max-w-4xl mx-auto px-6">
-      <div class="text-center mb-8">
-        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
-          PRICE
-        </p>
-        <h2 class="font-serif text-xl text-wet-soil">
-          価格について
-        </h2>
-        <p class="text-sm text-warm-gray-600 mt-4 font-serif">
-          どの花でも同一価格です（送料別）
-        </p>
-      </div>
+      <SectionHeader titleJa="価格について" titleEn="PRICE" description="どの花でも同一価格です（送料別）" />
       <PriceTable
         prices={priceList}
         title="PRICE LIST"

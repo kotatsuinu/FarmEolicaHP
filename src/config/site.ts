@@ -19,12 +19,14 @@ export const SITE_CONFIG = {
       title: '農家通信（風の花だより）',
       titleEn: "Farmer's Letter",
       description: '農園の日々や季節の話題をお届けする農家通信です。',
+      image: '/images/note/farmer-letter.svg',
     },
     agriDX: {
       url: 'https://note.com/farm_eolica/m/mbcb8d61660c8',
       title: '農業DX実践シリーズ',
       titleEn: 'Agri-DX Series',
       description: 'IoT・データ活用で農業を進化させる取り組みの記録。',
+      image: '/images/note/agri-dx.svg',
     },
     newFarmerJourney: {
       url: 'https://note.com/farm_eolica/m/m81b58536cf27',

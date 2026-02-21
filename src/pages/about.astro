@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { SITE_CONFIG } from '../config/site';
 import NoteLinkCard from '../components/NoteLinkCard.astro';
+import SectionHeader from '../components/SectionHeader.astro';
 ---
 
 <Layout title="About | Farm Eolica (ファームエオリカ)" description="風を読み、土を耕し、未来を咲かせる。Farm Eolicaの思想と背景。">
@@ -216,15 +217,7 @@ import NoteLinkCard from '../components/NoteLinkCard.astro';
   <!-- Section 5: Profile -->
   <section class="py-20 md:py-32 bg-warm-gray-50/50" data-animate>
     <div class="max-w-4xl mx-auto px-6 lg:px-12">
-      <!-- Section Header -->
-      <div class="text-center mb-12">
-        <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase mb-4">
-          PROFILE
-        </p>
-        <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green">
-          農園概要
-        </h2>
-      </div>
+      <SectionHeader titleJa="農園概要" titleEn="PROFILE" />
 
       <!-- Profile Table -->
       <div class="bg-white shadow-lg rounded-sm overflow-hidden">

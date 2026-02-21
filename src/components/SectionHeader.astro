@@ -1,0 +1,34 @@
+---
+/**
+ * SectionHeader - 統一セクションヘッダーコンポーネント
+ * 日本語タイトル + 英語ラベルを1行に統合し、デザインを統一
+ */
+interface Props {
+  titleJa: string;
+  titleEn: string;
+  description?: string;
+  align?: 'center' | 'left';
+}
+
+const {
+  titleJa,
+  titleEn,
+  description,
+  align = 'center',
+} = Astro.props;
+---
+
+<div class:list={[align === 'center' && 'text-center', 'mb-12']}>
+  <h2 class="font-serif text-2xl md:text-3xl text-eolica-green tracking-wide">
+    {titleJa}
+    <span class="font-mono text-xs md:text-sm tracking-widest text-eolica-green/50">
+      {' '}ー {titleEn} ー
+    </span>
+  </h2>
+  {description && (
+    <p class="font-serif text-sm md:text-base text-wet-soil leading-relaxed mt-3">
+      {description}
+    </p>
+  )}
+  <slot />
+</div>

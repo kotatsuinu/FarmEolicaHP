@@ -8,6 +8,7 @@ interface Props {
   title: string;
   titleEn?: string;
   description?: string;
+  image?: string;
   variant?: 'featured' | 'default' | 'subtle';
 }
 
@@ -16,6 +17,7 @@ const {
   title,
   titleEn,
   description,
+  image,
   variant = 'default',
 } = Astro.props;
 ---
@@ -61,26 +63,37 @@ const {
     href={url}
     target="_blank"
     rel="noopener noreferrer"
-    class="group block bg-stone-white p-6 md:p-8 shadow-lab hover:shadow-lab-lg transition-all duration-300"
+    class="group block bg-stone-white shadow-lab hover:shadow-lab-lg transition-all duration-300 overflow-hidden"
   >
-    {titleEn && (
-      <p class="font-mono text-[10px] tracking-widest text-warm-gray-500 mb-2">
-        {titleEn.toUpperCase()}
-      </p>
+    {image && (
+      <div
+        class="aspect-[16/9] overflow-hidden"
+        style={`background-image: url('${image}'); background-size: cover; background-position: center;`}
+      >
+        <div class="w-full h-full bg-gradient-to-br from-warm-gray-200 to-warm-gray-100" style={`background-image: url('${image}'); background-size: cover; background-position: center;`}>
+        </div>
+      </div>
     )}
-    <h3 class="font-serif text-lg md:text-xl text-wet-soil group-hover:text-eolica-green transition-colors duration-300 mb-3">
-      {title}
-    </h3>
-    {description && (
-      <p class="font-serif text-sm text-warm-gray-600 leading-relaxed mb-4">
-        {description}
-      </p>
-    )}
-    <div class="flex items-center gap-2 text-old-copper group-hover:text-eolica-green transition-colors duration-300">
-      <span class="font-mono text-xs tracking-widest">READ ON NOTE</span>
-      <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-      </svg>
+    <div class="p-6 md:p-8">
+      {titleEn && (
+        <p class="font-mono text-[10px] tracking-widest text-warm-gray-500 mb-2">
+          {titleEn.toUpperCase()}
+        </p>
+      )}
+      <h3 class="font-serif text-lg md:text-xl text-wet-soil group-hover:text-eolica-green transition-colors duration-300 mb-3">
+        {title}
+      </h3>
+      {description && (
+        <p class="font-serif text-sm text-warm-gray-600 leading-relaxed mb-4">
+          {description}
+        </p>
+      )}
+      <div class="flex items-center gap-2 text-old-copper group-hover:text-eolica-green transition-colors duration-300">
+        <span class="font-mono text-xs tracking-widest">READ ON NOTE</span>
+        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+      </div>
     </div>
   </a>
 )}
