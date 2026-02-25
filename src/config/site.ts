@@ -39,4 +39,13 @@ export const SITE_CONFIG = {
     email: 'farmeolica@gmail.com',
     lineId: '@218pndaz',
   },
+  contactForm: {
+    endpoint: 'https://script.google.com/macros/s/AKfycbwKfGhT2s4exWKqI6wyD1ypgrAQR0ZLTdG4_tWxEJANisv2Iuyl9XKFC_zSHnb2Pyfj/exec',
+    inquiryTypes: [
+      { value: 'purchase', label: '商品購入について' },
+      { value: 'cultivation-request', label: '栽培リクエスト' },
+      { value: 'visit-lecture', label: '講演・見学のご依頼' },
+      { value: 'other', label: 'その他' },
+    ],
+  },
 } as const;

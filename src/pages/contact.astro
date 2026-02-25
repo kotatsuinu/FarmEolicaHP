@@ -2,16 +2,31 @@
 import Layout from '../layouts/Layout.astro';
 import { SITE_CONFIG } from '../config/site';
 import SectionHeader from '../components/SectionHeader.astro';
+import ContactForm from '../components/ContactForm';
 ---
 
 <Layout title="Contact | Farm Eolica (ファームエオリカ)">
   <div class="pt-32 pb-24 min-h-screen">
     <div class="max-w-4xl mx-auto px-6 lg:px-12">
       <div data-animate>
-        <SectionHeader titleJa="お問い合わせ" titleEn="CONTACT" description="以下の方法で受け付けています。" />
+        <SectionHeader titleJa="お問い合わせ" titleEn="CONTACT" description="ご質問・ご要望がございましたら、以下のフォームよりお気軽にお問い合わせください。" />
       </div>
 
-      <!-- Contact Methods -->
+      <!-- Contact Form -->
+      <div data-animate>
+        <ContactForm client:load />
+      </div>
+
+      <!-- Divider -->
+      <div class="my-16 border-t border-warm-gray-200" data-animate></div>
+
+      <!-- Other Contact Methods -->
+      <div data-animate>
+        <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 text-center mb-8">
+          OTHER CONTACT METHODS <span class="font-serif">ーその他の連絡方法ー</span>
+        </h3>
+      </div>
+
       <div class="space-y-8" data-animate>
         <!-- Instagram DM -->
         <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab hover:shadow-lab-lg transition-shadow duration-300">
