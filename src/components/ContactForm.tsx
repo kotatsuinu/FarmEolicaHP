@@ -78,8 +78,7 @@ export default function ContactForm() {
       await fetch(SITE_CONFIG.contactForm.endpoint, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({
+        body: new URLSearchParams({
           name: formData.name.trim(),
           email: formData.email.trim(),
           inquiryType: formData.inquiryType,
