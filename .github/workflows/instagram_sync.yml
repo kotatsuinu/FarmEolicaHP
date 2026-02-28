@@ -32,6 +32,9 @@ jobs:
           FB_APP_SECRET: ${{ secrets.FB_APP_SECRET }}
         run: node scripts/fetch_instagram.mjs
 
+      - name: Pull latest changes
+        run: git pull --rebase origin main
+
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
