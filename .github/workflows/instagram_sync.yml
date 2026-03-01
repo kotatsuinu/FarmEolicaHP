@@ -32,15 +32,16 @@ jobs:
           FB_APP_SECRET: ${{ secrets.FB_APP_SECRET }}
         run: node scripts/fetch_instagram.mjs
 
-      - name: Pull latest changes
-        run: git pull --rebase origin main
-
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'Update Instagram images'
-          file_pattern: 'public/images/instagram/*.jpg'
-          commit_user_name: 'github-actions[bot]'
-          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
-          skip_dirty_check: false
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git reset --soft origin/main
+          git add public/images/instagram/*.jpg
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m 'Update Instagram images'
+            git push origin main
+          fi
