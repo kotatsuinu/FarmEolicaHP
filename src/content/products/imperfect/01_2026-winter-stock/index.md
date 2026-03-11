@@ -5,7 +5,7 @@ flowerType: "ストック"
 
 category: "imperfect"
 availableSeason: "2026年2月"
-saleStatus: "available"
+saleStatus: "discontinued"
 
 image: "./main.jpg"
 gallery:
