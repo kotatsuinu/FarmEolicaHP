@@ -52,7 +52,7 @@ export default function DemoModal() {
 
   return (
     <div
-      class="fixed inset-0 z-[80] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
+      class="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
       onClick={(e) => { if (e.target === e.currentTarget) close(); }}
     >
       {/* Popup Window */}
