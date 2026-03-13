@@ -16,6 +16,7 @@ export default function DemoModal() {
     setIsLoading(true);
     setIsOpen(true);
     document.body.style.overflow = 'hidden';
+    document.documentElement.dataset.demoModal = '';
   }, []);
 
   const close = useCallback(() => {
@@ -23,6 +24,7 @@ export default function DemoModal() {
     setUrl('');
     setTitle('');
     document.body.style.overflow = '';
+    delete document.documentElement.dataset.demoModal;
   }, []);
 
   // Listen for data-demo-trigger clicks

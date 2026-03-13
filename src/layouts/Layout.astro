@@ -37,6 +37,14 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
 
     <title>{title}</title>
 
+    <!-- デモモーダル表示時にヘッダーを隠す -->
+    <style is:global>
+      html[data-demo-modal] header,
+      html[data-demo-modal] [data-construction-bar] {
+        display: none !important;
+      }
+    </style>
+
     <!-- 開発環境用パスワードロック -->
     <script is:inline>
       (function() {
@@ -70,7 +78,7 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
     <div class="fixed inset-0 bg-noise pointer-events-none z-0"></div>
 
     <!-- 構築中通知バー -->
-    <div class="fixed top-0 left-0 right-0 z-[60] bg-wet-soil text-stone-white py-2">
+    <div data-construction-bar class="fixed top-0 left-0 right-0 z-[60] bg-wet-soil text-stone-white py-2">
       <div class="max-w-7xl mx-auto px-6 text-center">
         <p class="font-mono text-xs tracking-wide">
           <span class="opacity-80">現在サイト構築中です</span>
