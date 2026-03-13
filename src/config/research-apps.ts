@@ -30,7 +30,7 @@ export const researchApps: ResearchApp[] = [
       'BigQueryによる栽培データ分析基盤',
     ],
     techStack: ['Astro', 'Preact', 'Tailwind CSS', 'Firebase', 'BigQuery'],
-    demoUrl: null, // Cloudflare Pages deploy後に設定
+    demoUrl: 'https://demo-cultivation-manager.pages.dev',
     noteUrl: 'https://note.com/farm_eolica/m/mbcb8d61660c8',
     status: 'demo',
   },
@@ -48,7 +48,7 @@ export const researchApps: ResearchApp[] = [
       '気象データとの連携（予定）',
     ],
     techStack: ['Astro', 'Preact', 'Tailwind CSS', 'Firebase'],
-    demoUrl: null, // Cloudflare Pages deploy後に設定
+    demoUrl: 'https://demo-polyculture-board.pages.dev',
     status: 'demo',
   },
 ];
