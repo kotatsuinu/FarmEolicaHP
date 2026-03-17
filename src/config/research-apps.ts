@@ -65,7 +65,7 @@ export const researchApps: ResearchApp[] = [
       '栽培計画の進捗モニタリング',
     ],
     techStack: ['Streamlit', 'BigQuery', 'Plotly', 'Python'],
-    demoUrl: 'https://demo-analytics.pages.dev',
+    demoUrl: 'https://demo-analytics-8q1.pages.dev',
     status: 'demo',
   },
 ];
