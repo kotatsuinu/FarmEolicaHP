@@ -79,18 +79,22 @@ import DemoModal from '../../components/research/DemoModal';
         description="実際の栽培業務で使用しているWebアプリケーション。デモ版でお試しいただけます。"
       />
 
+      <!-- Demo disclaimer -->
+      <div class="mb-10 border border-warm-gray-200 bg-white px-6 py-5 text-center">
+        <p class="font-mono text-[10px] tracking-widest text-warm-gray-400 mb-2">DEMO NOTE</p>
+        <p class="font-serif text-sm text-warm-gray-600 leading-relaxed">
+          デモ版は<strong class="text-wet-soil">サンプルデータ</strong>で動作しています。<br class="hidden md:inline" />
+          デモ生成を自動化している都合上、実際のアプリとは表示やデザインが異なる箇所があります。<br class="hidden md:inline" />
+          一部レイアウト崩れ等が発生する場合がありますのでご了承ください。
+        </p>
+      </div>
+
       <div class="grid md:grid-cols-2 gap-8">
         {researchApps.map((app, index) => (
           <AppShowcaseCard app={app} index={index} />
         ))}
       </div>
 
-      <!-- Demo disclaimer -->
-      <p class="mt-8 font-serif text-xs text-warm-gray-400 leading-relaxed text-center max-w-2xl mx-auto">
-        ※ デモ版はサンプルデータで動作しています。
-        また、デモ生成を自動化している都合上、実際のアプリとは表示やデザインが異なる箇所があります。
-        一部レイアウト崩れ等が発生する場合がありますのでご了承ください。
-      </p>
     </div>
   </section>
 
