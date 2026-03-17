@@ -51,4 +51,21 @@ export const researchApps: ResearchApp[] = [
     demoUrl: 'https://demo-polyculture-board.pages.dev',
     status: 'demo',
   },
+  {
+    id: 'analytics-dashboard',
+    title: '経営分析ダッシュボード',
+    titleEn: 'ANALYTICS DASHBOARD',
+    description:
+      'BigQueryの栽培・出荷・売上データを統合分析するダッシュボード。' +
+      'Looker Studio 6レポートを統合し、経営判断に必要なKPIを一画面で把握できます。',
+    features: [
+      '売上・出荷の品種別・月別分析',
+      '労務コストと収益性の可視化',
+      '直売所・卸売の販路別パフォーマンス',
+      '栽培計画の進捗モニタリング',
+    ],
+    techStack: ['Streamlit', 'BigQuery', 'Plotly', 'Python'],
+    demoUrl: 'https://demo-analytics.pages.dev',
+    status: 'demo',
+  },
 ];
