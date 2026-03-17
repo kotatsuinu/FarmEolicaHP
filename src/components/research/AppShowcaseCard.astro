@@ -1,0 +1,125 @@
+---
+/**
+ * AppShowcaseCard — 研究成果アプリの紹介カード
+ * デモURL有 → 「デモを試す」ボタン表示
+ * デモURL無 → 「準備中」表示
+ */
+import type { ResearchApp } from '../../config/research-apps';
+
+interface Props {
+  app: ResearchApp;
+  index: number;
+}
+
+const { app, index } = Astro.props;
+const number = String(index + 1).padStart(2, '0');
+const hasDemoUrl = !!app.demoUrl;
+---
+
+<article class="bg-stone-white shadow-lab hover:shadow-lab-lg transition-all duration-300 overflow-hidden">
+  <!-- Header -->
+  <div class="relative bg-gradient-to-br from-eolica-green to-eolica-green/80 px-6 md:px-8 py-8 text-white">
+    <span class="absolute top-4 right-6 font-display text-5xl opacity-10">
+      {number}
+    </span>
+    <p class="font-mono text-[10px] tracking-widest opacity-70 mb-2">
+      {app.titleEn}
+    </p>
+    <h3 class="font-serif text-xl md:text-2xl tracking-wide">
+      {app.title}
+    </h3>
+    <!-- Status Badge -->
+    <div class="mt-3">
+      {app.status === 'live' && (
+        <span class="inline-block px-3 py-1 bg-white/20 text-[10px] font-mono tracking-widest">
+          LIVE
+        </span>
+      )}
+      {app.status === 'demo' && (
+        <span class="inline-block px-3 py-1 bg-old-copper/80 text-[10px] font-mono tracking-widest">
+          DEMO AVAILABLE
+        </span>
+      )}
+      {app.status === 'coming-soon' && (
+        <span class="inline-block px-3 py-1 bg-white/20 text-[10px] font-mono tracking-widest">
+          COMING SOON
+        </span>
+      )}
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="px-6 md:px-8 py-8">
+    <!-- Description -->
+    <p class="font-serif text-sm text-warm-gray-500 leading-relaxed mb-6">
+      {app.description}
+    </p>
+
+    <!-- Features -->
+    <div class="mb-6">
+      <p class="font-mono text-[10px] tracking-widest text-warm-gray-400 mb-3">
+        FEATURES
+      </p>
+      <ul class="space-y-2">
+        {app.features.map((feature) => (
+          <li class="flex items-start gap-2 text-sm text-wet-soil font-serif">
+            <span class="text-old-copper mt-0.5 flex-shrink-0">+</span>
+            {feature}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="mb-8">
+      <p class="font-mono text-[10px] tracking-widest text-warm-gray-400 mb-3">
+        TECH STACK
+      </p>
+      <div class="flex flex-wrap gap-2">
+        {app.techStack.map((tech) => (
+          <span class="px-3 py-1 bg-warm-gray-50 text-[11px] font-mono text-warm-gray-500 tracking-wide">
+            {tech}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row gap-3">
+      {hasDemoUrl ? (
+        <button
+          data-demo-trigger
+          data-demo-url={app.demoUrl}
+          data-demo-title={app.title}
+          class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-eolica-green text-white hover:bg-wet-soil transition-colors duration-300 font-mono text-xs tracking-widest cursor-pointer"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          DEMO
+        </button>
+      ) : (
+        <span class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-warm-gray-100 text-warm-gray-400 font-mono text-xs tracking-widest cursor-default">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          DEMO PREPARING
+        </span>
+      )}
+      {app.noteUrl && (
+        <a
+          href={app.noteUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 px-6 py-3 border border-warm-gray-200 text-wet-soil hover:border-eolica-green hover:text-eolica-green transition-colors duration-300 font-mono text-xs tracking-widest"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          NOTE
+        </a>
+      )}
+    </div>
+  </div>
+</article>

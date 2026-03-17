@@ -1,62 +1,198 @@
 ---
 /**
- * 研究成果ページ（Coming Soon）
+ * 研究成果ページ
+ * 自作アプリのショーケース + note記事連携
  */
 import Layout from '../../layouts/Layout.astro';
 import { SITE_CONFIG } from '../../config/site';
+import { researchApps } from '../../config/research-apps';
+import SectionHeader from '../../components/SectionHeader.astro';
+import NoteLinkCard from '../../components/NoteLinkCard.astro';
+import AppShowcaseCard from '../../components/research/AppShowcaseCard.astro';
+import DemoModal from '../../components/research/DemoModal';
 ---
 
 <Layout
   title="研究成果 | Farm Eolica (ファームエオリカ)"
-  description="Farm Eolicaの研究成果。IoTデータ分析、栽培実験記録など、公開可能な研究成果を発信します。"
+  description="Farm Eolicaの研究成果。IoT栽培管理システム、混植ボードなど、農業DXの自作アプリと技術的な取り組みをご紹介します。"
 >
-  <div class="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center">
-    <div data-animate>
-      <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
-        RESEARCH
+  <!-- Hero Section -->
+  <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-eolica-green via-eolica-green/90 to-wet-soil">
+    <div class="absolute inset-0 bg-noise opacity-5"></div>
+    <div class="relative z-10 text-center px-6 py-32" data-animate>
+      <p class="font-mono text-xs tracking-widest text-white/70 mb-6">
+        RESEARCH & DEVELOPMENT
       </p>
-      <h1 class="font-serif text-4xl md:text-5xl text-eolica-green mb-6 tracking-wide">
-        Coming Soon
-      </h1>
-      <p class="font-mono text-sm text-wet-soil tracking-widest mb-4">
+      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 tracking-wide">
         研究成果
+      </h1>
+      <p class="font-serif text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+        花農家が自らコードを書き、栽培とテクノロジーの接点を探る。<br class="hidden md:inline" />
+        IoTデータ分析、栽培管理システム、自動化の取り組みを公開しています。
       </p>
-      <p class="text-warm-gray-600 text-base max-w-lg mx-auto leading-relaxed mb-8 font-serif">
-        IoTセンサーによる環境データ分析、栽培実験の記録など、<br />
-        公開可能な研究成果を発信していく予定です。<br /><br />
-        note記事では、開発奮闘記や技術的な取り組みを<br />
-        すでに連載しています。
-      </p>
+    </div>
+  </section>
 
-      <!-- note Link -->
-      <div class="mb-10">
-        <a
-          href={SITE_CONFIG.sns.note}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-eolica-green text-white hover:bg-wet-soil transition-colors duration-300 font-mono text-xs tracking-widest"
-        >
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-          note記事を読む
-        </a>
+  <!-- Introduction -->
+  <section class="py-20 md:py-28" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="grid md:grid-cols-[1fr_auto] gap-12 items-start">
+        <div>
+          <p class="font-mono text-[10px] tracking-widest text-warm-gray-400 mb-4">
+            ORGANIC LAB
+          </p>
+          <h2 class="font-serif text-2xl md:text-3xl text-eolica-green mb-6 tracking-wide">
+            農業 &times; テクノロジー
+          </h2>
+          <div class="space-y-4 font-serif text-sm md:text-base text-warm-gray-500 leading-relaxed">
+            <p>
+              Farm Eolicaでは、日々の栽培業務で感じる課題をテクノロジーで解決する取り組みを続けています。
+            </p>
+            <p>
+              市販のツールでは花卉農家特有のワークフローに合わないことが多く、
+              自らWebアプリケーションを開発し、実際の農作業で検証しています。
+            </p>
+            <p>
+              ここでは、それらの自作アプリのデモと、
+              技術的な取り組みをnote記事と合わせてご紹介します。
+            </p>
+          </div>
+        </div>
+        <!-- Tech Keywords -->
+        <div class="hidden md:block">
+          <div class="space-y-2 text-right">
+            {['IoT Sensors', 'Data Analytics', 'Web Apps', 'Automation', 'AI Assistant'].map((kw) => (
+              <p class="font-mono text-[10px] tracking-widest text-warm-gray-300">{kw}</p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- App Showcase Section -->
+  <section class="py-20 md:py-28 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-6xl mx-auto px-6">
+      <SectionHeader
+        titleJa="自作アプリ"
+        titleEn="APP SHOWCASE"
+        description="実際の栽培業務で使用しているWebアプリケーション。デモ版でお試しいただけます。"
+      />
+
+      <div class="grid md:grid-cols-2 gap-8">
+        {researchApps.map((app, index) => (
+          <AppShowcaseCard app={app} index={index} />
+        ))}
       </div>
 
-      <div class="flex gap-6 justify-center flex-wrap">
-        <a
-          href="/products"
-          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
-        >
-          ← Back to Products
-        </a>
+      <!-- Demo disclaimer -->
+      <p class="mt-8 font-serif text-xs text-warm-gray-400 leading-relaxed text-center max-w-2xl mx-auto">
+        ※ デモ版はサンプルデータで動作しています。
+        また、デモ生成を自動化している都合上、実際のアプリとは表示やデザインが異なる箇所があります。
+        一部レイアウト崩れ等が発生する場合がありますのでご了承ください。
+      </p>
+    </div>
+  </section>
+
+  <!-- Technology Approach Section -->
+  <section class="py-20 md:py-28" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <SectionHeader titleJa="技術的アプローチ" titleEn="APPROACH" />
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center border border-eolica-green/20">
+            <svg class="w-6 h-6 text-eolica-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-lg text-wet-soil mb-2">IoT連携</h3>
+          <p class="font-serif text-xs text-warm-gray-500 leading-relaxed">
+            Raspberry Pi + センサーで温湿度・日射量を常時計測。データはBigQueryに蓄積し分析に活用。
+          </p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center border border-eolica-green/20">
+            <svg class="w-6 h-6 text-eolica-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-lg text-wet-soil mb-2">自前開発</h3>
+          <p class="font-serif text-xs text-warm-gray-500 leading-relaxed">
+            Astro + Preactで軽量なSPAを構築。Firebaseで認証・データ管理を行い、農家自身が運用可能な設計。
+          </p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center border border-eolica-green/20">
+            <svg class="w-6 h-6 text-eolica-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-lg text-wet-soil mb-2">AI活用</h3>
+          <p class="font-serif text-xs text-warm-gray-500 leading-relaxed">
+            Slack上のAIアシスタントが栽培データを分析し、朝ブリーフィングや市況速報を自動配信。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Note Articles Section -->
+  <section class="py-20 md:py-28 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <SectionHeader
+        titleJa="関連記事"
+        titleEn="NOTE ARTICLES"
+        description="開発の裏話や技術的な詳細はnoteで連載しています。"
+      />
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <NoteLinkCard
+          title={SITE_CONFIG.noteMagazines.agriDX.title}
+          titleEn={SITE_CONFIG.noteMagazines.agriDX.titleEn}
+          description={SITE_CONFIG.noteMagazines.agriDX.description}
+          url={SITE_CONFIG.noteMagazines.agriDX.url}
+        />
+        <NoteLinkCard
+          title={SITE_CONFIG.noteMagazines.farmerLetter.title}
+          titleEn={SITE_CONFIG.noteMagazines.farmerLetter.titleEn}
+          description={SITE_CONFIG.noteMagazines.farmerLetter.description}
+          url={SITE_CONFIG.noteMagazines.farmerLetter.url}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 md:py-28 bg-eolica-green text-white" data-animate>
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <p class="font-mono text-xs tracking-widest opacity-70 mb-6">
+        COLLABORATION
+      </p>
+      <h2 class="font-serif text-2xl md:text-3xl mb-6">
+        技術的なお問い合わせ
+      </h2>
+      <p class="font-serif text-base opacity-90 mb-10 leading-relaxed">
+        農業DXに関する取り組みや、技術的なご質問がありましたら<br class="md:hidden" />
+        お気軽にお問い合わせください。
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a
           href="/contact"
-          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-eolica-green transition-all duration-300 font-mono text-xs tracking-widest"
         >
-          Contact Us →
+          CONTACT
+        </a>
+        <a
+          href="/products"
+          class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/40 text-white/80 hover:border-white hover:text-white transition-all duration-300 font-mono text-xs tracking-widest"
+        >
+          ← PRODUCTS
         </a>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Demo Modal (React Island) -->
+  <DemoModal client:idle />
 </Layout>
