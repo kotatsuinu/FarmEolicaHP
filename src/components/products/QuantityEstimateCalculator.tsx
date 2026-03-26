@@ -10,6 +10,7 @@ interface BoxOption {
   size: string;
   boxSize: number;
   maxStems: number;
+  maxLength?: number;
 }
 
 interface QuantityEstimateCalculatorProps {
@@ -149,7 +150,7 @@ export default function QuantityEstimateCalculator({
                 >
                   {boxOptions.map((opt, idx) => (
                     <option key={idx} value={idx}>
-                      {opt.size}（目安 {opt.maxStems}{unit}まで）
+                      {opt.size}（{opt.maxLength ? `${opt.maxLength}cm・` : ''}目安 {opt.maxStems}{unit}まで）
                     </option>
                   ))}
                 </select>

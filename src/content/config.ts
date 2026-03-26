@@ -96,6 +96,7 @@ const productsCollection = defineCollection({
       size: z.string(),              // "80サイズ"
       boxSize: z.number(),           // 80（送料計算用）
       maxStems: z.number(),          // 推奨上限本数
+      maxLength: z.number().optional(), // 切花長の上限（cm）
     })).optional(),
 
     // レガシー: 旧サイズベース価格表（ロスフラワー等で使用）

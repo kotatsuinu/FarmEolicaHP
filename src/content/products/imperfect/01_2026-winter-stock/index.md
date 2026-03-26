@@ -24,12 +24,15 @@ boxCapacity:
   - size: "80サイズ"
     boxSize: 80
     maxStems: 35
+    maxLength: 30
   - size: "100サイズ"
     boxSize: 100
     maxStems: 55
+    maxLength: 40
   - size: "120サイズ"
     boxSize: 120
     maxStems: 80
+    maxLength: 50
 
 features:
   - "甘く芳醇な香りが特徴"
