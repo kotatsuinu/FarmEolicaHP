@@ -12,22 +12,24 @@ gallery:
   - "./sub1.jpg"
   - "./sub2.jpg"
 
-priceTable:
+priceTiers:
+  - minQuantity: 1
+    unitPrice: 79
+  - minQuantity: 26
+    unitPrice: 74
+  - minQuantity: 51
+    unitPrice: 68
+
+boxCapacity:
   - size: "80サイズ"
-    stemLength: "約50cm"
-    quantity: "約25本"
-    price: 1980
-    note: "1本あたり約79円"
+    boxSize: 80
+    maxStems: 30
   - size: "100サイズ"
-    stemLength: "約50cm"
-    quantity: "約40本"
-    price: 2800
-    note: "1本あたり約70円（約11%お得）"
+    boxSize: 100
+    maxStems: 50
   - size: "120サイズ"
-    stemLength: "約50cm"
-    quantity: "約60本"
-    price: 3600
-    note: "1本あたり約60円（約24%お得）"
+    boxSize: 120
+    maxStems: 80
 
 features:
   - "鈴なりに咲くベル型の花姿が愛らしい"
