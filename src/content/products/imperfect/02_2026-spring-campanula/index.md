@@ -25,12 +25,15 @@ boxCapacity:
   - size: "80サイズ"
     boxSize: 80
     maxStems: 30
+    maxLength: 30
   - size: "100サイズ"
     boxSize: 100
     maxStems: 50
+    maxLength: 40
   - size: "120サイズ"
     boxSize: 120
     maxStems: 80
+    maxLength: 50
 
 features:
   - "鈴なりに咲くベル型の花姿が愛らしい"
