@@ -5,6 +5,7 @@ import { Image } from 'astro:assets';
 import { SITE_CONFIG } from '../../config/site';
 
 import EstimateCalculator from '../../components/products/EstimateCalculator';
+import QuantityEstimateCalculator from '../../components/products/QuantityEstimateCalculator';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -54,32 +55,35 @@ const isDiscontinued = product.data.saleStatus === 'discontinued';
 // 戻り先URL
 const backUrl = categoryBackLinks[product.data.category] || '/products';
 
-// Estimate Options Preparation
+// 本数ベース見積もり（規格外品: priceTiers + boxCapacity がある場合）
+const hasQuantityPricing = product.data.priceTiers && product.data.boxCapacity;
+
+// レガシー見積もりオプション（ロスフラワー等: priceTable ベース）
 let estimateOptions = [];
-if (product.data.priceTable) {
-  estimateOptions = product.data.priceTable.map((p: any) => {
-    // "80サイズ" -> 80, "Sサイズ" -> 100 (default)
-    const sizeMatch = p.size.toString().match(/\d+/);
-    const size = sizeMatch ? parseInt(sizeMatch[0]) : 100;
-    return {
-      label: p.size, // e.g. "80サイズ"
-      price: p.price,
-      size: size
-    };
-  });
-} else if (product.data.price) {
-  estimateOptions = [{
-    label: '標準サイズ',
-    price: product.data.price,
-    size: 100 // Default assumption
-  }];
-} else if (isLossFlower) {
-  // ロスフラワーのデフォルト価格設定 (loss-flower.astro準拠)
-  estimateOptions = [
-    { label: '小箱（60サイズ）', price: 1300, size: 60 },
-    { label: '中箱（80サイズ）', price: 2000, size: 80 },
-    { label: '大箱（100サイズ）', price: 3200, size: 100 }
-  ];
+if (!hasQuantityPricing) {
+  if (product.data.priceTable) {
+    estimateOptions = product.data.priceTable.map((p: any) => {
+      const sizeMatch = p.size.toString().match(/\d+/);
+      const size = sizeMatch ? parseInt(sizeMatch[0]) : 100;
+      return {
+        label: p.size,
+        price: p.price,
+        size: size
+      };
+    });
+  } else if (product.data.price) {
+    estimateOptions = [{
+      label: '標準サイズ',
+      price: product.data.price,
+      size: 100
+    }];
+  } else if (isLossFlower) {
+    estimateOptions = [
+      { label: '小箱（60サイズ）', price: 1300, size: 60 },
+      { label: '中箱（80サイズ）', price: 2000, size: 80 },
+      { label: '大箱（100サイズ）', price: 3200, size: 100 }
+    ];
+  }
 }
 ---
 
@@ -182,8 +186,77 @@ if (product.data.priceTable) {
               </div>
             )}
 
-            <!-- Price Table for Imperfect (詳細な表形式) -->
-            {isImperfect && product.data.priceTable && product.data.priceTable.length > 0 && (
+            <!-- Price Tiers for Imperfect (本数ベース単価表) -->
+            {isImperfect && product.data.priceTiers && product.data.priceTiers.length > 0 && (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
+                <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+                  PRICE <span class="font-serif">ー単価表（税込・送料別）ー</span>
+                </h3>
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm">
+                    <thead>
+                      <tr class="border-b border-warm-gray-200">
+                        <th class="text-left py-2 font-mono text-xs text-warm-gray-500">ご注文本数</th>
+                        <th class="text-right py-2 font-mono text-xs text-warm-gray-500">単価（税込）</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {product.data.priceTiers
+                        .sort((a: {minQuantity: number}, b: {minQuantity: number}) => a.minQuantity - b.minQuantity)
+                        .map((tier: { minQuantity: number; unitPrice: number }, index: number) => {
+                          const nextTier = product.data.priceTiers
+                            .sort((a: {minQuantity: number}, b: {minQuantity: number}) => a.minQuantity - b.minQuantity)[index + 1];
+                          const rangeLabel = nextTier
+                            ? `${tier.minQuantity}〜${nextTier.minQuantity - 1}${product.data.unit}`
+                            : `${tier.minQuantity}${product.data.unit}〜`;
+                          const isLowest = index === product.data.priceTiers.length - 1;
+                          return (
+                            <tr class:list={[
+                              "border-b border-warm-gray-100",
+                              index === product.data.priceTiers.length - 1 && "border-b-0"
+                            ]}>
+                              <td class="py-3 font-serif text-wet-soil">{rangeLabel}</td>
+                              <td class="py-3 text-right">
+                                <span class="font-mono text-old-copper font-medium">¥{tier.unitPrice}/{product.data.unit}</span>
+                                {isLowest && product.data.priceTiers.length > 1 && (
+                                  <span class="block text-xs text-eolica-green">まとめ買いがお得</span>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* ダンボールサイズ容量ガイド */}
+                {product.data.boxCapacity && product.data.boxCapacity.length > 0 && (
+                  <div class="mt-4 pt-4 border-t border-warm-gray-200">
+                    <p class="font-mono text-xs text-warm-gray-500 mb-2">BOX SIZE GUIDE</p>
+                    <div class="flex flex-wrap gap-3">
+                      {product.data.boxCapacity.map((box: { size: string; maxStems: number }) => (
+                        <span class="inline-block px-3 py-1.5 bg-warm-gray-50 border border-warm-gray-200 text-xs font-serif text-warm-gray-600">
+                          {box.size}: 目安 {box.maxStems}{product.data.unit}まで
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div class="mt-4 pt-4 border-t border-warm-gray-200 space-y-2">
+                  <p class="text-xs text-warm-gray-500">
+                    ※規格外品の特性上、品質が一定でない場合があります。<br />
+                    細い・弱いなどの場合は多めに入れるなどで対応いたします。
+                  </p>
+                  <p class="text-xs text-warm-gray-500">
+                    ※ご要望があれば事前にお知らせください。できる限り対応いたします。
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <!-- Legacy Price Table for Imperfect (旧サイズベース: priceTableのみの場合) -->
+            {isImperfect && !product.data.priceTiers && product.data.priceTable && product.data.priceTable.length > 0 && (
               <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
                 <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
                   PRICE TABLE <span class="font-serif">ー価格表（税込・送料別）ー</span>
@@ -218,16 +291,6 @@ if (product.data.priceTable) {
                     </tbody>
                   </table>
                 </div>
-                <div class="mt-4 pt-4 border-t border-warm-gray-200 space-y-2">
-                  <p class="text-xs text-warm-gray-500">
-                    ※規格外品の特性上、品質が一定でない場合があります。<br />
-                    細い・弱いなどの場合は多めに入れるなどで対応いたします。
-                  </p>
-                  <p class="text-xs text-warm-gray-500">
-                    ※ご要望があれば事前にお知らせください。できる限り対応いたします。
-                  </p>
-                </div>
-
               </div>
             )}
 
@@ -278,13 +341,26 @@ if (product.data.priceTable) {
               </dl>
             </div>
 
-            {/* Estimate Calculator */}
-            {estimateOptions.length > 0 && isAvailable && (
+            {/* Estimate Calculator - 本数ベース（規格外品の新モデル） */}
+            {hasQuantityPricing && isAvailable && (
               <div class="mb-8">
-                <EstimateCalculator 
-                  client:visible 
-                  options={estimateOptions} 
-                  defaultCool={false} 
+                <QuantityEstimateCalculator
+                  client:visible
+                  priceTiers={product.data.priceTiers}
+                  boxOptions={product.data.boxCapacity}
+                  unit={product.data.unit}
+                  defaultCool={false}
+                />
+              </div>
+            )}
+
+            {/* Estimate Calculator - レガシー（ロスフラワー等） */}
+            {!hasQuantityPricing && estimateOptions.length > 0 && isAvailable && (
+              <div class="mb-8">
+                <EstimateCalculator
+                  client:visible
+                  options={estimateOptions}
+                  defaultCool={false}
                 />
               </div>
             )}

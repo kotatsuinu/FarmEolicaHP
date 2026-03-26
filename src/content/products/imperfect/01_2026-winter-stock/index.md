@@ -12,22 +12,24 @@ gallery:
   - "./sub1.jpg"
   - "./sub2.jpg"
 
-priceTable:
+priceTiers:
+  - minQuantity: 1
+    unitPrice: 88
+  - minQuantity: 31
+    unitPrice: 80
+  - minQuantity: 51
+    unitPrice: 72
+
+boxCapacity:
   - size: "80サイズ"
-    stemLength: "約30cm〜"
-    quantity: "約30本"
-    price: 2640
-    note: "1本あたり約88円"
+    boxSize: 80
+    maxStems: 35
   - size: "100サイズ"
-    stemLength: "約40cm〜"
-    quantity: "約45本"
-    price: 3600
-    note: "1本あたり約80円（約9%お得）"
+    boxSize: 100
+    maxStems: 55
   - size: "120サイズ"
-    stemLength: "約50cm〜"
-    quantity: "約70本"
-    price: 5040
-    note: "1本あたり約72円（約18%お得）"
+    boxSize: 120
+    maxStems: 80
 
 features:
   - "甘く芳醇な香りが特徴"

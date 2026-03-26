@@ -79,15 +79,32 @@ const productsCollection = defineCollection({
 
     // 価格情報
     // ロスフラワー: 価格一律のためpriceは不要（ページレベルで固定表示）
-    // 規格外品: 花の種類により単価変動 → priceTableで管理
+    // 規格外品: 本数ベースの単価ティア制 → priceTiers + boxCapacity で管理
     price: z.number().positive().optional(),  // 単品価格（任意）
     unit: z.string().default('本'),           // 単位
+
+    // 本数ベース単価ティア（規格外品用）
+    // 本数が増えるほど単価が下がるボリュームディスカウント
+    priceTiers: z.array(z.object({
+      minQuantity: z.number(),       // このティアの最小本数（例: 1, 26, 51）
+      unitPrice: z.number(),         // 1本あたりの単価（税込）
+    })).optional(),
+
+    // ダンボールサイズ別の容量ガイド（規格外品用）
+    // サイズは送料と容量上限のみに影響。単価には影響しない
+    boxCapacity: z.array(z.object({
+      size: z.string(),              // "80サイズ"
+      boxSize: z.number(),           // 80（送料計算用）
+      maxStems: z.number(),          // 推奨上限本数
+    })).optional(),
+
+    // レガシー: 旧サイズベース価格表（ロスフラワー等で使用）
     priceTable: z.array(z.object({
-      size: z.string(),              // "小箱(80サイズ)"
-      stemLength: z.string().optional(),  // "約30cm"（規格外品のみ）
-      quantity: z.string(),          // "約30本" or "約80輪"
-      price: z.number(),             // 2200
-      note: z.string().optional(),   // 補足（"単価18%お得"など）
+      size: z.string(),
+      stemLength: z.string().optional(),
+      quantity: z.string(),
+      price: z.number(),
+      note: z.string().optional(),
     })).optional(),
 
     // メディア
