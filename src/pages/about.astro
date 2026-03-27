@@ -214,7 +214,51 @@ import SectionHeader from '../components/SectionHeader.astro';
     </div>
   </section>
 
-  <!-- Section 5: Profile -->
+  <!-- Section 5: Philosophy (Left Image, Right Text) -->
+  <section class="py-20 md:py-32 bg-stone-white" data-animate>
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left: Image -->
+        <div class="order-2 md:order-1" data-animate>
+          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm">
+            <img
+              src="/images/about/philosophy.jpg"
+              alt="Philosophy - より良いものを、届け続ける農園であること"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <!-- Right: Text -->
+        <div class="order-1 md:order-2 space-y-6" data-animate>
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
+            PHILOSOPHY
+          </p>
+          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green leading-tight">
+            より良いものを、<br class="hidden md:inline">届け続ける農園であること
+          </h2>
+          <div class="font-serif text-wet-soil leading-relaxed space-y-4">
+            <p>
+              風は、いつも同じようには吹かない。
+            </p>
+            <p>
+              追い風の年もあれば、向かい風に押し戻される年もある。それでも倒れず、風を受けて立ち続けること。
+            </p>
+            <p>
+              去年より少しだけ良い花を育て、少しだけ良い届け方を重ねて、また次の季節へ。
+            </p>
+            <p>
+              <strong>より良いものを、届け続ける農園であること。</strong><br>
+              その先に、まだ見ぬ景色がきっとある。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Profile -->
   <section class="py-20 md:py-32 bg-warm-gray-50/50" data-animate>
     <div class="max-w-4xl mx-auto px-6 lg:px-12">
       <SectionHeader titleJa="農園概要" titleEn="PROFILE" />
@@ -279,7 +323,7 @@ import SectionHeader from '../components/SectionHeader.astro';
         風を読み、土を耕し、未来を咲かせる。
       </p>
       <p class="mt-8 text-lg opacity-80 font-serif">
-        Farm Eolicaの物語は、これからも続きます。
+        より良いものを届け続けるために——Farm Eolicaの物語は、これからも続きます。
       </p>
       <div class="mt-12">
         <a
