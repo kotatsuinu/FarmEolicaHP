@@ -1,45 +1,152 @@
 ---
 /**
- * 市場出荷品ページ（Coming Soon）
+ * 市場出荷品ページ
+ * 作物ごとの独自品質規格を開示し、信頼獲得を目指す
  */
 import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import ProductCard from '../../components/products/ProductCard.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+
+// 市場出荷品の商品を取得
+const marketProducts = (await getCollection('products'))
+  .filter(p => p.data.category === 'market')
+  .sort((a, b) => {
+    // 出荷中を先に、その後は表示順
+    if (a.data.saleStatus === 'available' && b.data.saleStatus !== 'available') return -1;
+    if (a.data.saleStatus !== 'available' && b.data.saleStatus === 'available') return 1;
+    return (a.data.order || 999) - (b.data.order || 999);
+  });
+
+const shippingCount = marketProducts.filter(p => p.data.saleStatus === 'available').length;
 ---
 
 <Layout
   title="市場出荷品 | Farm Eolica (ファームエオリカ)"
-  description="Farm Eolicaが市場向けに出荷している最高品質の花。一般販売も相談可能です。"
+  description="Farm Eolicaが市場向けに出荷している花の品質を、独自規格で正直に開示しています。"
 >
-  <div class="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center">
-    <div data-animate>
-      <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
+  <!-- Hero Section -->
+  <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-wet-soil/80 via-wet-soil/60 to-wet-soil/80"></div>
+    <div class="relative z-10 text-center px-6" data-animate>
+      <p class="font-mono text-xs tracking-widest text-white/90 mb-4">
         MARKET FLOWERS
       </p>
-      <h1 class="font-serif text-4xl md:text-5xl text-eolica-green mb-6 tracking-wide">
-        Coming Soon
-      </h1>
-      <p class="font-mono text-sm text-wet-soil tracking-widest mb-4">
+      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 tracking-wide drop-shadow-lg">
         市場出荷品
+      </h1>
+      <p class="font-serif text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow">
+        品質を、正直に。<br class="md:hidden" />
+        独自規格で伝える花のこと。
       </p>
-      <p class="text-warm-gray-600 text-base max-w-lg mx-auto leading-relaxed mb-8 font-serif">
-        市場向けに出荷している最高品質の花を紹介するページです。<br /><br />
-        通常は市場経由でフラワーショップに卸していますが、<br />
-        <span class="text-eolica-green font-medium">一般のお客様への直接販売も相談可能</span>です。<br /><br />
-        ご興味のある方は、お気軽にお問い合わせください。
-      </p>
-      <div class="flex gap-6 justify-center flex-wrap">
-        <a
-          href="/products"
-          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
-        >
-          ← Back to Products
-        </a>
-        <a
-          href="/contact"
-          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
-        >
-          Contact Us →
-        </a>
+    </div>
+  </section>
+
+  <!-- Introduction Section -->
+  <section class="py-16 md:py-20" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="space-y-6 text-center">
+        <p class="font-serif text-lg md:text-xl text-wet-soil leading-relaxed">
+          市場に出荷する花には、秀・優・良の等級があります。
+        </p>
+        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
+          でも同じ「秀」でも、作付けごとに品質は大きく異なります。<br />
+          良い時もあれば、思うようにいかない時もある。<br />
+          それが農業の現実です。
+        </p>
+        <div class="py-4 border-l-4 border-eolica-green/30 pl-6 max-w-xl mx-auto">
+          <p class="font-serif text-sm text-warm-gray-600 italic text-left leading-relaxed">
+            だからこそ、Farm Eolicaでは独自の品質規格を設けて、<br />
+            花の品質を写真付きで正直に開示しています。<br />
+            買い手の方に「思ったのと違う」を生まないために。
+          </p>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Quality Grading Philosophy Section -->
+  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <SectionHeader titleJa="独自品質規格について" titleEn="QUALITY GRADING" />
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="text-center">
+            <div class="w-12 h-12 mx-auto mb-3 flex items-center justify-center bg-eolica-green/10 rounded-full">
+              <span class="font-mono text-lg text-eolica-green">01</span>
+            </div>
+            <h4 class="font-serif text-sm text-wet-soil mb-2">作付けごとに定義</h4>
+            <p class="text-xs text-warm-gray-600 leading-relaxed">
+              収穫物の分布を見て、その作付けに最適な品質区分を毎回設定します。
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="w-12 h-12 mx-auto mb-3 flex items-center justify-center bg-eolica-green/10 rounded-full">
+              <span class="font-mono text-lg text-eolica-green">02</span>
+            </div>
+            <h4 class="font-serif text-sm text-wet-soil mb-2">写真付きで開示</h4>
+            <p class="text-xs text-warm-gray-600 leading-relaxed">
+              各等級の特徴を代表写真と具体的な基準で示します。長さではなく花の品質に焦点。
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="w-12 h-12 mx-auto mb-3 flex items-center justify-center bg-eolica-green/10 rounded-full">
+              <span class="font-mono text-lg text-eolica-green">03</span>
+            </div>
+            <h4 class="font-serif text-sm text-wet-soil mb-2">正直な情報提供</h4>
+            <p class="text-xs text-warm-gray-600 leading-relaxed">
+              良い点も課題も隠さず伝え、買い手とのミスマッチを防ぎます。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Current Products Section -->
+  <section class="py-16 md:py-20" data-animate>
+    <div class="max-w-6xl mx-auto px-6">
+      <SectionHeader titleJa="出荷中の花" titleEn="CURRENT SHIPMENTS">
+        {shippingCount > 0 ? (
+          <p class="font-mono text-sm text-eolica-green mt-3">
+            {shippingCount}品目を出荷中です
+          </p>
+        ) : (
+          <p class="font-mono text-sm text-warm-gray-500 mt-3">
+            現在出荷中の品目はありません
+          </p>
+        )}
+      </SectionHeader>
+
+      {marketProducts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {marketProducts.map((product) => (
+            <ProductCard
+              product={product}
+              showStatus={true}
+              showPrice={false}
+              variant="default"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16 bg-stone-white shadow-lab">
+          <p class="font-serif text-warm-gray-500">
+            出荷品の準備中です。<br />
+            季節ごとに順次追加していきます。
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Back Link -->
+  <section class="py-12 text-center" data-animate>
+    <a
+      href="/products"
+      class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
+    >
+      &larr; Back to Products
+    </a>
+  </section>
 </Layout>

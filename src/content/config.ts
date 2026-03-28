@@ -128,6 +128,22 @@ const productsCollection = defineCollection({
     features: z.array(z.string()).optional(),     // 花の特徴リスト
     imperfectReasons: z.array(z.string()).optional(), // 規格外となる理由
 
+    // 作付番号（市場出荷品用）
+    plantingNumber: z.number().optional(),        // 作付け通し番号（例: 1 → "No.1"）
+
+    // 独自品質規格（市場出荷品用）
+    // 作付けごとに品質分布に応じて定義する独自等級
+    qualityGrades: z.array(z.object({
+      code: z.string(),                           // "shu-a", "shu-b", "yu-a", "yu-b"
+      label: z.string(),                          // "秀A", "秀B", "優A", "優B"
+      image: image().optional(),                  // 等級代表写真
+      description: z.string(),                    // 等級の概要説明
+      criteria: z.array(z.object({
+        item: z.string(),                         // "茎の硬さ", "頂花" 等
+        value: z.string(),                        // "しっかりしている" 等
+      })),
+    })).optional(),
+
     // タグ・その他
     tags: z.array(z.string()).optional(),
 
