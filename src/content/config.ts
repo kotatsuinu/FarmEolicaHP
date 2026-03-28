@@ -134,14 +134,19 @@ const productsCollection = defineCollection({
     // 独自品質規格（市場出荷品用）
     // 作付けごとに品質分布に応じて定義する独自等級
     qualityGrades: z.array(z.object({
-      code: z.string(),                           // "shu-a", "shu-b", "yu-a", "yu-b"
-      label: z.string(),                          // "秀A", "秀B", "優A", "優B"
-      image: image().optional(),                  // 等級代表写真
+      code: z.string(),                           // "shu-a", "shu-b", "yu"
+      label: z.string(),                          // "秀A", "秀B", "優"
       description: z.string(),                    // 等級の概要説明
       criteria: z.array(z.object({
         item: z.string(),                         // "茎の硬さ", "頂花" 等
         value: z.string(),                        // "しっかりしている" 等
       })),
+      samples: z.array(image()),                  // ランダムサンプリング写真（複数枚）
+      options: z.array(z.object({                 // オプション区分（やや先進み等）
+        label: z.string(),                        // "やや先進み"
+        description: z.string(),
+        samples: z.array(image()),
+      })).optional(),
     })).optional(),
 
     // タグ・その他

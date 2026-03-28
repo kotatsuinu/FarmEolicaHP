@@ -1,15 +1,51 @@
 import { useState } from 'react';
 
+interface GradeOption {
+  label: string;
+  description: string;
+  sampleSrcs: string[];
+}
+
 interface QualityGrade {
   code: string;
   label: string;
-  imageSrc?: string;
   description: string;
   criteria: { item: string; value: string }[];
+  sampleSrcs: string[];
+  options?: GradeOption[];
 }
 
 interface Props {
   grades: QualityGrade[];
+}
+
+function ScrollGallery({ images, label }: { images: string[]; label: string }) {
+  if (!images || images.length === 0) return null;
+
+  return (
+    <div className="overflow-x-auto -mx-6 px-6 md:-mx-8 md:px-8">
+      <div className="flex gap-3 min-w-max pb-3">
+        {images.map((src, i) => (
+          <div
+            key={i}
+            className="w-48 h-48 md:w-56 md:h-56 flex-shrink-0 bg-stone-100 overflow-hidden"
+          >
+            <img
+              src={src}
+              alt={`${label} サンプル ${i + 1}`}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+      {images.length > 2 && (
+        <p className="font-mono text-[10px] text-stone-400 mt-1">
+          ← スクロールして{images.length}枚のサンプルを確認できます
+        </p>
+      )}
+    </div>
+  );
 }
 
 export default function QualityGradeTabs({ grades }: Props) {
@@ -51,49 +87,58 @@ export default function QualityGradeTabs({ grades }: Props) {
       </div>
 
       {/* Content */}
-      <div className="p-6 md:p-8">
-        <div className="grid md:grid-cols-2 gap-6 items-start">
-          {/* Photo */}
-          <div className="aspect-square bg-stone-100 overflow-hidden">
-            {active.imageSrc ? (
-              <img
-                src={active.imageSrc}
-                alt={`${active.label}の品質例`}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center text-stone-400">
-                <svg className="w-16 h-16 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span className="font-mono text-sm">写真準備中</span>
+      <div className="py-6 md:py-8 space-y-6">
+        {/* Description + Criteria */}
+        <div className="px-6 md:px-8">
+          <h4 className="font-serif text-xl text-stone-800 mb-3">
+            {active.label}
+          </h4>
+          <p className="font-serif text-sm text-stone-600 leading-relaxed mb-6">
+            {active.description}
+          </p>
+
+          {/* Criteria Table */}
+          <dl className="space-y-2 mb-6">
+            {active.criteria.map((c) => (
+              <div
+                key={c.item}
+                className="flex justify-between items-baseline border-b border-stone-200 pb-2"
+              >
+                <dt className="font-mono text-xs text-stone-500">{c.item}</dt>
+                <dd className="font-serif text-sm text-stone-700">{c.value}</dd>
               </div>
-            )}
-          </div>
-
-          {/* Details */}
-          <div>
-            <h4 className="font-serif text-xl text-stone-800 mb-2">
-              {active.label}
-            </h4>
-            <p className="font-serif text-sm text-stone-600 leading-relaxed mb-6">
-              {active.description}
-            </p>
-
-            {/* Criteria Table */}
-            <dl className="space-y-3">
-              {active.criteria.map((c) => (
-                <div
-                  key={c.item}
-                  className="flex justify-between items-baseline border-b border-stone-200 pb-2"
-                >
-                  <dt className="font-mono text-xs text-stone-500">{c.item}</dt>
-                  <dd className="font-serif text-sm text-stone-700">{c.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
+            ))}
+          </dl>
         </div>
+
+        {/* Sample Gallery */}
+        <div>
+          <div className="px-6 md:px-8 mb-3">
+            <p className="font-mono text-xs text-stone-500">
+              {active.label} のサンプル — こういった品質のものを束ねています
+            </p>
+          </div>
+          <ScrollGallery images={active.sampleSrcs} label={active.label} />
+        </div>
+
+        {/* Options (e.g. やや先進み) */}
+        {active.options && active.options.length > 0 && (
+          <div className="border-t border-stone-200 pt-6">
+            {active.options.map((opt) => (
+              <div key={opt.label}>
+                <div className="px-6 md:px-8 mb-3">
+                  <h5 className="font-mono text-xs tracking-widest text-stone-500 mb-2">
+                    OPTION: <span className="font-serif text-sm text-stone-700">{active.label}（{opt.label}）</span>
+                  </h5>
+                  <p className="font-serif text-sm text-stone-600 leading-relaxed mb-3">
+                    {opt.description}
+                  </p>
+                </div>
+                <ScrollGallery images={opt.sampleSrcs} label={`${active.label}（${opt.label}）`} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

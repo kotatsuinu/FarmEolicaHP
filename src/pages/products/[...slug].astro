@@ -445,6 +445,29 @@ if (!hasQuantityPricing) {
       </div>
     </section>
 
+    <!-- Quality Grades (市場出荷品: ストーリーより先に表示) -->
+    {isMarket && product.data.qualityGrades && product.data.qualityGrades.length > 0 && (
+      <section class="mb-16" data-animate>
+        <div class="max-w-4xl mx-auto px-6 lg:px-12">
+          <QualityGradeTabs
+            client:visible
+            grades={product.data.qualityGrades.map(g => ({
+              code: g.code,
+              label: g.label,
+              description: g.description,
+              criteria: g.criteria,
+              sampleSrcs: g.samples?.map(s => s.src) || [],
+              options: g.options?.map(o => ({
+                label: o.label,
+                description: o.description,
+                sampleSrcs: o.samples?.map(s => s.src) || [],
+              })),
+            }))}
+          />
+        </div>
+      </section>
+    )}
+
     <!-- Product Story (Markdown Content) -->
     <section class="mb-16" data-animate>
       <div class="max-w-4xl mx-auto px-6 lg:px-12">
@@ -462,20 +485,25 @@ if (!hasQuantityPricing) {
       </div>
     </section>
 
-    <!-- Quality Grades (市場出荷品のみ) -->
-    {isMarket && product.data.qualityGrades && product.data.qualityGrades.length > 0 && (
+    <!-- Feedback CTA (市場出荷品のみ) -->
+    {isMarket && (
       <section class="mb-16" data-animate>
         <div class="max-w-4xl mx-auto px-6 lg:px-12">
-          <QualityGradeTabs
-            client:visible
-            grades={product.data.qualityGrades.map(g => ({
-              code: g.code,
-              label: g.label,
-              imageSrc: g.image?.src || undefined,
-              description: g.description,
-              criteria: g.criteria,
-            }))}
-          />
+          <div class="bg-stone-white/95 backdrop-blur-sm p-6 md:p-8 shadow-lab-lg text-center">
+            <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+              FEEDBACK
+            </p>
+            <p class="font-serif text-sm text-warm-gray-600 leading-relaxed mb-6">
+              この品質規格についてのご意見・アドバイス・メッセージがありましたら、<br class="hidden md:inline" />
+              気兼ねなくお寄せください。勉強させていただきます。
+            </p>
+            <a
+              href="/contact"
+              class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-eolica-green text-eolica-green hover:bg-eolica-green hover:text-white transition-all duration-300"
+            >
+              お問い合わせフォームへ
+            </a>
+          </div>
         </div>
       </section>
     )}
