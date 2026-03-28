@@ -1,11 +1,11 @@
 ---
-name: "カンパニュラ 2026年春 No.1"
+name: "カンパニュラ 2026年春 No.202603"
 description: "Farm Eolica初挑戦のカンパニュラ。品質にバラつきはありますが、独自規格で正直に分類しています。"
 flowerType: "カンパニュラ"
 category: "market"
 availableSeason: "2026年3月〜4月"
 saleStatus: "available"
-plantingNumber: 1
+cultivationNo: "202603"
 
 qualityGrades:
   - code: "shu-a"
@@ -71,7 +71,7 @@ season:
 order: 1
 ---
 
-## 初めてのカンパニュラ — No.1
+## 初めてのカンパニュラ — No.202603
 
 2026年春、Farm Eolicaとして初めてカンパニュラの栽培に挑戦しました。
 

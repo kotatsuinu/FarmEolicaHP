@@ -128,8 +128,8 @@ const productsCollection = defineCollection({
     features: z.array(z.string()).optional(),     // 花の特徴リスト
     imperfectReasons: z.array(z.string()).optional(), // 規格外となる理由
 
-    // 作付番号（市場出荷品用）
-    plantingNumber: z.number().optional(),        // 作付け通し番号（例: 1 → "No.1"）
+    // 作付番号（市場出荷品用） — Cultivation Managerのcultivation_noを参照
+    cultivationNo: z.string().optional(),          // 作付番号（例: "202603"）YYYYNN形式
 
     // 独自品質規格（市場出荷品用）
     // 作付けごとに品質分布に応じて定義する独自等級

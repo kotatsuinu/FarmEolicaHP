@@ -148,10 +148,10 @@ if (!hasQuantityPricing) {
                 ]}>
                   {categoryLabels[product.data.category]}
                 </span>
-                {/* 作付番号 */}
-                {product.data.plantingNumber && (
+                {/* 作付番号（Cultivation Manager連携） */}
+                {product.data.cultivationNo && (
                   <span class="font-mono text-xs tracking-widest text-warm-gray-500">
-                    No.{product.data.plantingNumber}
+                    No.{product.data.cultivationNo}
                   </span>
                 )}
               </div>

@@ -5,7 +5,7 @@ flowerType: "[花の種類]"
 category: "market"
 availableSeason: "[出荷時期]"
 saleStatus: "available"
-plantingNumber: 0
+cultivationNo: "YYYYNN"  # Cultivation Managerの作付番号
 # image: "./hero.jpg"
 
 qualityGrades:
