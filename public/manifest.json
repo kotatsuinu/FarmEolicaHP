@@ -1,0 +1,21 @@
+{
+  "name": "Farm Eolica",
+  "short_name": "FarmEolica",
+  "description": "Farm Eolica - 花農家の栽培記録と商品販売",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#005243",
+  "theme_color": "#005243",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
