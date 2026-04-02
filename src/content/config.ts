@@ -58,6 +58,7 @@ const productsCollection = defineCollection({
     name: z.string(),                     // 商品名
     description: z.string(),              // 商品説明
     flowerType: z.string(),               // 花の種類（必須: トルコギキョウ、ストック等）
+    varieties: z.array(z.string()).optional(), // 品種名（例: ["チャンピオンiQ ピンク", "チャンピオン スカイブルー"]）
 
     // カテゴリ・分類
     category: z.enum([

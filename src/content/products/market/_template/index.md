@@ -2,6 +2,7 @@
 name: "[花の種類] [年度][季節] No.[番号]"
 description: "[この作物についての簡潔な説明]"
 flowerType: "[花の種類]"
+varieties: []  # 品種名（例: ["チャンピオンiQ ピンク", "チャンピオン スカイブルー"]）
 category: "market"
 availableSeason: "[出荷時期]"
 saleStatus: "available"

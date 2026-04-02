@@ -323,8 +323,14 @@ if (!hasQuantityPricing) {
               <dl class="space-y-3 text-sm">
                 {product.data.flowerType && (
                   <div class="flex justify-between border-b border-warm-gray-200 pb-2">
-                    <dt class="text-warm-gray-500 font-mono">花の種類</dt>
+                    <dt class="text-warm-gray-500 font-mono">品目</dt>
                     <dd class="text-dark-slate font-serif">{product.data.flowerType}</dd>
+                  </div>
+                )}
+                {product.data.varieties && product.data.varieties.length > 0 && (
+                  <div class="flex justify-between border-b border-warm-gray-200 pb-2">
+                    <dt class="text-warm-gray-500 font-mono">品種</dt>
+                    <dd class="text-dark-slate font-serif text-right">{product.data.varieties.join('、')}</dd>
                   </div>
                 )}
                 {product.data.spec?.color && (
