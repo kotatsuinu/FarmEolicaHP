@@ -68,6 +68,6 @@ export const SITE_CONFIG = {
   },
   seo: {
     ga4Id: 'G-KCNMWNSTCG',
-    gscVerification: '', // TODO: Google Search Console登録後に設定
+    gscVerification: 'RIeHwwIkIWtxend63tPWpkGKDQXJizzvEvpj_S-PB6o',
   },
 } as const;
