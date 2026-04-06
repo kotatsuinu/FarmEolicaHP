@@ -66,12 +66,15 @@ const {
     class="group block bg-stone-white shadow-lab hover:shadow-lab-lg transition-all duration-300 overflow-hidden"
   >
     {image && (
-      <div
-        class="aspect-[16/9] overflow-hidden"
-        style={`background-image: url('${image}'); background-size: cover; background-position: center;`}
-      >
-        <div class="w-full h-full bg-gradient-to-br from-warm-gray-200 to-warm-gray-100" style={`background-image: url('${image}'); background-size: cover; background-position: center;`}>
-        </div>
+      <div class="aspect-[16/9] overflow-hidden bg-warm-gray-200">
+        <img
+          src={image}
+          alt={title}
+          class="w-full h-full object-cover"
+          loading="lazy"
+          width="800"
+          height="450"
+        />
       </div>
     )}
     <div class="p-6 md:p-8">

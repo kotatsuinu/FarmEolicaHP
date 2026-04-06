@@ -4,8 +4,10 @@
  * Notionコンテンツを参考に構成
  * 価格は花の種類に関わらず一律（ページレベルで固定表示）
  */
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import lossFlowerHeroImage from '../../assets/images/products/loss-flower-hero.jpg';
 import { SITE_CONFIG } from '../../config/site';
 import ProductCard from '../../components/products/ProductCard.astro';
 import PriceTable from '../../components/products/PriceTable.astro';
@@ -59,11 +61,20 @@ const noticeItems = [
 <Layout
   title="ロスフラワー | Farm Eolica (ファームエオリカ)"
   description="廃棄される花に新しい命を。Farm Eolicaのロスフラワーをクラフト・ドライフラワー用にお届けします。"
-  image="/images/products/loss-flower-hero.jpg"
+  image={lossFlowerHeroImage.src}
 >
   <!-- Hero Section -->
   <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0" style="background-image: url('/images/products/loss-flower-hero.jpg'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-warm-gray-200">
+      <Image
+        src={lossFlowerHeroImage}
+        alt="ロスフラワー"
+        class="w-full h-full object-cover"
+        widths={[640, 1280, 1920]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
       <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50"></div>
     </div>
     <div class="relative z-10 text-center px-6" data-animate>

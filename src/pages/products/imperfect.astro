@@ -3,8 +3,10 @@
  * 規格外切り花ページ
  * Notionコンテンツを参考に構成
  */
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import imperfectHeroImage from '../../assets/images/products/imperfect-hero.jpg';
 import ProductCard from '../../components/products/ProductCard.astro';
 import ShippingInfo from '../../components/products/ShippingInfo.astro';
 import NoticeInfo from '../../components/products/NoticeInfo.astro';
@@ -54,11 +56,20 @@ const noticeItems = [
 <Layout
   title="規格外切り花 | Farm Eolica (ファームエオリカ)"
   description="市場規格外でも美しさは変わらない。Farm Eolicaの規格外切り花を農家直送でお届けします。"
-  image="/images/products/imperfect-hero.jpg"
+  image={imperfectHeroImage.src}
 >
   <!-- Hero Section -->
   <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0" style="background-image: url('/images/products/imperfect-hero.jpg'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-warm-gray-200">
+      <Image
+        src={imperfectHeroImage}
+        alt="規格外切り花"
+        class="w-full h-full object-cover"
+        widths={[640, 1280, 1920]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
       <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50"></div>
     </div>
     <div class="relative z-10 text-center px-6" data-animate>

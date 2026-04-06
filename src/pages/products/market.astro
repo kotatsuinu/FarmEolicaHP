@@ -3,8 +3,10 @@
  * 市場出荷品ページ
  * 作物ごとの独自品質規格を開示し、信頼獲得を目指す
  */
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import marketHeroImage from '../../assets/images/products/market-hero.jpg';
 import ProductCard from '../../components/products/ProductCard.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 
@@ -24,11 +26,20 @@ const shippingCount = marketProducts.filter(p => p.data.saleStatus === 'availabl
 <Layout
   title="市場出荷品 | Farm Eolica (ファームエオリカ)"
   description="Farm Eolicaが市場向けに出荷している花の品質を、独自規格で正直に開示しています。"
-  image="/images/products/market-hero.jpg"
+  image={marketHeroImage.src}
 >
   <!-- Hero Section -->
   <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0" style="background-image: url('/images/products/market-hero.jpg'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-warm-gray-200">
+      <Image
+        src={marketHeroImage}
+        alt="市場出荷品"
+        class="w-full h-full object-cover"
+        widths={[640, 1280, 1920]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
       <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50"></div>
     </div>
     <div class="relative z-10 text-center px-6" data-animate>

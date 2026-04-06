@@ -4,9 +4,15 @@
  * グラフィカルで引きのあるページ
  * 各カテゴリへのリンクカード配置
  */
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import { SITE_CONFIG } from '../../config/site';
 import SectionHeader from '../../components/SectionHeader.astro';
+
+import productsHeroImage from '../../assets/images/products/products-hero.jpg';
+import categoryImperfectImage from '../../assets/images/products/category-imperfect.jpg';
+import categoryLossFlowerImage from '../../assets/images/products/category-loss-flower.jpg';
+import categoryMarketImage from '../../assets/images/products/category-market.jpg';
 
 // カテゴリ情報
 const categories = [
@@ -17,7 +23,7 @@ const categories = [
     description: '市場規格に満たないけれど、美しさは変わらない。茎付きの切り花をお届けします。',
     href: '/products/imperfect',
     available: true,
-    image: '/images/products/category-imperfect.jpg',
+    image: categoryImperfectImage,
   },
   {
     id: 'loss-flower',
@@ -26,7 +32,7 @@ const categories = [
     description: '廃棄される花頭に新しい命を。クラフト・ドライフラワー素材として。',
     href: '/products/loss-flower',
     available: true,
-    image: '/images/products/category-loss-flower.jpg',
+    image: categoryLossFlowerImage,
   },
   {
     id: 'market',
@@ -35,7 +41,7 @@ const categories = [
     description: '独自品質規格で花の品質を正直に開示。市場関係者・買い手の方へ。',
     href: '/products/market',
     available: true,
-    image: '/images/products/category-market.jpg',
+    image: categoryMarketImage,
   },
   {
     id: 'research',
@@ -44,7 +50,7 @@ const categories = [
     description: '自作の栽培管理アプリやIoTデータ分析など、農業DXの取り組みを公開。デモ版もお試しいただけます。',
     href: '/products/research',
     available: true,
-    image: '/images/products/category-research.jpg',
+    image: null,
   },
 ];
 ---
@@ -52,11 +58,20 @@ const categories = [
 <Layout
   title="Products | Farm Eolica (ファームエオリカ)"
   description="Farm Eolicaの商品・研究成果。規格外切り花、ロスフラワー、市場出荷品、研究成果をご紹介します。"
-  image="/images/products/products-hero.jpg"
+  image={productsHeroImage.src}
 >
   <!-- Hero Section -->
   <section class="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0" style="background-image: url('/images/products/products-hero.jpg'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-warm-gray-200">
+      <Image
+        src={productsHeroImage}
+        alt="Products"
+        class="w-full h-full object-cover"
+        widths={[640, 1280, 1920]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
       <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50"></div>
     </div>
     <div class="relative z-10 text-center px-6" data-animate>
@@ -111,23 +126,26 @@ const categories = [
             class="group block bg-stone-white shadow-lab hover:shadow-lab-lg transition-all duration-300 overflow-hidden"
           >
             <!-- Image -->
-            <div
-              class="relative aspect-[16/9] overflow-hidden"
-              style={category.image
-                ? `background-image: url('${category.image}'); background-size: cover; background-position: center;`
-                : 'background: linear-gradient(to bottom right, rgb(245, 245, 244), rgb(231, 229, 228));'
-              }
-            >
-              {!category.available && (
-                <div class="absolute inset-0 bg-wet-soil/50 flex items-center justify-center z-10">
-                  <span class="font-mono text-sm text-white tracking-widest">Coming Soon</span>
-                </div>
-              )}
-              {!category.image && (
+            <div class="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-stone-100 to-stone-200">
+              {category.image ? (
+                <Image
+                  src={category.image}
+                  alt={category.title}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                  width={800}
+                  height={450}
+                />
+              ) : (
                 <div class="absolute inset-0 flex items-center justify-center">
                   <span class="font-display text-4xl md:text-5xl text-warm-gray-300 opacity-50 group-hover:opacity-70 transition-opacity duration-300">
                     {String(index + 1).padStart(2, '0')}
                   </span>
+                </div>
+              )}
+              {!category.available && (
+                <div class="absolute inset-0 bg-wet-soil/50 flex items-center justify-center z-10">
+                  <span class="font-mono text-sm text-white tracking-widest">Coming Soon</span>
                 </div>
               )}
             </div>

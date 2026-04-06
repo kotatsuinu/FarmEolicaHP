@@ -1,20 +1,31 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import { SITE_CONFIG } from '../config/site';
 import NoteLinkCard from '../components/NoteLinkCard.astro';
 import SectionHeader from '../components/SectionHeader.astro';
+
+import heroImage from '../assets/images/about/hero.jpg';
+import originImage from '../assets/images/about/origin.jpg';
+import identityImage from '../assets/images/about/identity.jpg';
+import technologyImage from '../assets/images/about/technology.jpg';
+import locationImage from '../assets/images/about/location.jpg';
+import philosophyImage from '../assets/images/about/philosophy.jpg';
 ---
 
-<Layout title="About | Farm Eolica (ファームエオリカ)" description="風を読み、土を耕し、未来を咲かせる。Farm Eolicaの思想と背景。" image="/images/about/hero.jpg">
+<Layout title="About | Farm Eolica (ファームエオリカ)" description="風を読み、土を耕し、未来を咲かせる。Farm Eolicaの思想と背景。" image={heroImage.src}>
   <!-- Hero Section -->
   <section class="relative h-[70vh] md:h-screen w-full overflow-hidden">
     <!-- Background Image -->
-    <div class="absolute inset-0">
-      <img
-        src="/images/about/hero.jpg"
+    <div class="absolute inset-0 bg-warm-gray-200">
+      <Image
+        src={heroImage}
         alt="Farm Eolica"
         class="w-full h-full object-cover"
+        widths={[640, 1280, 1920]}
+        sizes="100vw"
         loading="eager"
+        fetchpriority="high"
       />
       <!-- Overlay -->
       <div class="absolute inset-0 bg-eolica-green/40"></div>
@@ -59,12 +70,14 @@ import SectionHeader from '../components/SectionHeader.astro';
       <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
         <!-- Left: Image -->
         <div class="order-2 md:order-1" data-animate>
-          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm">
-            <img
-              src="/images/about/origin.jpg"
+          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm bg-warm-gray-200">
+            <Image
+              src={originImage}
               alt="Origin - 風とともに生きる農園"
               class="w-full h-full object-cover"
               loading="lazy"
+              width={800}
+              height={600}
             />
           </div>
         </div>
@@ -121,12 +134,14 @@ import SectionHeader from '../components/SectionHeader.astro';
 
         <!-- Right: Image -->
         <div data-animate>
-          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm">
-            <img
-              src="/images/about/identity.jpg"
+          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm bg-warm-gray-200">
+            <Image
+              src={identityImage}
               alt="Identity - 言葉を紡ぐ手から、命を育む手へ"
               class="w-full h-full object-cover"
               loading="lazy"
+              width={800}
+              height={600}
             />
           </div>
         </div>
@@ -140,12 +155,14 @@ import SectionHeader from '../components/SectionHeader.astro';
       <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
         <!-- Left: Image -->
         <div class="order-2 md:order-1" data-animate>
-          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm">
-            <img
-              src="/images/about/technology.jpg"
+          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm bg-warm-gray-200">
+            <Image
+              src={technologyImage}
               alt="Technology - データが支え、感性が仕上げる"
               class="w-full h-full object-cover"
               loading="lazy"
+              width={800}
+              height={600}
             />
           </div>
         </div>
@@ -201,12 +218,14 @@ import SectionHeader from '../components/SectionHeader.astro';
 
         <!-- Right: Image -->
         <div data-animate>
-          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm">
-            <img
-              src="/images/about/location.jpg"
+          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm bg-warm-gray-200">
+            <Image
+              src={locationImage}
               alt="Location - 浪江の地から、新しい色を"
               class="w-full h-full object-cover"
               loading="lazy"
+              width={800}
+              height={600}
             />
           </div>
         </div>
@@ -220,12 +239,14 @@ import SectionHeader from '../components/SectionHeader.astro';
       <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
         <!-- Left: Image -->
         <div class="order-2 md:order-1" data-animate>
-          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm">
-            <img
-              src="/images/about/philosophy.jpg"
+          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm bg-warm-gray-200">
+            <Image
+              src={philosophyImage}
               alt="Philosophy - より良いものを、届け続ける農園であること"
               class="w-full h-full object-cover"
               loading="lazy"
+              width={800}
+              height={600}
             />
           </div>
         </div>
@@ -337,9 +358,3 @@ import SectionHeader from '../components/SectionHeader.astro';
   </section>
 </Layout>
 
-<style>
-  /* 画像のフォールバック背景 */
-  img[src^="/images/about/"] {
-    background: linear-gradient(135deg, #D5D3CF 0%, #B8B6B2 100%);
-  }
-</style>

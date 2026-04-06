@@ -1,6 +1,7 @@
 ---
 import { SITE_CONFIG } from '../config/site';
 import StructuredData from '../components/seo/StructuredData.astro';
+import defaultOgImage from '../assets/images/top/hero.jpg';
 
 interface Props {
   title: string;
@@ -16,7 +17,7 @@ const siteUrl = Astro.site?.origin ?? 'https://farmeolica.com';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
 const ogImage = image
   ? new URL(image, siteUrl).href
-  : new URL('/images/top/hero.jpg', siteUrl).href;
+  : new URL(defaultOgImage.src, siteUrl).href;
 ---
 
 <!doctype html>
