@@ -12,7 +12,7 @@ const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販
 
 const ga4Id = SITE_CONFIG.seo.ga4Id;
 const gscVerification = SITE_CONFIG.seo.gscVerification;
-const siteUrl = Astro.site?.origin ?? 'https://farm-eolica.com';
+const siteUrl = Astro.site?.origin ?? 'https://farmeolica.com';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
 const ogImage = image
   ? new URL(image, siteUrl).href

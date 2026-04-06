@@ -14,7 +14,7 @@ export default defineConfig({
   ],
 
   // サイト設定
-  site: 'https://farm-eolica.com', // 本番環境のURLに変更してください
+  site: 'https://farmeolica.com',
 
   // ビルド設定
   output: 'static', // 静的サイト生成

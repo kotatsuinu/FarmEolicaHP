@@ -52,7 +52,7 @@ export const SITE_CONFIG = {
     name: 'Farm Eolica',
     nameJa: 'ファームエオリカ',
     description: '福島県浪江町の花き農園。データ駆動型の栽培管理で、トルコギキョウ・スプレー菊等を生産。',
-    url: 'https://farm-eolica.com',
+    url: 'https://farmeolica.com',
     address: {
       postalCode: '979-1513', // TODO: 正確な郵便番号を確認
       region: '福島県',
@@ -68,6 +68,6 @@ export const SITE_CONFIG = {
   },
   seo: {
     ga4Id: 'G-KCNMWNSTCG',
-    gscVerification: 'RIeHwwIkIWtxend63tPWpkGKDQXJizzvEvpj_S-PB6o',
+    gscVerification: 'G1MpntnYo6biV_pargwybWJHOydpQHdetsxbjFB_Cwc',
   },
 } as const;
