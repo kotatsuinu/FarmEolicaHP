@@ -89,6 +89,13 @@ export default function ContactForm() {
       // no-cors: response is opaque, treat as success if no network error
       setStatus('success');
       setFormData(initialFormData);
+
+      // GA4: contact form submit event
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'contact_form_submit', {
+          inquiry_type: formData.inquiryType,
+        });
+      }
     } catch {
       setStatus('error');
     }

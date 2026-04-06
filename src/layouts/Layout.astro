@@ -1,5 +1,6 @@
 ---
 import { SITE_CONFIG } from '../config/site';
+import StructuredData from '../components/seo/StructuredData.astro';
 
 interface Props {
   title: string;
@@ -9,6 +10,8 @@ interface Props {
 
 const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販売', image } = Astro.props;
 
+const ga4Id = SITE_CONFIG.seo.ga4Id;
+const gscVerification = SITE_CONFIG.seo.gscVerification;
 const siteUrl = Astro.site?.origin ?? 'https://farm-eolica.com';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
 const ogImage = image
@@ -39,13 +42,16 @@ const ogImage = image
       rel="stylesheet"
     />
 
+    <!-- Google Search Console -->
+    {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
+
     <!-- Google Analytics 4 -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-KCNMWNSTCG"></script>
-    <script is:inline>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+    <script define:vars={{ ga4Id }}>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-KCNMWNSTCG');
+      gtag('config', ga4Id);
     </script>
 
     <!-- OGP -->
@@ -338,6 +344,9 @@ const ogImage = image
       </div>
     </footer>
 
+    <!-- Structured Data (JSON-LD) -->
+    <StructuredData />
+
     <!-- Scroll Animation Script -->
     <script>
       // IntersectionObserver for scroll animations
@@ -426,6 +435,58 @@ const ogImage = image
           }
         });
       });
+    </script>
+
+    <!-- GA4: CTA Click Tracking -->
+    <script is:inline>
+      document.addEventListener('click', function(e) {
+        var link = e.target.closest && e.target.closest('a[target="_blank"]');
+        if (link && window.gtag) {
+          var href = link.getAttribute('href') || '';
+          var ctaType = 'other';
+          if (href.includes('instagram.com')) ctaType = 'instagram';
+          else if (href.includes('lin.ee') || href.includes('line.me')) ctaType = 'line';
+          else if (href.includes('note.com')) ctaType = 'note';
+          else if (href.includes('x.com') || href.includes('twitter.com')) ctaType = 'x';
+
+          window.gtag('event', 'cta_click', {
+            cta_type: ctaType,
+            cta_url: href,
+            page_location: window.location.pathname,
+          });
+        }
+      });
+    </script>
+
+    <!-- GA4: Scroll Depth Tracking -->
+    <script is:inline>
+      (function() {
+        var scrollThresholds = [25, 50, 75, 100];
+        var firedThresholds = {};
+
+        function getScrollPercentage() {
+          var h = document.documentElement;
+          var scrollable = h.scrollHeight - h.clientHeight;
+          if (scrollable <= 0) return 100;
+          return Math.round((window.scrollY / scrollable) * 100);
+        }
+
+        window.addEventListener('scroll', function() {
+          var pct = getScrollPercentage();
+          for (var i = 0; i < scrollThresholds.length; i++) {
+            var t = scrollThresholds[i];
+            if (pct >= t && !firedThresholds[t]) {
+              firedThresholds[t] = true;
+              if (window.gtag) {
+                window.gtag('event', 'scroll_depth', {
+                  depth_threshold: t,
+                  page_location: window.location.pathname,
+                });
+              }
+            }
+          }
+        }, { passive: true });
+      })();
     </script>
 
     <style>

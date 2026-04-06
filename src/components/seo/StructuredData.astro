@@ -1,0 +1,58 @@
+---
+/**
+ * 全ページ共通の構造化データ（Organization + LocalBusiness）
+ * Layout.astroに組み込んで使用
+ */
+import { SITE_CONFIG } from '../../config/site';
+
+const { business, sns, contact } = SITE_CONFIG;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "Organization"],
+  "name": business.name,
+  "alternateName": business.nameJa,
+  "description": business.description,
+  "url": business.url,
+  "logo": `${business.url}${business.logo}`,
+  "image": `${business.url}/images/top/hero.jpg`,
+  "foundingDate": business.foundingDate,
+  "address": {
+    "@type": "PostalAddress",
+    "postalCode": business.address.postalCode,
+    "addressRegion": business.address.region,
+    "addressLocality": business.address.locality,
+    "addressCountry": "JP",
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": business.geo.latitude,
+    "longitude": business.geo.longitude,
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": contact.email,
+    "contactType": "customer service",
+    "availableLanguage": "Japanese",
+  },
+  "sameAs": [
+    sns.instagram,
+    sns.note,
+    sns.x,
+    sns.line,
+  ],
+  "knowsAbout": [
+    "花き栽培",
+    "トルコギキョウ",
+    "スプレー菊",
+    "カンパニュラ",
+    "ストック",
+    "キンギョソウ",
+    "ロスフラワー",
+    "データ駆動型農業",
+  ],
+  "priceRange": "¥1,300〜¥4,180",
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

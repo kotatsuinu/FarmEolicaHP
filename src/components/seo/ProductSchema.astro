@@ -1,0 +1,98 @@
+---
+/**
+ * 商品ページ用構造化データ（Product + AggregateOffer）
+ * products/[...slug].astroに組み込んで使用
+ */
+import { SITE_CONFIG } from '../../config/site';
+
+interface Props {
+  name: string;
+  description: string;
+  image?: string;
+  category: string;
+  saleStatus: string;
+  url: string;
+  price?: number;
+  priceTiers?: Array<{ minQuantity: number; unitPrice: number }>;
+  boxPricing?: Array<{ size: string; price: number }>;
+  flowerType?: string;
+}
+
+const {
+  name,
+  description,
+  image,
+  category,
+  saleStatus,
+  url,
+  price,
+  priceTiers,
+  boxPricing,
+  flowerType,
+} = Astro.props;
+
+const { business } = SITE_CONFIG;
+
+// saleStatus → schema.org availability マッピング
+const availabilityMap: Record<string, string> = {
+  available: 'https://schema.org/InStock',
+  out_of_stock: 'https://schema.org/OutOfStock',
+  seasonal: 'https://schema.org/PreOrder',
+  discontinued: 'https://schema.org/Discontinued',
+};
+
+const availability = availabilityMap[saleStatus] || 'https://schema.org/OutOfStock';
+
+// Offers構築
+let offers: Record<string, unknown>;
+
+if (priceTiers && priceTiers.length > 0) {
+  const prices = priceTiers.map((t) => t.unitPrice);
+  offers = {
+    "@type": "AggregateOffer",
+    "lowPrice": Math.min(...prices),
+    "highPrice": Math.max(...prices),
+    "priceCurrency": "JPY",
+    "availability": availability,
+  };
+} else if (boxPricing && boxPricing.length > 0) {
+  const prices = boxPricing.map((b) => b.price);
+  offers = {
+    "@type": "AggregateOffer",
+    "lowPrice": Math.min(...prices),
+    "highPrice": Math.max(...prices),
+    "priceCurrency": "JPY",
+    "availability": availability,
+  };
+} else if (price) {
+  offers = {
+    "@type": "Offer",
+    "price": price,
+    "priceCurrency": "JPY",
+    "availability": availability,
+  };
+} else {
+  offers = {
+    "@type": "Offer",
+    "availability": availability,
+    "priceCurrency": "JPY",
+  };
+}
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": flowerType ? `${flowerType} - ${name}` : name,
+  "description": description,
+  ...(image && { "image": new URL(image, business.url).href }),
+  "brand": {
+    "@type": "Brand",
+    "name": business.name,
+  },
+  "category": category,
+  "offers": offers,
+  "url": new URL(url, business.url).href,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

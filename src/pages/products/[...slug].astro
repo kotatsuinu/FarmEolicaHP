@@ -7,6 +7,8 @@ import { SITE_CONFIG } from '../../config/site';
 import EstimateCalculator from '../../components/products/EstimateCalculator';
 import QuantityEstimateCalculator from '../../components/products/QuantityEstimateCalculator';
 import QualityGradeTabs from '../../components/products/QualityGradeTabs';
+import ProductSchema from '../../components/seo/ProductSchema.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -90,6 +92,23 @@ if (!hasQuantityPricing) {
 ---
 
 <Layout title={`${product.data.flowerType} | Farm Eolica`} description={product.data.description} image={product.data.image?.src}>
+  <ProductSchema
+    name={product.data.name}
+    description={product.data.description}
+    image={product.data.image?.src}
+    category={categoryLabels[product.data.category] || product.data.category}
+    saleStatus={product.data.saleStatus}
+    url={Astro.url.pathname}
+    price={product.data.price}
+    priceTiers={product.data.priceTiers}
+    boxPricing={product.data.priceTable}
+    flowerType={product.data.flowerType}
+  />
+  <BreadcrumbSchema items={[
+    { name: 'ホーム', url: '/' },
+    { name: categoryLabels[product.data.category] || '商品', url: backUrl },
+    { name: product.data.flowerType || product.data.name, url: Astro.url.pathname },
+  ]} />
   <div class="pt-32 pb-24 min-h-screen">
     <!-- Back Link (Top) -->
     <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-6">
@@ -548,4 +567,21 @@ if (!hasQuantityPricing) {
       </a>
     </div>
   </div>
+
+  <!-- GA4: view_item event -->
+  <script define:vars={{
+    productName: product.data.name,
+    productCategory: categoryLabels[product.data.category] || product.data.category,
+    productPrice: product.data.price || 0,
+    flowerType: product.data.flowerType || '',
+  }}>
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'view_item', {
+        item_name: flowerType || productName,
+        item_category: productCategory,
+        price: productPrice,
+        currency: 'JPY',
+      });
+    }
+  </script>
 </Layout>

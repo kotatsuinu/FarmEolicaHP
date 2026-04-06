@@ -1,0 +1,34 @@
+# Farm Eolica
+
+> 福島県浪江町の花き農園。データ駆動型の栽培管理で、トルコギキョウ・スプレー菊等を生産する個人経営の花農家。
+
+Farm Eolicaは福島県双葉郡浪江町で花き栽培を行う個人経営の農園です。IoTセンサーによる環境モニタリングやBigQueryによる市場データ分析など、データ駆動型の栽培管理を実践しています。市場出荷を主力としつつ、ロスフラワーや規格外切り花の直接販売にも取り組み、花の廃棄削減と価値創造を目指しています。
+
+## 主要ページ
+
+- [商品一覧](https://farm-eolica.com/products): ロスフラワー・規格外切り花・市場出荷品の紹介
+- [出荷予報](https://farm-eolica.com/cultivation): 栽培状況と出荷予報ボード
+- [農園について](https://farm-eolica.com/about): Farm Eolicaの思想と背景
+- [お問い合わせ](https://farm-eolica.com/contact): 購入・栽培リクエスト・見学のご相談
+
+## 商品カテゴリ
+
+- [ロスフラワー](https://farm-eolica.com/products/loss-flower): 市場出荷時に切り落とされる花頭の詰め合わせ。クラフト・ドライフラワー制作向け
+- [規格外切り花](https://farm-eolica.com/products/imperfect): 市場規格に満たない茎付き切り花。自宅観賞・アレンジメント向け
+- [市場出荷品](https://farm-eolica.com/products/market): JAふくしま未来経由で出荷する高品質切り花の品質情報
+
+## 取扱品目
+
+トルコギキョウ、スプレーマム（スプレー菊）、カンパニュラ、ストック、キンギョソウ
+
+## 連絡先
+
+- Instagram: https://www.instagram.com/farm_eolica/
+- note: https://note.com/farm_eolica
+- X: https://x.com/FarmEolica
+- LINE: @218pndaz
+- Email: farmeolica@gmail.com
+
+## Optional
+
+- [プライバシーポリシー](https://farm-eolica.com/privacy): サイトのプライバシーポリシ���
