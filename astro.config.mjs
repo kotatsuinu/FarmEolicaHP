@@ -18,6 +18,10 @@ export default defineConfig({
 
   // ビルド設定
   output: 'static', // 静的サイト生成
+  trailingSlash: 'always',
+  build: {
+    format: 'directory',
+  },
 
   // 画像最適化
   image: {

@@ -6,16 +6,16 @@ Farm Eolicaは福島県双葉郡浪江町で花き栽培を行う個人経営の
 
 ## 主要ページ
 
-- [商品一覧](https://farmeolica.com/products): ロスフラワー・規格外切り花・市場出荷品の紹介
-- [出荷予報](https://farmeolica.com/cultivation): 栽培状況と出荷予報ボード
-- [農園について](https://farmeolica.com/about): Farm Eolicaの思想と背景
-- [お問い合わせ](https://farmeolica.com/contact): 購入・栽培リクエスト・見学のご相談
+- [商品一覧](https://farmeolica.com/products/): ロスフラワー・規格外切り花・市場出荷品の紹介
+- [出荷予報](https://farmeolica.com/cultivation/): 栽培状況と出荷予報ボード
+- [農園について](https://farmeolica.com/about/): Farm Eolicaの思想と背景
+- [お問い合わせ](https://farmeolica.com/contact/): 購入・栽培リクエスト・見学のご相談
 
 ## 商品カテゴリ
 
-- [ロスフラワー](https://farmeolica.com/products/loss-flower): 市場出荷時に切り落とされる花頭の詰め合わせ。クラフト・ドライフラワー制作向け
-- [規格外切り花](https://farmeolica.com/products/imperfect): 市場規格に満たない茎付き切り花。自宅観賞・アレンジメント向け
-- [市場出荷品](https://farmeolica.com/products/market): JAふくしま未来経由で出荷する高品質切り花の品質情報
+- [ロスフラワー](https://farmeolica.com/products/loss-flower/): 市場出荷時に切り落とされる花頭の詰め合わせ。クラフト・ドライフラワー制作向け
+- [規格外切り花](https://farmeolica.com/products/imperfect/): 市場規格に満たない茎付き切り花。自宅観賞・アレンジメント向け
+- [市場出荷品](https://farmeolica.com/products/market/): JAふくしま未来経由で出荷する高品質切り花の品質情報
 
 ## 取扱品目
 
@@ -31,4 +31,4 @@ Farm Eolicaは福島県双葉郡浪江町で花き栽培を行う個人経営の
 
 ## Optional
 
-- [プライバシーポリシー](https://farmeolica.com/privacy): サイトのプライバシーポリシ���
+- [プライバシーポリシー](https://farmeolica.com/privacy/): サイトのプライバシーポリシ���
