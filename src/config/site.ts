@@ -45,6 +45,7 @@ export const SITE_CONFIG = {
       { value: 'purchase', label: '商品購入について' },
       { value: 'cultivation-request', label: '栽培リクエスト' },
       { value: 'visit-lecture', label: '講演・見学のご依頼' },
+      { value: 'estimate', label: '見積もり・大容量のご相談' },
       { value: 'other', label: 'その他' },
     ],
   },

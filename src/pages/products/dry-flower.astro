@@ -1,0 +1,299 @@
+---
+/**
+ * ドライフラワーページ（Timeless Botanica）
+ * 企画外花→ドライ加工のストーリーを伝えるランディングページ
+ * 価格は品目・形態により異なる（各商品ページ参照）
+ */
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+// import dryFlowerHeroImage from '../../assets/images/products/dry-flower-hero.jpg';
+import ProductCard from '../../components/products/ProductCard.astro';
+import ShippingInfo from '../../components/products/ShippingInfo.astro';
+import NoticeInfo from '../../components/products/NoticeInfo.astro';
+import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+
+// ドライフラワーの商品を取得
+const dryFlowerProducts = (await getCollection('products'))
+  .filter(p => p.data.category === 'dried_flower')
+  .sort((a, b) => {
+    // 販売中を先に、その後は表示順
+    if (a.data.saleStatus === 'available' && b.data.saleStatus !== 'available') return -1;
+    if (a.data.saleStatus !== 'available' && b.data.saleStatus === 'available') return 1;
+    return (a.data.order || 999) - (b.data.order || 999);
+  });
+
+// 販売中の商品数
+const availableCount = dryFlowerProducts.filter(p => p.data.saleStatus === 'available').length;
+
+// Notice用の情報
+const noticeItems = [
+  {
+    title: '商品特性',
+    items: [
+      '自然素材のため、色味・形状・大きさに個体差があります',
+      '農場での収穫量・乾燥状態により、在庫に限りがあります',
+      'ドライ加工品のため、デリケートな取り扱いをお願いします',
+    ]
+  },
+  {
+    title: '保管方法',
+    text: '直射日光・高湿度を避け、風通しの良い場所で保管してください。湿気が多い場所ではカビの原因になりますのでご注意ください。'
+  },
+  {
+    title: '梱包方法',
+    text: '花が潰れないよう、エアーパッキンで丁寧に梱包してお届けします。到着後はすみやかに取り出し、風通しの良い場所に保管してください。'
+  }
+];
+---
+
+<Layout
+  title="ドライフラワー | Farm Eolica (ファームエオリカ)"
+  description="咲き終わりじゃない、ここからが美しい。Farm Eolicaのドライフラワー。自農場で育てた花を丁寧にドライ加工。ヘッドと茎付きの2形態でお届けします。"
+>
+  <!-- Hero Section（画像なし・dried-linen背景） -->
+  <!--
+    ヒーロー画像は準備中です。
+    画像が用意できたら以下のように差し替えてください:
+    1. `import dryFlowerHeroImage from '../../assets/images/products/dry-flower-hero.jpg';` のコメントを外す
+    2. Layoutのimage属性に `image={dryFlowerHeroImage.src}` を追加
+    3. 以下のsectionをloss-flower.astroと同様の画像ありのHeroに変更
+  -->
+  <section class="relative h-[60vh] min-h-[420px] flex items-center justify-center overflow-hidden bg-dried-linen">
+    <div class="absolute inset-0 bg-gradient-to-b from-dried-beige/40 via-dried-linen/60 to-dried-linen/80"></div>
+    <div class="relative z-10 text-center px-6" data-animate>
+      <p class="font-mono text-xs tracking-widest text-dried-gold mb-4">
+        DRIED FLOWER
+      </p>
+      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-wet-soil mb-6 tracking-wide">
+        ドライフラワー
+      </h1>
+      <p class="font-serif text-xl md:text-2xl text-wet-soil/80 max-w-2xl mx-auto leading-relaxed">
+        咲き終わりじゃない、<br class="md:hidden" />ここからが美しい。
+      </p>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section class="py-16 md:py-20" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="space-y-6 text-center">
+        <p class="font-serif text-lg md:text-xl text-wet-soil leading-relaxed">
+          花農家には、出荷できない花がある。
+        </p>
+        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
+          市場に出すには、規格に満たなかった花。<br />
+          茎の長さ、花の向き、わずかな色ムラ——<br />
+          でも、その美しさは変わらない。
+        </p>
+        <div class="py-4">
+          <p class="font-serif text-base text-warm-gray-500 italic">
+            そのまま廃棄するには、惜しすぎる花たちを<br />
+            丁寧にドライ加工して、お届けします。
+          </p>
+        </div>
+        <p class="font-serif text-xl text-dried-gold font-medium">
+          「咲き終わりじゃない、ここからが美しい。」
+        </p>
+        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
+          クラフト素材に、インテリアに、スワッグに。<br />
+          農場から直接お手元に届くドライフラワーを、<br class="hidden md:inline" />
+          存分にお楽しみください。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Two Ways to Enjoy Section -->
+  <section class="py-12 md:py-16 bg-dried-linen/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <SectionHeader titleJa="2つの楽しみ方" titleEn="TWO WAYS TO ENJOY" />
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Head -->
+        <div class="bg-white p-8 shadow-lab">
+          <div class="w-12 h-12 mb-4 flex items-center justify-center bg-dried-gold/10 rounded-full">
+            <svg class="w-6 h-6 text-dried-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-lg text-wet-soil mb-3">ヘッド詰め合わせ</h3>
+          <p class="font-mono text-xs tracking-widest text-dried-gold mb-4">FLOWER HEAD</p>
+          <p class="text-sm text-warm-gray-600 font-serif leading-relaxed">
+            花頭だけを丁寧に乾燥。レジン封入・ハーバリウム・アクセサリー作りなど、クラフト素材として最適です。色別・ミックスでお届けします。
+          </p>
+          <ul class="mt-4 space-y-1 text-xs text-warm-gray-500 font-serif">
+            <li>・レジン封入・アクセサリー</li>
+            <li>・ハーバリウム</li>
+            <li>・ポプリ・サシェ</li>
+          </ul>
+        </div>
+        <!-- Long Stem -->
+        <div class="bg-white p-8 shadow-lab">
+          <div class="w-12 h-12 mb-4 flex items-center justify-center bg-dried-sage/10 rounded-full">
+            <svg class="w-6 h-6 text-dried-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-lg text-wet-soil mb-3">ロングステム</h3>
+          <p class="font-mono text-xs tracking-widest text-dried-sage mb-4">LONG STEM</p>
+          <p class="text-sm text-warm-gray-600 font-serif leading-relaxed">
+            茎付きのままドライ加工。花瓶に挿すだけでナチュラルなインテリアに。スワッグ・リース・ブーケ素材としても活躍します。
+          </p>
+          <ul class="mt-4 space-y-1 text-xs text-warm-gray-500 font-serif">
+            <li>・花瓶に挿してインテリアに</li>
+            <li>・スワッグ・リース</li>
+            <li>・ドライブーケ</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Current Products Section -->
+  <section class="py-16 md:py-20" data-animate>
+    <div class="max-w-6xl mx-auto px-6">
+      <SectionHeader titleJa="現在お届けできる花" titleEn="CURRENT PRODUCTS">
+        {availableCount > 0 ? (
+          <p class="font-mono text-sm text-dried-gold mt-3">
+            {availableCount}種類の花をご用意しています
+          </p>
+        ) : (
+          <p class="font-mono text-sm text-warm-gray-500 mt-3">
+            現在販売中の商品はありません
+          </p>
+        )}
+      </SectionHeader>
+
+      {dryFlowerProducts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {dryFlowerProducts.map((product) => (
+            <ProductCard
+              product={product}
+              showStatus={true}
+              showPrice={false}
+              variant="default"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16 bg-dried-linen/30 shadow-lab">
+          <p class="font-serif text-warm-gray-500">
+            商品の準備中です。<br />
+            季節ごとに順次追加していきます。
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Usage Ideas Section -->
+  <section class="py-12 md:py-16 bg-dried-linen/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <SectionHeader titleJa="活用アイデア" titleEn="USAGE IDEAS" />
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 shadow-lab text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-dried-gold/10 rounded-full">
+            <svg class="w-6 h-6 text-dried-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-sm text-wet-soil mb-2">クラフト素材</h3>
+          <p class="text-xs text-warm-gray-600">レジン・アクセサリー・ハーバリウムに</p>
+        </div>
+        <div class="bg-white p-6 shadow-lab text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-dried-sage/10 rounded-full">
+            <svg class="w-6 h-6 text-dried-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-sm text-wet-soil mb-2">インテリア</h3>
+          <p class="text-xs text-warm-gray-600">花瓶に挿してナチュラルな空間づくりに</p>
+        </div>
+        <div class="bg-white p-6 shadow-lab text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-dried-beige/50 rounded-full">
+            <svg class="w-6 h-6 text-dried-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-sm text-wet-soil mb-2">スワッグ・リース</h3>
+          <p class="text-xs text-warm-gray-600">壁飾りや贈り物の素材として</p>
+        </div>
+      </div>
+      <p class="text-center text-sm text-warm-gray-600 mt-8 font-serif">
+        農場から直接届くドライフラワーで、あなただけの作品を。<br />
+        色・形・香り——自然が作り出す一期一会の素材をお楽しみください。
+      </p>
+    </div>
+  </section>
+
+  <!-- Price Guide Section -->
+  <section class="py-12 md:py-16" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <SectionHeader titleJa="価格について" titleEn="PRICE GUIDE" />
+      <div class="bg-white p-6 md:p-8 shadow-lab">
+        <p class="font-serif text-base text-warm-gray-600 leading-relaxed mb-6">
+          価格は品目・形態（ヘッド / ロングステム）により異なります。<br />
+          詳細は各商品ページをご覧ください。
+        </p>
+        <p class="font-serif text-sm text-warm-gray-500 mb-6">
+          大容量のご注文（業務用・イベント用など）は別途お見積もりいたします。<br />
+          お気軽にお問い合わせください。
+        </p>
+        <a
+          href="/contact?product=ドライフラワー&type=大容量"
+          class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-dried-gold text-dried-gold hover:bg-dried-gold hover:text-white transition-all duration-300"
+        >
+          大容量・業務用のご相談 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shipping Info -->
+  <section class="py-12 md:py-16 bg-dried-linen/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <ShippingInfo collapsible={true} />
+    </div>
+  </section>
+
+  <!-- Notice Section -->
+  <section class="py-12 md:py-16" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <NoticeInfo items={noticeItems} collapsible={true} />
+    </div>
+  </section>
+
+  <!-- Payment Section -->
+  <section class="py-12 md:py-16 bg-dried-linen/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="bg-white p-6 md:p-8 shadow-lab">
+        <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
+          PAYMENT <span class="font-serif">ーお支払いについてー</span>
+        </h3>
+        <div class="space-y-4">
+          <div class="flex flex-wrap gap-4">
+            <span class="px-4 py-2 bg-dried-linen text-sm font-mono text-wet-soil">PayPay</span>
+            <span class="px-4 py-2 bg-dried-linen text-sm font-mono text-wet-soil">銀行振込</span>
+            <span class="px-4 py-2 bg-dried-linen text-sm font-mono text-wet-soil">請求書</span>
+          </div>
+          <p class="text-xs text-warm-gray-500">
+            ※初回お取引については原則ご入金確認後の発送となります
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Purchase Guide -->
+  <PurchaseGuide variant="full" />
+
+  <!-- Back Link -->
+  <section class="py-12 text-center" data-animate>
+    <a
+      href="/products"
+      class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-dried-gold pb-1 hover:border-eolica-green transition-colors duration-300"
+    >
+      ← Back to Products
+    </a>
+  </section>
+</Layout>

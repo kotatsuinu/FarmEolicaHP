@@ -65,6 +65,7 @@ const productsCollection = defineCollection({
       'loss_flower',   // ロスフラワー（花頭のみ）
       'imperfect',     // 規格外切り花（茎付き）
       'craft',         // クラフト用（ドライフラワー向け等）
+      'dried_flower',  // ドライフラワー（ヘッド・ロングステム）
       'aroma',         // アロマ・香り用
       'market'         // 市場出荷品（展示のみ）
     ]),

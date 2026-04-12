@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SITE_CONFIG } from '../config/site';
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
@@ -8,6 +8,8 @@ interface FormData {
   email: string;
   inquiryType: string;
   message: string;
+  productInfo: string;
+  desiredDate: string;
   _honeypot: string;
 }
 
@@ -16,6 +18,8 @@ const initialFormData: FormData = {
   email: '',
   inquiryType: '',
   message: '',
+  productInfo: '',
+  desiredDate: '',
   _honeypot: '',
 };
 
@@ -25,6 +29,23 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
   const inquiryTypes = SITE_CONFIG.contactForm.inquiryTypes;
+
+  // URLパラメータからプリフィル
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const product = params.get('product');
+    const productType = params.get('type');
+    const quantity = params.get('quantity');
+
+    if (product || productType) {
+      const info = [product, productType, quantity ? `${quantity}個` : ''].filter(Boolean).join(' / ');
+      setFormData(prev => ({
+        ...prev,
+        inquiryType: 'estimate',
+        productInfo: info,
+      }));
+    }
+  }, []);
 
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof FormData, string>> = {};
@@ -75,15 +96,22 @@ export default function ContactForm() {
     setStatus('submitting');
 
     try {
+      const submitParams: Record<string, string> = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        inquiryType: formData.inquiryType,
+        message: formData.message.trim(),
+      };
+
+      if (formData.inquiryType === 'estimate') {
+        if (formData.productInfo.trim()) submitParams.productInfo = formData.productInfo.trim();
+        if (formData.desiredDate) submitParams.desiredDate = formData.desiredDate;
+      }
+
       await fetch(SITE_CONFIG.contactForm.endpoint, {
         method: 'POST',
         mode: 'no-cors',
-        body: new URLSearchParams({
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          inquiryType: formData.inquiryType,
-          message: formData.message.trim(),
-        }),
+        body: new URLSearchParams(submitParams),
       });
 
       // no-cors: response is opaque, treat as success if no network error
@@ -227,6 +255,39 @@ export default function ContactForm() {
           </div>
           {errors.inquiryType && <p className={errorClass}>{errors.inquiryType}</p>}
         </div>
+
+        {/* Estimate-specific fields */}
+        {formData.inquiryType === 'estimate' && (
+          <>
+            <div className="space-y-1 mb-6">
+              <label htmlFor="productInfo" className="block text-sm font-serif text-wet-soil mb-2">
+                ご希望商品
+              </label>
+              <input
+                type="text"
+                id="productInfo"
+                name="productInfo"
+                value={formData.productInfo}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-stone-white border border-warm-gray-200 text-sm font-serif text-wet-soil focus:outline-none focus:border-old-copper transition-colors"
+                placeholder="例: カンパニュラのドライフラワー（ヘッド）30個"
+              />
+            </div>
+            <div className="space-y-1 mb-6">
+              <label htmlFor="desiredDate" className="block text-sm font-serif text-wet-soil mb-2">
+                到着希望日
+              </label>
+              <input
+                type="date"
+                id="desiredDate"
+                name="desiredDate"
+                value={formData.desiredDate}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-stone-white border border-warm-gray-200 text-sm font-serif text-wet-soil focus:outline-none focus:border-old-copper transition-colors"
+              />
+            </div>
+          </>
+        )}
 
         {/* Message */}
         <div className="space-y-1 mb-8">

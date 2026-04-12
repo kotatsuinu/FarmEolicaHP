@@ -26,6 +26,12 @@ export default {
           500: '#7D7B77',
         },
 
+        // Timeless Botanica（ドライフラワー専用）
+        'dried-beige': '#D4C5B0',
+        'dried-sage': '#8B9A7B',
+        'dried-gold': '#B8976A',
+        'dried-linen': '#F5F0EA',
+
         // 旧カラー（互換性のため残す、段階的に削除予定）
         'dark-slate': '#2F4F4F',
         'rust': '#8B4513',
