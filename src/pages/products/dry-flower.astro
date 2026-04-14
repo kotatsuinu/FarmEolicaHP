@@ -174,24 +174,24 @@ const noticeItems = [
     </div>
   </section>
 
-  <!-- Current Products Section -->
+  <!-- Head Products Section -->
   <section class="py-16 md:py-20" data-animate>
     <div class="max-w-6xl mx-auto px-6">
-      <SectionHeader titleJa="現在お届けできる花" titleEn="CURRENT PRODUCTS">
-        {availableCount > 0 ? (
+      <SectionHeader titleJa="ヘッド商品ラインナップ" titleEn="FLOWER HEAD LINEUP">
+        {headAvailableCount > 0 ? (
           <p class="font-mono text-sm text-dried-gold mt-3">
-            {availableCount}種類の花をご用意しています
+            {headAvailableCount}種類の花をご用意しています
           </p>
         ) : (
           <p class="font-mono text-sm text-warm-gray-500 mt-3">
-            現在販売中の商品はありません
+            現在販売中のヘッド商品はありません
           </p>
         )}
       </SectionHeader>
 
-      {dryFlowerProducts.length > 0 ? (
+      {headProducts.length > 0 ? (
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {dryFlowerProducts.map((product) => (
+          {headProducts.map((product) => (
             <ProductCard
               product={product}
               showStatus={true}
@@ -206,6 +206,53 @@ const noticeItems = [
             商品の準備中です。<br />
             季節ごとに順次追加していきます。
           </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Long Stem Products Section -->
+  <section class="py-16 md:py-20 bg-dried-linen/30" data-animate>
+    <div class="max-w-6xl mx-auto px-6">
+      <SectionHeader titleJa="ロングステム商品ラインナップ" titleEn="LONG STEM LINEUP">
+        {longStemAvailableCount > 0 ? (
+          <p class="font-mono text-sm text-dried-sage mt-3">
+            {longStemAvailableCount}種類の花をご用意しています
+          </p>
+        ) : (
+          <p class="font-mono text-sm text-warm-gray-500 mt-3">
+            現在準備中です
+          </p>
+        )}
+      </SectionHeader>
+
+      {longStemProducts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {longStemProducts.map((product) => (
+            <ProductCard
+              product={product}
+              showStatus={true}
+              showPrice={false}
+              variant="default"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12 md:py-16 bg-white shadow-lab">
+          <p class="font-mono text-xs tracking-widest text-dried-sage mb-3">COMING SOON</p>
+          <p class="font-serif text-lg text-wet-soil mb-3">
+            ロングステム商品は現在準備中です
+          </p>
+          <p class="font-serif text-sm text-warm-gray-600 leading-relaxed max-w-xl mx-auto px-6">
+            40〜50cm規格の茎付きドライフラワーを、準備が整い次第順次販売開始いたします。<br />
+            入荷のお知らせをご希望の方は、お問い合わせフォームよりご連絡ください。
+          </p>
+          <a
+            href="/contact?product=ロングステムドライフラワー&type=other"
+            class="inline-block mt-6 px-6 py-2 text-xs tracking-widest uppercase font-mono border-2 border-dried-sage text-dried-sage hover:bg-dried-sage hover:text-white transition-all duration-300"
+          >
+            入荷お知らせご希望 →
+          </a>
         </div>
       )}
     </div>
@@ -256,11 +303,11 @@ const noticeItems = [
     <div class="max-w-4xl mx-auto px-6">
       <SectionHeader titleJa="配送・価格について" titleEn="SHIPPING &amp; PRICE" />
       <div class="bg-white p-6 md:p-8 shadow-lab space-y-6">
-        <!-- 配送方法 -->
+        <!-- ヘッド商品の配送 -->
         <div>
           <h3 class="font-serif text-lg text-wet-soil mb-3 flex items-center gap-2">
             <span class="inline-block w-1.5 h-5 bg-dried-gold"></span>
-            配送方法
+            ヘッド商品の配送
           </h3>
           <p class="font-serif text-base text-warm-gray-700 leading-relaxed">
             <span class="text-dried-gold font-medium">クリックポスト</span>にて、全国一律<span class="font-mono text-dried-gold">¥185</span>でお届けします。
@@ -271,6 +318,19 @@ const noticeItems = [
             <li class="text-dried-sage">・<strong>到着日時の指定はできません</strong></li>
           </ul>
         </div>
+        <!-- ロングステム商品の配送 -->
+        <div class="pt-6 border-t border-warm-gray-100">
+          <h3 class="font-serif text-lg text-wet-soil mb-3 flex items-center gap-2">
+            <span class="inline-block w-1.5 h-5 bg-dried-sage"></span>
+            ロングステム商品の配送（準備中）
+          </h3>
+          <p class="font-serif text-base text-warm-gray-700 leading-relaxed">
+            宅配便（箱サイズ・地域別）でお届け予定です。日時指定可能。
+          </p>
+          <p class="mt-2 text-sm text-warm-gray-500 font-serif">
+            ※販売開始時に詳細をご案内します。
+          </p>
+        </div>
         <!-- 価格表示 -->
         <div class="pt-6 border-t border-warm-gray-100">
           <h3 class="font-serif text-lg text-wet-soil mb-3 flex items-center gap-2">
@@ -278,8 +338,8 @@ const noticeItems = [
             価格について
           </h3>
           <p class="font-serif text-base text-warm-gray-700 leading-relaxed">
-            商品価格（花代＋梱包料込）に送料<span class="font-mono">¥185</span>が別途加算されます。<br />
-            サイズ・品目の詳細は各商品ページをご覧ください。
+            商品価格（花代＋梱包料込）に送料が別途加算されます。<br />
+            品目・サイズ・色の詳細は各商品ページをご覧ください。
           </p>
         </div>
         <!-- 大容量 CTA -->
