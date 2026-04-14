@@ -22,8 +22,12 @@ const dryFlowerProducts = (await getCollection('products'))
     return (a.data.order || 999) - (b.data.order || 999);
   });
 
-// 販売中の商品数
-const availableCount = dryFlowerProducts.filter(p => p.data.saleStatus === 'available').length;
+// ジャンル別に分類（tagsで判定）
+const headProducts = dryFlowerProducts.filter(p => p.data.tags?.includes('ヘッド'));
+const longStemProducts = dryFlowerProducts.filter(p => p.data.tags?.includes('ロングステム'));
+
+const headAvailableCount = headProducts.filter(p => p.data.saleStatus === 'available').length;
+const longStemAvailableCount = longStemProducts.filter(p => p.data.saleStatus === 'available').length;
 
 // Notice用の情報
 const noticeItems = [
@@ -103,47 +107,69 @@ const noticeItems = [
     </div>
   </section>
 
-  <!-- Size Variations Section -->
+  <!-- Two Genres Overview Section -->
   <section class="py-12 md:py-16 bg-dried-linen/50" data-animate>
     <div class="max-w-5xl mx-auto px-6">
-      <SectionHeader titleJa="3つのサイズでお届け" titleEn="THREE SIZES" description="クラフトの用途に合わせてお選びいただけます" />
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- Small: 30輪 -->
-        <div class="bg-white p-8 shadow-lab text-center">
-          <p class="font-mono text-xs tracking-widest text-dried-gold mb-3">SMALL</p>
-          <h3 class="font-serif text-2xl text-wet-soil mb-2">30輪</h3>
-          <p class="font-serif text-3xl text-dried-gold mb-4">¥700<span class="text-sm text-warm-gray-500 ml-1">〜</span></p>
-          <p class="text-xs text-warm-gray-500 font-serif mb-4">※送料別</p>
-          <p class="text-sm text-warm-gray-600 font-serif leading-relaxed">
-            お試し・少量クラフトに。<br />
-            レジン・アクセサリー作りの最初の一歩に最適です。
+      <SectionHeader titleJa="2つのジャンルでお届け" titleEn="TWO GENRES" description="用途に合わせてお選びいただけます" />
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Head Genre -->
+        <div class="bg-white p-8 shadow-lab flex flex-col">
+          <div class="w-12 h-12 mb-4 flex items-center justify-center bg-dried-gold/10 rounded-full">
+            <svg class="w-6 h-6 text-dried-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          </div>
+          <p class="font-mono text-xs tracking-widest text-dried-gold mb-2">FLOWER HEAD</p>
+          <h3 class="font-serif text-xl text-wet-soil mb-3">ヘッド（花頭のみ）</h3>
+          <p class="text-sm text-warm-gray-600 font-serif leading-relaxed mb-4">
+            花頭だけを丁寧に乾燥させた詰め合わせ。レジン封入・ハーバリウム・ポプリなど、クラフト素材として最適です。
           </p>
+          <ul class="space-y-1 text-xs text-warm-gray-500 font-serif mb-4">
+            <li>・レジン封入・アクセサリー</li>
+            <li>・ハーバリウム</li>
+            <li>・ポプリ・サシェ</li>
+          </ul>
+          <div class="mt-auto pt-4 border-t border-warm-gray-100 space-y-1">
+            <p class="text-sm text-warm-gray-600 font-serif">
+              価格: <span class="text-dried-gold font-medium">¥700〜</span>（品目・サイズによる、送料別）
+            </p>
+            <p class="text-xs text-warm-gray-500 font-serif">
+              配送: クリックポスト全国一律 ¥185
+            </p>
+          </div>
         </div>
-        <!-- Medium: 50輪 -->
-        <div class="bg-white p-8 shadow-lab text-center border-2 border-dried-gold/30">
-          <p class="font-mono text-xs tracking-widest text-dried-gold mb-3">MEDIUM</p>
-          <h3 class="font-serif text-2xl text-wet-soil mb-2">50輪</h3>
-          <p class="font-serif text-3xl text-dried-gold mb-4">¥1,000<span class="text-sm text-warm-gray-500 ml-1">〜</span></p>
-          <p class="text-xs text-warm-gray-500 font-serif mb-4">※送料別</p>
-          <p class="text-sm text-warm-gray-600 font-serif leading-relaxed">
-            本格的なクラフト制作に。<br />
-            ハーバリウム・ポプリ・サシェ作りにも十分な量。
+        <!-- Long Stem Genre -->
+        <div class="bg-white p-8 shadow-lab flex flex-col relative opacity-90">
+          <span class="absolute top-4 right-4 px-3 py-1 bg-dried-sage/20 text-dried-sage text-xs font-mono tracking-widest">
+            COMING SOON
+          </span>
+          <div class="w-12 h-12 mb-4 flex items-center justify-center bg-dried-sage/10 rounded-full">
+            <svg class="w-6 h-6 text-dried-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <p class="font-mono text-xs tracking-widest text-dried-sage mb-2">LONG STEM</p>
+          <h3 class="font-serif text-xl text-wet-soil mb-3">ロングステム（茎付き）</h3>
+          <p class="text-sm text-warm-gray-600 font-serif leading-relaxed mb-4">
+            40〜50cm規格の茎付きドライフラワー。花瓶に挿してインテリアに、スワッグやリースの素材としても活躍します。
           </p>
-        </div>
-        <!-- Large: お問い合わせ -->
-        <div class="bg-white p-8 shadow-lab text-center">
-          <p class="font-mono text-xs tracking-widest text-dried-sage mb-3">LARGE</p>
-          <h3 class="font-serif text-2xl text-wet-soil mb-2">大容量</h3>
-          <p class="font-serif text-xl text-dried-sage mb-4">お見積もり</p>
-          <p class="text-xs text-warm-gray-500 font-serif mb-4">※お問い合わせください</p>
-          <p class="text-sm text-warm-gray-600 font-serif leading-relaxed">
-            業務用・イベント用など、<br />
-            ご希望の分量でお見積もりいたします。
-          </p>
+          <ul class="space-y-1 text-xs text-warm-gray-500 font-serif mb-4">
+            <li>・花瓶・インテリア</li>
+            <li>・スワッグ・リース</li>
+            <li>・ドライブーケ</li>
+          </ul>
+          <div class="mt-auto pt-4 border-t border-warm-gray-100 space-y-1">
+            <p class="text-sm text-warm-gray-600 font-serif">
+              価格: <span class="text-dried-sage font-medium">¥125/本〜</span>（本数ティア制、送料別）
+            </p>
+            <p class="text-xs text-warm-gray-500 font-serif">
+              配送: 宅配便（箱サイズ・地域別）
+            </p>
+          </div>
         </div>
       </div>
       <p class="text-center text-sm text-warm-gray-500 mt-8 font-serif">
-        ※品目により価格が若干異なる場合があります。詳細は各商品ページをご覧ください。
+        ※価格・規格は品目により異なります。詳細は各商品ページをご覧ください。
       </p>
     </div>
   </section>
