@@ -384,6 +384,7 @@ if (!hasQuantityPricing) {
                   boxOptions={product.data.boxCapacity}
                   unit={product.data.unit}
                   defaultCool={false}
+                  productName={product.data.flowerType || product.data.name}
                 />
               </div>
             )}
@@ -395,6 +396,7 @@ if (!hasQuantityPricing) {
                   client:visible
                   options={estimateOptions}
                   defaultCool={false}
+                  productName={product.data.flowerType || product.data.name}
                 />
               </div>
             )}
@@ -434,9 +436,12 @@ if (!hasQuantityPricing) {
                 >
                   Instagram DMで購入・問い合わせ
                 </a>
-                <div class="block w-full text-center px-8 py-4 text-xs tracking-widest font-mono border-2 border-warm-gray-300 text-warm-gray-400 cursor-not-allowed">
-                  フォームで問い合わせ（現在準備中）
-                </div>
+                <a
+                  href={`/contact?product=${encodeURIComponent(product.data.flowerType || product.data.name)}&type=estimate`}
+                  class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
+                >
+                  フォームで問い合わせ
+                </a>
               </div>
             ) : !isMarket && (
               <div class="space-y-4">

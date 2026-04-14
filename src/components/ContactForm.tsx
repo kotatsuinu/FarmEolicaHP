@@ -30,21 +30,44 @@ export default function ContactForm() {
 
   const inquiryTypes = SITE_CONFIG.contactForm.inquiryTypes;
 
-  // URLパラメータからプリフィル
+  // URLパラメータからプリフィル（見積もり計算機からの遷移を想定）
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const product = params.get('product');
     const productType = params.get('type');
     const quantity = params.get('quantity');
+    const unit = params.get('unit') || '本';
+    const unitPrice = params.get('unitPrice');
+    const boxSize = params.get('boxSize');
+    const prefecture = params.get('prefecture');
+    const cool = params.get('cool');
+    const total = params.get('total');
 
-    if (product || productType) {
-      const info = [product, productType, quantity ? `${quantity}個` : ''].filter(Boolean).join(' / ');
-      setFormData(prev => ({
-        ...prev,
-        inquiryType: 'estimate',
-        productInfo: info,
-      }));
+    if (!product && !productType) return;
+
+    // 見積もり詳細をmessage欄にプリフィル（ユーザーが追記可能）
+    const detailLines: string[] = [];
+    if (quantity || boxSize || prefecture || total) {
+      detailLines.push('--- 見積もり内容 ---');
+      if (quantity) {
+        const qLine = `数量: ${quantity}${unit}` + (unitPrice ? `（単価 ${unitPrice}円）` : '');
+        detailLines.push(qLine);
+      }
+      if (boxSize) detailLines.push(`箱サイズ: ${boxSize}`);
+      if (prefecture) detailLines.push(`お届け先: ${prefecture}`);
+      if (cool === 'true') detailLines.push('クール便: 利用希望');
+      if (total) detailLines.push(`見積もり総額: ${Number(total).toLocaleString()}円（税込・送料込）`);
+      detailLines.push('--------------------');
+      detailLines.push('');
+      detailLines.push('（ご要望・ご質問などございましたら、こちらにご記入ください）');
     }
+
+    setFormData(prev => ({
+      ...prev,
+      inquiryType: 'estimate',
+      productInfo: product || '',
+      message: detailLines.length > 0 ? detailLines.join('\n') : prev.message,
+    }));
   }, []);
 
   const validate = (): boolean => {

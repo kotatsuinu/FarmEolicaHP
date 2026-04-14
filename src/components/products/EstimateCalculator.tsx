@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { SHIPPING_RATES, PREFECTURES, COOL_FEES, type Size } from '../../data/shipping';
 
 interface PriceOption {
@@ -10,9 +10,10 @@ interface PriceOption {
 interface EstimateCalculatorProps {
   options: PriceOption[];
   defaultCool?: boolean;
+  productName?: string;
 }
 
-export default function EstimateCalculator({ options, defaultCool = false }: EstimateCalculatorProps) {
+export default function EstimateCalculator({ options, defaultCool = false, productName }: EstimateCalculatorProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedPrefecture, setSelectedPrefecture] = useState<string>('東京都');
   const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(0);
@@ -78,6 +79,20 @@ export default function EstimateCalculator({ options, defaultCool = false }: Est
       setTotalPrice(null);
     }
   }, [shippingFee, coolFeeAmount, selectedOption]);
+
+  // 問い合わせフォームへの遷移URL（見積もり状態を保持）
+  const inquiryUrl = useMemo(() => {
+    const params = new URLSearchParams({
+      type: 'estimate',
+      ...(productName ? { product: productName } : {}),
+      ...(selectedOption ? { boxSize: selectedOption.label } : {}),
+      ...(selectedOption ? { unitPrice: String(selectedOption.price) } : {}),
+      prefecture: selectedPrefecture,
+      cool: isCool ? 'true' : 'false',
+      ...(totalPrice !== null ? { total: String(totalPrice) } : {}),
+    });
+    return `/contact?${params.toString()}`;
+  }, [productName, selectedOption, selectedPrefecture, isCool, totalPrice]);
 
   return (
     <div className="bg-stone-white/95 backdrop-blur-sm shadow-lab-lg border-t-4 border-eolica-green transition-all duration-300">
@@ -217,6 +232,14 @@ export default function EstimateCalculator({ options, defaultCool = false }: Est
               ※目安金額です。実際の決済時と異なる場合があります。
             </p>
           </div>
+
+          {/* CTA: 見積もり状態を保持してフォームへ */}
+          <a
+            href={inquiryUrl}
+            className="block w-full text-center px-6 py-4 mb-6 text-xs tracking-widest uppercase font-mono border-2 border-eolica-green text-eolica-green hover:bg-eolica-green hover:text-white transition-all duration-300"
+          >
+            この内容で問い合わせる →
+          </a>
 
           {/* Shipping Info Footer */}
           <div className="border-t border-warm-gray-200 pt-4">
