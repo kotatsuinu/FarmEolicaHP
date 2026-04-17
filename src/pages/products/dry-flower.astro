@@ -64,16 +64,57 @@ const noticeItems = [
   -->
   <section class="relative h-[60vh] min-h-[420px] flex items-center justify-center overflow-hidden bg-dried-linen">
     <div class="absolute inset-0 bg-gradient-to-b from-dried-beige/40 via-dried-linen/60 to-dried-linen/80"></div>
+
+    <!-- 装飾: 左上 ボタニカルシルエット（花穂） -->
+    <svg class="absolute top-6 left-4 md:top-12 md:left-16 w-20 md:w-32 h-20 md:h-32 text-dried-gold/20" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 95 L50 20" stroke-linecap="round" />
+      <circle cx="50" cy="18" r="3.5" fill="currentColor" />
+      <path d="M50 35 Q42 33 36 28 M50 48 Q58 46 64 41 M50 60 Q42 58 36 53 M50 72 Q58 70 64 65" stroke-linecap="round" />
+      <ellipse cx="38" cy="30" rx="3" ry="2" fill="currentColor" opacity="0.6" />
+      <ellipse cx="62" cy="43" rx="3" ry="2" fill="currentColor" opacity="0.6" />
+      <ellipse cx="38" cy="55" rx="3" ry="2" fill="currentColor" opacity="0.6" />
+      <ellipse cx="62" cy="67" rx="3" ry="2" fill="currentColor" opacity="0.6" />
+    </svg>
+
+    <!-- 装飾: 右下 ボタニカルシルエット（葉・穂） -->
+    <svg class="absolute bottom-4 right-4 md:bottom-10 md:right-16 w-16 md:w-28 h-16 md:h-28 text-dried-sage/25" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 95 L50 25" stroke-linecap="round" />
+      <path d="M50 50 Q30 45 18 30" stroke-linecap="round" />
+      <path d="M50 65 Q70 60 82 45" stroke-linecap="round" />
+      <ellipse cx="22" cy="32" rx="6" ry="2.5" fill="currentColor" opacity="0.5" transform="rotate(-30 22 32)" />
+      <ellipse cx="78" cy="47" rx="6" ry="2.5" fill="currentColor" opacity="0.5" transform="rotate(30 78 47)" />
+    </svg>
+
+    <!-- 角のドット装飾 -->
+    <div class="absolute top-6 right-6 md:top-10 md:right-10 flex gap-1.5" aria-hidden="true">
+      <span class="w-1 h-1 rounded-full bg-dried-gold/40"></span>
+      <span class="w-1 h-1 rounded-full bg-dried-gold/40"></span>
+      <span class="w-1 h-1 rounded-full bg-dried-gold/40"></span>
+    </div>
+    <div class="absolute bottom-6 left-6 md:bottom-10 md:left-10 flex gap-1.5" aria-hidden="true">
+      <span class="w-1 h-1 rounded-full bg-dried-sage/40"></span>
+      <span class="w-1 h-1 rounded-full bg-dried-sage/40"></span>
+      <span class="w-1 h-1 rounded-full bg-dried-sage/40"></span>
+    </div>
+
     <div class="relative z-10 text-center px-6" data-animate>
       <p class="font-mono text-xs tracking-widest text-dried-gold mb-4">
         DRIED FLOWER
       </p>
+      <div class="flex items-center justify-center mb-6" aria-hidden="true">
+        <span class="w-10 h-px bg-dried-gold/60"></span>
+        <span class="mx-3 w-1 h-1 rounded-full bg-dried-gold"></span>
+        <span class="w-10 h-px bg-dried-gold/60"></span>
+      </div>
       <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-wet-soil mb-6 tracking-wide">
         ドライフラワー
       </h1>
       <p class="font-serif text-xl md:text-2xl text-wet-soil/80 max-w-2xl mx-auto leading-relaxed">
         咲き終わりじゃない、<br class="md:hidden" />ここからが美しい。
       </p>
+      <div class="flex items-center justify-center mt-8" aria-hidden="true">
+        <span class="w-16 h-px bg-dried-gold/40"></span>
+      </div>
     </div>
   </section>
 
@@ -92,7 +133,8 @@ const noticeItems = [
         <div class="py-4">
           <p class="font-serif text-base text-warm-gray-500 italic">
             そのまま廃棄するには、惜しすぎる花たちを<br />
-            丁寧にドライ加工して、お届けします。
+            風通しの良い暗所で、数週間かけてじっくり自然乾燥。<br />
+            生花とは違う、静謐な美しさが引き出されていきます。
           </p>
         </div>
         <p class="font-serif text-xl text-dried-gold font-medium">
@@ -139,8 +181,8 @@ const noticeItems = [
           </div>
         </div>
         <!-- Long Stem Genre -->
-        <div class="bg-white p-8 shadow-lab flex flex-col relative opacity-90">
-          <span class="absolute top-4 right-4 px-3 py-1 bg-dried-sage/20 text-dried-sage text-xs font-mono tracking-widest">
+        <div class="bg-dried-linen/60 p-8 shadow-lab flex flex-col relative border border-dried-sage/20">
+          <span class="absolute top-4 right-4 px-3 py-1 bg-dried-sage/90 text-white text-xs font-mono tracking-widest">
             COMING SOON
           </span>
           <div class="w-12 h-12 mb-4 flex items-center justify-center bg-dried-sage/10 rounded-full">
@@ -263,31 +305,40 @@ const noticeItems = [
     <div class="max-w-4xl mx-auto px-6">
       <SectionHeader titleJa="活用アイデア" titleEn="USAGE IDEAS" />
       <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 shadow-lab text-center">
+        <div class="bg-white p-6 shadow-lab text-center flex flex-col">
           <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-dried-gold/10 rounded-full">
             <svg class="w-6 h-6 text-dried-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
             </svg>
           </div>
           <h3 class="font-serif text-sm text-wet-soil mb-2">クラフト素材</h3>
+          <span class="inline-block mx-auto mb-2 px-2 py-0.5 text-[10px] font-mono tracking-widest bg-dried-gold/10 text-dried-gold">
+            HEAD
+          </span>
           <p class="text-xs text-warm-gray-600">レジン・アクセサリー・ハーバリウムに</p>
         </div>
-        <div class="bg-white p-6 shadow-lab text-center">
+        <div class="bg-white p-6 shadow-lab text-center flex flex-col">
           <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-dried-sage/10 rounded-full">
             <svg class="w-6 h-6 text-dried-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
           </div>
           <h3 class="font-serif text-sm text-wet-soil mb-2">インテリア</h3>
+          <span class="inline-block mx-auto mb-2 px-2 py-0.5 text-[10px] font-mono tracking-widest bg-dried-sage/10 text-dried-sage">
+            LONG STEM
+          </span>
           <p class="text-xs text-warm-gray-600">花瓶に挿してナチュラルな空間づくりに</p>
         </div>
-        <div class="bg-white p-6 shadow-lab text-center">
+        <div class="bg-white p-6 shadow-lab text-center flex flex-col">
           <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-dried-beige/50 rounded-full">
             <svg class="w-6 h-6 text-dried-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
           </div>
           <h3 class="font-serif text-sm text-wet-soil mb-2">スワッグ・リース</h3>
+          <span class="inline-block mx-auto mb-2 px-2 py-0.5 text-[10px] font-mono tracking-widest bg-dried-beige text-wet-soil">
+            HEAD &amp; LONG STEM
+          </span>
           <p class="text-xs text-warm-gray-600">壁飾りや贈り物の素材として</p>
         </div>
       </div>
@@ -313,9 +364,10 @@ const noticeItems = [
             <span class="text-dried-gold font-medium">クリックポスト</span>にて、全国一律<span class="font-mono text-dried-gold">¥185</span>でお届けします。
           </p>
           <ul class="mt-3 space-y-1.5 text-sm text-warm-gray-600 font-serif">
-            <li>・追跡番号付き（ポスト投函）</li>
-            <li>・ハードケース＋緩衝材で花を保護</li>
-            <li class="text-dried-sage">・<strong>到着日時の指定はできません</strong></li>
+            <li>・厚さ3cmまでの専用ハードケースで発送</li>
+            <li>・お受け取り時のご在宅不要（郵便ポストへ投函）</li>
+            <li>・追跡番号付き、緩衝材で花を保護</li>
+            <li class="text-dried-sage">・<strong>到着日時のご指定はできません</strong></li>
           </ul>
         </div>
         <!-- ロングステム商品の配送 -->
