@@ -11,13 +11,25 @@ interface EstimateCalculatorProps {
   options: PriceOption[];
   defaultCool?: boolean;
   productName?: string;
+  /** 'standard': 佐川宅配便（都道府県×サイズ×クール便）/ 'clickpost': 全国一律固定送料 */
+  shippingMode?: 'standard' | 'clickpost';
+  /** clickpost時の固定送料（デフォルト185円） */
+  clickpostFee?: number;
 }
 
-export default function EstimateCalculator({ options, defaultCool = false, productName }: EstimateCalculatorProps) {
+export default function EstimateCalculator({
+  options,
+  defaultCool = false,
+  productName,
+  shippingMode = 'standard',
+  clickpostFee = 185,
+}: EstimateCalculatorProps) {
+  const isClickpost = shippingMode === 'clickpost';
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedPrefecture, setSelectedPrefecture] = useState<string>('東京都');
   const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(0);
-  const [isCool, setIsCool] = useState<boolean>(defaultCool);
+  const [isCool, setIsCool] = useState<boolean>(isClickpost ? false : defaultCool);
   const [shippingFee, setShippingFee] = useState<number | null>(null);
   const [coolFeeAmount, setCoolFeeAmount] = useState<number>(0);
   const [totalPrice, setTotalPrice] = useState<number | null>(null);
@@ -27,7 +39,16 @@ export default function EstimateCalculator({ options, defaultCool = false, produ
 
   // Calculate fees when dependencies change
   useEffect(() => {
-    if (!selectedPrefecture || !selectedOption) return;
+    if (!selectedOption) return;
+
+    // Clickpost mode: 全国一律固定送料、クール便なし
+    if (isClickpost) {
+      setShippingFee(clickpostFee);
+      setCoolFeeAmount(0);
+      return;
+    }
+
+    if (!selectedPrefecture) return;
 
     // 1. Find Region
     const rate = SHIPPING_RATES.find(r => r.prefectures.includes(selectedPrefecture));
@@ -37,24 +58,15 @@ export default function EstimateCalculator({ options, defaultCool = false, produ
     }
 
     // 2. Get Base Shipping Fee for Size
-    // Size varies, ensuring it's a valid key
     const sizeKey = selectedOption.size as Size;
-    // Fallback if size not in standard keys (e.g. 70 -> 80)
-    // For now assuming options.size aligns with Size type or close
-    // If exact match not found in table, round up to nearest?
-    // Let's assume passed sizes are valid [60, 80, 100, 120, 140, 160]
-    // If not, we might default to max or error. 
-    // Data check:
     let baseFee = rate.prices[sizeKey];
     if (baseFee === undefined) {
-      // Try to find nearest upper size
       const sizes: Size[] = [60, 80, 100, 140, 160];
       const foundSize = sizes.find(s => s >= selectedOption.size);
       if (foundSize) {
         baseFee = rate.prices[foundSize];
       } else {
-        // Above 160
-        baseFee = rate.prices[160]; // Cap at 160 prices or handle error
+        baseFee = rate.prices[160];
       }
     }
 
@@ -62,14 +74,13 @@ export default function EstimateCalculator({ options, defaultCool = false, produ
 
     // 3. Cool Fee
     if (isCool) {
-      // Find cool fee for size
-      const cool = COOL_FEES[sizeKey] || (COOL_FEES[140]); // Cap cool at 140 usually, or 0 if not supported
+      const cool = COOL_FEES[sizeKey] || (COOL_FEES[140]);
       setCoolFeeAmount(cool);
     } else {
       setCoolFeeAmount(0);
     }
 
-  }, [selectedPrefecture, selectedOption, isCool]);
+  }, [selectedPrefecture, selectedOption, isCool, isClickpost, clickpostFee]);
 
   // Calculate Total
   useEffect(() => {
@@ -87,12 +98,13 @@ export default function EstimateCalculator({ options, defaultCool = false, produ
       ...(productName ? { product: productName } : {}),
       ...(selectedOption ? { boxSize: selectedOption.label } : {}),
       ...(selectedOption ? { unitPrice: String(selectedOption.price) } : {}),
-      prefecture: selectedPrefecture,
-      cool: isCool ? 'true' : 'false',
+      ...(isClickpost
+        ? { shippingMode: 'clickpost', shipping: String(clickpostFee) }
+        : { prefecture: selectedPrefecture, cool: isCool ? 'true' : 'false' }),
       ...(totalPrice !== null ? { total: String(totalPrice) } : {}),
     });
     return `/contact?${params.toString()}`;
-  }, [productName, selectedOption, selectedPrefecture, isCool, totalPrice]);
+  }, [productName, selectedOption, selectedPrefecture, isCool, totalPrice, isClickpost, clickpostFee]);
 
   return (
     <div className="bg-stone-white/95 backdrop-blur-sm shadow-lab-lg border-t-4 border-eolica-green transition-all duration-300">
@@ -114,31 +126,33 @@ export default function EstimateCalculator({ options, defaultCool = false, produ
       {/* Content */}
       <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="px-6 pb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {/* Step 1: Prefecture */}
-            <div className="space-y-2">
-              <label className="block font-mono text-xs text-warm-gray-500">
-                お届け先（都道府県）
-              </label>
-              <div className="relative">
-                <select
-                  value={selectedPrefecture}
-                  onChange={(e) => setSelectedPrefecture(e.target.value)}
-                  className="w-full appearance-none bg-white border border-warm-gray-200 px-4 py-3 pr-8 rounded-none font-serif text-dark-slate focus:outline-none focus:border-eolica-green transition-colors cursor-pointer"
-                >
-                  {PREFECTURES.map((pref) => (
-                    <option key={pref} value={pref}>
-                      {pref}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-warm-gray-500">
-                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
+          <div className={`grid grid-cols-1 ${isClickpost ? '' : 'md:grid-cols-2'} gap-6 mb-6`}>
+            {/* Step 1: Prefecture (standard モードのみ。clickpost は全国一律) */}
+            {!isClickpost && (
+              <div className="space-y-2">
+                <label className="block font-mono text-xs text-warm-gray-500">
+                  お届け先（都道府県）
+                </label>
+                <div className="relative">
+                  <select
+                    value={selectedPrefecture}
+                    onChange={(e) => setSelectedPrefecture(e.target.value)}
+                    className="w-full appearance-none bg-white border border-warm-gray-200 px-4 py-3 pr-8 rounded-none font-serif text-dark-slate focus:outline-none focus:border-eolica-green transition-colors cursor-pointer"
+                  >
+                    {PREFECTURES.map((pref) => (
+                      <option key={pref} value={pref}>
+                        {pref}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-warm-gray-500">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Step 2: Product/Size */}
             <div className="space-y-2">
@@ -166,39 +180,41 @@ export default function EstimateCalculator({ options, defaultCool = false, produ
             </div>
           </div>
 
-          {/* Step 3: Cool Option */}
-          <div className="mb-6">
-            <label className="flex items-start gap-3 cursor-pointer group">
-              <div className="relative flex items-center">
-                <input
-                  type="checkbox"
-                  checked={isCool}
-                  onChange={(e) => setIsCool(e.target.checked)}
-                  className="peer h-5 w-5 cursor-pointer appearance-none border border-warm-gray-300 bg-white checked:bg-old-copper checked:border-old-copper transition-all duration-200"
-                />
-                <svg
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none opacity-0 peer-checked:opacity-100 text-white transition-opacity duration-200"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </div>
-              <div className="flex-1">
-                <span className="font-serif text-dark-slate block group-hover:text-old-copper transition-colors">
-                  クール便を利用する（推奨）
-                </span>
-                <span className="text-xs text-warm-gray-500 block mt-1">
-                  ※夏季（6〜9月）や気温の高い日は品質保持のため利用をおすすめします
-                </span>
-              </div>
-            </label>
-          </div>
+          {/* Step 3: Cool Option (standard モードのみ) */}
+          {!isClickpost && (
+            <div className="mb-6">
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <div className="relative flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={isCool}
+                    onChange={(e) => setIsCool(e.target.checked)}
+                    className="peer h-5 w-5 cursor-pointer appearance-none border border-warm-gray-300 bg-white checked:bg-old-copper checked:border-old-copper transition-all duration-200"
+                  />
+                  <svg
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none opacity-0 peer-checked:opacity-100 text-white transition-opacity duration-200"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <span className="font-serif text-dark-slate block group-hover:text-old-copper transition-colors">
+                    クール便を利用する（推奨）
+                  </span>
+                  <span className="text-xs text-warm-gray-500 block mt-1">
+                    ※夏季（6〜9月）や気温の高い日は品質保持のため利用をおすすめします
+                  </span>
+                </div>
+              </label>
+            </div>
+          )}
 
           {/* Result */}
           <div className="bg-warm-gray-50/50 p-6 border border-warm-gray-100 mb-6">
@@ -208,7 +224,7 @@ export default function EstimateCalculator({ options, defaultCool = false, produ
                 <span>{selectedOption?.price.toLocaleString()}円</span>
               </div>
               <div className="flex justify-between text-sm text-warm-gray-600 font-serif">
-                <span>送料 ({selectedPrefecture})</span>
+                <span>{isClickpost ? '送料（クリックポスト・全国一律）' : `送料 (${selectedPrefecture})`}</span>
                 <span>{shippingFee ? `${shippingFee.toLocaleString()}円` : '---'}</span>
               </div>
               {isCool && (
@@ -244,21 +260,34 @@ export default function EstimateCalculator({ options, defaultCool = false, produ
           {/* Shipping Info Footer */}
           <div className="border-t border-warm-gray-200 pt-4">
             <div className="text-xs text-warm-gray-500 space-y-2">
-              <p>
-                発送元: <span className="font-mono text-wet-soil">福島県</span>（佐川急便・通常宅配便）
-              </p>
-              <p>
-                ※サイズ・地域により異なります。詳細は
-                <a
-                  href={sagawaLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-old-copper hover:underline ml-1"
-                >
-                  佐川急便料金表（福島県発）
-                </a>
-                をご確認ください。
-              </p>
+              {isClickpost ? (
+                <>
+                  <p>
+                    発送方法: <span className="font-mono text-wet-soil">クリックポスト</span>（全国一律・郵便ポスト投函）
+                  </p>
+                  <p>
+                    ※厚さ3cmまでの専用ハードケースで発送／お受け取り時のご在宅不要／到着日時の指定はできません。
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    発送元: <span className="font-mono text-wet-soil">福島県</span>（佐川急便・通常宅配便）
+                  </p>
+                  <p>
+                    ※サイズ・地域により異なります。詳細は
+                    <a
+                      href={sagawaLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-old-copper hover:underline ml-1"
+                    >
+                      佐川急便料金表（福島県発）
+                    </a>
+                    をご確認ください。
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>

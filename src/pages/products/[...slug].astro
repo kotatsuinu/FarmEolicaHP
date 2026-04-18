@@ -439,14 +439,15 @@ if (!hasQuantityPricing) {
               </div>
             )}
 
-            {/* Estimate Calculator - レガシー（ロスフラワー等。ドライフラワーはクリックポスト一律のため除外） */}
-            {!hasQuantityPricing && !isDriedFlower && estimateOptions.length > 0 && isAvailable && (
+            {/* Estimate Calculator - ロスフラワー/ドライフラワー共通（ドライフラワーは clickpost モードで全国一律・クール便無し） */}
+            {!hasQuantityPricing && estimateOptions.length > 0 && isAvailable && (
               <div class="mb-8">
                 <EstimateCalculator
                   client:visible
                   options={estimateOptions}
                   defaultCool={false}
                   productName={product.data.flowerType || product.data.name}
+                  shippingMode={isDriedFlower ? 'clickpost' : 'standard'}
                 />
               </div>
             )}
