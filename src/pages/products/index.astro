@@ -8,6 +8,7 @@ import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import { SITE_CONFIG } from '../../config/site';
 import SectionHeader from '../../components/SectionHeader.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 
 import productsHeroImage from '../../assets/images/products/products-hero.jpg';
 import categoryImperfectImage from '../../assets/images/products/category-imperfect.jpg';
@@ -95,6 +96,16 @@ const categories = [
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
       </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section class="pt-6 pb-2">
+    <div class="max-w-6xl mx-auto px-6">
+      <Breadcrumb items={[
+        { name: 'ホーム', url: '/' },
+        { name: '商品' },
+      ]} />
     </div>
   </section>
 

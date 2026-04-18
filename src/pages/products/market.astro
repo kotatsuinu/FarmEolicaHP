@@ -9,6 +9,7 @@ import { getCollection } from 'astro:content';
 import marketHeroImage from '../../assets/images/products/market-hero.jpg';
 import ProductCard from '../../components/products/ProductCard.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 
 // 市場出荷品の商品を取得
 const marketProducts = (await getCollection('products'))
@@ -53,6 +54,17 @@ const shippingCount = marketProducts.filter(p => p.data.saleStatus === 'availabl
         品質を、正直に。<br class="md:hidden" />
         独自規格で伝える花のこと。
       </p>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section class="pt-6 pb-2">
+    <div class="max-w-6xl mx-auto px-6">
+      <Breadcrumb items={[
+        { name: 'ホーム', url: '/' },
+        { name: '商品', url: '/products' },
+        { name: '市場出荷品' },
+      ]} />
     </div>
   </section>
 

@@ -1,7 +1,7 @@
 ---
 /**
  * PurchaseGuide - 購入導線コンポーネント
- * Googleフォーム・Instagram DM
+ * 独自問い合わせフォーム（見積もり連携対応）・Instagram DM
  */
 import { SITE_CONFIG } from '../../config/site';
 
@@ -9,13 +9,21 @@ interface Props {
   formUrl?: string;
   variant?: 'full' | 'compact';
   title?: string;
+  productName?: string;
 }
 
 const {
-  formUrl = '#',  // TODO: Googleフォーム設定後に更新
+  formUrl,
   variant = 'full',
-  title = 'ご購入・お問い合わせ'
+  title = 'ご購入・お問い合わせ',
+  productName,
 } = Astro.props;
+
+// 独自問い合わせフォーム（見積もりプリフィル対応）
+const resolvedFormUrl = formUrl
+  ?? (productName
+    ? `/contact?product=${encodeURIComponent(productName)}&type=estimate`
+    : '/contact?type=estimate');
 ---
 
 <section class:list={[
@@ -33,9 +41,9 @@ const {
       variant === 'full' && "md:grid-cols-2",
       variant === 'compact' && "md:grid-cols-2",
     ]}>
-      <!-- Googleフォーム -->
+      <!-- 問い合わせ・注文フォーム（独自フォーム・見積もり連携対応） -->
       <a
-        href={formUrl}
+        href={resolvedFormUrl}
         class="group bg-stone-white p-6 md:p-8 shadow-lab hover:shadow-lab-lg transition-all duration-300 text-center"
       >
         <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-eolica-green/10 rounded-full group-hover:bg-eolica-green/20 transition-colors duration-300">
@@ -44,16 +52,11 @@ const {
           </svg>
         </div>
         <h3 class="font-mono text-sm text-wet-soil mb-2 group-hover:text-eolica-green transition-colors duration-300">
-          購入フォーム
+          問い合わせ・ご注文フォーム
         </h3>
         <p class="text-xs text-warm-gray-600 font-serif">
-          Googleフォームからご注文
+          見積もり内容を引き継いでお問い合わせいただけます
         </p>
-        {formUrl === '#' && (
-          <p class="text-xs text-old-copper mt-2 font-mono">
-            準備中
-          </p>
-        )}
       </a>
 
       <!-- Instagram DM -->

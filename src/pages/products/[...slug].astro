@@ -9,6 +9,7 @@ import QuantityEstimateCalculator from '../../components/products/QuantityEstima
 import QualityGradeTabs from '../../components/products/QualityGradeTabs';
 import ProductSchema from '../../components/seo/ProductSchema.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -30,6 +31,7 @@ const categoryLabels = {
   loss_flower: 'ロスフラワー',
   imperfect: '規格外切り花',
   market: '市場出荷品',
+  dried_flower: 'ドライフラワー',
 };
 
 // カテゴリの戻り先URL
@@ -37,6 +39,7 @@ const categoryBackLinks = {
   loss_flower: '/products/loss-flower',
   imperfect: '/products/imperfect',
   market: '/products/market',
+  dried_flower: '/products/dry-flower',
 };
 
 // 季節の日本語表示
@@ -51,6 +54,7 @@ const seasonLabels = {
 const isLossFlower = product.data.category === 'loss_flower';
 const isImperfect = product.data.category === 'imperfect';
 const isMarket = product.data.category === 'market';
+const isDriedFlower = product.data.category === 'dried_flower';
 
 // 販売中かどうか
 const isAvailable = product.data.saleStatus === 'available';
@@ -110,17 +114,14 @@ if (!hasQuantityPricing) {
     { name: product.data.flowerType || product.data.name, url: Astro.url.pathname },
   ]} />
   <div class="pt-32 pb-24 min-h-screen">
-    <!-- Back Link (Top) -->
+    <!-- Breadcrumb (Top) -->
     <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-6">
-      <a
-        href={backUrl}
-        class="inline-flex items-center gap-2 text-xs tracking-widest uppercase font-mono text-warm-gray-500 hover:text-eolica-green transition-colors duration-300"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        {categoryLabels[product.data.category]}一覧に戻る
-      </a>
+      <Breadcrumb items={[
+        { name: 'ホーム', url: '/' },
+        { name: '商品', url: '/products' },
+        { name: categoryLabels[product.data.category] || '商品', url: backUrl },
+        { name: product.data.flowerType || product.data.name },
+      ]} />
     </div>
 
     <!-- Hero Image Section -->
@@ -163,7 +164,8 @@ if (!hasQuantityPricing) {
                   isLossFlower && "bg-old-copper/10 text-old-copper border border-old-copper/30",
                   isImperfect && "bg-eolica-green/10 text-eolica-green border border-eolica-green/30",
                   isMarket && "bg-wet-soil/10 text-wet-soil border border-wet-soil/30",
-                  !isLossFlower && !isImperfect && !isMarket && "bg-warm-gray-100 text-warm-gray-600"
+                  isDriedFlower && "bg-dried-gold/10 text-dried-gold border border-dried-gold/30",
+                  !isLossFlower && !isImperfect && !isMarket && !isDriedFlower && "bg-warm-gray-100 text-warm-gray-600"
                 ]}>
                   {categoryLabels[product.data.category]}
                 </span>
@@ -322,8 +324,56 @@ if (!hasQuantityPricing) {
               </div>
             )}
 
+            <!-- Price Table for Dried Flower (ヘッド商品はクリックポスト一律) -->
+            {isDriedFlower && product.data.priceTable && product.data.priceTable.length > 0 && (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
+                <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+                  PRICE <span class="font-serif">ー価格（税込・送料別）ー</span>
+                </h3>
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm">
+                    <thead>
+                      <tr class="border-b border-warm-gray-200">
+                        <th class="text-left py-2 font-mono text-xs text-warm-gray-500">サイズ</th>
+                        <th class="text-center py-2 font-mono text-xs text-warm-gray-500">内容</th>
+                        <th class="text-right py-2 font-mono text-xs text-warm-gray-500">価格</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {product.data.priceTable.map((item: { size: string; quantity: string; price: number; note?: string }, index: number) => (
+                        <tr class:list={[
+                          "border-b border-warm-gray-100",
+                          index === product.data.priceTable.length - 1 && "border-b-0"
+                        ]}>
+                          <td class="py-3 font-serif text-wet-soil">{item.size}</td>
+                          <td class="py-3 text-center font-mono text-xs text-warm-gray-600">{item.quantity}</td>
+                          <td class="py-3 text-right">
+                            <span class="font-mono text-dried-gold font-medium">¥{item.price.toLocaleString()}</span>
+                            {item.note && (
+                              <span class="block text-xs text-warm-gray-500">{item.note}</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="mt-4 pt-4 border-t border-warm-gray-200">
+                  <p class="font-mono text-[10px] tracking-widest text-dried-gold mb-2">SHIPPING</p>
+                  <p class="text-sm font-serif text-warm-gray-700">
+                    送料: <span class="font-mono text-dried-gold">クリックポスト 全国一律 ¥185</span>
+                  </p>
+                  <ul class="mt-2 space-y-1 text-xs text-warm-gray-500 font-serif">
+                    <li>・厚さ3cmまでの専用ハードケースで発送</li>
+                    <li>・お受け取り時のご在宅不要（郵便ポストへ投函）</li>
+                    <li>・追跡番号付き／到着日時の指定はできません</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
             <!-- Price for other categories (market除外) -->
-            {!isLossFlower && !isImperfect && !isMarket && product.data.price && (
+            {!isLossFlower && !isImperfect && !isMarket && !isDriedFlower && product.data.price && (
               <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
                 <div class="flex items-baseline gap-2 mb-2">
                   <p class="font-mono text-3xl text-rust">
@@ -389,8 +439,8 @@ if (!hasQuantityPricing) {
               </div>
             )}
 
-            {/* Estimate Calculator - レガシー（ロスフラワー等） */}
-            {!hasQuantityPricing && estimateOptions.length > 0 && isAvailable && (
+            {/* Estimate Calculator - レガシー（ロスフラワー等。ドライフラワーはクリックポスト一律のため除外） */}
+            {!hasQuantityPricing && !isDriedFlower && estimateOptions.length > 0 && isAvailable && (
               <div class="mb-8">
                 <EstimateCalculator
                   client:visible
@@ -425,7 +475,7 @@ if (!hasQuantityPricing) {
               </div>
             )}
 
-            <!-- Purchase Buttons (market以外) -->
+            <!-- Purchase Buttons (market以外。見積もり計算機の「この内容で問い合わせる」CTAでフォーム誘導するため、ここはInstaDMのみ) -->
             {!isMarket && isAvailable ? (
               <div class="space-y-4">
                 <a
@@ -435,12 +485,6 @@ if (!hasQuantityPricing) {
                   class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-rust hover:bg-rust hover:text-white transition-all duration-300"
                 >
                   Instagram DMで購入・問い合わせ
-                </a>
-                <a
-                  href={`/contact?product=${encodeURIComponent(product.data.flowerType || product.data.name)}&type=estimate`}
-                  class="block w-full text-center px-8 py-4 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
-                >
-                  フォームで問い合わせ
                 </a>
               </div>
             ) : !isMarket && (
