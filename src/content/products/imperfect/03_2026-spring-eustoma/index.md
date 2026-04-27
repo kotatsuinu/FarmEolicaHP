@@ -27,15 +27,15 @@ priceTiers:
 boxCapacity:
   - size: "80サイズ"
     boxSize: 80
-    maxStems: 35
+    maxStems: 20
     maxLength: 30
   - size: "100サイズ"
     boxSize: 100
-    maxStems: 55
+    maxStems: 40
     maxLength: 40
   - size: "120サイズ"
     boxSize: 120
-    maxStems: 80
+    maxStems: 70
     maxLength: 50
 
 features:
