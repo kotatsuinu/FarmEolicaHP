@@ -22,14 +22,12 @@ priceTable:
     price: 1000
     note: "本格的なクラフト制作に"
 
-# メイン画像（後日差し替え）
-# image: "./hero.jpg"
+image: "./hero.jpg"
 
-# ギャラリー画像（後日差し替え）
-# gallery:
-#   - "./detail-01.jpg"
-#   - "./detail-02.jpg"
-#   - "./styling.jpg"
+gallery:
+  - "./detail-01.jpg"
+  - "./detail-02.jpg"
+  - "./styling.jpg"
 
 features:
   - "釣鐘型の愛らしいフォルム"

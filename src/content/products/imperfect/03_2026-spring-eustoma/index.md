@@ -8,11 +8,11 @@ saleStatus: "available"
 availableFrom: 2026-05-01
 cultivationNo: "202602"
 
-# image: "./main.jpg"
-# gallery:
-#   - "./sub1.jpg"
-#   - "./sub2.jpg"
-#   - "./sub3.jpg"
+image: "./main.jpg"
+gallery:
+  - "./sub1.jpg"
+  - "./sub2.jpg"
+  - "./sub3.jpg"
 
 priceTiers:
   - minQuantity: 1
