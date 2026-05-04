@@ -266,7 +266,7 @@ export default function EstimateCalculator({
                     発送方法: <span className="font-mono text-wet-soil">クリックポスト</span>（全国一律・郵便ポスト投函）
                   </p>
                   <p>
-                    ※厚さ3cmまでの専用ハードケースで発送／お受け取り時のご在宅不要／到着日時の指定はできません。
+                    ※厚さ3cmまでのハードケースで発送／お受け取り時のご在宅不要／到着日時の指定はできません。
                   </p>
                 </>
               ) : (

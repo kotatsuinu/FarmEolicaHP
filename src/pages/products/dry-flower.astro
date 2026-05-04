@@ -5,8 +5,11 @@
  * 価格は品目・形態により異なる（各商品ページ参照）
  */
 import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-// import dryFlowerHeroImage from '../../assets/images/products/dry-flower-hero.jpg';
+import dryFlowerHeroImage from '../../assets/images/products/dry-flower-hero.jpg';
+import dryFlowerHeadBgImage from '../../assets/images/products/dry-flower-head-bg.jpg';
+import dryFlowerLongStemBgImage from '../../assets/images/products/dry-flower-longstem-bg.jpg';
 import ProductCard from '../../components/products/ProductCard.astro';
 import NoticeInfo from '../../components/products/NoticeInfo.astro';
 import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
@@ -51,7 +54,7 @@ const noticeItems = [
   {
     title: 'クリックポスト配送について',
     items: [
-      '厚さ3cmまでの専用ハードケースに梱包し、郵便ポストへ投函します',
+      '厚さ3cmまでのハードケースに梱包し、郵便ポストへ投函します',
       'お受け取り時のご在宅は不要です（対面受取なし）',
       '日時指定はできません（クリックポスト仕様のため）',
       '追跡番号を発送完了時にお知らせします',
@@ -64,17 +67,17 @@ const noticeItems = [
 <Layout
   title="ドライフラワー | Farm Eolica (ファームエオリカ)"
   description="咲き終わりじゃない、ここからが美しい。Farm Eolicaのドライフラワー。自農場で育てた花を丁寧にドライ加工。クラフト素材としてお届けします。"
+  image={dryFlowerHeroImage.src}
 >
-  <!-- Hero Section（画像なし・dried-linen背景） -->
-  <!--
-    ヒーロー画像は準備中です。
-    画像が用意できたら以下のように差し替えてください:
-    1. `import dryFlowerHeroImage from '../../assets/images/products/dry-flower-hero.jpg';` のコメントを外す
-    2. Layoutのimage属性に `image={dryFlowerHeroImage.src}` を追加
-    3. 以下のsectionをloss-flower.astroと同様の画像ありのHeroに変更
-  -->
+  <!-- Hero Section -->
   <section class="relative h-[60vh] min-h-[420px] flex items-center justify-center overflow-hidden bg-dried-linen">
-    <div class="absolute inset-0 bg-gradient-to-b from-dried-beige/40 via-dried-linen/60 to-dried-linen/80"></div>
+    <Image
+      src={dryFlowerHeroImage}
+      alt="Farm Eolica のドライフラワー"
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-dried-linen/70 via-dried-linen/55 to-dried-linen/80"></div>
 
     <!-- 装飾: 左上 ボタニカルシルエット（花穂） -->
     <svg class="absolute top-6 left-4 md:top-12 md:left-16 w-20 md:w-32 h-20 md:h-32 text-dried-gold/20" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 100 100" aria-hidden="true">
@@ -186,11 +189,13 @@ const noticeItems = [
       <div class="grid md:grid-cols-2 gap-6">
         <!-- Head Genre -->
         <div class="relative overflow-hidden shadow-lab flex flex-col min-h-[420px] bg-white">
-          <!-- 背景ダミー画像層（右3/5） -->
-          <div
-            class="absolute inset-y-0 right-0 w-3/5 bg-gradient-to-br from-dried-gold/45 via-dried-beige to-dried-linen/80"
-            aria-hidden="true"
-          ></div>
+          <!-- 背景実写画像層（右3/5） -->
+          <Image
+            src={dryFlowerHeadBgImage}
+            alt="ドライフラワー ヘッド商品の背景"
+            class="absolute inset-y-0 right-0 w-3/5 h-full object-cover"
+            loading="lazy"
+          />
           <!-- 左→右フェード（テキスト可読性） -->
           <div
             class="absolute inset-0 bg-gradient-to-r from-white via-white/95 via-45% to-transparent"
@@ -229,21 +234,18 @@ const noticeItems = [
 
         <!-- Long Stem Genre -->
         <div class="relative overflow-hidden shadow-lab flex flex-col min-h-[420px] bg-white border border-dried-sage/20">
-          <!-- 背景ダミー画像層（右3/5） -->
-          <div
-            class="absolute inset-y-0 right-0 w-3/5 bg-gradient-to-br from-dried-sage/40 via-dried-linen to-dried-beige/60"
-            aria-hidden="true"
-          ></div>
+          <!-- 背景実写画像層（右3/5） -->
+          <Image
+            src={dryFlowerLongStemBgImage}
+            alt="ドライフラワー ロングステム商品の背景"
+            class="absolute inset-y-0 right-0 w-3/5 h-full object-cover"
+            loading="lazy"
+          />
           <!-- 左→右フェード -->
           <div
             class="absolute inset-0 bg-gradient-to-r from-white via-white/95 via-45% to-transparent"
             aria-hidden="true"
           ></div>
-
-          <!-- COMING SOON バッジ（画像層より上） -->
-          <span class="absolute top-4 right-4 z-20 px-3 py-1 bg-dried-sage/90 text-white text-xs font-mono tracking-widest">
-            COMING SOON
-          </span>
 
           <!-- コンテンツ層 -->
           <div class="relative z-10 p-8 flex flex-col flex-1">
@@ -429,7 +431,7 @@ const noticeItems = [
             <span class="text-dried-gold font-medium">クリックポスト</span>にて、全国一律<span class="font-mono text-dried-gold">¥185</span>でお届けします。
           </p>
           <ul class="mt-3 space-y-1.5 text-sm text-warm-gray-600 font-serif">
-            <li>・厚さ3cmまでの専用ハードケースで発送</li>
+            <li>・厚さ3cmまでのハードケースで発送</li>
             <li>・お受け取り時のご在宅不要（郵便ポストへ投函）</li>
             <li>・追跡番号付き、緩衝材で花を保護</li>
             <li class="text-dried-sage">・<strong>到着日時のご指定はできません</strong></li>
@@ -439,14 +441,16 @@ const noticeItems = [
         <div class="pt-6 border-t border-warm-gray-100">
           <h3 class="font-serif text-lg text-wet-soil mb-3 flex items-center gap-2">
             <span class="inline-block w-1.5 h-5 bg-dried-sage"></span>
-            ロングステム商品の配送（準備中）
+            ロングステム商品の配送
           </h3>
           <p class="font-serif text-base text-warm-gray-700 leading-relaxed">
-            宅配便（箱サイズ・地域別）でお届け予定です。日時指定可能。
+            <span class="text-dried-sage font-medium">宅配便（60サイズ）</span>でお届けします。送料は地域別運賃、日時指定可能。
           </p>
-          <p class="mt-2 text-sm text-warm-gray-500 font-serif">
-            ※販売開始時に詳細をご案内します。
-          </p>
+          <ul class="mt-3 space-y-1.5 text-sm text-warm-gray-600 font-serif">
+            <li>・茎付きで厚みがあるためクリックポスト対象外</li>
+            <li>・緩衝材で花と茎を保護してダンボールに梱包</li>
+            <li>・到着後はすみやかに取り出し風通しの良い場所へ</li>
+          </ul>
         </div>
         <!-- 価格表示 -->
         <div class="pt-6 border-t border-warm-gray-100">
