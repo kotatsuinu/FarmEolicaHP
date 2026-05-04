@@ -33,6 +33,7 @@ priceTable:
 image: "./hero.jpg"
 
 gallery:
+  - "./promo.png"
   - "./detail-01.jpg"
   - "./detail-02.jpg"
   - "./styling.jpg"
