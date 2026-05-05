@@ -15,6 +15,10 @@ interface EstimateCalculatorProps {
   shippingMode?: 'standard' | 'clickpost';
   /** clickpost時の固定送料（デフォルト185円） */
   clickpostFee?: number;
+  /** クール便オプションを非表示にする（ドライフラワーロングステム等、保冷不要の商品向け）*/
+  hideCoolOption?: boolean;
+  /** standardモード時のフッター追記（例: "茎長30cmで切り揃え"）*/
+  shippingNote?: string;
 }
 
 export default function EstimateCalculator({
@@ -23,13 +27,16 @@ export default function EstimateCalculator({
   productName,
   shippingMode = 'standard',
   clickpostFee = 185,
+  hideCoolOption = false,
+  shippingNote,
 }: EstimateCalculatorProps) {
   const isClickpost = shippingMode === 'clickpost';
+  const showCoolOption = !isClickpost && !hideCoolOption;
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedPrefecture, setSelectedPrefecture] = useState<string>('東京都');
   const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(0);
-  const [isCool, setIsCool] = useState<boolean>(isClickpost ? false : defaultCool);
+  const [isCool, setIsCool] = useState<boolean>(showCoolOption ? defaultCool : false);
   const [shippingFee, setShippingFee] = useState<number | null>(null);
   const [coolFeeAmount, setCoolFeeAmount] = useState<number>(0);
   const [totalPrice, setTotalPrice] = useState<number | null>(null);
@@ -180,8 +187,8 @@ export default function EstimateCalculator({
             </div>
           </div>
 
-          {/* Step 3: Cool Option (standard モードのみ) */}
-          {!isClickpost && (
+          {/* Step 3: Cool Option (standardモード かつ クール便オプション有効時のみ) */}
+          {showCoolOption && (
             <div className="mb-6">
               <label className="flex items-start gap-3 cursor-pointer group">
                 <div className="relative flex items-center">
@@ -286,6 +293,9 @@ export default function EstimateCalculator({
                     </a>
                     をご確認ください。
                   </p>
+                  {shippingNote && (
+                    <p className="text-old-copper">※{shippingNote}</p>
+                  )}
                 </>
               )}
             </div>

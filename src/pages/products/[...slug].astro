@@ -55,6 +55,10 @@ const isLossFlower = product.data.category === 'loss_flower';
 const isImperfect = product.data.category === 'imperfect';
 const isMarket = product.data.category === 'market';
 const isDriedFlower = product.data.category === 'dried_flower';
+// ドライフラワーのうち、ロングステムは宅配便（80サイズ）配送
+// ヘッドはクリックポスト全国一律
+const isLongStem = isDriedFlower && product.data.tags?.includes('ロングステム');
+const isDriedHead = isDriedFlower && !isLongStem;
 
 // 販売中かどうか
 const isAvailable = product.data.saleStatus === 'available';
@@ -71,10 +75,16 @@ let estimateOptions = [];
 if (!hasQuantityPricing) {
   if (product.data.priceTable) {
     estimateOptions = product.data.priceTable.map((p: any) => {
-      const sizeMatch = p.size.toString().match(/\d+/);
-      const size = sizeMatch ? parseInt(sizeMatch[0]) : 100;
+      // ロングステムは80サイズ固定、それ以外はラベルから数字抽出
+      let size: number;
+      if (isLongStem) {
+        size = 80;
+      } else {
+        const sizeMatch = p.size.toString().match(/\d+/);
+        size = sizeMatch ? parseInt(sizeMatch[0]) : 100;
+      }
       return {
-        label: p.size,
+        label: `${p.size}（${p.quantity}）`,
         price: p.price,
         size: size
       };
@@ -324,7 +334,7 @@ if (!hasQuantityPricing) {
               </div>
             )}
 
-            <!-- Price Table for Dried Flower (ヘッド商品はクリックポスト一律) -->
+            <!-- Price Table for Dried Flower (ヘッドはクリックポスト / ロングステムは宅配便80サイズ) -->
             {isDriedFlower && product.data.priceTable && product.data.priceTable.length > 0 && (
               <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
                 <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
@@ -336,17 +346,23 @@ if (!hasQuantityPricing) {
                       <tr class="border-b border-warm-gray-200">
                         <th class="text-left py-2 font-mono text-xs text-warm-gray-500">サイズ</th>
                         <th class="text-center py-2 font-mono text-xs text-warm-gray-500">内容</th>
+                        {isLongStem && (
+                          <th class="text-center py-2 font-mono text-xs text-warm-gray-500">茎長</th>
+                        )}
                         <th class="text-right py-2 font-mono text-xs text-warm-gray-500">価格</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {product.data.priceTable.map((item: { size: string; quantity: string; price: number; note?: string }, index: number) => (
+                      {product.data.priceTable.map((item: { size: string; quantity: string; price: number; stemLength?: string; note?: string }, index: number) => (
                         <tr class:list={[
                           "border-b border-warm-gray-100",
                           index === product.data.priceTable.length - 1 && "border-b-0"
                         ]}>
                           <td class="py-3 font-serif text-wet-soil">{item.size}</td>
                           <td class="py-3 text-center font-mono text-xs text-warm-gray-600">{item.quantity}</td>
+                          {isLongStem && (
+                            <td class="py-3 text-center font-mono text-xs text-warm-gray-600">{item.stemLength || '-'}</td>
+                          )}
                           <td class="py-3 text-right">
                             <span class="font-mono text-dried-gold font-medium">¥{item.price.toLocaleString()}</span>
                             {item.note && (
@@ -360,14 +376,30 @@ if (!hasQuantityPricing) {
                 </div>
                 <div class="mt-4 pt-4 border-t border-warm-gray-200">
                   <p class="font-mono text-[10px] tracking-widest text-dried-gold mb-2">SHIPPING</p>
-                  <p class="text-sm font-serif text-warm-gray-700">
-                    送料: <span class="font-mono text-dried-gold">クリックポスト 全国一律 ¥185</span>
-                  </p>
-                  <ul class="mt-2 space-y-1 text-xs text-warm-gray-500 font-serif">
-                    <li>・厚さ3cmまでのハードケースで発送</li>
-                    <li>・お受け取り時のご在宅不要（郵便ポストへ投函）</li>
-                    <li>・追跡番号付き／到着日時の指定はできません</li>
-                  </ul>
+                  {isLongStem ? (
+                    <>
+                      <p class="text-sm font-serif text-warm-gray-700">
+                        送料: <span class="font-mono text-dried-gold">宅配便80サイズ・地域別運賃（佐川急便）</span>
+                      </p>
+                      <ul class="mt-2 space-y-1 text-xs text-warm-gray-500 font-serif">
+                        <li>・茎付きで厚みがあるためクリックポスト対象外</li>
+                        <li>・茎長30cmで切り揃え、緩衝材で花と茎を保護してダンボール梱包</li>
+                        <li>・日時指定可能／追跡番号付き</li>
+                        <li>・下記の見積もりフォームで都道府県別の送料が確認できます</li>
+                      </ul>
+                    </>
+                  ) : (
+                    <>
+                      <p class="text-sm font-serif text-warm-gray-700">
+                        送料: <span class="font-mono text-dried-gold">クリックポスト 全国一律 ¥185</span>
+                      </p>
+                      <ul class="mt-2 space-y-1 text-xs text-warm-gray-500 font-serif">
+                        <li>・厚さ3cmまでのハードケースで発送</li>
+                        <li>・お受け取り時のご在宅不要（郵便ポストへ投函）</li>
+                        <li>・追跡番号付き／到着日時の指定はできません</li>
+                      </ul>
+                    </>
+                  )}
                 </div>
               </div>
             )}
@@ -439,7 +471,10 @@ if (!hasQuantityPricing) {
               </div>
             )}
 
-            {/* Estimate Calculator - ロスフラワー/ドライフラワー共通（ドライフラワーは clickpost モードで全国一律・クール便無し） */}
+            {/* Estimate Calculator
+                - ヘッド/ロスフラワー: clickpost モード（全国一律・クール便無し）
+                - ロングステム: standard モード（宅配便80サイズ・都道府県別、ドライ品なのでクール便無し）
+                - 規格外切花: standard モード */}
             {!hasQuantityPricing && estimateOptions.length > 0 && isAvailable && (
               <div class="mb-8">
                 <EstimateCalculator
@@ -447,7 +482,9 @@ if (!hasQuantityPricing) {
                   options={estimateOptions}
                   defaultCool={false}
                   productName={product.data.flowerType || product.data.name}
-                  shippingMode={isDriedFlower ? 'clickpost' : 'standard'}
+                  shippingMode={isDriedHead ? 'clickpost' : 'standard'}
+                  hideCoolOption={isLongStem || isDriedFlower}
+                  shippingNote={isLongStem ? '茎長30cmで切り揃え／緩衝材で花と茎を保護してダンボール梱包／日時指定可' : undefined}
                 />
               </div>
             )}
