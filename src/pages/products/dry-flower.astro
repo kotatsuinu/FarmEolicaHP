@@ -5,13 +5,16 @@
  * 価格は品目・形態により異なる（各商品ページ参照）
  */
 import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-// import dryFlowerHeroImage from '../../assets/images/products/dry-flower-hero.jpg';
+import dryFlowerHeroImage from '../../assets/images/products/dry-flower-hero.jpg';
+import dryFlowerHeadBgImage from '../../assets/images/products/dry-flower-head-bg.jpg';
+import dryFlowerLongStemBgImage from '../../assets/images/products/dry-flower-longstem-bg.jpg';
 import ProductCard from '../../components/products/ProductCard.astro';
-import ShippingInfo from '../../components/products/ShippingInfo.astro';
 import NoticeInfo from '../../components/products/NoticeInfo.astro';
 import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 
 // ドライフラワーの商品を取得
 const dryFlowerProducts = (await getCollection('products'))
@@ -23,8 +26,12 @@ const dryFlowerProducts = (await getCollection('products'))
     return (a.data.order || 999) - (b.data.order || 999);
   });
 
-// 販売中の商品数
-const availableCount = dryFlowerProducts.filter(p => p.data.saleStatus === 'available').length;
+// ジャンル別に分類（tagsで判定）
+const headProducts = dryFlowerProducts.filter(p => p.data.tags?.includes('ヘッド'));
+const longStemProducts = dryFlowerProducts.filter(p => p.data.tags?.includes('ロングステム'));
+
+const headAvailableCount = headProducts.filter(p => p.data.saleStatus === 'available').length;
+const longStemAvailableCount = longStemProducts.filter(p => p.data.saleStatus === 'available').length;
 
 // Notice用の情報
 const noticeItems = [
@@ -42,35 +49,97 @@ const noticeItems = [
   },
   {
     title: '梱包方法',
-    text: '花が潰れないよう、エアーパッキンで丁寧に梱包してお届けします。到着後はすみやかに取り出し、風通しの良い場所に保管してください。'
+    text: 'ハードケースに入れ、緩衝材で花を保護した上でクリックポスト用ダンボールに梱包してお届けします。到着後はすみやかに取り出し、風通しの良い場所に保管してください。'
+  },
+  {
+    title: 'クリックポスト配送について',
+    items: [
+      '厚さ3cmまでのハードケースに梱包し、郵便ポストへ投函します',
+      'お受け取り時のご在宅は不要です（対面受取なし）',
+      '日時指定はできません（クリックポスト仕様のため）',
+      '追跡番号を発送完了時にお知らせします',
+      'ロングステム商品は対象外となります（宅配便80サイズで別途お届け）',
+    ]
   }
 ];
 ---
 
 <Layout
   title="ドライフラワー | Farm Eolica (ファームエオリカ)"
-  description="咲き終わりじゃない、ここからが美しい。Farm Eolicaのドライフラワー。自農場で育てた花を丁寧にドライ加工。ヘッドと茎付きの2形態でお届けします。"
+  description="咲き終わりじゃない、ここからが美しい。Farm Eolicaのドライフラワー。自農場で育てた花を丁寧にドライ加工。クラフト素材としてお届けします。"
+  image={dryFlowerHeroImage.src}
 >
-  <!-- Hero Section（画像なし・dried-linen背景） -->
-  <!--
-    ヒーロー画像は準備中です。
-    画像が用意できたら以下のように差し替えてください:
-    1. `import dryFlowerHeroImage from '../../assets/images/products/dry-flower-hero.jpg';` のコメントを外す
-    2. Layoutのimage属性に `image={dryFlowerHeroImage.src}` を追加
-    3. 以下のsectionをloss-flower.astroと同様の画像ありのHeroに変更
-  -->
+  <!-- Hero Section -->
   <section class="relative h-[60vh] min-h-[420px] flex items-center justify-center overflow-hidden bg-dried-linen">
-    <div class="absolute inset-0 bg-gradient-to-b from-dried-beige/40 via-dried-linen/60 to-dried-linen/80"></div>
+    <Image
+      src={dryFlowerHeroImage}
+      alt="Farm Eolica のドライフラワー"
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-dried-linen/70 via-dried-linen/55 to-dried-linen/80"></div>
+
+    <!-- 装飾: 左上 ボタニカルシルエット（花穂） -->
+    <svg class="absolute top-6 left-4 md:top-12 md:left-16 w-20 md:w-32 h-20 md:h-32 text-dried-gold/20" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 95 L50 20" stroke-linecap="round" />
+      <circle cx="50" cy="18" r="3.5" fill="currentColor" />
+      <path d="M50 35 Q42 33 36 28 M50 48 Q58 46 64 41 M50 60 Q42 58 36 53 M50 72 Q58 70 64 65" stroke-linecap="round" />
+      <ellipse cx="38" cy="30" rx="3" ry="2" fill="currentColor" opacity="0.6" />
+      <ellipse cx="62" cy="43" rx="3" ry="2" fill="currentColor" opacity="0.6" />
+      <ellipse cx="38" cy="55" rx="3" ry="2" fill="currentColor" opacity="0.6" />
+      <ellipse cx="62" cy="67" rx="3" ry="2" fill="currentColor" opacity="0.6" />
+    </svg>
+
+    <!-- 装飾: 右下 ボタニカルシルエット（葉・穂） -->
+    <svg class="absolute bottom-4 right-4 md:bottom-10 md:right-16 w-16 md:w-28 h-16 md:h-28 text-dried-sage/25" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 95 L50 25" stroke-linecap="round" />
+      <path d="M50 50 Q30 45 18 30" stroke-linecap="round" />
+      <path d="M50 65 Q70 60 82 45" stroke-linecap="round" />
+      <ellipse cx="22" cy="32" rx="6" ry="2.5" fill="currentColor" opacity="0.5" transform="rotate(-30 22 32)" />
+      <ellipse cx="78" cy="47" rx="6" ry="2.5" fill="currentColor" opacity="0.5" transform="rotate(30 78 47)" />
+    </svg>
+
+    <!-- 角のドット装飾 -->
+    <div class="absolute top-6 right-6 md:top-10 md:right-10 flex gap-1.5" aria-hidden="true">
+      <span class="w-1 h-1 rounded-full bg-dried-gold/40"></span>
+      <span class="w-1 h-1 rounded-full bg-dried-gold/40"></span>
+      <span class="w-1 h-1 rounded-full bg-dried-gold/40"></span>
+    </div>
+    <div class="absolute bottom-6 left-6 md:bottom-10 md:left-10 flex gap-1.5" aria-hidden="true">
+      <span class="w-1 h-1 rounded-full bg-dried-sage/40"></span>
+      <span class="w-1 h-1 rounded-full bg-dried-sage/40"></span>
+      <span class="w-1 h-1 rounded-full bg-dried-sage/40"></span>
+    </div>
+
     <div class="relative z-10 text-center px-6" data-animate>
       <p class="font-mono text-xs tracking-widest text-dried-gold mb-4">
         DRIED FLOWER
       </p>
+      <div class="flex items-center justify-center mb-6" aria-hidden="true">
+        <span class="w-10 h-px bg-dried-gold/60"></span>
+        <span class="mx-3 w-1 h-1 rounded-full bg-dried-gold"></span>
+        <span class="w-10 h-px bg-dried-gold/60"></span>
+      </div>
       <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-wet-soil mb-6 tracking-wide">
         ドライフラワー
       </h1>
       <p class="font-serif text-xl md:text-2xl text-wet-soil/80 max-w-2xl mx-auto leading-relaxed">
         咲き終わりじゃない、<br class="md:hidden" />ここからが美しい。
       </p>
+      <div class="flex items-center justify-center mt-8" aria-hidden="true">
+        <span class="w-16 h-px bg-dried-gold/40"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section class="pt-6 pb-2">
+    <div class="max-w-6xl mx-auto px-6">
+      <Breadcrumb items={[
+        { name: 'ホーム', url: '/' },
+        { name: '商品', url: '/products' },
+        { name: 'ドライフラワー' },
+      ]} />
     </div>
   </section>
 
@@ -89,7 +158,8 @@ const noticeItems = [
         <div class="py-4">
           <p class="font-serif text-base text-warm-gray-500 italic">
             そのまま廃棄するには、惜しすぎる花たちを<br />
-            丁寧にドライ加工して、お届けします。
+            風通しの良い暗所で、数週間かけてじっくり自然乾燥。<br />
+            生花とは違う、静謐な美しさが引き出されていきます。
           </p>
         </div>
         <p class="font-serif text-xl text-dried-gold font-medium">
@@ -104,69 +174,133 @@ const noticeItems = [
     </div>
   </section>
 
-  <!-- Two Ways to Enjoy Section -->
+  <!-- Two Genres Overview Section -->
   <section class="py-12 md:py-16 bg-dried-linen/50" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <SectionHeader titleJa="2つの楽しみ方" titleEn="TWO WAYS TO ENJOY" />
+    <div class="max-w-5xl mx-auto px-6">
+      <SectionHeader titleJa="2つのジャンルでお届け" titleEn="TWO GENRES" description="用途に合わせてお選びいただけます" />
+      <!--
+        背景画像の差し替え方法（現在はダミーのグラデーション）:
+        1. 画像を `src/assets/images/products/dry-flower-head-bg.jpg` 等に配置
+        2. 下記 `bg-gradient-to-br ...` の div を
+           `<Image src={headBgImage} ... class="absolute inset-y-0 right-0 w-3/5 h-full object-cover object-center" />`
+           に差し替え（frontmatterで画像import）
+        3. ロングステム側も同様
+      -->
       <div class="grid md:grid-cols-2 gap-6">
-        <!-- Head -->
-        <div class="bg-white p-8 shadow-lab">
-          <div class="w-12 h-12 mb-4 flex items-center justify-center bg-dried-gold/10 rounded-full">
-            <svg class="w-6 h-6 text-dried-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-            </svg>
+        <!-- Head Genre -->
+        <div class="relative overflow-hidden shadow-lab flex flex-col min-h-[420px] bg-white">
+          <!-- 背景実写画像層（右3/5） -->
+          <Image
+            src={dryFlowerHeadBgImage}
+            alt="ドライフラワー ヘッド商品の背景"
+            class="absolute inset-y-0 right-0 w-3/5 h-full object-cover"
+            loading="lazy"
+          />
+          <!-- 左→右フェード（テキスト可読性） -->
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-white via-white/95 via-45% to-transparent"
+            aria-hidden="true"
+          ></div>
+
+          <!-- コンテンツ層 -->
+          <div class="relative z-10 p-8 flex flex-col flex-1">
+            <div class="bg-white/75 backdrop-blur-sm p-5 max-w-[82%] flex flex-col flex-1">
+              <div class="w-12 h-12 mb-4 flex items-center justify-center bg-dried-gold/10 rounded-full">
+                <svg class="w-6 h-6 text-dried-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+              </div>
+              <p class="font-mono text-xs tracking-widest text-dried-gold mb-2">FLOWER HEAD</p>
+              <h3 class="font-serif text-xl text-wet-soil mb-3">ヘッド（花頭のみ）</h3>
+              <p class="text-sm text-warm-gray-600 font-serif leading-relaxed mb-4">
+                花頭だけを丁寧に乾燥させた詰め合わせ。レジン封入・ハーバリウム・ポプリなど、クラフト素材として最適です。
+              </p>
+              <ul class="space-y-1 text-xs text-warm-gray-500 font-serif mb-4">
+                <li>・レジン封入・アクセサリー</li>
+                <li>・ハーバリウム</li>
+                <li>・ポプリ・サシェ</li>
+              </ul>
+              <div class="mt-auto pt-4 border-t border-warm-gray-100 space-y-1">
+                <p class="text-sm text-warm-gray-600 font-serif">
+                  価格: <span class="text-dried-gold font-medium">¥700〜</span>（品目・サイズによる、送料別）
+                </p>
+                <p class="text-xs text-warm-gray-500 font-serif">
+                  配送: クリックポスト全国一律 ¥185
+                </p>
+              </div>
+            </div>
           </div>
-          <h3 class="font-serif text-lg text-wet-soil mb-3">ヘッド詰め合わせ</h3>
-          <p class="font-mono text-xs tracking-widest text-dried-gold mb-4">FLOWER HEAD</p>
-          <p class="text-sm text-warm-gray-600 font-serif leading-relaxed">
-            花頭だけを丁寧に乾燥。レジン封入・ハーバリウム・アクセサリー作りなど、クラフト素材として最適です。色別・ミックスでお届けします。
-          </p>
-          <ul class="mt-4 space-y-1 text-xs text-warm-gray-500 font-serif">
-            <li>・レジン封入・アクセサリー</li>
-            <li>・ハーバリウム</li>
-            <li>・ポプリ・サシェ</li>
-          </ul>
         </div>
-        <!-- Long Stem -->
-        <div class="bg-white p-8 shadow-lab">
-          <div class="w-12 h-12 mb-4 flex items-center justify-center bg-dried-sage/10 rounded-full">
-            <svg class="w-6 h-6 text-dried-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
+
+        <!-- Long Stem Genre -->
+        <div class="relative overflow-hidden shadow-lab flex flex-col min-h-[420px] bg-white border border-dried-sage/20">
+          <!-- 背景実写画像層（右3/5） -->
+          <Image
+            src={dryFlowerLongStemBgImage}
+            alt="ドライフラワー ロングステム商品の背景"
+            class="absolute inset-y-0 right-0 w-3/5 h-full object-cover"
+            loading="lazy"
+          />
+          <!-- 左→右フェード -->
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-white via-white/95 via-45% to-transparent"
+            aria-hidden="true"
+          ></div>
+
+          <!-- コンテンツ層 -->
+          <div class="relative z-10 p-8 flex flex-col flex-1">
+            <div class="bg-white/75 backdrop-blur-sm p-5 max-w-[82%] flex flex-col flex-1">
+              <div class="w-12 h-12 mb-4 flex items-center justify-center bg-dried-sage/10 rounded-full">
+                <svg class="w-6 h-6 text-dried-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <p class="font-mono text-xs tracking-widest text-dried-sage mb-2">LONG STEM</p>
+              <h3 class="font-serif text-xl text-wet-soil mb-3">ロングステム（茎付き）</h3>
+              <p class="text-sm text-warm-gray-600 font-serif leading-relaxed mb-4">
+                40〜50cm規格の茎付きドライフラワー。花瓶に挿してインテリアに、スワッグやリースの素材としても活躍します。
+              </p>
+              <ul class="space-y-1 text-xs text-warm-gray-500 font-serif mb-4">
+                <li>・花瓶・インテリア</li>
+                <li>・スワッグ・リース</li>
+                <li>・ドライブーケ</li>
+              </ul>
+              <div class="mt-auto pt-4 border-t border-warm-gray-100 space-y-1">
+                <p class="text-sm text-warm-gray-600 font-serif">
+                  価格: <span class="text-dried-sage font-medium">¥88/本〜</span>（本数が増えるほどお得、送料別）
+                </p>
+                <p class="text-xs text-warm-gray-500 font-serif">
+                  配送: 宅配便80サイズ（茎長30cm）・地域別運賃
+                </p>
+              </div>
+            </div>
           </div>
-          <h3 class="font-serif text-lg text-wet-soil mb-3">ロングステム</h3>
-          <p class="font-mono text-xs tracking-widest text-dried-sage mb-4">LONG STEM</p>
-          <p class="text-sm text-warm-gray-600 font-serif leading-relaxed">
-            茎付きのままドライ加工。花瓶に挿すだけでナチュラルなインテリアに。スワッグ・リース・ブーケ素材としても活躍します。
-          </p>
-          <ul class="mt-4 space-y-1 text-xs text-warm-gray-500 font-serif">
-            <li>・花瓶に挿してインテリアに</li>
-            <li>・スワッグ・リース</li>
-            <li>・ドライブーケ</li>
-          </ul>
         </div>
       </div>
+      <p class="text-center text-sm text-warm-gray-500 mt-8 font-serif">
+        ※価格・規格は品目により異なります。詳細は各商品ページをご覧ください。
+      </p>
     </div>
   </section>
 
-  <!-- Current Products Section -->
+  <!-- Head Products Section -->
   <section class="py-16 md:py-20" data-animate>
     <div class="max-w-6xl mx-auto px-6">
-      <SectionHeader titleJa="現在お届けできる花" titleEn="CURRENT PRODUCTS">
-        {availableCount > 0 ? (
+      <SectionHeader titleJa="ヘッド商品ラインナップ" titleEn="FLOWER HEAD LINEUP">
+        {headAvailableCount > 0 ? (
           <p class="font-mono text-sm text-dried-gold mt-3">
-            {availableCount}種類の花をご用意しています
+            {headAvailableCount}種類の花をご用意しています
           </p>
         ) : (
           <p class="font-mono text-sm text-warm-gray-500 mt-3">
-            現在販売中の商品はありません
+            現在販売中のヘッド商品はありません
           </p>
         )}
       </SectionHeader>
 
-      {dryFlowerProducts.length > 0 ? (
+      {headProducts.length > 0 ? (
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {dryFlowerProducts.map((product) => (
+          {headProducts.map((product) => (
             <ProductCard
               product={product}
               showStatus={true}
@@ -186,36 +320,92 @@ const noticeItems = [
     </div>
   </section>
 
+  <!-- Long Stem Products Section -->
+  <section class="py-16 md:py-20 bg-dried-linen/30" data-animate>
+    <div class="max-w-6xl mx-auto px-6">
+      <SectionHeader titleJa="ロングステム商品ラインナップ" titleEn="LONG STEM LINEUP">
+        {longStemAvailableCount > 0 ? (
+          <p class="font-mono text-sm text-dried-sage mt-3">
+            {longStemAvailableCount}種類の花をご用意しています
+          </p>
+        ) : (
+          <p class="font-mono text-sm text-warm-gray-500 mt-3">
+            現在準備中です
+          </p>
+        )}
+      </SectionHeader>
+
+      {longStemProducts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {longStemProducts.map((product) => (
+            <ProductCard
+              product={product}
+              showStatus={true}
+              showPrice={false}
+              variant="default"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12 md:py-16 bg-white shadow-lab">
+          <p class="font-mono text-xs tracking-widest text-dried-sage mb-3">COMING SOON</p>
+          <p class="font-serif text-lg text-wet-soil mb-3">
+            ロングステム商品は現在準備中です
+          </p>
+          <p class="font-serif text-sm text-warm-gray-600 leading-relaxed max-w-xl mx-auto px-6">
+            40〜50cm規格の茎付きドライフラワーを、準備が整い次第順次販売開始いたします。<br />
+            入荷のお知らせをご希望の方は、お問い合わせフォームよりご連絡ください。
+          </p>
+          <a
+            href="/contact?product=ロングステムドライフラワー&type=other"
+            class="inline-block mt-6 px-6 py-2 text-xs tracking-widest uppercase font-mono border-2 border-dried-sage text-dried-sage hover:bg-dried-sage hover:text-white transition-all duration-300"
+          >
+            入荷お知らせご希望 →
+          </a>
+        </div>
+      )}
+    </div>
+  </section>
+
   <!-- Usage Ideas Section -->
   <section class="py-12 md:py-16 bg-dried-linen/50" data-animate>
     <div class="max-w-4xl mx-auto px-6">
       <SectionHeader titleJa="活用アイデア" titleEn="USAGE IDEAS" />
       <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 shadow-lab text-center">
+        <div class="bg-white p-6 shadow-lab text-center flex flex-col">
           <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-dried-gold/10 rounded-full">
             <svg class="w-6 h-6 text-dried-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
             </svg>
           </div>
           <h3 class="font-serif text-sm text-wet-soil mb-2">クラフト素材</h3>
+          <span class="inline-block mx-auto mb-2 px-2 py-0.5 text-[10px] font-mono tracking-widest bg-dried-gold/10 text-dried-gold">
+            HEAD
+          </span>
           <p class="text-xs text-warm-gray-600">レジン・アクセサリー・ハーバリウムに</p>
         </div>
-        <div class="bg-white p-6 shadow-lab text-center">
+        <div class="bg-white p-6 shadow-lab text-center flex flex-col">
           <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-dried-sage/10 rounded-full">
             <svg class="w-6 h-6 text-dried-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
           </div>
           <h3 class="font-serif text-sm text-wet-soil mb-2">インテリア</h3>
+          <span class="inline-block mx-auto mb-2 px-2 py-0.5 text-[10px] font-mono tracking-widest bg-dried-sage/10 text-dried-sage">
+            LONG STEM
+          </span>
           <p class="text-xs text-warm-gray-600">花瓶に挿してナチュラルな空間づくりに</p>
         </div>
-        <div class="bg-white p-6 shadow-lab text-center">
+        <div class="bg-white p-6 shadow-lab text-center flex flex-col">
           <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-dried-beige/50 rounded-full">
             <svg class="w-6 h-6 text-dried-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
           </div>
           <h3 class="font-serif text-sm text-wet-soil mb-2">スワッグ・リース</h3>
+          <span class="inline-block mx-auto mb-2 px-2 py-0.5 text-[10px] font-mono tracking-widest bg-dried-beige text-wet-soil">
+            HEAD &amp; LONG STEM
+          </span>
           <p class="text-xs text-warm-gray-600">壁飾りや贈り物の素材として</p>
         </div>
       </div>
@@ -226,33 +416,67 @@ const noticeItems = [
     </div>
   </section>
 
-  <!-- Price Guide Section -->
+  <!-- Shipping & Price Info Section -->
   <section class="py-12 md:py-16" data-animate>
     <div class="max-w-4xl mx-auto px-6">
-      <SectionHeader titleJa="価格について" titleEn="PRICE GUIDE" />
-      <div class="bg-white p-6 md:p-8 shadow-lab">
-        <p class="font-serif text-base text-warm-gray-600 leading-relaxed mb-6">
-          価格は品目・形態（ヘッド / ロングステム）により異なります。<br />
-          詳細は各商品ページをご覧ください。
-        </p>
-        <p class="font-serif text-sm text-warm-gray-500 mb-6">
-          大容量のご注文（業務用・イベント用など）は別途お見積もりいたします。<br />
-          お気軽にお問い合わせください。
-        </p>
-        <a
-          href="/contact?product=ドライフラワー&type=大容量"
-          class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-dried-gold text-dried-gold hover:bg-dried-gold hover:text-white transition-all duration-300"
-        >
-          大容量・業務用のご相談 →
-        </a>
+      <SectionHeader titleJa="配送・価格について" titleEn="SHIPPING &amp; PRICE" />
+      <div class="bg-white p-6 md:p-8 shadow-lab space-y-6">
+        <!-- ヘッド商品の配送 -->
+        <div>
+          <h3 class="font-serif text-lg text-wet-soil mb-3 flex items-center gap-2">
+            <span class="inline-block w-1.5 h-5 bg-dried-gold"></span>
+            ヘッド商品の配送
+          </h3>
+          <p class="font-serif text-base text-warm-gray-700 leading-relaxed">
+            <span class="text-dried-gold font-medium">クリックポスト</span>にて、全国一律<span class="font-mono text-dried-gold">¥185</span>でお届けします。
+          </p>
+          <ul class="mt-3 space-y-1.5 text-sm text-warm-gray-600 font-serif">
+            <li>・厚さ3cmまでのハードケースで発送</li>
+            <li>・お受け取り時のご在宅不要（郵便ポストへ投函）</li>
+            <li>・追跡番号付き、緩衝材で花を保護</li>
+            <li class="text-dried-sage">・<strong>到着日時のご指定はできません</strong></li>
+          </ul>
+        </div>
+        <!-- ロングステム商品の配送 -->
+        <div class="pt-6 border-t border-warm-gray-100">
+          <h3 class="font-serif text-lg text-wet-soil mb-3 flex items-center gap-2">
+            <span class="inline-block w-1.5 h-5 bg-dried-sage"></span>
+            ロングステム商品の配送
+          </h3>
+          <p class="font-serif text-base text-warm-gray-700 leading-relaxed">
+            <span class="text-dried-sage font-medium">宅配便80サイズ</span>でお届けします。送料は地域別運賃、日時指定可能。
+          </p>
+          <ul class="mt-3 space-y-1.5 text-sm text-warm-gray-600 font-serif">
+            <li>・規格外切花の出荷規格に準じ、80サイズ箱で発送するため茎長30cmで切り揃え</li>
+            <li>・茎付きで厚みがあるためクリックポスト対象外</li>
+            <li>・緩衝材で花と茎を保護してダンボールに梱包</li>
+            <li>・到着後はすみやかに取り出し風通しの良い場所へ</li>
+          </ul>
+        </div>
+        <!-- 価格表示 -->
+        <div class="pt-6 border-t border-warm-gray-100">
+          <h3 class="font-serif text-lg text-wet-soil mb-3 flex items-center gap-2">
+            <span class="inline-block w-1.5 h-5 bg-dried-gold"></span>
+            価格について
+          </h3>
+          <p class="font-serif text-base text-warm-gray-700 leading-relaxed">
+            商品価格（花代＋梱包料込）に送料が別途加算されます。<br />
+            品目・サイズ・色の詳細は各商品ページをご覧ください。
+          </p>
+        </div>
+        <!-- 大容量 CTA -->
+        <div class="pt-6 border-t border-warm-gray-100">
+          <p class="font-serif text-sm text-warm-gray-600 mb-4">
+            業務用・イベント用などの大容量注文は別途お見積もりいたします。
+          </p>
+          <a
+            href="/contact?product=ドライフラワー&type=estimate"
+            class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-dried-gold text-dried-gold hover:bg-dried-gold hover:text-white transition-all duration-300"
+          >
+            大容量・業務用のご相談 →
+          </a>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Shipping Info -->
-  <section class="py-12 md:py-16 bg-dried-linen/50" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <ShippingInfo collapsible={true} />
     </div>
   </section>
 

@@ -18,6 +18,7 @@ interface QuantityEstimateCalculatorProps {
   boxOptions: BoxOption[];
   unit?: string;
   defaultCool?: boolean;
+  productName?: string;
 }
 
 export default function QuantityEstimateCalculator({
@@ -25,6 +26,7 @@ export default function QuantityEstimateCalculator({
   boxOptions,
   unit = '本',
   defaultCool = false,
+  productName,
 }: QuantityEstimateCalculatorProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(priceTiers[0]?.minQuantity || 10);
@@ -81,6 +83,22 @@ export default function QuantityEstimateCalculator({
   }, [selectedPrefecture, selectedBox, isCool]);
 
   const totalPrice = shippingFee !== null ? productPrice + shippingFee + coolFeeAmount : null;
+
+  // 問い合わせフォームへの遷移URL（見積もり状態を保持）
+  const inquiryUrl = useMemo(() => {
+    const params = new URLSearchParams({
+      type: 'estimate',
+      ...(productName ? { product: productName } : {}),
+      quantity: String(quantity),
+      unit: unit,
+      unitPrice: String(unitPrice),
+      ...(selectedBox ? { boxSize: selectedBox.size } : {}),
+      prefecture: selectedPrefecture,
+      cool: isCool ? 'true' : 'false',
+      ...(totalPrice !== null ? { total: String(totalPrice) } : {}),
+    });
+    return `/contact?${params.toString()}`;
+  }, [productName, quantity, unit, unitPrice, selectedBox, selectedPrefecture, isCool, totalPrice]);
 
   // Format tier label for display
   const tierLabel = useMemo(() => {
@@ -265,6 +283,14 @@ export default function QuantityEstimateCalculator({
               ※目安金額です。実際の決済時と異なる場合があります。
             </p>
           </div>
+
+          {/* CTA: 見積もり状態を保持してフォームへ */}
+          <a
+            href={inquiryUrl}
+            className="block w-full text-center px-6 py-4 mb-6 text-xs tracking-widest uppercase font-mono border-2 border-eolica-green text-eolica-green hover:bg-eolica-green hover:text-white transition-all duration-300"
+          >
+            この内容で問い合わせる →
+          </a>
 
           {/* Shipping Info Footer */}
           <div className="border-t border-warm-gray-200 pt-4">

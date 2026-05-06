@@ -1,0 +1,63 @@
+---
+/**
+ * Breadcrumb - パンくずリスト
+ * 階層的なナビゲーションでユーザーが段階的に戻れるようにする。
+ * BreadcrumbSchema(JSON-LD)は別コンポーネント(components/seo/BreadcrumbSchema.astro)で併用する。
+ */
+interface BreadcrumbItem {
+  name: string;
+  url?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  variant?: 'default' | 'onImage';
+}
+
+const { items, variant = 'default' } = Astro.props;
+
+const onImage = variant === 'onImage';
+---
+
+<nav
+  aria-label="Breadcrumb"
+  class:list={[
+    'w-full',
+    onImage ? 'text-white/90' : 'text-warm-gray-500'
+  ]}
+>
+  <ol class="flex flex-wrap items-center gap-1.5 font-mono text-[11px] tracking-widest uppercase">
+    {items.map((item, index) => {
+      const isLast = index === items.length - 1;
+      return (
+        <li class="flex items-center gap-1.5">
+          {item.url && !isLast ? (
+            <a
+              href={item.url}
+              class:list={[
+                'transition-colors duration-200 hover:underline',
+                onImage ? 'hover:text-white' : 'hover:text-eolica-green'
+              ]}
+            >
+              {item.name}
+            </a>
+          ) : (
+            <span
+              class:list={[
+                isLast && (onImage ? 'text-white font-medium' : 'text-wet-soil font-medium')
+              ]}
+              aria-current={isLast ? 'page' : undefined}
+            >
+              {item.name}
+            </span>
+          )}
+          {!isLast && (
+            <span aria-hidden="true" class:list={[onImage ? 'text-white/50' : 'text-warm-gray-300']}>
+              /
+            </span>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>

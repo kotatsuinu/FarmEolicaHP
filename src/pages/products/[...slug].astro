@@ -9,6 +9,7 @@ import QuantityEstimateCalculator from '../../components/products/QuantityEstima
 import QualityGradeTabs from '../../components/products/QualityGradeTabs';
 import ProductSchema from '../../components/seo/ProductSchema.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -30,6 +31,7 @@ const categoryLabels = {
   loss_flower: 'ロスフラワー',
   imperfect: '規格外切り花',
   market: '市場出荷品',
+  dried_flower: 'ドライフラワー',
 };
 
 // カテゴリの戻り先URL
@@ -37,6 +39,7 @@ const categoryBackLinks = {
   loss_flower: '/products/loss-flower',
   imperfect: '/products/imperfect',
   market: '/products/market',
+  dried_flower: '/products/dry-flower',
 };
 
 // 季節の日本語表示
@@ -51,6 +54,11 @@ const seasonLabels = {
 const isLossFlower = product.data.category === 'loss_flower';
 const isImperfect = product.data.category === 'imperfect';
 const isMarket = product.data.category === 'market';
+const isDriedFlower = product.data.category === 'dried_flower';
+// ドライフラワーのうち、ロングステムは宅配便（80サイズ）配送
+// ヘッドはクリックポスト全国一律
+const isLongStem = isDriedFlower && product.data.tags?.includes('ロングステム');
+const isDriedHead = isDriedFlower && !isLongStem;
 
 // 販売中かどうか
 const isAvailable = product.data.saleStatus === 'available';
@@ -67,10 +75,16 @@ let estimateOptions = [];
 if (!hasQuantityPricing) {
   if (product.data.priceTable) {
     estimateOptions = product.data.priceTable.map((p: any) => {
-      const sizeMatch = p.size.toString().match(/\d+/);
-      const size = sizeMatch ? parseInt(sizeMatch[0]) : 100;
+      // ロングステムは80サイズ固定、それ以外はラベルから数字抽出
+      let size: number;
+      if (isLongStem) {
+        size = 80;
+      } else {
+        const sizeMatch = p.size.toString().match(/\d+/);
+        size = sizeMatch ? parseInt(sizeMatch[0]) : 100;
+      }
       return {
-        label: p.size,
+        label: `${p.size}（${p.quantity}）`,
         price: p.price,
         size: size
       };
@@ -110,17 +124,14 @@ if (!hasQuantityPricing) {
     { name: product.data.flowerType || product.data.name, url: Astro.url.pathname },
   ]} />
   <div class="pt-32 pb-24 min-h-screen">
-    <!-- Back Link (Top) -->
+    <!-- Breadcrumb (Top) -->
     <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-6">
-      <a
-        href={backUrl}
-        class="inline-flex items-center gap-2 text-xs tracking-widest uppercase font-mono text-warm-gray-500 hover:text-eolica-green transition-colors duration-300"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        {categoryLabels[product.data.category]}一覧に戻る
-      </a>
+      <Breadcrumb items={[
+        { name: 'ホーム', url: '/' },
+        { name: '商品', url: '/products' },
+        { name: categoryLabels[product.data.category] || '商品', url: backUrl },
+        { name: product.data.flowerType || product.data.name },
+      ]} />
     </div>
 
     <!-- Hero Image Section -->
@@ -163,7 +174,8 @@ if (!hasQuantityPricing) {
                   isLossFlower && "bg-old-copper/10 text-old-copper border border-old-copper/30",
                   isImperfect && "bg-eolica-green/10 text-eolica-green border border-eolica-green/30",
                   isMarket && "bg-wet-soil/10 text-wet-soil border border-wet-soil/30",
-                  !isLossFlower && !isImperfect && !isMarket && "bg-warm-gray-100 text-warm-gray-600"
+                  isDriedFlower && "bg-dried-gold/10 text-dried-gold border border-dried-gold/30",
+                  !isLossFlower && !isImperfect && !isMarket && !isDriedFlower && "bg-warm-gray-100 text-warm-gray-600"
                 ]}>
                   {categoryLabels[product.data.category]}
                 </span>
@@ -322,8 +334,78 @@ if (!hasQuantityPricing) {
               </div>
             )}
 
+            <!-- Price Table for Dried Flower (ヘッドはクリックポスト / ロングステムは宅配便80サイズ) -->
+            {isDriedFlower && product.data.priceTable && product.data.priceTable.length > 0 && (
+              <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
+                <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+                  PRICE <span class="font-serif">ー価格（税込・送料別）ー</span>
+                </h3>
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm">
+                    <thead>
+                      <tr class="border-b border-warm-gray-200">
+                        <th class="text-left py-2 font-mono text-xs text-warm-gray-500">サイズ</th>
+                        <th class="text-center py-2 font-mono text-xs text-warm-gray-500">内容</th>
+                        {isLongStem && (
+                          <th class="text-center py-2 font-mono text-xs text-warm-gray-500">茎長</th>
+                        )}
+                        <th class="text-right py-2 font-mono text-xs text-warm-gray-500">価格</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {product.data.priceTable.map((item: { size: string; quantity: string; price: number; stemLength?: string; note?: string }, index: number) => (
+                        <tr class:list={[
+                          "border-b border-warm-gray-100",
+                          index === product.data.priceTable.length - 1 && "border-b-0"
+                        ]}>
+                          <td class="py-3 font-serif text-wet-soil">{item.size}</td>
+                          <td class="py-3 text-center font-mono text-xs text-warm-gray-600">{item.quantity}</td>
+                          {isLongStem && (
+                            <td class="py-3 text-center font-mono text-xs text-warm-gray-600">{item.stemLength || '-'}</td>
+                          )}
+                          <td class="py-3 text-right">
+                            <span class="font-mono text-dried-gold font-medium">¥{item.price.toLocaleString()}</span>
+                            {item.note && (
+                              <span class="block text-xs text-warm-gray-500">{item.note}</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="mt-4 pt-4 border-t border-warm-gray-200">
+                  <p class="font-mono text-[10px] tracking-widest text-dried-gold mb-2">SHIPPING</p>
+                  {isLongStem ? (
+                    <>
+                      <p class="text-sm font-serif text-warm-gray-700">
+                        送料: <span class="font-mono text-dried-gold">宅配便80サイズ・地域別運賃（佐川急便）</span>
+                      </p>
+                      <ul class="mt-2 space-y-1 text-xs text-warm-gray-500 font-serif">
+                        <li>・茎付きで厚みがあるためクリックポスト対象外</li>
+                        <li>・茎長30cmで切り揃え、緩衝材で花と茎を保護してダンボール梱包</li>
+                        <li>・日時指定可能／追跡番号付き</li>
+                        <li>・下記の見積もりフォームで都道府県別の送料が確認できます</li>
+                      </ul>
+                    </>
+                  ) : (
+                    <>
+                      <p class="text-sm font-serif text-warm-gray-700">
+                        送料: <span class="font-mono text-dried-gold">クリックポスト 全国一律 ¥185</span>
+                      </p>
+                      <ul class="mt-2 space-y-1 text-xs text-warm-gray-500 font-serif">
+                        <li>・厚さ3cmまでのハードケースで発送</li>
+                        <li>・お受け取り時のご在宅不要（郵便ポストへ投函）</li>
+                        <li>・追跡番号付き／到着日時の指定はできません</li>
+                      </ul>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+
             <!-- Price for other categories (market除外) -->
-            {!isLossFlower && !isImperfect && !isMarket && product.data.price && (
+            {!isLossFlower && !isImperfect && !isMarket && !isDriedFlower && product.data.price && (
               <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
                 <div class="flex items-baseline gap-2 mb-2">
                   <p class="font-mono text-3xl text-rust">
@@ -384,17 +466,25 @@ if (!hasQuantityPricing) {
                   boxOptions={product.data.boxCapacity}
                   unit={product.data.unit}
                   defaultCool={false}
+                  productName={product.data.flowerType || product.data.name}
                 />
               </div>
             )}
 
-            {/* Estimate Calculator - レガシー（ロスフラワー等） */}
+            {/* Estimate Calculator
+                - ヘッド/ロスフラワー: clickpost モード（全国一律・クール便無し）
+                - ロングステム: standard モード（宅配便80サイズ・都道府県別、ドライ品なのでクール便無し）
+                - 規格外切花: standard モード */}
             {!hasQuantityPricing && estimateOptions.length > 0 && isAvailable && (
               <div class="mb-8">
                 <EstimateCalculator
                   client:visible
                   options={estimateOptions}
                   defaultCool={false}
+                  productName={product.data.flowerType || product.data.name}
+                  shippingMode={isDriedHead ? 'clickpost' : 'standard'}
+                  hideCoolOption={isLongStem || isDriedFlower}
+                  shippingNote={isLongStem ? '茎長30cmで切り揃え／緩衝材で花と茎を保護してダンボール梱包／日時指定可' : undefined}
                 />
               </div>
             )}
@@ -423,7 +513,7 @@ if (!hasQuantityPricing) {
               </div>
             )}
 
-            <!-- Purchase Buttons (market以外) -->
+            <!-- Purchase Buttons (market以外。見積もり計算機の「この内容で問い合わせる」CTAでフォーム誘導するため、ここはInstaDMのみ) -->
             {!isMarket && isAvailable ? (
               <div class="space-y-4">
                 <a
@@ -434,9 +524,6 @@ if (!hasQuantityPricing) {
                 >
                   Instagram DMで購入・問い合わせ
                 </a>
-                <div class="block w-full text-center px-8 py-4 text-xs tracking-widest font-mono border-2 border-warm-gray-300 text-warm-gray-400 cursor-not-allowed">
-                  フォームで問い合わせ（現在準備中）
-                </div>
               </div>
             ) : !isMarket && (
               <div class="space-y-4">
