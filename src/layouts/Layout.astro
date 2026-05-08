@@ -76,8 +76,7 @@ const ogImage = image
 
     <!-- デモモーダル表示時にヘッダーを隠す -->
     <style is:global>
-      html[data-demo-modal] header,
-      html[data-demo-modal] [data-construction-bar] {
+      html[data-demo-modal] header {
         display: none !important;
       }
     </style>
@@ -114,19 +113,8 @@ const ogImage = image
     <!-- ノイズテクスチャ背景 -->
     <div class="fixed inset-0 bg-noise pointer-events-none z-0"></div>
 
-    <!-- 構築中通知バー -->
-    <div data-construction-bar class="fixed top-0 left-0 right-0 z-[60] bg-wet-soil text-stone-white py-2">
-      <div class="max-w-7xl mx-auto px-6 text-center">
-        <p class="font-mono text-xs tracking-wide">
-          <span class="opacity-80">現在サイト構築中です</span>
-          <span class="mx-2 opacity-40">|</span>
-          <span class="opacity-80">System Construction in Progress</span>
-        </p>
-      </div>
-    </div>
-
     <!-- Header -->
-    <header class="fixed top-8 left-0 right-0 z-50 bg-stone-white/90 backdrop-blur-sm border-b border-warm-gray-200">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-stone-white/90 backdrop-blur-sm border-b border-warm-gray-200">
       <nav class="max-w-7xl mx-auto px-6 lg:px-12 py-6">
         <div class="flex items-center justify-between">
           <!-- Logo -->

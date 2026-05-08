@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 
 interface GalleryImage {
   src: string;
@@ -62,7 +63,10 @@ function Lightbox({
     };
   }, [onClose, prev, next]);
 
-  return (
+  // body 直下に portal してヘッダー等の stacking context を回避
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 cursor-zoom-out"
       onClick={onClose}
@@ -140,7 +144,8 @@ function Lightbox({
         style={noCopyStyle}
         {...preventCopyHandlers}
       />
-    </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -148,7 +153,7 @@ export function ProductGalleryHero({
   images,
   productName,
   isDiscontinued = false,
-  intervalMs = 8000,
+  intervalMs = 4000,
 }: CommonProps & { isDiscontinued?: boolean; intervalMs?: number }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
