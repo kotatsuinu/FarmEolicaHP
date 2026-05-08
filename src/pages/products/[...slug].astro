@@ -213,16 +213,50 @@ if (!hasQuantityPricing) {
             {isLossFlower && (
               <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
                 <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
-                  PRICE <span class="font-serif">ー価格（税込）ー</span>
+                  PRICE <span class="font-serif">ー価格（税込・送料別）ー</span>
                 </h3>
-                <p class="font-mono text-xl text-rust mb-2">
-                  60サイズ 1,300円〜
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm">
+                    <thead>
+                      <tr class="border-b border-warm-gray-200">
+                        <th class="text-left py-2 font-mono text-xs text-warm-gray-500">サイズ</th>
+                        <th class="text-center py-2 font-mono text-xs text-warm-gray-500">本数目安</th>
+                        <th class="text-right py-2 font-mono text-xs text-warm-gray-500">価格</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="border-b border-warm-gray-100">
+                        <td class="py-3 font-serif text-wet-soil">小箱（60サイズ）</td>
+                        <td class="py-3 text-center font-mono text-xs text-warm-gray-600">約80輪</td>
+                        <td class="py-3 text-right">
+                          <span class="font-mono text-old-copper font-medium">¥1,300</span>
+                          <span class="block text-xs text-warm-gray-500">個人クラフト・撮影に</span>
+                        </td>
+                      </tr>
+                      <tr class="border-b border-warm-gray-100">
+                        <td class="py-3 font-serif text-wet-soil">中箱（80サイズ）</td>
+                        <td class="py-3 text-center font-mono text-xs text-warm-gray-600">約160輪</td>
+                        <td class="py-3 text-right">
+                          <span class="font-mono text-old-copper font-medium">¥2,000</span>
+                          <span class="block text-xs text-warm-gray-500">中規模アレンジに</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="py-3 font-serif text-wet-soil">大箱（100サイズ）</td>
+                        <td class="py-3 text-center font-mono text-xs text-warm-gray-600">約320輪</td>
+                        <td class="py-3 text-right">
+                          <span class="font-mono text-old-copper font-medium">¥3,200</span>
+                          <span class="block text-xs text-eolica-green">単価18%お得</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="text-xs text-warm-gray-500 mt-4">
+                  ※税込・送料別です。下記の見積もりフォームで都道府県別の送料が確認できます。<br />
+                  ※目安数量はトルコキキョウの花頭換算のため、ストックなど花の種類によって数量は前後します。<br />
+                  詳しくは<a href="/products/loss-flower" class="text-old-copper hover:underline">ロスフラワーページ</a>もご確認ください。
                 </p>
-                <p class="text-xs text-warm-gray-500">
-                  ※サイズにより価格が異なります。<br />
-                  詳しくは<a href="/products/loss-flower" class="text-old-copper hover:underline">ロスフラワーページ</a>をご確認ください。
-                </p>
-
               </div>
             )}
 
