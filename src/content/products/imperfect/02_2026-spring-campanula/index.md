@@ -4,7 +4,7 @@ description: "鈴なりに咲くベル型の花が愛らしい春の花。市場
 flowerType: "カンパニュラ"
 category: "imperfect"
 availableSeason: "2026年春"
-saleStatus: "available"
+saleStatus: "discontinued"
 availableFrom: 2026-03-26
 
 image: "./main.jpg"

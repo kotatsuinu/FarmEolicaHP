@@ -7,7 +7,7 @@ varieties:
   - "チャンピオン スカイブルー"
 category: "market"
 availableSeason: "2026年3月〜4月"
-saleStatus: "available"
+saleStatus: "discontinued"
 cultivationNo: "202603"
 image: "./hero.jpg"
 

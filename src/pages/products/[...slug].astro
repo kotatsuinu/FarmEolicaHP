@@ -7,6 +7,7 @@ import { SITE_CONFIG } from '../../config/site';
 import EstimateCalculator from '../../components/products/EstimateCalculator';
 import QuantityEstimateCalculator from '../../components/products/QuantityEstimateCalculator';
 import QualityGradeTabs from '../../components/products/QualityGradeTabs';
+import { ProductGalleryHero, ProductGalleryGrid } from '../../components/products/ProductGallery';
 import ProductSchema from '../../components/seo/ProductSchema.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
@@ -103,6 +104,21 @@ if (!hasQuantityPricing) {
     ];
   }
 }
+
+// メイン画像とギャラリー画像を1配列に集約 (スライドショー & ライトボックス共通)
+const combinedImages: { src: string; width?: number; height?: number }[] = [];
+if (product.data.image) {
+  combinedImages.push({
+    src: product.data.image.src,
+    width: product.data.image.width,
+    height: product.data.image.height,
+  });
+}
+if (product.data.gallery && product.data.gallery.length > 0) {
+  for (const img of product.data.gallery) {
+    combinedImages.push({ src: img.src, width: img.width, height: img.height });
+  }
+}
 ---
 
 <Layout title={`${product.data.flowerType} | Farm Eolica`} description={product.data.description} image={product.data.image?.src}>
@@ -138,31 +154,13 @@ if (!hasQuantityPricing) {
     <section class="mb-16" data-animate>
       <div class="max-w-7xl mx-auto px-6 lg:px-12">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          <!-- Main Image -->
-          <div class:list={[
-            "aspect-[3/4] overflow-hidden bg-warm-gray-100 shadow-lab-lg",
-            isDiscontinued && "opacity-70"
-          ]}>
-            {product.data.image ? (
-              <Image
-                src={product.data.image}
-                alt={product.data.name}
-                class:list={[
-                  "w-full h-full object-cover",
-                  isDiscontinued && "grayscale"
-                ]}
-                width={800}
-                height={1067}
-              />
-            ) : (
-              <div class="w-full h-full flex flex-col items-center justify-center text-warm-gray-400">
-                <svg class="w-20 h-20 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span class="font-mono text-sm">画像準備中</span>
-              </div>
-            )}
-          </div>
+          <!-- Main Image (Slideshow + Lightbox) -->
+          <ProductGalleryHero
+            client:visible
+            images={combinedImages}
+            productName={product.data.flowerType || product.data.name}
+            isDiscontinued={isDiscontinued}
+          />
 
           <!-- Product Info -->
           <div class="lg:sticky lg:top-32">
@@ -213,16 +211,50 @@ if (!hasQuantityPricing) {
             {isLossFlower && (
               <div class="bg-stone-white/95 backdrop-blur-sm p-6 shadow-lab-lg mb-6">
                 <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
-                  PRICE <span class="font-serif">ー価格（税込）ー</span>
+                  PRICE <span class="font-serif">ー価格（税込・送料別）ー</span>
                 </h3>
-                <p class="font-mono text-xl text-rust mb-2">
-                  60サイズ 1,300円〜
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm">
+                    <thead>
+                      <tr class="border-b border-warm-gray-200">
+                        <th class="text-left py-2 font-mono text-xs text-warm-gray-500">サイズ</th>
+                        <th class="text-center py-2 font-mono text-xs text-warm-gray-500">本数目安</th>
+                        <th class="text-right py-2 font-mono text-xs text-warm-gray-500">価格</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="border-b border-warm-gray-100">
+                        <td class="py-3 font-serif text-wet-soil">小箱（60サイズ）</td>
+                        <td class="py-3 text-center font-mono text-xs text-warm-gray-600">約80輪</td>
+                        <td class="py-3 text-right">
+                          <span class="font-mono text-old-copper font-medium">¥1,300</span>
+                          <span class="block text-xs text-warm-gray-500">個人クラフト・撮影に</span>
+                        </td>
+                      </tr>
+                      <tr class="border-b border-warm-gray-100">
+                        <td class="py-3 font-serif text-wet-soil">中箱（80サイズ）</td>
+                        <td class="py-3 text-center font-mono text-xs text-warm-gray-600">約160輪</td>
+                        <td class="py-3 text-right">
+                          <span class="font-mono text-old-copper font-medium">¥2,000</span>
+                          <span class="block text-xs text-warm-gray-500">中規模アレンジに</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="py-3 font-serif text-wet-soil">大箱（100サイズ）</td>
+                        <td class="py-3 text-center font-mono text-xs text-warm-gray-600">約320輪</td>
+                        <td class="py-3 text-right">
+                          <span class="font-mono text-old-copper font-medium">¥3,200</span>
+                          <span class="block text-xs text-eolica-green">単価18%お得</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="text-xs text-warm-gray-500 mt-4">
+                  ※税込・送料別です。下記の見積もりフォームで都道府県別の送料が確認できます。<br />
+                  ※目安数量はトルコキキョウの花頭換算のため、ストックなど花の種類によって数量は前後します。<br />
+                  詳しくは<a href="/products/loss-flower" class="text-old-copper hover:underline">ロスフラワーページ</a>もご確認ください。
                 </p>
-                <p class="text-xs text-warm-gray-500">
-                  ※サイズにより価格が異なります。<br />
-                  詳しくは<a href="/products/loss-flower" class="text-old-copper hover:underline">ロスフラワーページ</a>をご確認ください。
-                </p>
-
               </div>
             )}
 
@@ -620,26 +652,18 @@ if (!hasQuantityPricing) {
       </section>
     )}
 
-    <!-- Gallery (if exists) -->
-    {product.data.gallery && product.data.gallery.length > 0 && (
+    <!-- Gallery (写真2枚以上ある場合のみ表示。クリックで拡大ライトボックス) -->
+    {combinedImages.length > 1 && (
       <section class="mb-16" data-animate>
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
           <h2 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-8 text-center">
             GALLERY
           </h2>
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {product.data.gallery.map((image, index: number) => (
-              <div class="aspect-square overflow-hidden bg-warm-gray-100">
-                <Image
-                  src={image}
-                  alt={`${product.data.flowerType} - ${index + 1}`}
-                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                  width={400}
-                  height={400}
-                />
-              </div>
-            ))}
-          </div>
+          <ProductGalleryGrid
+            client:visible
+            images={combinedImages}
+            productName={product.data.flowerType || product.data.name}
+          />
         </div>
       </section>
     )}
