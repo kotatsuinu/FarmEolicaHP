@@ -28,11 +28,14 @@ saleStatus: "available"  # available / out_of_stock / seasonal / discontinued
 # メイン画像（必須）- このフォルダ内のmain.jpgに差し替え
 # image: "./main.jpg"
 
-# ギャラリー画像（任意）- 3枚まで推奨
+# ギャラリー画像（任意）- 枚数上限なし、5〜10枚程度を推奨
+# 商品詳細ページでメイン画像と統合され、4秒間隔の自動スライドショーで循環表示。
+# 7枚目以降はサムネグリッドで縦スクロール、クリックで全画面ライトボックス起動。
 # gallery:
 #   - "./sub1.jpg"
 #   - "./sub2.jpg"
 #   - "./sub3.jpg"
+#   - "./sub4.jpg"  # 必要に応じて追加
 
 # 花の特徴
 features:
