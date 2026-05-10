@@ -13,7 +13,9 @@ image: "./main.jpg"
 gallery:
   - "./sub1.jpg"
   - "./sub2.jpg"
-  - "./sub3.jpg"
+  - "./sub3.png"
+  - "./sub4.png"
+  - "./sub5.jpg"
 
 features:
   - "幾重にも重なる繊細な花びら、八重咲きの豪華な品種ミックス"
