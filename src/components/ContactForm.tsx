@@ -23,51 +23,73 @@ const initialFormData: FormData = {
   _honeypot: '',
 };
 
+// 商品ページの見積もり計算機から引き継ぐ情報（読み取り専用）
+// フィールド名は contact_form.gs の FIELD_LABEL_MAP と揃えてあるため、
+// そのままサブミット時のキーとして使用する
+interface EstimateInfo {
+  productUrl?: string;
+  boxSize?: string;
+  quantity?: string;
+  unitPrice?: string;
+  shippingMode?: string;
+  prefecture?: string;
+  coolOption?: string;
+  productSubtotal?: number;
+  shippingFee?: number;
+  coolFee?: number;
+  totalEstimate?: number;
+}
+
+const formatYen = (n: number) => `${n.toLocaleString()}円`;
+
 export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [estimateInfo, setEstimateInfo] = useState<EstimateInfo | null>(null);
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
   const inquiryTypes = SITE_CONFIG.contactForm.inquiryTypes;
 
-  // URLパラメータからプリフィル（見積もり計算機からの遷移を想定）
+  // URLパラメータから見積もり情報を取り込む（見積もり計算機からの遷移）
+  // - 商品名は productInfo（編集可能）にプリフィル
+  // - 価格内訳・箱サイズ等は estimateInfo（読み取り専用表示 + 隠しフィールドとしてサブミット）
+  // - メッセージ欄は顧客の自由入力用としてプレースホルダのみ表示
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const product = params.get('product');
     const productType = params.get('type');
-    const quantity = params.get('quantity');
-    const unit = params.get('unit') || '本';
-    const unitPrice = params.get('unitPrice');
-    const boxSize = params.get('boxSize');
-    const prefecture = params.get('prefecture');
-    const cool = params.get('cool');
-    const total = params.get('total');
 
     if (!product && !productType) return;
 
-    // 見積もり詳細をmessage欄にプリフィル（ユーザーが追記可能）
-    const detailLines: string[] = [];
-    if (quantity || boxSize || prefecture || total) {
-      detailLines.push('--- 見積もり内容 ---');
-      if (quantity) {
-        const qLine = `数量: ${quantity}${unit}` + (unitPrice ? `（単価 ${unitPrice}円）` : '');
-        detailLines.push(qLine);
-      }
-      if (boxSize) detailLines.push(`箱サイズ: ${boxSize}`);
-      if (prefecture) detailLines.push(`お届け先: ${prefecture}`);
-      if (cool === 'true') detailLines.push('クール便: 利用希望');
-      if (total) detailLines.push(`見積もり総額: ${Number(total).toLocaleString()}円（税込・送料込）`);
-      detailLines.push('--------------------');
-      detailLines.push('');
-      detailLines.push('（ご要望・ご質問などございましたら、こちらにご記入ください）');
-    }
+    const num = (key: string) => {
+      const v = params.get(key);
+      if (!v) return undefined;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : undefined;
+    };
+    const str = (key: string) => params.get(key) || undefined;
 
-    setFormData(prev => ({
+    const info: EstimateInfo = {
+      productUrl: str('productUrl'),
+      boxSize: str('boxSize'),
+      quantity: str('quantity'),
+      unitPrice: str('unitPrice'),
+      shippingMode: str('shippingMode'),
+      prefecture: str('prefecture'),
+      coolOption: str('coolOption'),
+      productSubtotal: num('productSubtotal'),
+      shippingFee: num('shippingFee'),
+      coolFee: num('coolFee'),
+      totalEstimate: num('totalEstimate'),
+    };
+    const hasAnyInfo = Object.values(info).some((v) => v !== undefined && v !== '');
+
+    setFormData((prev) => ({
       ...prev,
-      inquiryType: 'estimate',
-      productInfo: product || '',
-      message: detailLines.length > 0 ? detailLines.join('\n') : prev.message,
+      inquiryType: productType === 'estimate' ? 'estimate' : prev.inquiryType,
+      productInfo: product || prev.productInfo,
     }));
+    if (hasAnyInfo) setEstimateInfo(info);
   }, []);
 
   const validate = (): boolean => {
@@ -129,6 +151,30 @@ export default function ContactForm() {
       if (formData.inquiryType === 'estimate') {
         if (formData.productInfo.trim()) submitParams.productInfo = formData.productInfo.trim();
         if (formData.desiredDate) submitParams.desiredDate = formData.desiredDate;
+
+        // 見積もり計算機から引き継いだ価格内訳をフィールド化して送信
+        // → GAS 側 (contact_form.gs) で FIELD_LABEL_MAP により日本語ラベル化される
+        if (estimateInfo) {
+          if (estimateInfo.productUrl) submitParams.productUrl = estimateInfo.productUrl;
+          if (estimateInfo.quantity) submitParams.quantity = estimateInfo.quantity;
+          if (estimateInfo.unitPrice) submitParams.unitPrice = estimateInfo.unitPrice;
+          if (estimateInfo.boxSize) submitParams.boxSize = estimateInfo.boxSize;
+          if (estimateInfo.prefecture) submitParams.prefecture = estimateInfo.prefecture;
+          if (estimateInfo.shippingMode) submitParams.shippingMode = estimateInfo.shippingMode;
+          if (estimateInfo.coolOption) submitParams.coolOption = estimateInfo.coolOption;
+          if (estimateInfo.productSubtotal !== undefined) {
+            submitParams.productSubtotal = formatYen(estimateInfo.productSubtotal);
+          }
+          if (estimateInfo.shippingFee !== undefined) {
+            submitParams.shippingFee = formatYen(estimateInfo.shippingFee);
+          }
+          if (estimateInfo.coolFee !== undefined) {
+            submitParams.coolFee = formatYen(estimateInfo.coolFee);
+          }
+          if (estimateInfo.totalEstimate !== undefined) {
+            submitParams.totalEstimate = `${formatYen(estimateInfo.totalEstimate)}（税込・送料込）`;
+          }
+        }
       }
 
       await fetch(SITE_CONFIG.contactForm.endpoint, {
@@ -155,6 +201,7 @@ export default function ContactForm() {
   const handleReset = () => {
     setStatus('idle');
     setFormData(initialFormData);
+    setEstimateInfo(null);
     setErrors({});
   };
 
@@ -296,6 +343,91 @@ export default function ContactForm() {
                 placeholder="例: カンパニュラのドライフラワー（ヘッド）30個"
               />
             </div>
+
+            {/* 見積もり計算機から引き継いだ内容（読み取り専用） */}
+            {estimateInfo && (
+              <div className="mb-6 bg-warm-gray-50/70 border border-warm-gray-200 p-5">
+                <p className="font-mono text-xs tracking-widest text-eolica-green mb-3">
+                  ESTIMATE CARRIED OVER <span className="font-serif text-warm-gray-500">ー商品ページから見積もり内容を引き継いでいます ー</span>
+                </p>
+                <dl className="text-xs font-serif text-warm-gray-700 space-y-1.5">
+                  {estimateInfo.boxSize && (
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-warm-gray-500">箱サイズ</dt>
+                      <dd className="text-right">{estimateInfo.boxSize}</dd>
+                    </div>
+                  )}
+                  {estimateInfo.quantity && (
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-warm-gray-500">数量</dt>
+                      <dd className="text-right">
+                        {estimateInfo.quantity}
+                        {estimateInfo.unitPrice && (
+                          <span className="text-warm-gray-400 ml-2">（単価 {estimateInfo.unitPrice}）</span>
+                        )}
+                      </dd>
+                    </div>
+                  )}
+                  {estimateInfo.prefecture && (
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-warm-gray-500">お届け先</dt>
+                      <dd className="text-right">{estimateInfo.prefecture}</dd>
+                    </div>
+                  )}
+                  {estimateInfo.coolOption && (
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-warm-gray-500">クール便</dt>
+                      <dd className="text-right">{estimateInfo.coolOption}</dd>
+                    </div>
+                  )}
+                  {estimateInfo.shippingMode && !estimateInfo.prefecture && (
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-warm-gray-500">発送方法</dt>
+                      <dd className="text-right">{estimateInfo.shippingMode}</dd>
+                    </div>
+                  )}
+
+                  {(estimateInfo.productSubtotal !== undefined ||
+                    estimateInfo.shippingFee !== undefined ||
+                    estimateInfo.coolFee !== undefined ||
+                    estimateInfo.totalEstimate !== undefined) && (
+                    <div className="pt-3 mt-2 border-t border-warm-gray-200 space-y-1.5">
+                      {estimateInfo.productSubtotal !== undefined && (
+                        <div className="flex justify-between gap-4">
+                          <dt className="text-warm-gray-500">商品代金</dt>
+                          <dd className="text-right font-mono">{formatYen(estimateInfo.productSubtotal)}</dd>
+                        </div>
+                      )}
+                      {estimateInfo.shippingFee !== undefined && (
+                        <div className="flex justify-between gap-4">
+                          <dt className="text-warm-gray-500">送料</dt>
+                          <dd className="text-right font-mono">{formatYen(estimateInfo.shippingFee)}</dd>
+                        </div>
+                      )}
+                      {estimateInfo.coolFee !== undefined && (
+                        <div className="flex justify-between gap-4 text-old-copper">
+                          <dt>クール便加算</dt>
+                          <dd className="text-right font-mono">+{formatYen(estimateInfo.coolFee)}</dd>
+                        </div>
+                      )}
+                      {estimateInfo.totalEstimate !== undefined && (
+                        <div className="flex justify-between gap-4 pt-1 mt-1 border-t border-warm-gray-200 items-baseline">
+                          <dt className="font-mono tracking-widest text-warm-gray-500">TOTAL</dt>
+                          <dd className="text-right font-mono text-eolica-green text-base">
+                            {formatYen(estimateInfo.totalEstimate)}
+                            <span className="text-[10px] text-warm-gray-400 ml-1">(税込・送料込)</span>
+                          </dd>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </dl>
+                <p className="text-[10px] text-warm-gray-400 mt-3">
+                  ※この内容は送信時に自動で添付されます。条件を変更したい場合は下記メッセージ欄にご記入ください。
+                </p>
+              </div>
+            )}
+
             <div className="space-y-1 mb-6">
               <label htmlFor="desiredDate" className="block text-sm font-serif text-wet-soil mb-2">
                 到着希望日

@@ -84,21 +84,28 @@ export default function QuantityEstimateCalculator({
 
   const totalPrice = shippingFee !== null ? productPrice + shippingFee + coolFeeAmount : null;
 
-  // 問い合わせフォームへの遷移URL（見積もり状態を保持）
+  // 問い合わせフォームへの遷移URL（見積もり状態 + 価格内訳を保持）
+  // フィールド名は contact_form.gs の FIELD_LABEL_MAP と揃えること
   const inquiryUrl = useMemo(() => {
-    const params = new URLSearchParams({
-      type: 'estimate',
-      ...(productName ? { product: productName } : {}),
-      quantity: String(quantity),
-      unit: unit,
-      unitPrice: String(unitPrice),
-      ...(selectedBox ? { boxSize: selectedBox.size } : {}),
-      prefecture: selectedPrefecture,
-      cool: isCool ? 'true' : 'false',
-      ...(totalPrice !== null ? { total: String(totalPrice) } : {}),
-    });
+    const productUrl = typeof window !== 'undefined'
+      ? window.location.origin + window.location.pathname
+      : '';
+
+    const params = new URLSearchParams();
+    params.set('type', 'estimate');
+    if (productName) params.set('product', productName);
+    if (productUrl) params.set('productUrl', productUrl);
+    params.set('quantity', `${quantity}${unit}`);
+    params.set('unitPrice', `${unitPrice}円/${unit}`);
+    if (selectedBox) params.set('boxSize', selectedBox.size);
+    params.set('productSubtotal', String(productPrice));
+    params.set('prefecture', selectedPrefecture);
+    params.set('coolOption', isCool ? '希望する' : '希望なし');
+    if (shippingFee !== null) params.set('shippingFee', String(shippingFee));
+    if (isCool && coolFeeAmount > 0) params.set('coolFee', String(coolFeeAmount));
+    if (totalPrice !== null) params.set('totalEstimate', String(totalPrice));
     return `/contact?${params.toString()}`;
-  }, [productName, quantity, unit, unitPrice, selectedBox, selectedPrefecture, isCool, totalPrice]);
+  }, [productName, quantity, unit, unitPrice, selectedBox, selectedPrefecture, isCool, totalPrice, productPrice, shippingFee, coolFeeAmount]);
 
   // Format tier label for display
   const tierLabel = useMemo(() => {

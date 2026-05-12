@@ -98,20 +98,34 @@ export default function EstimateCalculator({
     }
   }, [shippingFee, coolFeeAmount, selectedOption]);
 
-  // 問い合わせフォームへの遷移URL（見積もり状態を保持）
+  // 問い合わせフォームへの遷移URL（見積もり状態 + 価格内訳を保持）
+  // フィールド名は contact_form.gs の FIELD_LABEL_MAP と揃えること
   const inquiryUrl = useMemo(() => {
-    const params = new URLSearchParams({
-      type: 'estimate',
-      ...(productName ? { product: productName } : {}),
-      ...(selectedOption ? { boxSize: selectedOption.label } : {}),
-      ...(selectedOption ? { unitPrice: String(selectedOption.price) } : {}),
-      ...(isClickpost
-        ? { shippingMode: 'clickpost', shipping: String(clickpostFee) }
-        : { prefecture: selectedPrefecture, cool: isCool ? 'true' : 'false' }),
-      ...(totalPrice !== null ? { total: String(totalPrice) } : {}),
-    });
+    // 商品ページURLは client-side のみ取得可能（client:visible 前提）
+    const productUrl = typeof window !== 'undefined'
+      ? window.location.origin + window.location.pathname
+      : '';
+
+    const params = new URLSearchParams();
+    params.set('type', 'estimate');
+    if (productName) params.set('product', productName);
+    if (productUrl) params.set('productUrl', productUrl);
+    if (selectedOption) params.set('boxSize', selectedOption.label);
+    if (selectedOption) {
+      params.set('productSubtotal', String(selectedOption.price));
+    }
+    if (isClickpost) {
+      params.set('shippingMode', 'クリックポスト（全国一律）');
+      params.set('shippingFee', String(clickpostFee));
+    } else {
+      params.set('prefecture', selectedPrefecture);
+      params.set('coolOption', isCool ? '希望する' : '希望なし');
+      if (shippingFee !== null) params.set('shippingFee', String(shippingFee));
+      if (isCool && coolFeeAmount > 0) params.set('coolFee', String(coolFeeAmount));
+    }
+    if (totalPrice !== null) params.set('totalEstimate', String(totalPrice));
     return `/contact?${params.toString()}`;
-  }, [productName, selectedOption, selectedPrefecture, isCool, totalPrice, isClickpost, clickpostFee]);
+  }, [productName, selectedOption, selectedPrefecture, isCool, totalPrice, isClickpost, clickpostFee, shippingFee, coolFeeAmount]);
 
   return (
     <div className="bg-stone-white/95 backdrop-blur-sm shadow-lab-lg border-t-4 border-eolica-green transition-all duration-300">
