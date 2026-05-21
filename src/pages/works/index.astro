@@ -1,0 +1,1283 @@
+---
+// Farm Eolica Works — Landing Page
+// Design: Layout 3 "Tategaki Bento" (Navy × Copper)
+// Self-contained page (no shared Layout.astro — separate brand identity)
+import { SITE_CONFIG } from '../../config/site';
+
+const ga4Id = SITE_CONFIG.seo.ga4Id;
+const siteUrl = 'https://farmeolica.com';
+const pageUrl = `${siteUrl}/works/`;
+const title = 'Farm Eolica Works — AIと制作で、農家がおすそ分けする';
+const description = '福島県浪江町の花き農家が、農場で組んできたAI・デジタル技術を士業・工務店向けに提供します。HP制作・チラシ・ロゴ・月額AIパートナー。';
+---
+
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title}</title>
+
+  <!-- Canonical / OGP -->
+  <link rel="canonical" href={pageUrl} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={pageUrl} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@FarmEolica" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Shippori+Mincho:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- GA4 -->
+  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+  <script define:vars={{ ga4Id }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', ga4Id);
+  </script>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════
+  0. HEADER
+═══════════════════════════════════════ -->
+<header class="w-header">
+  <div class="w-header-inner">
+    <a href="/works/" class="w-logo">
+      <span class="w-logo-main">FARM&nbsp;EOLICA</span>
+      <span class="w-logo-sub">/ WORKS</span>
+    </a>
+    <nav class="w-nav">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="/works/capabilities">実績</a>
+      <a href="/contact" class="w-nav-cta">お問い合わせ →</a>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════════════════
+  1. HERO — Bento Grid
+═══════════════════════════════════════ -->
+<section class="w-hero">
+  <div class="bento">
+
+    <!-- CELL A: Tategaki big title (spans rows 1-2) -->
+    <div class="bento-cell cell-title" data-animate>
+      <div class="tategaki-wrap">
+        <p class="tategaki">農家が、自分のために作ってきた。</p>
+      </div>
+    </div>
+
+    <!-- CELL B: Location + tag -->
+    <div class="bento-cell cell-location" data-animate data-delay="100">
+      <span class="mono-tag">福島県浪江町</span>
+      <span class="mono-divider">/</span>
+      <span class="mono-tag">SINCE 2021</span>
+    </div>
+
+    <!-- CELL C: Main copy -->
+    <div class="bento-cell cell-copy" data-animate data-delay="200">
+      <p class="copy-body">
+        花を育てる傍ら、自分の農場のためにAIと業務システムを組んできました。
+        その手仕事を、士業の先生と工務店の社長へ、おすそ分けします。
+      </p>
+      <p class="copy-sub">
+        農繁期も変わらず動く仕組みを、自分で作ってきたからわかることがある。
+      </p>
+    </div>
+
+    <!-- CELL D: Name card -->
+    <div class="bento-cell cell-name" data-animate data-delay="150">
+      <div class="name-en">TAKUMA SEKIGUCHI</div>
+      <div class="name-jp">関口 卓磨</div>
+      <div class="name-role">花き農家 × 元編集者 × AI実装</div>
+    </div>
+
+    <!-- CELL E: CTA buttons -->
+    <div class="bento-cell cell-cta" data-animate data-delay="300">
+      <a href="/contact" class="btn-filled">制作の相談をする →</a>
+      <a href="/works/capabilities" class="btn-ghost">実績を見る →</a>
+    </div>
+
+    <!-- CELL F: Stat 1 -->
+    <div class="bento-cell cell-stat" data-animate data-delay="250">
+      <div class="stat-num">36</div>
+      <div class="stat-unit">systems built</div>
+      <div class="stat-note">農場で稼働中のAI・自動化</div>
+    </div>
+
+    <!-- CELL G: Stat 2 -->
+    <div class="bento-cell cell-stat2" data-animate data-delay="300">
+      <div class="stat-num">2+</div>
+      <div class="stat-unit">years in production</div>
+      <div class="stat-note">実農場での継続稼働実績</div>
+    </div>
+
+    <!-- CELL H: Photo (bottom left, spans 2 cols) -->
+    <div class="bento-cell cell-photo">
+      <div class="photo-placeholder">
+        <span class="photo-label">GREENHOUSE PHOTO</span>
+        <span class="photo-caption">FIG.01 — 浪江町の圃場にて</span>
+      </div>
+    </div>
+
+    <!-- CELL I: Bottom right note -->
+    <div class="bento-cell cell-note" data-animate data-delay="350">
+      <div class="note-label">— SERVICE NOTE</div>
+      <p class="note-body">
+        農繁期（6月・9月・12月）は新規受注を制限しています。
+        お急ぎの方はお早めにご相談ください。
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+  2. ABOUT — 3軸ストーリー
+═══════════════════════════════════════ -->
+<section class="w-section" id="about">
+  <div class="w-container">
+
+    <div class="section-head" data-animate>
+      <span class="section-en">ABOUT</span>
+      <span class="section-line"></span>
+      <span class="section-no">01</span>
+    </div>
+    <h2 class="section-title" data-animate data-delay="100">
+      ３つの軸を、<br />ひとりで往復しています。
+    </h2>
+
+    <div class="about-grid">
+      <!-- Photo -->
+      <div class="about-photo" data-animate>
+        <div class="about-photo-inner">
+          <div class="photo-ph ph-portrait">
+            <span>PORTRAIT / FARM</span>
+          </div>
+          <p class="photo-cap">FIG.01 — 浪江町の圃場にて</p>
+        </div>
+      </div>
+
+      <!-- 3-axis story -->
+      <div class="about-story" data-animate data-delay="150">
+        {[
+          {
+            no: '01',
+            en: 'FARMER',
+            jp: '花き農家として',
+            body: '震災後の浪江町で、トルコギキョウとスプレーマムを育てています。毎朝5時、ハウスの温度と市況と気分を見ながら、出荷の段取りを組み直す日々。農家の現場は、正解がなく、判断の連続です。',
+          },
+          {
+            no: '02',
+            en: 'EDITOR',
+            jp: '元編集者として',
+            body: '前職は出版社の編集。誌面の組版、見出しの強度、読者の視線の動きを毎日考えてきました。「伝わる」ことへのこだわりは、農家になった今も変わりません。',
+          },
+          {
+            no: '03',
+            en: 'AI BUILDER',
+            jp: 'AI実装者として',
+            body: '自分の農場の問題を解くために、AIと業務システムを独学で組んできました。IoT環境制御、栽培管理アプリ、自動集計、SNS自動化——全部、自分の畑で動いているものです。',
+          },
+        ].map(item => (
+          <div class="story-item">
+            <div class="story-header">
+              <span class="story-en">{item.en}</span>
+              <span class="story-no">{item.no}</span>
+            </div>
+            <h3 class="story-title">{item.jp}</h3>
+            <p class="story-body">{item.body}</p>
+          </div>
+        ))}
+
+        <div class="about-note">
+          <p>技術屋でも、営業マンでもない。<br />自分の畑で動かしてきたものを、同じ「個人事業の現場」に渡す。</p>
+          <div class="about-sig">
+            <span>関口 卓磨</span>
+            <span class="about-sig-role">花き農家 × 元編集者</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+  3. SERVICES — 4商品グリッド
+═══════════════════════════════════════ -->
+<section class="w-section w-section-alt" id="services">
+  <div class="w-container">
+
+    <div class="section-head" data-animate>
+      <span class="section-en">SERVICES</span>
+      <span class="section-line"></span>
+      <span class="section-no">02</span>
+    </div>
+    <h2 class="section-title" data-animate data-delay="100">
+      提供できること
+    </h2>
+
+    <div class="services-grid">
+      {[
+        {
+          tag: 'PRINT / WEB',
+          title: 'チラシ・パンフレット',
+          price: '¥15,000〜',
+          body: '名刺・チラシ・パンフレット・POP・封筒など。「こういう雰囲気で」から形にします。デザインデータ納品込み。',
+          note: '納期目安：2〜3週間',
+        },
+        {
+          tag: 'WEB',
+          title: 'ランディングページ',
+          price: '¥35,000〜',
+          body: '1ページ完結のLP。サービス紹介・採用・キャンペーンなど。見込み顧客に「伝わる」構成を提案します。',
+          note: '納期目安：3〜4週間',
+        },
+        {
+          tag: 'WEB',
+          title: 'ホームページ制作',
+          price: '¥120,000〜',
+          body: '複数ページのWebサイト。士業・工務店の信頼性を高めるデザインと構成で、問い合わせにつながるHPを制作します。',
+          note: '納期目安：6〜10週間',
+        },
+        {
+          tag: 'MONTHLY',
+          title: '月額AIパートナー',
+          price: '¥20,000〜/月',
+          body: '毎月の更新・修正・AI活用相談を月額で継続サポート。「こういう仕組みを作りたい」という相談も受け付けます。',
+          note: '最低契約：3ヶ月〜',
+        },
+      ].map(s => (
+        <div class="service-card" data-animate>
+          <div class="service-tag">{s.tag}</div>
+          <h3 class="service-title">{s.title}</h3>
+          <p class="service-body">{s.body}</p>
+          <div class="service-footer">
+            <span class="service-price">{s.price}</span>
+            <span class="service-note">{s.note}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p class="services-footnote" data-animate>
+      初回打ち合わせは無料。まずはお気軽にご相談ください。<br />
+      ポートフォリオ掲載に同意いただける方は、ローンチ特別価格でご提供しています。
+    </p>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+  4. AI CAPABILITIES BANNER
+═══════════════════════════════════════ -->
+<section class="w-banner">
+  <div class="w-container">
+    <div class="banner-inner" data-animate>
+      <div class="banner-label">PROOF OF WORK</div>
+      <p class="banner-headline">
+        36のシステムと自動化を、農場で実際に動かしています。
+      </p>
+      <p class="banner-sub">
+        栽培管理・IoT環境制御・SNS自動化・AI帳簿照合・教育支援アプリ…<br />
+        どれも「自分に必要だったから作った」ものです。
+      </p>
+      <a href="/works/capabilities" class="banner-cta">できることリストを見る →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+  5. PROCESS — 制作の流れ
+═══════════════════════════════════════ -->
+<section class="w-section">
+  <div class="w-container">
+
+    <div class="section-head" data-animate>
+      <span class="section-en">PROCESS</span>
+      <span class="section-line"></span>
+      <span class="section-no">03</span>
+    </div>
+    <h2 class="section-title" data-animate data-delay="100">
+      制作の流れ
+    </h2>
+
+    <div class="process-grid">
+      {[
+        { step: '01', title: 'ヒアリング', body: '30〜60分のオンライン面談（無料）。業種・課題・イメージをお聞きします。', note: '無料 / オンライン' },
+        { step: '02', title: '提案・見積もり', body: '面談後1週間以内に構成案と費用の概算をお送りします。', note: '1週間以内' },
+        { step: '03', title: '制作・確認', body: 'デザイン→修正→最終確認のサイクルで進めます。修正は2回まで含みます。', note: '修正2回まで含む' },
+        { step: '04', title: '納品・サポート', body: 'データ納品後も1ヶ月間は軽微な修正に対応。月額プランへの移行も可能。', note: '1ヶ月アフターサポート' },
+      ].map(p => (
+        <div class="process-item" data-animate>
+          <div class="process-step">{p.step}</div>
+          <h3 class="process-title">{p.title}</h3>
+          <p class="process-body">{p.body}</p>
+          <span class="process-note">{p.note}</span>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+  6. FAQ
+═══════════════════════════════════════ -->
+<section class="w-section w-section-alt" id="faq">
+  <div class="w-container">
+
+    <div class="section-head" data-animate>
+      <span class="section-en">FAQ</span>
+      <span class="section-line"></span>
+      <span class="section-no">04</span>
+    </div>
+    <h2 class="section-title" data-animate data-delay="100">
+      よくあるご質問
+    </h2>
+
+    <div class="faq-list">
+      {[
+        {
+          q: '農繁期はどうなりますか？',
+          a: '6月・9月・12月は農作業が集中するため、新規受注を一時停止または制限しています。お急ぎの案件は事前にご相談ください。既存の月額クライアント対応は継続します。',
+        },
+        {
+          q: 'AIを使っていることは開示されますか？',
+          a: 'はい、使用している場合は明示します。AIはあくまで制作の効率化ツールとして使用しており、最終的な提案・デザイン・文章はすべて関口が責任を持って確認・調整しています。',
+        },
+        {
+          q: '実績を見せてもらえますか？',
+          a: '現在ローンチ準備中のため、自農場のシステム・Webサイトを実績としてご覧いただけます。ポートフォリオ掲載に同意いただける方は、初回特別価格でご提供しています。',
+        },
+        {
+          q: '対応エリアはどこですか？',
+          a: '基本的にオンライン完結です。対面打ち合わせには対応していませんが、全国からのご依頼を受け付けています。',
+        },
+        {
+          q: '修正はどこまで対応しますか？',
+          a: '基本プランでは修正2回まで含みます。それ以上の修正は別途費用が発生します。月額プランでは毎月の修正・更新が含まれます。',
+        },
+        {
+          q: '契約書はありますか？',
+          a: 'はい。お申込み時にWeb同意書（成果物単発）または業務委託契約書（月額プラン）を締結します。内容は事前にご確認いただけます。',
+        },
+      ].map((item, i) => (
+        <div class="faq-item" data-animate>
+          <button class="faq-q" aria-expanded="false">
+            <span>{item.q}</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            <p>{item.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+  7. CONTACT CTA
+═══════════════════════════════════════ -->
+<section class="w-section w-contact" id="contact">
+  <div class="w-container">
+    <div class="contact-inner" data-animate>
+      <div class="section-head">
+        <span class="section-en">CONTACT</span>
+        <span class="section-line"></span>
+        <span class="section-no">05</span>
+      </div>
+      <h2 class="contact-title">
+        まず、話してみませんか。
+      </h2>
+      <p class="contact-body">
+        「うちの業種に合うかな」「予算感が合うか確かめたい」——そんな段階でも歓迎です。<br />
+        初回打ち合わせは30〜60分、無料でオンライン対応しています。
+      </p>
+      <div class="contact-btns">
+        <a href="/contact" class="btn-filled">お問い合わせ・相談する</a>
+        <a href="https://coconala.com" target="_blank" rel="noopener noreferrer" class="btn-ghost">
+          ココナラで探す →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+  8. FOOTER — minimal
+═══════════════════════════════════════ -->
+<footer class="w-footer">
+  <div class="w-footer-inner">
+    <a href="/" class="footer-back">← Farm Eolica に戻る</a>
+    <span class="footer-copy">&copy; 2026 Farm Eolica Works</span>
+    <a href="/privacy" class="footer-privacy">Privacy Policy</a>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════
+  STYLES
+═══════════════════════════════════════ -->
+<style is:global>
+  /* ── Works Color Variables ── */
+  :root {
+    --w-main:   #1A2744;
+    --w-accent: #B87333;
+    --w-bg:     #F2F2F0;
+    --w-ink:    #4A3B32;
+    --w-ink-soft: rgba(74,59,50,0.72);
+    --w-ink-mute: rgba(74,59,50,0.48);
+    --w-hair:   rgba(74,59,50,0.14);
+    --w-serif:  'Shippori Mincho', 'Hiragino Mincho ProN', serif;
+    --w-display: 'Cinzel', serif;
+    --w-mono:   'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  /* ── Reset for Works page ── */
+  body {
+    margin: 0;
+    background: var(--w-bg);
+    color: var(--w-ink);
+    font-family: var(--w-serif);
+    -webkit-font-smoothing: antialiased;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  a { text-decoration: none; color: inherit; }
+
+  /* ── Scroll animation ── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  [data-animate] {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  [data-animate].visible {
+    animation: fadeInUp 0.75s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+
+  /* ── Header ── */
+  .w-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(242,242,240,0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--w-hair);
+  }
+  .w-header-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 18px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .w-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .w-logo-main {
+    font-family: var(--w-display);
+    font-size: 20px;
+    letter-spacing: 0.22em;
+    color: var(--w-main);
+  }
+  .w-logo-sub {
+    font-family: var(--w-display);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: var(--w-accent);
+  }
+  .w-nav {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+  .w-nav a {
+    font-family: var(--w-serif);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--w-ink);
+    transition: color 0.2s;
+  }
+  .w-nav a:hover { color: var(--w-accent); }
+  .w-nav-cta {
+    padding: 9px 18px;
+    border: 1px solid var(--w-main);
+    color: var(--w-main) !important;
+    font-family: var(--w-display);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    transition: background 0.2s, color 0.2s !important;
+  }
+  .w-nav-cta:hover {
+    background: var(--w-main);
+    color: var(--w-bg) !important;
+  }
+
+  /* ── Hero ── */
+  .w-hero {
+    padding: 48px 60px 100px;
+  }
+
+  /* Bento Grid */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 290px 260px 180px;
+    gap: 18px;
+    max-width: 1320px;
+    margin: 0 auto;
+    min-height: 760px;
+  }
+
+  /* Individual bento cells */
+  .bento-cell {
+    border: 1px solid var(--w-hair);
+    background: var(--w-bg);
+    padding: 32px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* A: Tategaki Title — col1, rows 1-2 */
+  .cell-title {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    background: var(--w-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 28px;
+  }
+  .tategaki-wrap { height: 100%; display: flex; align-items: center; }
+  .tategaki {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-family: var(--w-serif);
+    font-size: 44px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.1em;
+    color: var(--w-bg);
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  /* B: Location — col2, row1 */
+  .cell-location {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    padding-bottom: 36px;
+  }
+  .mono-tag {
+    font-family: var(--w-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--w-accent);
+  }
+  .mono-divider {
+    font-family: var(--w-mono);
+    font-size: 11px;
+    color: var(--w-ink-mute);
+  }
+
+  /* C: Copy — col3, row1 */
+  .cell-copy {
+    grid-column: 3;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .copy-body {
+    font-size: 15px;
+    line-height: 2.1;
+    color: var(--w-ink);
+    margin: 0 0 16px;
+    letter-spacing: 0.04em;
+  }
+  .copy-sub {
+    font-size: 12px;
+    line-height: 1.9;
+    color: var(--w-ink-mute);
+    margin: 0;
+    font-family: var(--w-mono);
+    letter-spacing: 0.06em;
+  }
+
+  /* D: Name card — col4, row1 */
+  .cell-name {
+    grid-column: 4;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    border-top: 3px solid var(--w-accent);
+    padding-top: 28px;
+  }
+  .name-en {
+    font-family: var(--w-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--w-ink-mute);
+  }
+  .name-jp {
+    font-family: var(--w-serif);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--w-main);
+    letter-spacing: 0.08em;
+  }
+  .name-role {
+    font-family: var(--w-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--w-accent);
+  }
+
+  /* E: CTA — col2, row2 */
+  .cell-cta {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  /* F: Stat 1 — col3, row2 */
+  .cell-stat {
+    grid-column: 3;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background: rgba(26,39,68,0.04);
+  }
+  .stat-num {
+    font-family: var(--w-display);
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--w-main);
+    letter-spacing: -0.02em;
+  }
+  .stat-unit {
+    font-family: var(--w-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--w-accent);
+    margin-top: 6px;
+  }
+  .stat-note {
+    font-family: var(--w-serif);
+    font-size: 12px;
+    color: var(--w-ink-mute);
+    margin-top: 8px;
+  }
+
+  /* G: Stat 2 — col4, row2 */
+  .cell-stat2 {
+    grid-column: 4;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background: rgba(184,115,51,0.06);
+  }
+
+  /* H: Photo — cols 1-2, row3 */
+  .cell-photo {
+    grid-column: 1 / 3;
+    grid-row: 3;
+    padding: 0;
+    overflow: hidden;
+  }
+  .photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      135deg,
+      rgba(74,59,50,0.05) 0 8px,
+      rgba(74,59,50,0.02) 8px 16px
+    );
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .photo-label {
+    font-family: var(--w-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--w-ink-mute);
+    text-transform: uppercase;
+  }
+  .photo-caption {
+    font-family: var(--w-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: rgba(74,59,50,0.36);
+  }
+
+  /* I: Note — cols 3-4, row3 */
+  .cell-note {
+    grid-column: 3 / 5;
+    grid-row: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .note-label {
+    font-family: var(--w-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--w-accent);
+    margin-bottom: 14px;
+  }
+  .note-body {
+    font-size: 13px;
+    line-height: 2;
+    color: var(--w-ink-soft);
+    margin: 0;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Buttons ── */
+  .btn-filled, .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    padding: 13px 22px;
+    font-family: var(--w-display);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .btn-filled {
+    background: var(--w-main);
+    color: var(--w-bg);
+    border: 1px solid var(--w-main);
+  }
+  .btn-filled:hover {
+    background: #253a6b;
+    border-color: #253a6b;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--w-main);
+    border: 1px solid var(--w-main);
+  }
+  .btn-ghost:hover {
+    background: rgba(26,39,68,0.07);
+  }
+
+  /* ── Section commons ── */
+  .w-section {
+    padding: 160px 0;
+  }
+  .w-section-alt {
+    background: rgba(26,39,68,0.025);
+  }
+  .w-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .section-en {
+    font-family: var(--w-display);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--w-accent);
+  }
+  .section-line {
+    flex: 0 0 48px;
+    height: 1px;
+    background: var(--w-accent);
+  }
+  .section-no {
+    font-family: var(--w-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--w-ink-mute);
+  }
+  .section-title {
+    font-family: var(--w-serif);
+    font-size: 52px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.04em;
+    color: var(--w-main);
+    margin: 0 0 80px;
+  }
+
+  /* ── About ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 96px;
+    align-items: start;
+  }
+  .about-photo-inner { }
+  .photo-ph {
+    background: repeating-linear-gradient(
+      135deg,
+      rgba(74,59,50,0.05) 0 8px,
+      rgba(74,59,50,0.02) 8px 16px
+    );
+    border: 1px solid var(--w-hair);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--w-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--w-ink-mute);
+  }
+  .ph-portrait { aspect-ratio: 4/5; }
+  .photo-cap {
+    margin-top: 14px;
+    font-family: var(--w-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--w-ink-mute);
+  }
+  .about-story { display: flex; flex-direction: column; gap: 52px; }
+  .story-item { }
+  .story-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+  .story-en {
+    font-family: var(--w-display);
+    font-size: 10px;
+    letter-spacing: 0.36em;
+    color: var(--w-accent);
+  }
+  .story-no {
+    font-family: var(--w-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--w-ink-mute);
+  }
+  .story-title {
+    font-family: var(--w-serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--w-main);
+    margin: 0 0 14px;
+    letter-spacing: 0.04em;
+  }
+  .story-body {
+    font-size: 15px;
+    line-height: 2.1;
+    color: var(--w-ink-soft);
+    margin: 0;
+    letter-spacing: 0.04em;
+  }
+  .about-note {
+    border-top: 1px solid var(--w-hair);
+    padding-top: 36px;
+    font-size: 16px;
+    line-height: 2;
+    color: var(--w-ink);
+    letter-spacing: 0.04em;
+  }
+  .about-note p { margin: 0 0 20px; }
+  .about-sig {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    font-family: var(--w-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--w-ink-mute);
+  }
+  .about-sig-role { color: var(--w-accent); }
+
+  /* ── Services ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .service-card {
+    border: 1px solid var(--w-hair);
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .service-card:hover {
+    border-color: var(--w-accent);
+    box-shadow: 0 8px 32px rgba(26,39,68,0.10);
+  }
+  .service-tag {
+    font-family: var(--w-mono);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: var(--w-accent);
+    margin-bottom: 16px;
+  }
+  .service-title {
+    font-family: var(--w-serif);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--w-main);
+    margin: 0 0 18px;
+    letter-spacing: 0.04em;
+  }
+  .service-body {
+    font-size: 13.5px;
+    line-height: 2;
+    color: var(--w-ink-soft);
+    margin: 0;
+    flex: 1;
+    letter-spacing: 0.03em;
+  }
+  .service-footer {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--w-hair);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .service-price {
+    font-family: var(--w-mono);
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: var(--w-main);
+    font-weight: 500;
+  }
+  .service-note {
+    font-family: var(--w-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--w-ink-mute);
+  }
+  .services-footnote {
+    text-align: center;
+    font-size: 13px;
+    line-height: 2;
+    color: var(--w-ink-mute);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── AI Capabilities Banner ── */
+  .w-banner {
+    background: var(--w-main);
+    padding: 80px 0;
+  }
+  .banner-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 60px;
+  }
+  .banner-label {
+    font-family: var(--w-mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--w-accent);
+    margin-bottom: 24px;
+  }
+  .banner-headline {
+    font-family: var(--w-serif);
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--w-bg);
+    margin: 0 0 20px;
+    letter-spacing: 0.04em;
+  }
+  .banner-sub {
+    font-size: 14px;
+    line-height: 2.2;
+    color: rgba(242,242,240,0.72);
+    margin: 0 0 40px;
+    letter-spacing: 0.04em;
+  }
+  .banner-cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 28px;
+    border: 1px solid rgba(242,242,240,0.5);
+    color: var(--w-bg);
+    font-family: var(--w-display);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    transition: background 0.25s, border-color 0.25s;
+  }
+  .banner-cta:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(242,242,240,0.8);
+  }
+
+  /* ── Process ── */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .process-grid::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: calc(12.5% + 16px);
+    right: calc(12.5% + 16px);
+    height: 1px;
+    background: var(--w-accent);
+    opacity: 0.4;
+  }
+  .process-item {
+    padding: 0 28px;
+    border-left: 1px solid var(--w-hair);
+  }
+  .process-item:first-child { border-left: none; padding-left: 0; }
+  .process-step {
+    font-family: var(--w-display);
+    font-size: 40px;
+    color: var(--w-accent);
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+  }
+  .process-title {
+    font-family: var(--w-serif);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--w-main);
+    margin: 0 0 14px;
+  }
+  .process-body {
+    font-size: 13.5px;
+    line-height: 2;
+    color: var(--w-ink-soft);
+    margin: 0 0 16px;
+    letter-spacing: 0.03em;
+  }
+  .process-note {
+    font-family: var(--w-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--w-accent);
+  }
+
+  /* ── FAQ ── */
+  .faq-list {
+    max-width: 780px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--w-hair);
+  }
+  .faq-q {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--w-serif);
+    font-size: 16px;
+    color: var(--w-ink);
+    letter-spacing: 0.04em;
+    text-align: left;
+    gap: 20px;
+    transition: color 0.2s;
+  }
+  .faq-q:hover { color: var(--w-main); }
+  .faq-q[aria-expanded="true"] { color: var(--w-main); }
+  .faq-icon {
+    font-family: var(--w-mono);
+    font-size: 20px;
+    color: var(--w-accent);
+    flex-shrink: 0;
+    transition: transform 0.25s;
+    line-height: 1;
+  }
+  .faq-q[aria-expanded="true"] .faq-icon { transform: rotate(45deg); }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s;
+    padding: 0;
+  }
+  .faq-a.open {
+    max-height: 300px;
+    padding-bottom: 24px;
+  }
+  .faq-a p {
+    font-size: 14.5px;
+    line-height: 2.1;
+    color: var(--w-ink-soft);
+    margin: 0;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Contact ── */
+  .w-contact {
+    background: rgba(26,39,68,0.03);
+  }
+  .contact-inner {
+    max-width: 680px;
+  }
+  .contact-title {
+    font-family: var(--w-serif);
+    font-size: 52px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--w-main);
+    margin: 0 0 32px;
+    letter-spacing: 0.04em;
+  }
+  .contact-body {
+    font-size: 15px;
+    line-height: 2.2;
+    color: var(--w-ink-soft);
+    margin: 0 0 48px;
+    letter-spacing: 0.04em;
+  }
+  .contact-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Footer ── */
+  .w-footer {
+    border-top: 1px solid var(--w-hair);
+    padding: 32px 0;
+  }
+  .w-footer-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-back {
+    font-family: var(--w-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--w-ink-mute);
+    transition: color 0.2s;
+  }
+  .footer-back:hover { color: var(--w-main); }
+  .footer-copy {
+    font-family: var(--w-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--w-ink-mute);
+  }
+  .footer-privacy {
+    font-family: var(--w-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--w-ink-mute);
+    transition: color 0.2s;
+  }
+  .footer-privacy:hover { color: var(--w-main); }
+</style>
+
+
+<!-- ═══════════════════════════════════════
+  SCRIPTS
+═══════════════════════════════════════ -->
+<script is:inline>
+  // ── Scroll reveal ──────────────────────────
+  (function () {
+    var els = document.querySelectorAll('[data-animate]');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('visible'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        var delay = parseInt(el.dataset.delay || '0', 10);
+        setTimeout(function () { el.classList.add('visible'); }, delay);
+        obs.unobserve(el);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    els.forEach(function (el) { obs.observe(el); });
+  })();
+
+  // ── FAQ accordion ─────────────────────────
+  (function () {
+    document.querySelectorAll('.faq-q').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var expanded = btn.getAttribute('aria-expanded') === 'true';
+        // Close all
+        document.querySelectorAll('.faq-q').forEach(function (b) {
+          b.setAttribute('aria-expanded', 'false');
+          b.nextElementSibling.classList.remove('open');
+        });
+        // Open clicked if it was closed
+        if (!expanded) {
+          btn.setAttribute('aria-expanded', 'true');
+          btn.nextElementSibling.classList.add('open');
+        }
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
