@@ -172,54 +172,55 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
       <!-- Featured: 月額AIパートナー (tall, dark) -->
       <div class="svc-featured reveal">
         <div>
-          <div class="svc-cat">AI PARTNER — FEATURED</div>
+          <div class="svc-cat">AI PARTNER — MONTHLY</div>
           <div class="svc-featured-title">月額AIパートナー</div>
           <p class="svc-featured-body">
-            事務所内のAI導入・自動化を月単位で伴走。自農場で動かしてきた36の仕組みを、現場に合わせて移植します。
+            「AIは使えるけど怖い」——そのハンドルを握る役を引き受けます。<br />
+            月単位で伴走し、業務の自動化・AI導入を現場に合わせて実装。単発のご依頼から信頼が育ったら、ぜひご相談ください。
           </p>
         </div>
         <div class="svc-featured-footer">
           <div class="svc-featured-price">¥20,000<span class="svc-price-unit"> ／ 月〜</span></div>
-          <a href="#contact" class="svc-featured-link">詳細 →</a>
+          <a href="#contact" class="svc-featured-link">相談してみる →</a>
         </div>
       </div>
 
-      <!-- S/01 チラシ -->
-      <div class="svc-card reveal" style="grid-column: 2; grid-row: 1;">
+      <!-- S/01 HP・LP制作 ← 最初の勝負商品 -->
+      <div class="svc-card svc-main reveal" style="grid-column: 2; grid-row: 1;">
         <div>
-          <div class="svc-cat">FLYER & PRINT</div>
-          <div class="svc-title">チラシ制作</div>
-          <p class="svc-body">セミナー集客・新規顧問獲得のための1枚もの。コピーライティング・デザイン・印刷用PDF納品込み。</p>
+          <div class="svc-cat">WEBSITE — 先着5件特別価格</div>
+          <div class="svc-title">HP・LP制作</div>
+          <p class="svc-body">「誰に届けるか」から一緒に設計。信頼を伝えるサイトを、コーディングからCloudflare Pagesへのデプロイまで一貫対応。<br />LP ¥50,000〜 / HP ¥75,000〜（5件限定特別価格）</p>
         </div>
         <div class="svc-footer">
-          <span class="svc-price">¥15,000 〜</span>
-          <span class="svc-unit">／ 1点</span>
-        </div>
-      </div>
-
-      <!-- S/02 HP -->
-      <div class="svc-card reveal" style="grid-column: 3; grid-row: 1;">
-        <div>
-          <div class="svc-cat">WEBSITE</div>
-          <div class="svc-title">ホームページ制作</div>
-          <p class="svc-body">"相談前に読まれるサイト"を前提に設計。5〜10ページ。</p>
-        </div>
-        <div class="svc-footer">
-          <span class="svc-price">¥150,000 〜</span>
+          <span class="svc-price">¥50,000 〜</span>
           <span class="svc-unit">／ 一式</span>
         </div>
       </div>
 
-      <!-- S/03 ロゴ (spans 2 cols) -->
+      <!-- S/02 簡易デザイン -->
+      <div class="svc-card reveal" style="grid-column: 3; grid-row: 1;">
+        <div>
+          <div class="svc-cat">DESIGN</div>
+          <div class="svc-title">簡易デザイン</div>
+          <p class="svc-body">名刺・ショップカード・店頭POP・チラシ。「かっこいい」より「届く」デザインを。PDF/EPS/PNG納品。</p>
+        </div>
+        <div class="svc-footer">
+          <span class="svc-price">¥8,000 〜</span>
+          <span class="svc-unit">／ 1点</span>
+        </div>
+      </div>
+
+      <!-- S/03 SNS運用 (spans 2 cols) -->
       <div class="svc-card reveal" style="grid-column: 2 / span 2; grid-row: 2;">
         <div>
-          <div class="svc-cat">IDENTITY</div>
-          <div class="svc-title">ロゴ・デザイン</div>
-          <p class="svc-body">事務所名の由来から書き起こすロゴ。代替わりにも対応。</p>
+          <div class="svc-cat">SNS MANAGEMENT + DX相談</div>
+          <div class="svc-title">SNS運用サポート</div>
+          <p class="svc-body">投稿テンプレ設計・コンテンツ企画・運用フロー構築。「誰向けに・何を・どう発信するか」の設計から。自農場のSNS自動化システムを応用します。DXツール開発・業務自動化のご相談もどうぞ。</p>
         </div>
         <div class="svc-footer">
           <span class="svc-price">¥30,000 〜</span>
-          <span class="svc-unit">／ 1案</span>
+          <span class="svc-unit">／ 月</span>
         </div>
       </div>
     </div>
@@ -262,12 +263,12 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
 
     <div class="works-grid">
       {[
-        { tag: 'WEBSITE', year: '2025', t: 'Farm Eolica 公式HP', d: '花き農家の農場HPをAstroで全面構築。商品ページ・問い合わせ・SEO対応。', big: true },
-        { tag: 'AI SYSTEM', year: '2024–', t: '栽培管理アプリ', d: '作付けから出荷まで全工程をスマホで管理するWebアプリ。' },
-        { tag: 'AI SYSTEM', year: '2024–', t: 'AI自動投稿システム', d: 'Instagram投稿を全自動化。農繁期も途切れない発信基盤。' },
-        { tag: 'WEBSITE', year: '2026', t: 'ポートフォリオ準備中', d: '士業・工務店向けの制作実績を順次公開予定。お声がけください。', big: true },
-        { tag: 'LP', year: '2026', t: 'ローンチ特別価格', d: 'ポートフォリオ掲載同意者限定で特別価格でご提供中。' },
-        { tag: 'MONTHLY', year: '2026', t: '月額パートナー募集中', d: '3ヶ月以上のAI伴走プランを先着5社限定で受付中。' },
+        { tag: 'WEBSITE', badge: '自社実績', year: '2025', t: 'Farm Eolica 公式HP', d: '課題: 農家の活動を可視化したい → AstroでゼロからHP構築 → 商品・問い合わせ・SEO対応まで一貫稼働', big: true },
+        { tag: 'AI SYSTEM', badge: '自社実績', year: '2024–', t: '栽培管理アプリ', d: '課題: 作付け記録をデジタル化したい → Webアプリを独自設計 → 全工程をスマホで管理、今も稼働中' },
+        { tag: 'AI SYSTEM', badge: '自社実績', year: '2024–', t: 'AI自動投稿システム', d: '課題: 農繁期も発信を止めたくない → n8n+Claude APIで全自動化 → Instagram更新が完全自動に' },
+        { tag: 'HP・LP', year: '2026', t: '受付中 — 先着5件特別価格', d: 'LP制作 ¥50,000〜（通常 ¥100,000〜）。ポートフォリオ掲載同意の方限定。まずはお気軽にどうぞ。', big: true },
+        { tag: 'DESIGN', year: '2026', t: '簡易デザイン — 受付中', d: '名刺・ポップ・チラシ。PDF/EPS/PNG納品。¥8,000〜' },
+        { tag: 'MONTHLY', year: '2026', t: '月額AIパートナー — 相談受付中', d: '月額 ¥20,000〜。AI導入・業務自動化の伴走プラン。' },
       ].map((w, i) => (
         <div class={`work-card reveal ${w.big ? 'work-card-big' : ''}`}>
           <div class="work-ph">
@@ -278,6 +279,7 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
               <span class="work-tag">{w.tag}</span>
               <span class="work-year">{w.year}</span>
             </div>
+            {w.badge && <span class="work-badge">{w.badge}</span>}
             <div class="work-title">{w.t}</div>
             <div class="work-desc">{w.d}</div>
           </div>
@@ -305,7 +307,7 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
       {[
         { n: '01', t: 'ヒアリング', s: '60–90 min', d: 'オンラインで現状と背景を伺います。初回は資料も準備も不要です。' },
         { n: '02', t: '提案・お見積もり', s: '1 week', d: '方向性のラフ案と概算を、A4一枚にまとめてお送りします。' },
-        { n: '03', t: '制作・調整', s: '3–6 weeks', d: '週1で進行をご報告。固定ページを動かしながら詰めます。' },
+        { n: '03', t: '制作・調整', s: '3–6 weeks', d: 'AIでドラフト生成 → 人間がレビュー・調整。週1で進行をご報告しながら固めます。' },
         { n: '04', t: '納品・運用', s: '1 day +', d: '公開作業と引き継ぎ資料。月額契約の方はそのまま運用へ。' },
       ].map(p => (
         <div class="process-item">
@@ -377,6 +379,59 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
 </section>
 
 
+<!-- ══════════ 7.5. はじめての方へ ══════════ -->
+<section class="ws" id="for-first-time">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">FOR FIRST TIME</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 05.5 / 06</span>
+      </div>
+      <h2 class="sh-jp">はじめての方へ。</h2>
+    </div>
+
+    <div class="ftg">
+      <div class="ft-block ft-block-wide reveal">
+        <h3 class="ft-title">なぜ、無料相談なのか。</h3>
+        <p class="ft-body">
+          「無料と言いつつ、強引に契約を迫られた」そんな経験をお持ちの方もいると思います。私の無料相談はそのためではありません。<br /><br />
+          60分お話しすることで、私自身が「どんな方がどんなことに困っているか」を学べます。相談の結果「やはり合わない」となっても、それはお互いにとって正直な答えです。無理な営業はしません。相談件数は、そのまま私の経験値になります。
+        </p>
+      </div>
+
+      <div class="ft-block reveal">
+        <h3 class="ft-title">私のスタンス。</h3>
+        <p class="ft-body">
+          「欲しいものを作ります」だけでは終わりません。「それ、目的に合っていますか？」という問いを横に置きながら仕事します。<br /><br />
+          ホームページよりSNSが先かもしれない。予算を使う前に整理すべきことがあるかもしれない。そういった視点も持ちながら、最終的にはあなたが達成したいことに向けて一緒に動きます。
+        </p>
+      </div>
+
+      <div class="ft-block reveal">
+        <h3 class="ft-title">こんな方と仕事したい。</h3>
+        <div class="ft-list">
+          <div class="ft-item ft-ok">
+            <span class="ft-mark">◎</span>
+            <span>10〜20名規模・個人事業主。「全部任せます」も「一緒に考えたい」も歓迎。裁量を持って動ける方。</span>
+          </div>
+          <div class="ft-item ft-caution">
+            <span class="ft-mark">△</span>
+            <span>農家として個人で動いているため、大企業・大規模案件はお受けが難しい場合があります。農繁期は応答が遅くなることも。そのような場合は他の専門企業をご紹介します。</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ft-block ft-block-wide ft-block-cta reveal">
+        <h3 class="ft-title">できること、もう少し詳しく。</h3>
+        <p class="ft-body">HP・LP制作 / 簡易デザイン（名刺・ポップ・チラシ）/ SNS運用サポート / AIパートナー月額 / DXツール開発・業務自動化のご相談</p>
+        <a href="/works/capabilities" class="ft-link">農場で作ってきた36のシステム一覧を見る →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <!-- ══════════ 8. CONTACT ══════════ -->
 <section class="ws contact-section" id="contact">
   <div class="wc">
@@ -393,10 +448,10 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
         <p class="contact-body">
           発注を急がせる営業はしません。<br />
           初回は60分、現状と背景を伺うところから。<br />
-          フォームか、メールでお気軽にどうぞ。
+          フォームのほか、Farm Eolica 公式LINEでも気軽にどうぞ。
         </p>
         <div class="contact-btns">
-          <a href="/works/contact" class="contact-btn-primary">相談する →</a>
+          <a href="/works/contact" class="contact-btn-primary">まずは相談してみる →</a>
         </div>
       </div>
     </div>
@@ -711,6 +766,30 @@ p{margin:0}
   transition:border-color .25s;
 }
 .contact-btn-ghost:hover{border-color:rgba(242,242,240,.7)}
+
+/* ── Hero copy-hook ── */
+.copy-hook{font-family:var(--sr);font-size:15.5px;font-weight:600;color:var(--m);letter-spacing:.05em;line-height:1.6;margin-bottom:10px}
+
+/* ── Services: main highlight ── */
+.svc-main{border:1.5px solid var(--a)!important}
+
+/* ── Works badge ── */
+.work-badge{display:inline-block;font-family:var(--mn);font-size:9px;letter-spacing:.22em;color:var(--bg);background:var(--a);padding:2px 8px;margin-bottom:7px}
+
+/* ── First Time section ── */
+.ftg{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.ft-block{background:var(--bg);border:1px solid var(--hair);padding:36px 32px}
+.ft-block-wide{grid-column:span 2}
+.ft-block-cta{background:rgba(184,115,51,.06)}
+.ft-title{font-family:var(--sr);font-size:22px;color:var(--m);letter-spacing:.05em;margin:0 0 16px}
+.ft-body{font-size:14px;line-height:2.2;color:var(--inks)}
+.ft-list{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.ft-item{display:flex;gap:14px;align-items:flex-start;font-size:13.5px;line-height:1.9;color:var(--inks)}
+.ft-mark{font-family:var(--sr);font-size:14px;font-weight:600;flex-shrink:0;margin-top:2px}
+.ft-ok .ft-mark{color:var(--a)}
+.ft-caution .ft-mark{color:var(--inkm)}
+.ft-link{display:inline-block;margin-top:18px;font-family:var(--dp);font-size:12px;letter-spacing:.22em;color:var(--m);border-bottom:1px solid var(--a);padding-bottom:3px;transition:color .2s}
+.ft-link:hover{color:var(--a)}
 
 /* ── Footer ── */
 .wfooter{
