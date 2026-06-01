@@ -6,6 +6,7 @@ varieties:
   - "ボヤージュスノー（白・出荷終了）"
   - "セレブクリスタル1型（白・出荷継続中）"
   - "ボン・ボヤージュ スイートピンク（ピンク・出荷継続中）"
+  - "セレブナイト（濃い青紫・収穫最盛期）"
   - "ベールローズ（赤・収穫準備中）"
   - "セレブシルキーピンク（淡いピンク・6月中下旬予定）"
 
@@ -14,6 +15,9 @@ availableSeason: "2026年5月〜6月"
 saleStatus: "available"
 cultivationNo: "202602"
 image: "./hero.jpg"
+gallery:
+  - "./hero-purple.jpg"
+  - "./hero-pink.jpg"
 
 qualityGrades:
   - code: "voyage-snow"
@@ -31,10 +35,11 @@ qualityGrades:
       - item: "花じみ"
         value: "つきにくく安定"
     samples:
-      - ./shu-a-01.jpg
-      - ./shu-a-02.jpg
-      - ./shu-a-03.jpg
-      - ./shu-a-04.jpg
+      - ./voyage-snow-new-01.jpg
+      - ./voyage-snow-new-02.jpg
+      - ./voyage-snow-new-03.jpg
+      - ./voyage-snow-new-04.jpg
+      - ./voyage-snow-new-05.jpg
 
   - code: "celeb-crystal"
     label: "セレブクリスタル（1型）"
@@ -51,9 +56,10 @@ qualityGrades:
       - item: "備考"
         value: "先進みのバラつきあり、枝がやや細く長め"
     samples:
-      - ./variety-crystal-01.jpg
-      - ./variety-crystal-02.jpg
-      - ./stem-length.jpg
+      - ./crystal-new-01.jpg
+      - ./crystal-new-02.jpg
+      - ./crystal-new-03.jpg
+      - ./crystal-new-04.jpg
 
   - code: "sweet-pink"
     label: "ボン・ボヤージュ スイートピンク"
@@ -70,7 +76,31 @@ qualityGrades:
       - item: "色の変化"
         value: "収穫後、冷房環境で深いピンク色に変わる"
     samples:
-      - ./variety-pink-01.jpg
+      - ./sweet-pink-new-01.jpg
+      - ./sweet-pink-new-02.jpg
+      - ./sweet-pink-new-03.jpg
+      - ./sweet-pink-new-04.jpg
+      - ./sweet-pink-new-05.jpg
+
+  - code: "celeb-night"
+    label: "セレブナイト（収穫最盛期）"
+    description: "濃い青紫色が印象的な、気品あふれる八重咲きフリンジ品種。花弁の重なりが良く艶もあり、鮮やかな色合いは業務用需要にも人気があります。つぼみが黄緑色で、濃い紫との対比が非常に美しいのも特徴。今シーズンは枝もしっかり育っており、現在収穫最盛期です。"
+    criteria:
+      - item: "出荷状況"
+        value: "収穫最盛期・出荷中"
+      - item: "草丈"
+        value: "60〜80cm"
+      - item: "枝数・花数"
+        value: "多花性でボリュームあり"
+      - item: "フリンジ"
+        value: "八重咲きフリンジ・艶あり"
+      - item: "つぼみ"
+        value: "黄緑色のつぼみとの色対比が美しい"
+    samples:
+      - ./celeb-night-01.jpg
+      - ./celeb-night-02.jpg
+      - ./celeb-night-03.jpg
+      - ./celeb-night-04.jpg
 
   - code: "veil-rose"
     label: "ベールローズ（収穫準備中）"

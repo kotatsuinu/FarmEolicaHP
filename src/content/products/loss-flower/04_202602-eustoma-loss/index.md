@@ -11,6 +11,11 @@ cultivationNo: "202602"
 
 image: "./main.jpg"
 gallery:
+  - "./color-1.jpg"
+  - "./color-2.jpg"
+  - "./color-3.jpg"
+  - "./color-4.jpg"
+  - "./color-5.jpg"
   - "./sub1.jpg"
   - "./sub2.jpg"
   - "./sub3.png"

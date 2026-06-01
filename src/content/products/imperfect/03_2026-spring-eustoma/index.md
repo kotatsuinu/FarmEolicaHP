@@ -13,6 +13,8 @@ gallery:
   - "./sub1.jpg"
   - "./sub2.jpg"
   - "./sub3.jpg"
+  - "./sub4.jpg"
+  - "./sub5.jpg"
 
 priceTiers:
   - minQuantity: 1
