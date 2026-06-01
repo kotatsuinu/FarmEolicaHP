@@ -473,6 +473,19 @@ export default function ContactForm() {
           />
         </div>
 
+        {/* 返信についてのご案内 */}
+        <div className="bg-warm-gray-50 border border-warm-gray-200 p-4 mb-6 text-sm font-serif text-warm-gray-600 leading-relaxed">
+          <p className="mb-2">
+            送信後、自動返信メールをお届けします。その後3日以内に{' '}
+            <span className="font-semibold text-wet-soil">farmeolica@gmail.com</span>{' '}
+            よりご返信いたします。
+          </p>
+          <p>
+            3日を過ぎてもご返信が届かない場合は、システム不具合や迷惑メールへの振り分けの可能性がございます。
+            迷惑メールフォルダをご確認いただくか、InstagramなどSNSのDMよりご連絡いただけると助かります。
+          </p>
+        </div>
+
         {/* Submit */}
         <div className="text-center">
           <button
