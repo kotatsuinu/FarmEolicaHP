@@ -163,18 +163,20 @@ export default function QualityGradeTabs({ grades }: Props) {
           </div>
 
           {/* Sample Gallery */}
-          <div>
-            <div className="px-6 md:px-8 mb-3">
-              <p className="font-mono text-xs text-stone-500">
-                {active.label} のサンプル — こういった品質のものを束ねています
-              </p>
+          {active.sampleSrcs && active.sampleSrcs.length > 0 && (
+            <div>
+              <div className="px-6 md:px-8 mb-3">
+                <p className="font-mono text-xs text-stone-500">
+                  {active.label} のサンプル — こういった品質のものを束ねています
+                </p>
+              </div>
+              <ScrollGallery
+                images={active.sampleSrcs}
+                label={active.label}
+                onImageClick={openLightbox}
+              />
             </div>
-            <ScrollGallery
-              images={active.sampleSrcs}
-              label={active.label}
-              onImageClick={openLightbox}
-            />
-          </div>
+          )}
 
           {/* Options (e.g. やや先進み) */}
           {active.options && active.options.length > 0 && (
