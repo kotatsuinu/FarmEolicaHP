@@ -16,6 +16,8 @@ gallery:
   - "./color-3.jpg"
   - "./color-4.jpg"
   - "./color-5.jpg"
+  - "./veil-rose-02.jpg"
+  - "./veil-rose-03.jpg"
   - "./sub1.jpg"
   - "./sub2.jpg"
   - "./sub3.png"

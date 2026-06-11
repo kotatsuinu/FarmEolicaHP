@@ -15,6 +15,8 @@ gallery:
   - "./sub3.jpg"
   - "./sub4.jpg"
   - "./sub5.jpg"
+  - "./veil-rose-02.jpg"
+  - "./veil-rose-03.jpg"
 
 priceTiers:
   - minQuantity: 1

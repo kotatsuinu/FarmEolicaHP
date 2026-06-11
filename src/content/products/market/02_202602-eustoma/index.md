@@ -18,6 +18,10 @@ image: "./hero.jpg"
 gallery:
   - "./hero-purple.jpg"
   - "./hero-pink.jpg"
+  - "./crystal-new-02.jpg"
+  - "./sweet-pink-new-03.jpg"
+  - "./veil-rose-03.jpg"
+  - "./celeb-night-03.jpg"
 
 qualityGrades:
   - code: "voyage-snow"
