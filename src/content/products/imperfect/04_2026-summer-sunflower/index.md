@@ -15,6 +15,8 @@ image: "./main.jpg"
 gallery:
   - "./closeup.jpg"
   - "./arrangement.jpg"
+  - "./greenburst.jpg"
+  - "./whitenight.jpg"
 
 priceTiers:
   - minQuantity: 1
