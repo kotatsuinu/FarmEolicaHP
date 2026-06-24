@@ -22,9 +22,9 @@ priceTiers:
   - minQuantity: 1
     unitPrice: 100
   - minQuantity: 31
-    unitPrice: 90
+    unitPrice: 95
   - minQuantity: 51
-    unitPrice: 80
+    unitPrice: 88
 
 boxCapacity:
   - size: "100サイズ"
