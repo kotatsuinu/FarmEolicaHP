@@ -7,8 +7,9 @@ const siteUrl = 'https://farmeolica.com';
 const title = 'なみえライスバーガー 制作実績 | Farm Eolica Works';
 const description = '浪江創成中学校「ふるさと創造学」×道の駅なみえ。生徒主体で作ったなみえライスバーガーのLP制作実績。2026年7月10日、福島中央テレビで放送。';
 
-// TODO: 実LP URLに差し替え
-const LIVE_LP_URL = '#';
+const LIVE_LP_URL = 'https://namie-riceburger.pages.dev/';
+const OFFICIAL_VIDEO_URL = 'https://www.youtube.com/watch?v=EIvWzRUcLKo';
+const OFFICIAL_VIDEO_TITLE = 'なみえ創成中学校と道の駅なみえのコラボ「なみえライスバーガー」の開発ストーリー【なみえチャンネル第462回】';
 ---
 
 <!doctype html>
@@ -80,7 +81,6 @@ const LIVE_LP_URL = '#';
     </p>
 
     <div class="cs-hero-btns reveal">
-      <!-- TODO: 実LP URLに差し替え -->
       <a href={LIVE_LP_URL} target="_blank" rel="noopener" class="btn-filled">LPを見る →</a>
       <a href="/works/contact" class="btn-ghost">同じように作りたい方はこちら</a>
     </div>
@@ -202,7 +202,6 @@ const LIVE_LP_URL = '#';
     </div>
 
     <div class="cs-shot-cta reveal">
-      <!-- TODO: 実LP URLに差し替え -->
       <a href={LIVE_LP_URL} target="_blank" rel="noopener" class="btn-filled">実際のLPを見る →</a>
     </div>
   </div>
@@ -230,6 +229,10 @@ const LIVE_LP_URL = '#';
         <p class="cs-body cs-media-body">
           浪江創成中学校の生徒たちが企画した「なみえライスバーガー」の取り組みが、福島中央テレビで紹介される予定です。
           放送後は、このページのMediaセクションに映像・記事へのリンクを追加していきます。
+        </p>
+        <p class="cs-body cs-media-body">
+          開発ストーリーは、浪江町公式「なみえチャンネル」にて先行公開中です。
+          <a href={OFFICIAL_VIDEO_URL} target="_blank" rel="noopener">{OFFICIAL_VIDEO_TITLE} ↗</a>
         </p>
       </div>
       <div class="cs-media-right">
