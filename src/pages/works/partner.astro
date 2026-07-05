@@ -1,0 +1,611 @@
+---
+// Farm Eolica Works — 月額AIパートナー（L1.5 / L2）
+// Self-contained page — independent from main HP design
+import { SITE_CONFIG } from '../../config/site';
+const ga4Id = SITE_CONFIG.seo.ga4Id;
+const siteUrl = 'https://farmeolica.com';
+const title = '月額AIパートナー | Farm Eolica Works';
+const description = '月額AIパートナー（L1.5・L2）は、HP・SNS・業務の自動化を毎月伴走するサブスク型サービスです。LINE/Slack相談＋月次タスクで、公開後も一緒に手を動かします。月¥20,000〜。';
+---
+
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title}</title>
+  <link rel="canonical" href={`${siteUrl}/works/partner/`} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={`${siteUrl}/works/partner/`} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={`${siteUrl}/images/about/hero.webp`} />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content={`${siteUrl}/images/about/hero.webp`} />
+  <meta name="twitter:site" content="@FarmEolica" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Shippori+Mincho:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+  <script define:vars={{ ga4Id }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', ga4Id);
+  </script>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header class="wh">
+  <a href="/works/" class="wh-logo">
+    <span class="wh-logo-main">FARM&nbsp;EOLICA</span>
+    <span class="wh-logo-sub">/ WORKS</span>
+  </a>
+  <nav class="wh-nav">
+    <a href="/works/#about">About</a>
+    <a href="/works/#services">Services</a>
+    <a href="/works/capabilities">できること</a>
+    <a href="/works/first-time">はじめての方へ</a>
+    <a href="/" class="wh-farm-link">農場HP ↗</a>
+    <a href="/works/contact" class="wh-cta">まずは話してみる →</a>
+  </nav>
+</header>
+
+
+<!-- ══════════ 1. HERO ══════════ -->
+<section class="pt-hero">
+  <div class="wc">
+    <div class="ph-top reveal">
+      <span class="ph-en">MONTHLY AI PARTNER</span>
+      <span class="ph-line"></span>
+    </div>
+    <h1 class="ph-title reveal">
+      毎月、あなたの隣で<br />
+      手を動かすAIパートナー。
+    </h1>
+    <p class="ph-lead reveal">
+      HP・LP制作は、公開したら終わりではありません。「作って終わり」ではなく「一緒に回し続ける」。<br />
+      月ごとに困りごとをお預かりし、AIと一緒に手を動かす、継続伴走のサービスです。
+    </p>
+    <div class="pt-hero-btns reveal">
+      <a href="#plans" class="btn-filled">プランを見る →</a>
+      <a href="/works/contact" class="btn-ghost">まずは相談してみる</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 2. 対象（こんな方へ） ══════════ -->
+<section class="ws" id="who">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">FOR WHOM</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 01 / 04</span>
+      </div>
+      <h2 class="sh-jp">こんな方へ。</h2>
+    </div>
+
+    <div class="cs-block reveal">
+      <p class="cs-body">
+        ホームページもSNSも業務の仕組みも、本来は「作って終わり」ではなく育てていくものです。
+        ただ、そのために人をひとり雇うほどの業務量ではない——多くの小規模事業者が抱えるそのギャップを埋めるのが、月額AIパートナーです。
+      </p>
+    </div>
+
+    <div class="ft-list reveal">
+      {[
+        'HP・SNS・業務の仕組みを、月1回は手入れしたい方',
+        '人を雇うほどではないけれど、自分だけでは手が回らない方',
+        'すでにFEWでHP・LP制作をご依頼いただき、公開後の運用まで任せたい方',
+        '「AIで何ができるか」を、手を動かしながら一緒に探っていきたい方',
+      ].map(t => (
+        <div class="ft-item"><span class="ft-mark">・</span>{t}</div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 3. 提供内容・プラン ══════════ -->
+<section class="ws ws-alt" id="plans">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">PLANS</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 02 / 04</span>
+      </div>
+      <h2 class="sh-jp">プランと料金。</h2>
+    </div>
+
+    <div class="pt-plans-grid reveal">
+      <div class="svc-card">
+        <div>
+          <div class="svc-cat">L1.5 — お試し軽量</div>
+          <div class="svc-title">お試し軽量プラン</div>
+          <p class="svc-body">
+            月2タスク＋LINE/Slack相談（月10往復まで）。平日2営業日納品（繁忙期3営業日）。
+            月額AIパートナーが初めての方向けの、L2への踏み台プランです。
+          </p>
+        </div>
+        <div class="svc-footer">
+          <span class="svc-price">¥20,000</span>
+          <span class="svc-unit">／月（最低契約3ヶ月）</span>
+        </div>
+      </div>
+
+      <div class="svc-card svc-card-featured">
+        <div>
+          <div class="svc-cat">L2 — 軽・先着5名特別価格</div>
+          <div class="svc-title">軽量プラン</div>
+          <p class="svc-body">
+            月3〜4タスク＋LINE/Slack相談無制限。平日翌営業日納品（繁忙期3営業日）。同時契約は上限5社まで。
+            先着5名は初月¥20,000、2〜3ヶ月目以降は通常価格に移行します。
+          </p>
+        </div>
+        <div class="svc-footer">
+          <span class="svc-price">¥40,000</span>
+          <span class="svc-unit">／月（先着5名は初月¥20,000）</span>
+        </div>
+      </div>
+
+      <div class="svc-card svc-card-muted">
+        <div>
+          <div class="svc-cat">もっと踏み込みたい方へ</div>
+          <div class="svc-title">応相談</div>
+          <p class="svc-body">
+            L2をご継続いただく中で「もっと頼りたい」となった場合は、さらに手厚い伴走をご相談ベースでご提案することがあります。価格・内容は個別にお話しします。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <p class="svc-note">「タスク」で具体的に何をお願いできるかは、<a href="/works/capabilities">相談できることの一覧</a>でご確認いただけます。</p>
+
+    <div class="section-cta-row reveal">
+      <a href="/works/contact" class="section-cta-link">プランについて相談してみる →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 4. 流れ（月額運用サイクル） ══════════ -->
+<section class="ws" id="cycle">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">MONTHLY CYCLE</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 03 / 04</span>
+      </div>
+      <h2 class="sh-jp">毎月、同じサイクルをまわします。</h2>
+    </div>
+
+    <p class="cs-body loop-intro reveal">
+      HP・LP制作が「ヒアリングから公開まで」一度きりの流れで完成へ向かうのに対し、月額AIパートナーは同じサイクルを毎月くり返します。
+    </p>
+
+    <div class="loop-flow reveal">
+      <div class="loop-step-chip">
+        <div class="loop-step-chip-t">申込</div>
+        <div class="loop-step-chip-d">最低契約3ヶ月〜</div>
+      </div>
+      <span class="loop-flow-arrow">→</span>
+      <div class="loop-step-chip">
+        <div class="loop-step-chip-t">初回ヒアリング</div>
+        <div class="loop-step-chip-d">優先課題の整理</div>
+      </div>
+      <span class="loop-flow-arrow">→</span>
+
+      <div class="loop-circle-wrap">
+        <div class="loop-circle-dash"></div>
+        <div class="loop-node loop-node-top">
+          <span class="loop-node-badge">1</span>
+          <span class="loop-node-label">相談</span>
+        </div>
+        <div class="loop-node loop-node-br">
+          <span class="loop-node-badge">2</span>
+          <span class="loop-node-label">実装</span>
+        </div>
+        <div class="loop-node loop-node-bl">
+          <span class="loop-node-badge">3</span>
+          <span class="loop-node-label">納品</span>
+        </div>
+        <div class="loop-center">
+          <span class="loop-center-icon">↻</span>
+          <span class="loop-center-text">毎月<br />反復</span>
+        </div>
+      </div>
+
+      <span class="loop-flow-arrow">→</span>
+      <div class="loop-step-chip">
+        <div class="loop-step-chip-t">継続</div>
+        <div class="loop-step-chip-d">必要な間、次の月へ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 5. 実績（ドッグフーディング） ══════════ -->
+<section class="ws ws-alt" id="proof">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">PROOF</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 04 / 04</span>
+      </div>
+      <h2 class="sh-jp">机上の提案ではありません。</h2>
+    </div>
+
+    <div class="cs-block reveal">
+      <p class="cs-body">
+        自分の農場を、実際にこの手で毎月回している——それが月額AIパートナーの一番の証拠です。
+        農場の事務をAIで組み替えてきた実装の一部を紹介します。
+      </p>
+    </div>
+
+    <div class="proof-grid reveal">
+      <div class="work-card">
+        <div class="work-ph">
+          <div class="ph ph-auto">work / cultivation app</div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">AGRI & FARMING</span>
+          </div>
+          <span class="work-badge">自社実績</span>
+          <div class="work-title">栽培管理アプリ</div>
+          <div class="work-desc">作付けから収穫・出荷まで全データをスマホで一元管理するWebアプリ。今も自農場で稼働中。</div>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-ph">
+          <div class="ph ph-auto">work / automation</div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">AUTOMATION</span>
+          </div>
+          <span class="work-badge">自社実績</span>
+          <div class="work-title">業務・情報収集の自動化</div>
+          <div class="work-desc">Slack上の自然言語で農業・業務処理を自動化するAIエージェント基盤を中心に、問い合わせ整理や記録の自動化を運用中。</div>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-ph">
+          <div class="ph ph-auto">work / finance</div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">FINANCE & OPS</span>
+          </div>
+          <span class="work-badge">自社実績</span>
+          <div class="work-title">財務・会計の自動化</div>
+          <div class="work-desc">クラウド会計の全仕訳データを毎日自動でBigQueryへ転送し、収支分析・税務データ確認を即座に行える基盤を構築。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-cta-row reveal">
+      <a href="/works/capabilities" class="section-cta-link">相談できることを全部見る →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 6. CTA ══════════ -->
+<section class="ws contact-section" id="contact">
+  <div class="wc">
+    <div class="contact-panel reveal">
+      <div class="contact-left">
+        <div class="contact-label">— CONTACT</div>
+        <h2 class="contact-title">
+          月額の相談を、<br />
+          してみませんか。
+        </h2>
+      </div>
+      <div class="contact-right">
+        <p class="contact-body">
+          押し売りはしません。まずは今、手が回っていない業務をひとつ、聞かせてください。<br />
+          HP・LP制作からの移行の場合、月額初月から3ヶ月間¥3,000 OFF（計¥9,000）でご案内します。
+        </p>
+        <div class="contact-btns">
+          <a href="/works/contact" class="contact-btn-primary">月額の相談をする →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="wfooter">
+  <a href="/works/" class="wfooter-back">← BACK TO WORKS</a>
+  <nav class="wfooter-legal">
+    <a href="/works/tokushoho">特定商取引法に基づく表記</a>
+    <a href="/works/terms">利用規約</a>
+    <a href="/works/privacy">プライバシーポリシー</a>
+  </nav>
+  <div class="wfooter-copy">&copy; FARM EOLICA WORKS / 福島県浪江町 / 関口卓磨</div>
+</footer>
+
+
+<!-- ══════════ STYLES ══════════ -->
+<style is:global>
+:root {
+  --m: #1A2744;
+  --a: #B87333;
+  --bg: #F2F2F0;
+  --ink: #4A3B32;
+  --inks: rgba(74,59,50,0.72);
+  --inkm: rgba(74,59,50,0.48);
+  --hair: rgba(74,59,50,0.14);
+  --sr: 'Shippori Mincho','Hiragino Mincho ProN',serif;
+  --dp: 'Cinzel',serif;
+  --mn: 'JetBrains Mono','Courier New',monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+p{margin:0}
+
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{opacity:0;transform:translateY(24px)}
+.reveal.visible{animation:fadeInUp .7s cubic-bezier(.22,1,.36,1) forwards}
+
+/* ── Header ── */
+.wh{
+  position:sticky;top:0;z-index:100;
+  background:rgba(242,242,240,.92);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--hair);
+  padding:20px 60px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.wh-logo{display:flex;align-items:baseline;gap:10px}
+.wh-logo-main{font-family:var(--dp);font-size:20px;letter-spacing:.22em;color:var(--m)}
+.wh-logo-sub{font-family:var(--dp);font-size:12px;letter-spacing:.3em;color:var(--a)}
+.wh-farm-link{font-family:var(--mn);font-size:10px;letter-spacing:.15em;color:var(--inkm);border:1px solid var(--hair);padding:5px 10px;transition:color .2s,border-color .2s}
+.wh-farm-link:hover{color:var(--m);border-color:var(--m)}
+.wh-nav{display:flex;align-items:center;gap:28px}
+.wh-nav a{font-family:var(--sr);font-size:13px;letter-spacing:.1em;color:var(--ink);transition:color .2s}
+.wh-nav a:hover{color:var(--a)}
+.wh-cta{
+  padding:9px 18px;border:1px solid var(--m);
+  color:var(--m)!important;
+  font-family:var(--dp);font-size:11px;letter-spacing:.18em;
+  transition:background .2s,color .2s!important;
+}
+.wh-cta:hover{background:var(--m);color:var(--bg)!important}
+
+/* ── Common section wrappers ── */
+.wc{max-width:1120px;margin:0 auto}
+.ws{padding:80px 60px 100px}
+.ws-alt{background:#EAE6DF}
+
+.ph-top{display:flex;align-items:center;gap:20px;margin-bottom:20px}
+.ph-en{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a)}
+.ph-line{display:inline-block;width:56px;height:1px;background:var(--a)}
+.ph-lead{font-family:var(--sr);font-size:16px;color:rgba(242,242,240,.7);letter-spacing:.06em;line-height:1.8;margin:0}
+
+.sh{margin-bottom:56px}
+.sh-top{display:flex;align-items:baseline;gap:22px;margin-bottom:18px}
+.sh-en{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a)}
+.sh-line{display:inline-block;width:56px;height:1px;background:var(--a);vertical-align:middle}
+.sh-no{font-family:var(--mn);font-size:10px;letter-spacing:.2em;color:var(--inkm)}
+.sh-jp{font-family:var(--sr);font-weight:500;font-size:clamp(32px,3vw,48px);color:var(--m);margin:0;letter-spacing:.04em;line-height:1.2}
+
+/* ── Hero (page header, navy) ── */
+.pt-hero{padding:80px 60px 60px;background:var(--m)}
+.pt-hero .ph-title{font-family:var(--sr);font-weight:500;font-size:clamp(38px,4vw,58px);color:var(--bg);margin:0 0 20px;letter-spacing:.04em;line-height:1.4}
+.pt-hero .ph-lead{margin-bottom:32px;max-width:680px}
+.pt-hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.pt-hero-btns .btn-ghost{color:var(--bg);border-color:rgba(242,242,240,.5)}
+.pt-hero-btns .btn-ghost:hover{background:rgba(242,242,240,.08)}
+.pt-hero-btns .btn-filled{background:var(--a);border-color:var(--a);color:var(--m)}
+.pt-hero-btns .btn-filled:hover{background:#c98a45;border-color:#c98a45}
+
+/* ── Buttons ── */
+.btn-filled,.btn-ghost{
+  display:inline-flex;align-items:center;
+  padding:13px 22px;
+  font-family:var(--dp);font-size:12px;letter-spacing:.22em;
+  transition:all .25s;cursor:pointer;
+}
+.btn-filled{background:var(--m);color:var(--bg);border:1px solid var(--m)}
+.btn-filled:hover{background:#253a6b;border-color:#253a6b}
+.btn-ghost{background:transparent;color:var(--m);border:1px solid var(--m)}
+.btn-ghost:hover{background:rgba(26,39,68,.07)}
+
+/* ── Content blocks / lists ── */
+.cs-block{max-width:760px}
+.cs-body{font-size:15px;line-height:2.1;color:var(--inks);letter-spacing:.03em;margin-bottom:18px}
+.cs-body:last-child{margin-bottom:0}
+
+.ft-list{display:flex;flex-direction:column;gap:14px;margin-top:28px}
+.ft-item{display:flex;gap:14px;align-items:flex-start;font-size:14.5px;line-height:1.9;color:var(--inks)}
+.ft-mark{font-family:var(--sr);font-size:14px;font-weight:600;flex-shrink:0;margin-top:2px;color:var(--a)}
+
+/* ── Section CTA repeater ── */
+.section-cta-row{margin-top:52px;text-align:center}
+.section-cta-link{
+  display:inline-block;font-family:var(--dp);font-size:12px;letter-spacing:.22em;
+  color:var(--m);border-bottom:1px solid var(--a);padding-bottom:4px;transition:color .2s;
+}
+.section-cta-link:hover{color:var(--a)}
+
+/* ── Plans (pricing cards) ── */
+.pt-plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.svc-card{
+  background:var(--bg);border:1px solid var(--hair);
+  padding:28px 28px 26px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:20px;
+  transition:border-color .25s,box-shadow .25s,transform .25s;
+}
+.svc-card:hover{border-color:var(--a);box-shadow:0 8px 32px rgba(26,39,68,.10);transform:translateY(-3px)}
+.svc-card-featured{border-color:var(--a);box-shadow:0 8px 32px rgba(184,115,51,.14)}
+.svc-card-muted{background:rgba(74,59,50,.03)}
+.svc-cat{font-family:var(--dp);font-size:11px;letter-spacing:.28em;color:var(--a);margin-bottom:14px}
+.svc-title{font-family:var(--sr);font-size:22px;color:var(--m);letter-spacing:.05em;margin-bottom:10px}
+.svc-body{font-size:14px;line-height:2;color:var(--inks)}
+.svc-footer{
+  padding-top:18px;border-top:1px solid var(--hair);
+  display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;
+}
+.svc-price{font-family:var(--mn);font-size:15px;color:var(--m);letter-spacing:.06em}
+.svc-unit{font-family:var(--mn);font-size:10px;color:var(--inkm);letter-spacing:.1em}
+.svc-note{margin-top:24px;font-size:13px;line-height:1.9;color:var(--inks)}
+.svc-note a{color:var(--m);border-bottom:1px solid var(--a);padding-bottom:1px}
+.svc-note a:hover{color:var(--a)}
+
+/* ── Monthly cycle (loop) ── */
+.loop-intro{max-width:760px;margin-bottom:48px}
+.loop-flow{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap}
+.loop-flow-arrow{font-family:var(--sr);font-size:20px;color:var(--a);flex-shrink:0}
+
+.loop-step-chip{background:var(--bg);border:1px solid var(--hair);padding:18px 22px;text-align:center;min-width:150px}
+.loop-step-chip-t{font-family:var(--sr);font-size:15px;color:var(--m);letter-spacing:.04em;margin-bottom:6px}
+.loop-step-chip-d{font-family:var(--mn);font-size:11px;letter-spacing:.04em;line-height:1.7;color:var(--inks)}
+
+.loop-circle-wrap{position:relative;width:280px;max-width:100%;aspect-ratio:1/1;flex-shrink:0}
+.loop-circle-dash{position:absolute;inset:0;border:2px dashed var(--a);border-radius:50%}
+.loop-node{position:absolute;display:flex;flex-direction:column;align-items:center;gap:8px;transform:translate(-50%,-50%)}
+.loop-node-top{left:50%;top:0%}
+.loop-node-br{left:93.3%;top:75%}
+.loop-node-bl{left:6.7%;top:75%}
+.loop-node-badge{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--m);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--dp);font-size:16px;color:var(--m);
+}
+.loop-node-label{font-family:var(--sr);font-size:13px;color:var(--ink);letter-spacing:.05em;white-space:nowrap}
+.loop-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px}
+.loop-center-icon{font-size:32px;color:var(--a);display:inline-block;animation:loopSpin 8s linear infinite}
+.loop-center-text{font-family:var(--mn);font-size:10px;letter-spacing:.15em;color:var(--inkm);text-align:center;line-height:1.6}
+@keyframes loopSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.loop-center-icon{animation:none}}
+
+/* ── Proof (dogfooding results) ── */
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.work-card{overflow:hidden;background:var(--bg);border:1px solid var(--hair);display:flex;flex-direction:column}
+.work-ph{height:170px;overflow:hidden}
+.work-ph .ph{border:none;height:100%}
+.work-info{padding:22px 24px;border-top:1px solid var(--hair)}
+.work-meta{display:flex;justify-content:space-between;font-family:var(--mn);font-size:10px;letter-spacing:.2em;color:var(--a);margin-bottom:8px}
+.work-badge{display:inline-block;font-family:var(--mn);font-size:9px;letter-spacing:.22em;color:var(--bg);background:var(--a);padding:2px 8px;margin-bottom:7px}
+.work-title{font-family:var(--sr);font-size:19px;color:var(--m);letter-spacing:.05em;margin-bottom:6px}
+.work-desc{font-size:13px;line-height:1.9;color:var(--inks)}
+
+/* Placeholder */
+.ph{
+  width:100%;height:100%;
+  background:repeating-linear-gradient(135deg,rgba(74,59,50,.06) 0 10px,rgba(74,59,50,.02) 10px 20px);
+  border:1px solid var(--hair);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mn);font-size:11px;letter-spacing:.08em;
+  color:rgba(74,59,50,.55);text-transform:uppercase;
+  text-align:center;padding:16px;
+}
+.ph-auto{aspect-ratio:16/9}
+
+/* ── Contact ── */
+.contact-section{padding-bottom:100px}
+.contact-panel{
+  background:var(--m);color:var(--bg);padding:80px 70px;
+  display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:center;
+}
+.contact-label{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a);margin-bottom:20px}
+.contact-title{
+  font-family:var(--sr);font-weight:500;font-size:clamp(30px,3vw,44px);margin:0;
+  line-height:1.4;letter-spacing:.04em;color:var(--bg);
+}
+.contact-body{
+  font-size:15px;line-height:2.1;color:rgba(242,242,240,.8);
+  letter-spacing:.04em;margin-bottom:36px;max-width:480px;
+}
+.contact-btns{display:flex;gap:16px;flex-wrap:wrap}
+.contact-btn-primary{
+  padding:16px 26px;font-family:var(--dp);font-size:13px;letter-spacing:.22em;
+  background:var(--a);color:var(--m);
+  transition:background .25s;
+}
+.contact-btn-primary:hover{background:#c98a45}
+
+/* ── Footer ── */
+.wfooter{
+  padding:20px 60px 40px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--hair);
+}
+.wfooter-back{font-family:var(--dp);font-size:12px;letter-spacing:.25em;color:var(--m);transition:color .2s}
+.wfooter-back:hover{color:var(--a)}
+.wfooter-legal{display:flex;gap:22px;flex-wrap:wrap}
+.wfooter-legal a{font-family:var(--mn);font-size:10px;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
+.wfooter-legal a:hover{color:var(--a)}
+.wfooter-copy{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm)}
+
+/* ── Responsive ── */
+@media (max-width: 900px){
+  .wh{padding:16px 24px}
+  .wh-nav{gap:14px;flex-wrap:wrap}
+  .wh-nav a{font-size:12px}
+  .pt-hero{padding:44px 24px 40px}
+  .ws{padding:56px 24px 64px}
+
+  .pt-plans-grid{grid-template-columns:1fr}
+  .proof-grid{grid-template-columns:1fr}
+
+  .loop-flow{flex-direction:column}
+  .loop-flow-arrow{transform:rotate(90deg)}
+  .loop-circle-wrap{width:240px}
+
+  .contact-panel{grid-template-columns:1fr;padding:48px 28px;gap:32px}
+  .wfooter{flex-direction:column;gap:16px;padding:24px 24px 32px;text-align:center}
+}
+
+@media (max-width: 600px){
+  .sh-no{display:none}
+  .loop-circle-wrap{width:210px}
+  .loop-node-badge{width:44px;height:44px;font-size:14px}
+  .loop-node-label{font-size:12px}
+}
+</style>
+
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script is:inline>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(el){el.classList.add('visible')});return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    });
+  },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  setTimeout(function(){
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible')});
+  },60);
+  els.forEach(function(el){io.observe(el)});
+})();
+</script>
+
+</body>
+</html>

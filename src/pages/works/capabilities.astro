@@ -171,7 +171,8 @@ const description = `農家として自分のために作り続けてきた${don
       <h1 class="cap-h1">自分のために作ってきた、<br />{doneCount}のシステム。</h1>
       <p class="cap-lead">
         これは商品カタログではありません。農場で自分が必要として組んだシステムの記録です。<br />
-        「似たことを自分のビジネスに使えないか」という方は、お気軽にご相談ください。
+        この手を、あなたの困りごとにも。月額AIパートナーで一緒に。<br />
+        ここに並ぶひとつひとつが、そのまま「これ、うちでもできますか」の相談材料になります。
       </p>
       <div class="cap-meta">
         <span class="cap-meta-done">稼働中 {doneCount}件</span>
@@ -179,6 +180,9 @@ const description = `農家として自分のために作り続けてきた${don
         <span class="cap-meta-wip">実装中 {totalCount - doneCount}件</span>
         <span class="cap-meta-sep">|</span>
         <span class="cap-meta-date">{lastUpdated} 時点</span>
+      </div>
+      <div class="cap-hero-cta">
+        <a href="/works/partner/" class="contact-btn-ghost">月額AIパートナーを見る →</a>
       </div>
     </div>
   </div>
@@ -246,10 +250,12 @@ const description = `農家として自分のために作り続けてきた${don
         <p class="contact-body">
           「こんな課題があるんだけど、相談できるか」<br />
           「自分の仕事に応用できないか知りたい」<br />
-          その程度の話から始めましょう。初回は無料です。
+          その程度の話から始めましょう。初回は無料です。<br />
+          これを毎月一緒に回すのが、月額AIパートナーです。
         </p>
         <div class="contact-btns">
           <a href="/works/contact" class="contact-btn-primary">相談する →</a>
+          <a href="/works/partner/" class="contact-btn-ghost">月額AIパートナーを見る →</a>
           <a href="/works/" class="contact-btn-ghost">Works LP →</a>
         </div>
       </div>
@@ -323,6 +329,7 @@ p{margin:0}
 .cap-meta-wip{font-family:var(--mn);font-size:11px;letter-spacing:.2em;color:rgba(242,242,240,.5);border:1px solid rgba(242,242,240,.25);padding:4px 10px}
 .cap-meta-sep{color:rgba(242,242,240,.25);font-family:var(--mn)}
 .cap-meta-date{font-family:var(--mn);font-size:10px;letter-spacing:.15em;color:rgba(242,242,240,.4)}
+.cap-hero-cta{margin-top:32px}
 
 /* Cap Nav */
 .cap-nav{background:var(--bg);border-bottom:1px solid var(--hair);position:sticky;top:68px;z-index:90;overflow:hidden}
