@@ -5,8 +5,8 @@
 import { SITE_CONFIG } from '../../config/site';
 const ga4Id = SITE_CONFIG.seo.ga4Id;
 const siteUrl = 'https://farmeolica.com';
-const title = 'Farm Eolica Works — 欲しいのは、一緒に考えてくれる人かもしれない';
-const description = 'HP制作より先に、「本当に必要なこと」を一緒に考えます。農家×元編集者×AIエンジニアが、LP・HP制作・簡易デザイン・SNS運用・月額AIパートナーで伴走。福島県浪江町。';
+const title = 'Farm Eolica Works — あなたの仕事を、あなたの言葉で。';
+const description = '福島・浪江の農家兼元編集者が、あなたのストーリーをWebページにします。1ページHP制作 先着5名¥50,000〜。福島中央テレビで放送されたお店のLP制作実績あり。';
 ---
 
 <!doctype html>
@@ -61,36 +61,35 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
 
     <!-- A: Tategaki title — cols 1-2, rows 1-2 -->
     <div class="bc bc-title">
-      <p class="tategaki">農家が、自分のために、作ってきた。</p>
+      <p class="tategaki">あなたの仕事を、あなたの言葉で。</p>
       <span class="bc-title-sub">FARM EOLICA / WORKS</span>
       <span class="bc-title-loc">福島県浪江町 / SINCE 2021</span>
     </div>
 
     <!-- B: Hero image — cols 3-4, row 1 -->
     <div class="bc bc-img reveal reveal-hero reveal-d2">
-      <div class="ph ph-auto">hero / hands at work</div>
+      <div class="ph ph-auto">hero / your words, your work</div>
     </div>
 
     <!-- C: Copy + CTA — cols 3-4, row 2 -->
     <div class="bc bc-copy reveal reveal-hero reveal-d2">
-      <p class="copy-hook">欲しいのはツールより、一緒に考えてくれる人かもしれない。</p>
+      <p class="copy-hook">福島・浪江の農家兼元編集者が、あなたのストーリーをWebページにします。</p>
       <p class="copy-main">
-        ホームページが欲しい。チラシを作りたい。——本当に、目的に合っていますか？<br />
-        花を育てながら農場のためにAIと仕組みを組んできた農家が、「本当に必要なこと」から一緒に考えます。
+        取材からデザイン、コーディング、公開まで。「本当に伝えたいこと」を、聞き手・書き手・作り手を兼ねてひとりで形にします。
       </p>
-      <p class="copy-sub">— 課題に別の視点をそっと添えながら、やりたいことを実現します。</p>
+      <p class="copy-sub">— 1ページHP制作 先着5名 特別価格 ¥50,000 受付中</p>
       <div class="hero-btns">
         <a href="/works/contact" class="btn-filled">まずは相談してみる →</a>
-        <a href="/works/capabilities" class="btn-ghost">実績を見る</a>
+        <a href="#works" class="btn-ghost">実績を見る</a>
       </div>
     </div>
 
     <!-- D: 4 stat cells — row 3 (customer-facing value props) -->
     {[
+      { v: '先着5', l: 'launch price', jp: '1ページHP制作 特別価格 ¥50,000（通常¥100,000）' },
       { v: '無料', l: 'first consultation', jp: '初回60分ヒアリング・押し売りなし' },
       { v: '全国', l: 'online only', jp: 'オンライン完結・全国対応' },
-      { v: '先着5', l: 'launch price', jp: 'LP制作・特別価格枠（受付中）' },
-      { v: '今すぐ', l: 'open for inquiry', jp: '相談受付中・LINEでも可' },
+      { v: '納品', l: 'source included', jp: 'ソース一式をGitHubで納品・ロックインなし' },
     ].map((s, i) => (
       <div class="bc bc-stat reveal reveal-hero reveal-d3">
         <div class="stat-no">/{String(i + 1).padStart(2, '0')}</div>
@@ -106,16 +105,35 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
 </section>
 
 
-<!-- ══════════ 2. ABOUT ══════════ -->
+<!-- ══════════ 1.5 TV BANNER (7/10最優先) ══════════ -->
+<section class="tv-banner-section">
+  <div class="wc">
+    <a href="/works/case/namie-rice-burger/" class="tv-banner reveal">
+      <div class="tv-banner-left">
+        <span class="tv-banner-label">ON AIR — 2026.7.10 福島中央テレビ</span>
+        <p class="tv-banner-headline">
+          福島中央テレビで放送 —
+          <span class="tv-banner-accent">TVで紹介されたお店のLP</span>を制作しました。
+        </p>
+      </div>
+      <div class="tv-banner-right">
+        <span class="tv-banner-cta">なみえライスバーガーの制作実績を見る <span class="tv-banner-arrow">→</span></span>
+      </div>
+    </a>
+  </div>
+</section>
+
+
+<!-- ══════════ 2. VALUE（提供価値） ══════════ -->
 <section class="ws ws-alt" id="about">
   <div class="wc">
     <div class="sh reveal">
       <div class="sh-top">
-        <span class="sh-en">ABOUT</span>
+        <span class="sh-en">VALUE</span>
         <span class="sh-line"></span>
         <span class="sh-no">— 01 / 06</span>
       </div>
-      <h2 class="sh-jp">３つの軸を、ひとりで往復しています。</h2>
+      <h2 class="sh-jp">農家兼元編集者が、両方の言葉でつくる。</h2>
     </div>
 
     <div class="about-grid">
@@ -127,19 +145,19 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
       <div class="about-story">
         {[
           {
-            n: '01', en: 'FARMER', tag: '農家',
-            jp: '花き農家として',
-            b: '震災後の浪江町でトルコギキョウとカラーを育てる。毎朝5時、温度と相場を見ながら段取りを組み直す。',
+            n: '01', en: 'FARMER × EDITOR', tag: '農家兼元編集者',
+            jp: '聞く力と、書く力を両方持っています',
+            b: '震災後の浪江町で花き農家を営みながら、前職は出版社の編集者。取材で聞いた言葉を、そのまま届く文章とデザインに変える視点があります。',
           },
           {
-            n: '02', en: 'EDITOR', tag: '元編集者',
-            jp: '元編集者として',
-            b: '前職は出版社編集。組版、見出しの強度、"読み手にどう届くか"を職業病のように設計してしまう。',
+            n: '02', en: 'BUILDER', tag: 'AI実装',
+            jp: '実装力の裏付けがあります',
+            b: '経理・受注・販促・記録。自農場の事務をAIで組み替え、現在36のシステムを稼働中。その実装力は、下の制作実績でも証明しています。',
           },
           {
-            n: '03', en: 'BUILDER', tag: 'AI実装',
-            jp: 'AI実装屋として',
-            b: '経理・受注・販促・記録。自農場の事務をAIで組み替え、現在36のシステムを稼働中。',
+            n: '03', en: 'CONTINUITY', tag: '死んでも困らない納品',
+            jp: '納品するのは、あなたの資産です',
+            b: 'Astro静的サイトで構築し、ソースコード一式をGitHubでまるごとお渡し。あなたのCloudflare無料アカウントで公開するので、もし私に何かあっても、サイトは動き続け、ソースはあなたの手元に残ります。特定の業者に縛られません。',
           },
         ].map(r => (
           <div class="story-item reveal">
@@ -152,83 +170,197 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
         ))}
       </div>
     </div>
+
+    <div class="section-cta-row reveal">
+      <a href="/works/contact" class="section-cta-link">まずは相談してみる →</a>
+    </div>
   </div>
 </section>
 
 
-<!-- ══════════ 3. SERVICES ══════════ -->
-<section class="ws" id="services">
+<!-- ══════════ 3. WORKS (実績) ══════════ -->
+<section class="ws" id="works">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">WORKS</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 02 / 06</span>
+      </div>
+      <h2 class="sh-jp">これまでの仕事。</h2>
+    </div>
+
+    <div class="works-grid">
+
+      <!-- 実績1: なみえライスバーガー（主役・実案件・TV放送） -->
+      <a href="/works/case/namie-rice-burger/" class="work-card work-card-big reveal">
+        <div class="work-ph">
+          <div class="ph ph-auto">work / namie rice burger</div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">CASE STUDY</span>
+            <span class="work-year">2026</span>
+          </div>
+          <span class="work-badge">TV放送 2026.7.10</span>
+          <div class="work-title">なみえライスバーガー</div>
+          <div class="work-desc">浪江創成中学校「ふるさと創造学」× 道の駅なみえ。生徒の言葉でつくったLP。福島中央テレビで放送される制作実績。</div>
+          <span class="work-more">詳しく見る →</span>
+        </div>
+      </a>
+
+      <!-- 実績2: 三宅奈緒（制作ショーケース・ダミー案件） -->
+      <div class="work-card reveal">
+        <div class="work-ph">
+          <div class="ph ph-auto">work / showcase</div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">SHOWCASE</span>
+            <span class="work-year">2026</span>
+          </div>
+          <span class="work-badge">制作サンプル</span>
+          <div class="work-title">三宅奈緒 / Portfolio</div>
+          <div class="work-desc">Astro + microCMS + Cloudflare Pages + Workers/Resend。全7セクション、フル実装の制作サンプルです。</div>
+        </div>
+      </div>
+
+      <!-- 実績3: 地域の酒蔵（イメージ制作例・完全ダミー） -->
+      <div class="work-card reveal">
+        <div class="work-ph">
+          <div class="ph ph-auto">work / concept mock</div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">CONCEPT</span>
+            <span class="work-year">2026</span>
+          </div>
+          <span class="work-badge">イメージ制作例</span>
+          <div class="work-title">地域の酒蔵 / ストーリーLP</div>
+          <div class="work-desc">日英バイリンガル構成のコンセプトモック。地域の酒蔵をイメージした、ストーリー訴求の見せ方サンプルです。</div>
+        </div>
+      </div>
+
+      <!-- 自社実績（補助・農家がWeb制作できる証拠） -->
+      <div class="work-card reveal">
+        <div class="work-ph">
+          <div class="ph ph-auto">work / farm eolica hp</div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">WEBSITE</span>
+            <span class="work-year">2025</span>
+          </div>
+          <span class="work-badge">自社実績</span>
+          <div class="work-title">Farm Eolica 公式HP</div>
+          <div class="work-desc">AstroでゼロからHP構築。商品・お問い合わせ・SEO対応まで一貫稼働中。</div>
+        </div>
+      </div>
+
+      <div class="work-card reveal">
+        <div class="work-ph">
+          <div class="ph ph-auto">work / cultivation app</div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">AI SYSTEM</span>
+            <span class="work-year">2024–</span>
+          </div>
+          <span class="work-badge">自社実績</span>
+          <div class="work-title">栽培管理アプリ</div>
+          <div class="work-desc">作付け記録のデジタル化。全工程をスマホで管理する独自Webアプリ、今も稼働中。</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-cta-row reveal">
+      <a href="/works/contact" class="section-cta-link">まずは相談してみる →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 4. SERVICES / PRICING ══════════ -->
+<section class="ws ws-alt" id="services">
   <div class="wc">
     <div class="sh reveal">
       <div class="sh-top">
         <span class="sh-en">SERVICES</span>
         <span class="sh-line"></span>
-        <span class="sh-no">— 02 / 06</span>
+        <span class="sh-no">— 03 / 06</span>
       </div>
-      <h2 class="sh-jp">提供しているもの。</h2>
+      <h2 class="sh-jp">料金と、できること。</h2>
     </div>
 
     <div class="svc-grid">
-      <!-- Featured: 月額AIパートナー (tall, dark) -->
+      <!-- Featured: 1ページHP制作（スタンダード） -->
       <div class="svc-featured reveal">
         <div>
-          <div class="svc-cat">AI PARTNER — MONTHLY</div>
-          <div class="svc-featured-title">月額AIパートナー</div>
+          <div class="svc-cat">WEBSITE — 先着5件特別価格</div>
+          <div class="svc-featured-title">1ページHP制作<br />（スタンダード）</div>
           <p class="svc-featured-body">
-            「AIは使えるけど怖い」——そのハンドルを握る役を引き受けます。<br />
-            月単位で伴走し、業務の自動化・AI導入を現場に合わせて実装。単発のご依頼から信頼が育ったら、ぜひご相談ください。
+            ヒアリング取材からデザイン2案・コーディング・スマホ対応・microCMS設定・Cloudflare Pages公開・お問い合わせフォームまで一貫対応。<br />
+            ソース一式はGitHubでお渡し。サーバー契約もロックインもありません。
           </p>
         </div>
         <div class="svc-featured-footer">
-          <div class="svc-featured-price">¥20,000<span class="svc-price-unit"> ／ 月〜</span></div>
-          <a href="#contact" class="svc-featured-link">相談してみる →</a>
+          <div class="svc-featured-price">¥50,000<span class="svc-price-unit"> ／ 先着5名（通常¥100,000）</span></div>
+          <a href="/works/contact" class="svc-featured-link">相談してみる →</a>
         </div>
       </div>
 
-      <!-- S/01 HP・LP制作 ← 最初の勝負商品 -->
-      <div class="svc-card svc-main reveal" style="grid-column: 2; grid-row: 1;">
+      <!-- シンプル（CMSなし） -->
+      <div class="svc-card reveal" style="grid-column: 2; grid-row: 1;">
         <div>
-          <div class="svc-cat">WEBSITE — 先着5件特別価格</div>
-          <div class="svc-title">HP・LP制作</div>
-          <p class="svc-body">「誰に届けるか」から一緒に設計。信頼を伝えるサイトを、コーディングからCloudflare Pagesへのデプロイまで一貫対応。<br />LP ¥50,000〜 / HP ¥75,000〜（5件限定特別価格）</p>
+          <div class="svc-cat">WEBSITE — CMSなし</div>
+          <div class="svc-title">シンプル（作りきり）</div>
+          <p class="svc-body">更新を頻繁にしない方向け。デザイン2案・コーディング・スマホ対応・お問い合わせフォームまで。microCMS設定を省いた分お手頃に。</p>
         </div>
         <div class="svc-footer">
-          <span class="svc-price">¥50,000 〜</span>
-          <span class="svc-unit">／ 一式</span>
+          <span class="svc-price">¥40,000</span>
+          <span class="svc-unit">先着5名（通常¥80,000）</span>
         </div>
       </div>
 
-      <!-- S/02 簡易デザイン -->
+      <!-- 月額AIパートナー（第2幕） -->
       <div class="svc-card reveal" style="grid-column: 3; grid-row: 1;">
         <div>
-          <div class="svc-cat">DESIGN</div>
-          <div class="svc-title">簡易デザイン</div>
-          <p class="svc-body">名刺・ショップカード・店頭POP・チラシ。「かっこいい」より「届く」デザインを。PDF/EPS/PNG納品。</p>
+          <div class="svc-cat">AI PARTNER — 制作後の伴走（第2幕）</div>
+          <div class="svc-title">月額AIパートナー</div>
+          <p class="svc-body">サイト公開後、業務の自動化・AI導入を月単位で伴走します。制作からのご縁で、必要になったタイミングでご相談ください。</p>
         </div>
         <div class="svc-footer">
-          <span class="svc-price">¥8,000 〜</span>
-          <span class="svc-unit">／ 1点</span>
+          <span class="svc-price">¥20,000</span>
+          <span class="svc-unit">／ 月〜（3ヶ月〜）</span>
         </div>
       </div>
 
-      <!-- S/03 SNS運用 (spans 2 cols) -->
+      <!-- アドオン・保守・修正条件 -->
       <div class="svc-card reveal" style="grid-column: 2 / span 2; grid-row: 2;">
         <div>
-          <div class="svc-cat">SNS MANAGEMENT + DX相談</div>
-          <div class="svc-title">SNS運用サポート</div>
-          <p class="svc-body">投稿テンプレ設計・コンテンツ企画・運用フロー構築。「誰向けに・何を・どう発信するか」の設計から。自農場のSNS自動化システムを応用します。DXツール開発・業務自動化のご相談もどうぞ。</p>
-        </div>
-        <div class="svc-footer">
-          <span class="svc-price">¥30,000 〜</span>
-          <span class="svc-unit">／ 月</span>
+          <div class="svc-cat">OPTION</div>
+          <div class="svc-title">アドオン・保守・修正条件</div>
+          <div class="ft-list">
+            <div class="ft-item"><span class="ft-mark">・</span>ページ追加 +¥10,000/p、カスタムドメイン設定 +¥5,000（実費別）、印刷用PDF出力 +¥15,000〜30,000</div>
+            <div class="ft-item"><span class="ft-mark">・</span>デザイン小物（ロゴ・名刺・ショップカード・POP・チラシ）は制作に添えて承ります</div>
+            <div class="ft-item"><span class="ft-mark">・</span>保守: ライト ¥5,000/月（1ページサイト限定）・スタンダード ¥12,000/月（多ページ・GA4月次レポート付）。年払いは2ヶ月分オフ</div>
+            <div class="ft-item"><span class="ft-mark">・</span>修正: 2ターンまで無料・3ターン目以降¥3,000/ターン。公開後30日以内の微修正は無料</div>
+          </div>
         </div>
       </div>
+    </div>
+
+    <p class="svc-note">※ 多ページ コーポレートHPは応相談（目安 ¥150,000〜）。</p>
+
+    <div class="section-cta-row reveal">
+      <a href="/works/contact" class="section-cta-link">まずは相談してみる →</a>
     </div>
   </div>
 </section>
 
 
-<!-- ══════════ 4. AI CAPABILITIES BANNER ══════════ -->
+<!-- ══════════ 4.5 できること BANNER ══════════ -->
 <section class="ws">
   <div class="wc">
     <div class="ai-banner reveal">
@@ -249,48 +381,7 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
 </section>
 
 
-<!-- ══════════ 5. WORKS (実績) ══════════ -->
-<section class="ws ws-alt" id="works">
-  <div class="wc">
-    <div class="sh reveal">
-      <div class="sh-top">
-        <span class="sh-en">WORKS</span>
-        <span class="sh-line"></span>
-        <span class="sh-no">— 03 / 06</span>
-      </div>
-      <h2 class="sh-jp">これまでの仕事。</h2>
-    </div>
-
-    <div class="works-grid">
-      {[
-        { tag: 'WEBSITE', badge: '自社実績', year: '2025', t: 'Farm Eolica 公式HP', d: '課題: 農家の活動を可視化したい → AstroでゼロからHP構築 → 商品・問い合わせ・SEO対応まで一貫稼働', big: true },
-        { tag: 'AI SYSTEM', badge: '自社実績', year: '2024–', t: '栽培管理アプリ', d: '課題: 作付け記録をデジタル化したい → Webアプリを独自設計 → 全工程をスマホで管理、今も稼働中' },
-        { tag: 'AI SYSTEM', badge: '自社実績', year: '2024–', t: 'AI自動投稿システム', d: '課題: 農繁期も発信を止めたくない → n8n+Claude APIで全自動化 → Instagram更新が完全自動に' },
-        { tag: 'HP・LP', year: '2026', t: '受付中 — 先着5件特別価格', d: 'LP制作 ¥50,000〜（通常 ¥100,000〜）。ポートフォリオ掲載同意の方限定。まずはお気軽にどうぞ。', big: true },
-        { tag: 'DESIGN', year: '2026', t: '簡易デザイン — 受付中', d: '名刺・ポップ・チラシ。PDF/EPS/PNG納品。¥8,000〜' },
-        { tag: 'MONTHLY', year: '2026', t: '月額AIパートナー — 相談受付中', d: '月額 ¥20,000〜。AI導入・業務自動化の伴走プラン。' },
-      ].map((w, i) => (
-        <div class={`work-card reveal ${w.big ? 'work-card-big' : ''}`}>
-          <div class="work-ph">
-            <div class="ph ph-auto">work / {String(i + 1).padStart(2, '0')}</div>
-          </div>
-          <div class="work-info">
-            <div class="work-meta">
-              <span class="work-tag">{w.tag}</span>
-              <span class="work-year">{w.year}</span>
-            </div>
-            {w.badge && <span class="work-badge">{w.badge}</span>}
-            <div class="work-title">{w.t}</div>
-            <div class="work-desc">{w.d}</div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════ 6. PROCESS ══════════ -->
+<!-- ══════════ 5. PROCESS ══════════ -->
 <section class="ws">
   <div class="wc">
     <div class="sh reveal">
@@ -308,7 +399,7 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
         { n: '01', t: 'ヒアリング', s: '60–90 min', d: 'オンラインで現状と背景を伺います。初回は資料も準備も不要です。' },
         { n: '02', t: '提案・お見積もり', s: '1 week', d: '方向性のラフ案と概算を、A4一枚にまとめてお送りします。' },
         { n: '03', t: '制作・調整', s: '3–6 weeks', d: 'AIでドラフト生成 → 人間がレビュー・調整。週1で進行をご報告しながら固めます。' },
-        { n: '04', t: '納品・運用', s: '1 day +', d: '公開作業と引き継ぎ資料。月額契約の方はそのまま運用へ。' },
+        { n: '04', t: '納品・運用', s: '1 day +', d: 'ソース一式とCloudflareへの公開作業、引き継ぎ資料をお渡しします。' },
       ].map(p => (
         <div class="process-item">
           <div class="process-badge">{p.n}</div>
@@ -322,7 +413,28 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
 </section>
 
 
-<!-- ══════════ 7. FAQ ══════════ -->
+<!-- ══════════ 5.5 はじめての方へ BANNER ══════════ -->
+<section class="ws">
+  <div class="wc">
+    <div class="ai-banner reveal">
+      <div>
+        <div class="ai-banner-label">FIRST TIME?</div>
+        <p class="ai-banner-headline">
+          Web制作もAI導入も、<span class="ai-banner-accent">初めてで大丈夫です。</span><br />
+          よくある不安に、ひとつずつお答えします。
+        </p>
+      </div>
+      <div class="ai-banner-right">
+        <a href="/works/first-time" class="ai-banner-cta">
+          はじめての方へ を読む <span class="ai-banner-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 6. FAQ ══════════ -->
 <section class="ws" id="faq">
   <div class="wc">
     <div class="sh reveal">
@@ -347,13 +459,13 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
           open: false,
         },
         {
-          q: 'WordPressやSTUDIO、どちらで作りますか？',
-          a: '案件の運用体制で選びます。所員さんが更新するならSTUDIO、ブログ運用が中心ならWordPress、必要十分な静的サイトで足りる場合も多いです。',
+          q: 'WordPressじゃなくて大丈夫ですか？',
+          a: 'あえてAstro（静的サイト）で作っています。サーバー契約もプラグインの脆弱性リスクもなく、表示も高速。ソース一式をGitHubでお渡しするので、私に何かあっても他の制作者に引き継げます。',
           open: true,
         },
         {
           q: '月額AIパートナーは何をやってくれるのですか？',
-          a: 'ご自身の業務を1〜2つ選び、AI/自動化に移し替える伴走です。まず現状の業務フローを整理し、自農場で実装済みの仕組みを現場に合わせて展開します。',
+          a: '制作後の第2幕として、ご自身の業務を1〜2つ選び、AI/自動化に移し替える伴走です。まず現状の業務フローを整理し、自農場で実装済みの仕組みを現場に合わせて展開します。',
           open: false,
         },
         {
@@ -379,7 +491,7 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
 </section>
 
 
-<!-- ══════════ 8. CONTACT ══════════ -->
+<!-- ══════════ 7. CONTACT ══════════ -->
 <section class="ws contact-section" id="contact">
   <div class="wc">
     <div class="contact-panel reveal">
@@ -406,7 +518,7 @@ const description = 'HP制作より先に、「本当に必要なこと」を一
 </section>
 
 
-<!-- ══════════ 9. FOOTER ══════════ -->
+<!-- ══════════ 8. FOOTER ══════════ -->
 <footer class="wfooter">
   <a href="/" class="wfooter-back">← BACK TO FARM&nbsp;EOLICA</a>
   <nav class="wfooter-legal">
@@ -504,7 +616,7 @@ p{margin:0}
 }
 .tategaki{
   writing-mode:vertical-rl;text-orientation:mixed;
-  font-family:var(--sr);font-size:clamp(54px,5vw,78px);font-weight:500;
+  font-family:var(--sr);font-size:clamp(46px,4.4vw,68px);font-weight:500;
   line-height:1.4;letter-spacing:.1em;color:var(--bg);margin:0;
   max-height:calc(100% - 64px);overflow:hidden;
 }
@@ -534,7 +646,7 @@ p{margin:0}
   display:flex;flex-direction:column;justify-content:space-between;background:var(--bg);
 }
 .stat-no{font-family:var(--dp);font-size:10px;letter-spacing:.3em;color:var(--inkm)}
-.stat-num{font-family:var(--sr);font-weight:500;font-size:38px;color:var(--m);letter-spacing:.02em;line-height:1}
+.stat-num{font-family:var(--sr);font-weight:500;font-size:32px;color:var(--m);letter-spacing:.02em;line-height:1}
 .stat-jp{font-family:var(--sr);font-size:12.5px;color:var(--ink);letter-spacing:.04em;margin-top:8px}
 .stat-en{font-family:var(--mn);font-size:10px;letter-spacing:.2em;color:var(--a);margin-top:4px}
 
@@ -550,6 +662,28 @@ p{margin:0}
 .btn-ghost{background:transparent;color:var(--m);border:1px solid var(--m)}
 .btn-ghost:hover{background:rgba(26,39,68,.07)}
 
+/* ── TV Banner ── */
+.tv-banner-section{padding:0 60px 20px}
+.tv-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:40px;
+  max-width:1320px;margin:0 auto;
+  background:var(--a);color:var(--m);
+  padding:34px 46px;
+  transition:background .25s,transform .25s;
+}
+.tv-banner:hover{background:#c98a45;transform:translateY(-2px)}
+.tv-banner-label{display:block;font-family:var(--mn);font-size:11px;letter-spacing:.28em;color:var(--m);margin-bottom:10px}
+.tv-banner-headline{font-family:var(--sr);font-weight:600;font-size:clamp(18px,2vw,24px);line-height:1.6;letter-spacing:.03em;margin:0}
+.tv-banner-accent{text-decoration:underline;text-underline-offset:4px}
+.tv-banner-right{flex-shrink:0}
+.tv-banner-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 22px;border:1px solid var(--m);
+  font-family:var(--dp);font-size:11px;letter-spacing:.18em;color:var(--m);
+  white-space:nowrap;
+}
+.tv-banner-arrow{font-family:var(--sr);font-size:14px}
+
 /* ── Section commons ── */
 .ws{padding:80px 60px 100px}
 .ws-alt{background:#EAE6DF}
@@ -562,7 +696,7 @@ p{margin:0}
 .sh-no{font-family:var(--mn);font-size:10px;letter-spacing:.2em;color:var(--inkm)}
 .sh-jp{font-family:var(--sr);font-weight:500;font-size:clamp(36px,3.2vw,52px);color:var(--m);margin:0;letter-spacing:.04em;line-height:1.2}
 
-/* ── About ── */
+/* ── About / Value ── */
 .about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:start}
 .ph-cap{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm);margin-top:16px}
 .about-story{display:flex;flex-direction:column;gap:40px;padding-top:6px}
@@ -573,13 +707,21 @@ p{margin:0}
   color:var(--a);font-family:var(--dp);font-size:10px;letter-spacing:.3em;margin-bottom:16px;
 }
 .story-badge-jp{font-family:var(--sr);letter-spacing:0}
-.story-title{font-family:var(--sr);font-size:28px;color:var(--m);letter-spacing:.05em;margin:0 0 14px}
+.story-title{font-family:var(--sr);font-size:26px;color:var(--m);letter-spacing:.05em;margin:0 0 14px}
 .story-body{font-size:14.5px;line-height:2.2;color:var(--inks)}
+
+/* ── Section CTA repeater ── */
+.section-cta-row{margin-top:52px;text-align:center}
+.section-cta-link{
+  display:inline-block;font-family:var(--dp);font-size:12px;letter-spacing:.22em;
+  color:var(--m);border-bottom:1px solid var(--a);padding-bottom:4px;transition:color .2s;
+}
+.section-cta-link:hover{color:var(--a)}
 
 /* ── Services ── */
 .svc-grid{
   display:grid;grid-template-columns:1.2fr 1fr 1fr;
-  grid-template-rows:268px 268px;gap:18px;
+  grid-template-rows:268px minmax(240px,auto);gap:18px;
 }
 .svc-featured{
   grid-column:1;grid-row:1/span 2;
@@ -587,7 +729,7 @@ p{margin:0}
   padding:36px 36px;display:flex;flex-direction:column;justify-content:space-between;
 }
 .svc-cat{font-family:var(--dp);font-size:11px;letter-spacing:.3em;color:var(--a);margin-bottom:16px}
-.svc-featured-title{font-family:var(--sr);font-size:36px;line-height:1.4;letter-spacing:.05em;margin-bottom:20px}
+.svc-featured-title{font-family:var(--sr);font-size:32px;line-height:1.4;letter-spacing:.05em;margin-bottom:20px}
 .svc-featured-body{font-size:15px;line-height:2.1;color:rgba(242,242,240,.8);letter-spacing:.04em;max-width:420px}
 .svc-featured-footer{
   padding-top:26px;border-top:1px solid rgba(242,242,240,.2);
@@ -607,7 +749,7 @@ p{margin:0}
   transition:border-color .25s,box-shadow .25s,transform .25s;
 }
 .svc-card:hover{border-color:var(--a);box-shadow:0 8px 32px rgba(26,39,68,.10);transform:translateY(-3px)}
-.svc-title{font-family:var(--sr);font-size:24px;color:var(--m);letter-spacing:.05em;margin-bottom:10px}
+.svc-title{font-family:var(--sr);font-size:22px;color:var(--m);letter-spacing:.05em;margin-bottom:10px}
 .svc-body{font-size:14px;line-height:2;color:var(--inks)}
 .svc-footer{
   margin-top:18px;padding-top:18px;border-top:1px solid var(--hair);
@@ -615,21 +757,22 @@ p{margin:0}
 }
 .svc-price{font-family:var(--mn);font-size:11px;color:var(--m);letter-spacing:.12em}
 .svc-unit{font-family:var(--mn);font-size:10px;color:var(--inkm);letter-spacing:.12em}
+.svc-note{margin-top:20px;font-family:var(--mn);font-size:11px;letter-spacing:.06em;color:var(--inkm)}
 
-/* ── AI Banner ── */
+/* ── AI Banner (reused for できること / はじめての方へ) ── */
 .ai-banner{
   background:var(--m);color:var(--bg);padding:60px 50px;
   display:grid;grid-template-columns:1.4fr 1fr;gap:50px;align-items:center;
 }
 .ai-banner-label{font-family:var(--mn);font-size:11px;letter-spacing:.3em;color:var(--a);margin-bottom:16px}
-.ai-banner-headline{font-family:var(--sr);font-size:28px;line-height:1.6;letter-spacing:.04em;max-width:680px;margin:0}
+.ai-banner-headline{font-family:var(--sr);font-size:26px;line-height:1.6;letter-spacing:.04em;max-width:680px;margin:0}
 .ai-banner-accent{color:var(--a)}
 .ai-banner-right{display:flex;justify-content:flex-end}
 .ai-banner-cta{
   display:inline-flex;align-items:center;gap:12px;
   padding:16px 28px;border:1px solid var(--bg);
   font-family:var(--dp);font-size:12px;letter-spacing:.22em;color:var(--bg);
-  transition:background .25s;
+  transition:background .25s;white-space:nowrap;
 }
 .ai-banner-cta:hover{background:rgba(255,255,255,.1)}
 .ai-banner-arrow{font-family:var(--sr);font-size:14px}
@@ -653,6 +796,7 @@ p{margin:0}
 .work-year{color:var(--inkm)}
 .work-title{font-family:var(--sr);font-size:20px;color:var(--m);letter-spacing:.05em;margin-bottom:6px}
 .work-desc{font-size:13px;line-height:1.9;color:var(--inks)}
+.work-more{display:inline-block;margin-top:10px;font-family:var(--dp);font-size:11px;letter-spacing:.18em;color:var(--a)}
 
 /* ── Process ── */
 .process-grid{
@@ -722,13 +866,10 @@ p{margin:0}
 /* ── Hero copy-hook ── */
 .copy-hook{font-family:var(--sr);font-size:13px;font-weight:600;color:var(--m);letter-spacing:.05em;line-height:1.5;margin-bottom:6px}
 
-/* ── Services: main highlight ── */
-.svc-main{border:1.5px solid var(--a)!important}
-
 /* ── Works badge ── */
 .work-badge{display:inline-block;font-family:var(--mn);font-size:9px;letter-spacing:.22em;color:var(--bg);background:var(--a);padding:2px 8px;margin-bottom:7px}
 
-/* ── First Time section ── */
+/* ── First Time section (also reused for svc addon bullets) ── */
 .ftg{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .ft-block{background:var(--bg);border:1px solid var(--hair);padding:36px 32px}
 .ft-block-wide{grid-column:span 2}
