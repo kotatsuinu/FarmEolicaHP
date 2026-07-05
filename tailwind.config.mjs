@@ -10,7 +10,7 @@ export default {
         mono: ['Courier Prime', 'Space Mono', 'monospace'], // Lab感のための等幅フォント
       },
       colors: {
-        // Mineral & Soil カラーパレット (Organic Lab v2.2)
+        // Mineral & Soil カラーパレット (WIND & DATA LABORATORY v2.2)
         'eolica-green': '#005243', // ブランドカラー: 深い森、知性
         'wet-soil': '#4A3B32',     // 湿った土: 日本語見出し、強調
         'old-copper': '#B87333',   // 使い込まれた銅: アクセント、アクション
