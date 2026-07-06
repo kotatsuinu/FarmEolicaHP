@@ -1,0 +1,1361 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>潮見の味、日和と作る。— レシピ × ペアリング | 海凪醸誌</title>
+<meta name="description" content="潮見の食材と潮日和の組み合わせ。唎酒師監修のフードペアリング理論に基づくレシピ × ペアリングガイド。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;500&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --navy: #1B3A6B;
+    --navy-deep: #142A4F;
+    --sand: #D4C5A9;
+    --ink: #2C2A26;
+    --white: #F7F5F0;
+    --hilight: #C0392B;
+    --card-img: #C5C0B8;
+    --mincho: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+    --sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    --cormorant: "Cormorant Garamond", "EB Garamond", serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    font-weight: 300;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  /* ============= HEADER ============= */
+  .header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 22px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    transition: background 0.4s ease, padding 0.3s ease;
+  }
+  .header.scrolled,
+  .header.solid {
+    background: var(--ink);
+    padding: 14px 48px;
+  }
+  .logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    color: var(--white);
+  }
+  .logo .ja {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+  }
+  .logo .en {
+    font-family: var(--cormorant);
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    margin-top: 4px;
+    opacity: 0.85;
+  }
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+  }
+  .nav-desktop .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .nav-item { position: relative; }
+  .nav-item > a,
+  .nav-item > button {
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-item > a:hover,
+  .nav-item > button:hover,
+  .nav-item.active > a,
+  .nav-item.active > button {
+    border-bottom-color: var(--white);
+  }
+  .nav-item .caret {
+    font-size: 9px;
+    line-height: 1;
+    transform: translateY(1px);
+    transition: transform 0.25s ease;
+    opacity: 0.7;
+  }
+  .nav-item:hover .caret { transform: translateY(1px) rotate(180deg); }
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    background: var(--ink);
+    min-width: 220px;
+    padding: 8px 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 110;
+  }
+  .nav-item:hover .dropdown,
+  .nav-item:focus-within .dropdown {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+  .dropdown::before {
+    content: "";
+    position: absolute;
+    top: -10px; left: 0; right: 0; height: 14px;
+  }
+  .dropdown a {
+    display: block;
+    padding: 12px 22px;
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    border-left: 2px solid transparent;
+    transition: border-left-color 0.2s ease, padding-left 0.2s ease, background 0.2s ease;
+  }
+  .dropdown a:hover {
+    border-left-color: var(--navy);
+    padding-left: 26px;
+    background: rgba(255,255,255,0.03);
+  }
+  .dropdown a .en-sub {
+    display: block;
+    font-family: var(--cormorant);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    opacity: 0.5;
+    margin-top: 2px;
+  }
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(247, 245, 240, 0.6);
+    border-radius: 999px;
+    padding: 4px;
+    font-family: var(--cormorant);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+  .lang-toggle button {
+    padding: 4px 12px;
+    color: var(--white);
+    border-radius: 999px;
+    transition: background 0.25s ease, color 0.25s ease;
+    opacity: 0.6;
+  }
+  .lang-toggle button.active {
+    background: var(--white);
+    color: var(--ink);
+    opacity: 1;
+  }
+  .hamburger {
+    display: none;
+    width: 32px;
+    height: 22px;
+    position: relative;
+    cursor: pointer;
+  }
+  .hamburger span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--white);
+    transition: transform 0.3s ease, opacity 0.2s ease, top 0.3s ease;
+  }
+  .hamburger span:nth-child(1) { top: 4px; }
+  .hamburger span:nth-child(2) { top: 11px; }
+  .hamburger span:nth-child(3) { top: 18px; }
+  .hamburger.open span:nth-child(1) { top: 11px; transform: rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { top: 11px; transform: rotate(-45deg); }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--navy);
+    z-index: 90;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 100px 32px 40px;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: auto; }
+  .mobile-menu .m-group { width: 100%; max-width: 360px; }
+  .mobile-menu .m-top {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 4px;
+    color: var(--white);
+    font-family: var(--mincho);
+    font-size: 22px;
+    letter-spacing: 0.18em;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    cursor: pointer;
+  }
+  .mobile-menu .m-top .m-en {
+    font-family: var(--cormorant);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    opacity: 0.5;
+  }
+  .mobile-menu .m-top .m-caret {
+    font-family: var(--sans);
+    font-size: 14px;
+    transition: transform 0.3s ease;
+    opacity: 0.6;
+    margin-left: auto;
+    padding-left: 14px;
+  }
+  .mobile-menu .m-group.open .m-caret { transform: rotate(180deg); }
+  .mobile-menu .m-sub {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .mobile-menu .m-group.open .m-sub { max-height: 240px; }
+  .mobile-menu .m-sub a {
+    display: block;
+    padding: 14px 18px;
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+  }
+  .mobile-menu .lang-toggle { margin-top: 32px; align-self: center; }
+
+  /* ============= PAGE HERO ============= */
+  .page-hero {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    background:
+      radial-gradient(120% 80% at 20% 20%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 50%),
+      linear-gradient(135deg, #234580 0%, #1B3A6B 45%, #142A4F 100%);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+    overflow: hidden;
+  }
+  .page-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='none' stroke='%23ffffff' stroke-width='0.6'><circle cx='40' cy='40' r='18'/><circle cx='40' cy='40' r='34'/><circle cx='40' cy='40' r='50'/><circle cx='40' cy='40' r='66'/><circle cx='170' cy='150' r='14'/><circle cx='170' cy='150' r='28'/><circle cx='170' cy='150' r='44'/></g></svg>");
+    background-size: 480px 480px;
+    pointer-events: none;
+  }
+  .page-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 5px);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .page-hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 920px;
+  }
+  .page-hero .ph-eyebrow {
+    font-family: var(--cormorant);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+  .page-hero .ph-title {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: clamp(34px, 5vw, 54px);
+    letter-spacing: 0.12em;
+    line-height: 1.35;
+    margin-top: 28px;
+    color: var(--white);
+  }
+  .page-hero .ph-sub {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.7);
+    margin-top: 26px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .page-hero .ph-bottom-crumb {
+    position: absolute;
+    bottom: 38px;
+    left: 0; right: 0;
+    text-align: center;
+    font-family: var(--cormorant);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+  }
+  .page-hero .ph-bottom-crumb .ja {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: none;
+  }
+  .page-hero .ph-bottom-crumb .sep { margin: 0 14px; opacity: 0.6; }
+
+  .crumb {
+    position: absolute;
+    top: 100px;
+    left: 48px;
+    z-index: 3;
+    font-family: var(--cormorant);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    color: rgba(255,255,255,0.5);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  .crumb a:hover { color: rgba(255,255,255,0.9); }
+  .crumb .sep { opacity: 0.4; }
+  .crumb .here { color: rgba(255,255,255,0.9); }
+
+  /* ============= SHARED HEADINGS ============= */
+  .eyebrow {
+    font-family: var(--cormorant);
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--navy);
+    display: inline-block;
+  }
+  .h-section {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: clamp(26px, 3vw, 32px);
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  /* ============= 1. PAIRING THEORY LEAD ============= */
+  .theory {
+    background: var(--bg);
+    padding: 100px 48px;
+  }
+  .theory-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .theory .eyebrow { margin-bottom: 22px; }
+  .theory h2 {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: 0.12em;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .theory .vline {
+    width: 1px;
+    height: 40px;
+    background: var(--navy);
+    margin: 36px auto 36px;
+  }
+  .theory p.body {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 2.1;
+    letter-spacing: 0.06em;
+    color: rgba(44,42,38,0.88);
+    text-align: justify;
+    text-align-last: center;
+  }
+  .theory .author {
+    margin-top: 40px;
+    font-family: var(--cormorant);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    color: rgba(27,58,107,0.6);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .theory .author::before,
+  .theory .author::after {
+    content: "";
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background: rgba(27,58,107,0.4);
+  }
+
+  /* ============= 2. RECIPE CARDS ============= */
+  .recipes {
+    background: var(--sand);
+    padding: 80px 48px;
+  }
+  .recipes-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .recipes-head {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .recipes-head .eyebrow {
+    color: rgba(44,42,38,0.55);
+    margin-bottom: 20px;
+  }
+  .recipes-head h2 {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: clamp(26px, 3vw, 32px);
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .recipes-head .sub {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    color: rgba(44,42,38,0.7);
+    margin-top: 16px;
+    letter-spacing: 0.08em;
+  }
+  .recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .recipe-card {
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+  }
+  .recipe-photo {
+    position: relative;
+    background: var(--card-img);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .recipe-photo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(135deg, rgba(0,0,0,0.04) 0 2px, transparent 2px 14px);
+    pointer-events: none;
+  }
+  .recipe-photo .label {
+    position: relative;
+    z-index: 1;
+    font-family: "Courier New", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: rgba(44,42,38,0.55);
+    text-transform: uppercase;
+    background: var(--card-img);
+    padding: 6px 12px;
+    border: 1px solid rgba(44,42,38,0.18);
+  }
+  .recipe-photo .num {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    font-family: var(--cormorant);
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: rgba(44,42,38,0.6);
+    background: rgba(247,245,240,0.7);
+    padding: 4px 10px;
+    text-transform: uppercase;
+  }
+  .recipe-card .info {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .recipe-card .category {
+    font-family: var(--cormorant);
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--navy);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .recipe-card .category::before {
+    content: "";
+    width: 14px;
+    height: 1px;
+    background: var(--navy);
+    opacity: 0.6;
+  }
+  .recipe-card .category .ja {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: rgba(27,58,107,0.85);
+    text-transform: none;
+  }
+  .recipe-card h3 {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+  .recipe-card .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    margin-top: 14px;
+    padding: 5px 12px;
+    background: var(--navy);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+  }
+  .recipe-card .badge::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    background: var(--white);
+    opacity: 0.7;
+  }
+  .recipe-card .pairing {
+    margin-top: 14px;
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.85;
+    letter-spacing: 0.04em;
+    color: rgba(44,42,38,0.7);
+  }
+  .recipe-card .law {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid rgba(44,42,38,0.1);
+    font-family: var(--cormorant);
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    color: rgba(27,58,107,0.6);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .recipe-card .law .dot {
+    width: 5px;
+    height: 5px;
+    background: var(--navy);
+    border-radius: 50%;
+    opacity: 0.65;
+  }
+
+  /* ============= 3. MATCHING TABLE ============= */
+  .matching {
+    background: var(--bg);
+    padding: 100px 48px;
+  }
+  .matching-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .matching-head {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .matching-head .eyebrow { margin-bottom: 20px; }
+  .matching-head h2 {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 28px;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .matching-head .sub {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    color: rgba(44,42,38,0.65);
+    margin-top: 16px;
+    letter-spacing: 0.08em;
+  }
+  .match-table {
+    width: 100%;
+    border-top: 1px solid var(--navy);
+    border-bottom: 1px solid var(--navy);
+  }
+  .match-thead,
+  .match-row {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr 1.6fr;
+    align-items: center;
+    column-gap: 32px;
+    padding: 24px 8px;
+  }
+  .match-thead {
+    border-bottom: 1px solid rgba(27,58,107,0.4);
+    padding: 18px 8px;
+  }
+  .match-thead .col {
+    font-family: var(--cormorant);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--navy);
+    text-transform: uppercase;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .match-thead .col .ja {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: var(--ink);
+    text-transform: none;
+  }
+  .match-row {
+    border-bottom: 1px solid rgba(27,58,107,0.12);
+    transition: background 0.2s ease;
+  }
+  .match-row:last-child { border-bottom: none; }
+  .match-row:hover { background: rgba(27,58,107,0.03); }
+  .match-row .ingredient {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .match-row .ingredient .en {
+    display: block;
+    font-family: var(--cormorant);
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    color: rgba(27,58,107,0.5);
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .match-row .brand {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    color: var(--navy);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .match-row .brand::before {
+    content: "";
+    width: 16px;
+    height: 1px;
+    background: var(--navy);
+    opacity: 0.6;
+  }
+  .match-row .reason {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+    color: rgba(44,42,38,0.82);
+  }
+
+  /* ============= 4. CTA ============= */
+  .cta {
+    background: var(--navy);
+    padding: 80px 48px;
+    color: var(--white);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 6px);
+    pointer-events: none;
+  }
+  .cta-inner { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
+  .cta .label {
+    font-family: var(--cormorant);
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+  }
+  .cta h2 {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: clamp(24px, 3vw, 32px);
+    letter-spacing: 0.12em;
+    margin-top: 20px;
+    color: var(--white);
+    line-height: 1.5;
+  }
+  .cta p {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.7);
+    margin-top: 16px;
+  }
+  .cta-btn {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 18px 42px;
+    border: 1px solid rgba(247, 245, 240, 0.85);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .cta-btn:hover {
+    background: var(--white);
+    color: var(--navy);
+  }
+
+  /* ============= FOOTER ============= */
+  .footer {
+    background: var(--ink);
+    color: var(--white);
+    padding: 60px 48px 30px;
+  }
+  .footer-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1.3fr;
+    gap: 60px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid rgba(247,245,240,0.08);
+  }
+  .footer-logo .ja {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: 0.1em;
+  }
+  .footer-logo .en {
+    font-family: var(--cormorant);
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    opacity: 0.5;
+    margin-top: 4px;
+  }
+  .footer-logo .sub {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 12px;
+    color: rgba(247,245,240,0.5);
+    margin-top: 14px;
+    letter-spacing: 0.08em;
+  }
+  .footer-sns {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .footer-sns a {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(247,245,240,0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .footer-sns a:hover {
+    background: var(--white);
+    color: var(--ink);
+  }
+  .footer-sns svg { width: 14px; height: 14px; }
+  .footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .footer-nav a {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+  .footer-nav a:hover { opacity: 1; }
+  .footer-access {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 2;
+    color: rgba(247,245,240,0.85);
+    letter-spacing: 0.06em;
+  }
+  .footer-access .label {
+    font-family: var(--cormorant);
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: rgba(247,245,240,0.55);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .footer-access .map-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: var(--cormorant);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    opacity: 0.7;
+    border-bottom: 1px solid rgba(247,245,240,0.3);
+    padding-bottom: 2px;
+  }
+  .copyright {
+    max-width: 1180px;
+    margin: 24px auto 0;
+    font-family: var(--cormorant);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: rgba(247,245,240,0.35);
+  }
+
+  /* ============= RESPONSIVE ============= */
+  @media (max-width: 1080px) {
+    .recipes-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 960px) {
+    .nav-desktop { display: none; }
+    .hamburger { display: block; }
+    .mobile-menu { display: flex; }
+
+    .crumb { left: 24px; top: 90px; font-size: 10px; gap: 10px; }
+    .page-hero { height: 440px; padding: 0 20px; }
+    .page-hero .ph-bottom-crumb { bottom: 28px; }
+
+    .theory { padding: 72px 24px; }
+    .theory h2 { font-size: 26px; }
+
+    .recipes { padding: 64px 24px; }
+    .matching { padding: 72px 24px; }
+
+    .match-thead, .match-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 22px 4px;
+    }
+    .match-thead { display: none; }
+    .match-row .ingredient { font-size: 18px; }
+    .match-row .brand { font-size: 14px; }
+    .match-row .reason { font-size: 13px; }
+
+    .cta { padding: 64px 24px; }
+    .cta-btn { padding: 14px 28px; font-size: 12px; letter-spacing: 0.2em; }
+
+    .footer { padding: 50px 24px 24px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (max-width: 600px) {
+    .recipes-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ============= ANIMATIONS ============= */
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .page-hero-inner { animation: fadeInUp 0.7s ease 0.25s both; }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal.from-left  { transform: translateX(-40px); }
+  .reveal.from-right { transform: translateX(40px); }
+  .reveal.is-visible { opacity: 1 !important; transform: translate(0,0) !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .page-hero-inner { animation: none !important; }
+  }
+  .map-embed-footer {
+    width: 100%; height: 180px; border: 1px solid var(--navy); display: block; margin-top: 14px;
+  }
+</style>
+</head>
+<body>
+<div style="background:#1B3A6B;color:#F7F5F0;text-align:center;font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;font-size:12px;letter-spacing:0.03em;padding:6px 14px;">これは Farm Eolica Works の制作イメージ（デモ）です。実在の酒蔵・団体・人物ではありません。</div>
+
+<!-- ========== HEADER ========== -->
+<header class="header solid" id="header" data-screen-label="Header">
+  <a href="../" class="logo">
+    <span class="ja">海凪醸誌</span>
+    <span class="en">UMINAGI BREWING JOURNAL</span>
+  </a>
+
+  <nav class="nav-desktop">
+    <div class="nav-links">
+      <div class="nav-item">
+        <button type="button" aria-haspopup="true" data-ja="知る" data-en="Read">知る<span class="caret">▼</span></button>
+        <div class="dropdown" role="menu">
+          <a href="../about/" data-ja="酒蔵について" data-en="About the Brewery">酒蔵について<span class="en-sub">ABOUT</span></a>
+          <a href="../about/#lineup" data-ja="お酒ラインナップ" data-en="Sake Lineup">お酒ラインナップ<span class="en-sub">LINEUP</span></a>
+        </div>
+      </div>
+      <div class="nav-item active">
+        <button type="button" aria-haspopup="true" data-ja="味わう" data-en="Taste">味わう<span class="caret">▼</span></button>
+        <div class="dropdown" role="menu">
+          <a href="../mariage/" data-ja="マリアージュ特集" data-en="Mariage Feature">マリアージュ特集<span class="en-sub">MARIAGE</span></a>
+          <a href="./" data-ja="レシピ×ペアリング" data-en="Recipe × Pairing">レシピ×ペアリング<span class="en-sub">RECIPE</span></a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../#access" data-ja="訪れる" data-en="Visit">訪れる</a>
+      </div>
+      <div class="nav-item">
+        <a href="#">About</a>
+      </div>
+    </div>
+    <div class="lang-toggle">
+      <button data-lang="ja" class="active">JP</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </nav>
+
+  <button class="hamburger" id="hamburger" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="m-group">
+    <div class="m-top" data-toggle>
+      <span data-ja="知る" data-en="Read">知る</span>
+      <span class="m-en">READ</span>
+      <span class="m-caret">▼</span>
+    </div>
+    <div class="m-sub">
+      <a href="../about/" data-ja="酒蔵について" data-en="About the Brewery">酒蔵について</a>
+      <a href="../about/#lineup" data-ja="お酒ラインナップ" data-en="Sake Lineup">お酒ラインナップ</a>
+    </div>
+  </div>
+  <div class="m-group open">
+    <div class="m-top" data-toggle>
+      <span data-ja="味わう" data-en="Taste">味わう</span>
+      <span class="m-en">TASTE</span>
+      <span class="m-caret">▼</span>
+    </div>
+    <div class="m-sub">
+      <a href="../mariage/" data-ja="マリアージュ特集" data-en="Mariage Feature">マリアージュ特集</a>
+      <a href="./" data-ja="レシピ×ペアリング" data-en="Recipe × Pairing">レシピ×ペアリング</a>
+    </div>
+  </div>
+  <div class="m-group">
+    <a class="m-top" href="../#access">
+      <span data-ja="訪れる" data-en="Visit">訪れる</span>
+      <span class="m-en">VISIT</span>
+    </a>
+  </div>
+  <div class="m-group">
+    <a class="m-top" href="#">
+      <span>About</span>
+      <span class="m-en">ABOUT</span>
+    </a>
+  </div>
+  <div class="lang-toggle">
+    <button data-lang="ja" class="active">JP</button>
+    <button data-lang="en">EN</button>
+  </div>
+</div>
+
+<!-- ========== PAGE HERO ========== -->
+<section class="page-hero" id="top" data-screen-label="Page Header">
+  <div class="crumb">
+    <a href="../">HOME</a>
+    <span class="sep">/</span>
+    <a href="#">TASTE</a>
+    <span class="sep">/</span>
+    <span class="here">RECIPE &amp; PAIRING</span>
+  </div>
+
+  <div class="page-hero-inner">
+    <div class="ph-eyebrow">RECIPE × PAIRING</div>
+    <h1 class="ph-title" data-ja="潮見の味、日和と作る。" data-en="The Flavors of Shiomi, Crafted with Shiobiyori.">潮見の味、日和と作る。</h1>
+    <p class="ph-sub" data-ja="潮見の食材と潮日和の組み合わせ。唎酒師監修のフードペアリング理論に基づいて設計しています。" data-en="Pairing the ingredients of Shiomi with Shiobiyori sake. Curated with food pairing theory under the supervision of a certified kikisake-shi.">潮見の食材と潮日和の組み合わせ。唎酒師監修のフードペアリング理論に基づいて設計しています。</p>
+  </div>
+
+  <div class="ph-bottom-crumb">
+    <span class="ja" data-ja="海凪醸誌" data-en="Uminagi Brewing Journal">海凪醸誌</span>
+    <span class="sep">/</span>
+    <span class="ja" data-ja="レシピ × ペアリング" data-en="Recipe × Pairing">レシピ × ペアリング</span>
+  </div>
+</section>
+
+<!-- ========== 1. PAIRING THEORY LEAD ========== -->
+<section class="theory" data-screen-label="Pairing Theory">
+  <div class="theory-inner reveal">
+    <div class="eyebrow">— Pairing Theory</div>
+    <h2 data-ja="なぜ、この組み合わせ？" data-en="Why This Pairing?">なぜ、この組み合わせ？</h2>
+    <div class="vline"></div>
+    <p class="body" data-ja="フードペアリングは「似た者同士」と「対極同士」の2つの法則で考えます。例えば、塩味の強い干物には、甘みのある本醸造が「対極」として合う。一方、発酵食品には発酵した酒——純米酒が「似た者同士」として寄り添う。潮見の食材は、潮日和のすべての銘柄に、何かしらの答えを持っています。" data-en="Food pairing is guided by two principles: &quot;like with like&quot; and &quot;contrast.&quot; A boldly salted dried fish, for instance, pairs beautifully with the sweetness of a honjozo as its contrast. Fermented foods, on the other hand, find a kindred spirit in fermented sake — junmaishu as &quot;like with like.&quot; Every ingredient in Shiomi holds an answer for every variety of Shiobiyori.">フードペアリングは「似た者同士」と「対極同士」の2つの法則で考えます。例えば、塩味の強い干物には、甘みのある本醸造が「対極」として合う。一方、発酵食品には発酵した酒——純米酒が「似た者同士」として寄り添う。潮見の食材は、潮日和のすべての銘柄に、何かしらの答えを持っています。</p>
+    <div class="author">SUPERVISED BY A CERTIFIED KIKISAKE-SHI</div>
+  </div>
+</section>
+
+<!-- ========== 2. RECIPE CARDS ========== -->
+<section class="recipes" data-screen-label="Recipes">
+  <div class="recipes-inner">
+    <div class="recipes-head">
+      <div class="eyebrow">— Recipes</div>
+      <h2 data-ja="潮見食材 × 潮日和のレシピ" data-en="Shiomi Ingredients × Shiobiyori Recipes">潮見食材 × 潮日和のレシピ</h2>
+      <p class="sub" data-ja="6品の、海と陸と発酵の食卓。" data-en="Six dishes — from the sea, the land, and the art of fermentation.">6品の、海と陸と発酵の食卓。</p>
+    </div>
+
+    <div class="recipes-grid">
+      <!-- 01 -->
+      <article class="recipe-card reveal" data-screen-label="Recipe 01">
+        <div class="recipe-photo" style="background-image:url('https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&q=80');background-size:cover;background-position:center;">
+          <span class="num">No. 01</span>
+        </div>
+        <div class="info">
+          <div class="category"><span class="ja" data-ja="潮見名物" data-en="Shiomi Specialty">潮見名物</span></div>
+          <h3 data-ja="潮見焼そば炒め" data-en="Shiomi Yakisoba Stir-Fry">潮見焼そば炒め</h3>
+          <span class="badge" data-ja="潮日和 本醸造" data-en="Shiobiyori Honjozo">潮日和 本醸造</span>
+          <p class="pairing" data-ja="太麺と濃いソース。香ばしさに、米の深みが寄り添う。燗で一杯。" data-en="Thick noodles in a rich, savory sauce. The roasted aroma is gently embraced by the deep umami of rice. Best enjoyed warmed.">太麺と濃いソース。香ばしさに、米の深みが寄り添う。燗で一杯。</p>
+          <div class="law"><span class="dot"></span>SIMILAR · <span data-ja="似た者同士" data-en="Like with Like">似た者同士</span></div>
+        </div>
+      </article>
+
+      <!-- 02 -->
+      <article class="recipe-card reveal" style="transition-delay:0.1s" data-screen-label="Recipe 02">
+        <div class="recipe-photo" style="background-image:url('https://images.unsplash.com/photo-1580822184713-fc5400e7fe10?w=600&q=80');background-size:cover;background-position:center;">
+          <span class="num">No. 02</span>
+        </div>
+        <div class="info">
+          <div class="category"><span class="ja" data-ja="地元産" data-en="Local Catch">地元産</span></div>
+          <h3 data-ja="カレイの煮付け" data-en="Simmered Flounder">カレイの煮付け</h3>
+          <span class="badge" data-ja="潮日和 特別純米" data-en="Shiobiyori Tokubetsu Junmai">潮日和 特別純米</span>
+          <p class="pairing" data-ja="甘辛い煮汁に、米の旨みが重なる。地元の白身を引き立てる定番。" data-en="The sweet-savory braising broth layers beautifully with the umami of rice sake. A timeless match for the delicate local white fish.">甘辛い煮汁に、米の旨みが重なる。地元の白身を引き立てる定番。</p>
+          <div class="law"><span class="dot"></span>SIMILAR · <span data-ja="似た者同士" data-en="Like with Like">似た者同士</span></div>
+        </div>
+      </article>
+
+      <!-- 03 -->
+      <article class="recipe-card reveal" style="transition-delay:0.2s" data-screen-label="Recipe 03">
+        <div class="recipe-photo" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80');background-size:cover;background-position:center;">
+          <span class="num">No. 03</span>
+        </div>
+        <div class="info">
+          <div class="category"><span class="ja" data-ja="地元野菜" data-en="Local Vegetables">地元野菜</span></div>
+          <h3 data-ja="ほうれん草とすだちの和え物" data-en="Spinach &amp; Sudachi Dressed Salad">ほうれん草とすだちの和え物</h3>
+          <span class="badge" data-ja="潮日和 純米吟醸" data-en="Shiobiyori Junmai Ginjō">潮日和 純米吟醸</span>
+          <p class="pairing" data-ja="青い香りと柑橘の酸に、吟醸の穏やかな香りがそっと寄り添う。" data-en="The verdant fragrance and citrus acidity find a gentle companion in the soft, delicate aroma of ginjō.">青い香りと柑橘の酸に、吟醸の穏やかな香りがそっと寄り添う。</p>
+          <div class="law"><span class="dot"></span>SIMILAR · <span data-ja="似た者同士" data-en="Like with Like">似た者同士</span></div>
+        </div>
+      </article>
+
+      <!-- 04 -->
+      <article class="recipe-card reveal" data-screen-label="Recipe 04">
+        <div class="recipe-photo" style="background-image:url('https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=80');background-size:cover;background-position:center;">
+          <span class="num">No. 04</span>
+        </div>
+        <div class="info">
+          <div class="category"><span class="ja" data-ja="沿岸部の朝食" data-en="Coastal Breakfast">沿岸部の朝食</span></div>
+          <h3 data-ja="海苔の味噌汁" data-en="Seaweed Miso Soup">海苔の味噌汁</h3>
+          <span class="badge" data-ja="潮日和 本醸造" data-en="Shiobiyori Honjozo">潮日和 本醸造</span>
+          <p class="pairing" data-ja="磯の香りと味噌の発酵。米の素朴な甘みが、朝の食卓に深みを足す。" data-en="The briny ocean fragrance meets the fermented depth of miso. The humble sweetness of rice sake adds warmth to the morning table.">磯の香りと味噌の発酵。米の素朴な甘みが、朝の食卓に深みを足す。</p>
+          <div class="law"><span class="dot"></span>SIMILAR · <span data-ja="似た者同士" data-en="Like with Like">似た者同士</span></div>
+        </div>
+      </article>
+
+      <!-- 05 -->
+      <article class="recipe-card reveal" style="transition-delay:0.1s" data-screen-label="Recipe 05">
+        <div class="recipe-photo" style="background-image:url('https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=600&q=80');background-size:cover;background-position:center;">
+          <span class="num">No. 05</span>
+        </div>
+        <div class="info">
+          <div class="category"><span class="ja" data-ja="地元産" data-en="Local Catch">地元産</span></div>
+          <h3 data-ja="浜の塩ガキ" data-en="Coastal Salted Oysters">浜の塩ガキ</h3>
+          <span class="badge" data-ja="潮日和 大吟醸" data-en="Shiobiyori Daiginjō">潮日和 大吟醸</span>
+          <p class="pairing" data-ja="海の塩みを、大吟醸の華やかな香りが引き立てる。冷やでぜひ。" data-en="The briny saltiness of the sea is lifted by the floral, elegant fragrance of daiginjō. Serve well chilled.">海の塩みを、大吟醸の華やかな香りが引き立てる。冷やでぜひ。</p>
+          <div class="law"><span class="dot"></span>CONTRAST · <span data-ja="対極同士" data-en="Contrast">対極同士</span></div>
+        </div>
+      </article>
+
+      <!-- 06 -->
+      <article class="recipe-card reveal" style="transition-delay:0.2s" data-screen-label="Recipe 06">
+        <div class="recipe-photo" style="background-image:url('https://images.unsplash.com/photo-1547424303-3abe2dbafdee?w=600&q=80');background-size:cover;background-position:center;">
+          <span class="num">No. 06</span>
+        </div>
+        <div class="info">
+          <div class="category"><span class="ja" data-ja="冬の鍋" data-en="Winter Hot Pot">冬の鍋</span></div>
+          <h3 data-ja="酒粕鍋" data-en="Sake Lees Hot Pot">酒粕鍋</h3>
+          <span class="badge" data-ja="潮日和 特別純米" data-en="Shiobiyori Tokubetsu Junmai">潮日和 特別純米</span>
+          <p class="pairing" data-ja="酒粕の発酵と、純米の発酵。同じ蔵の中で生まれる、最強の同郷ペア。" data-en="The fermentation of sake lees meets the fermentation of junmai. Born from the same brewery — an unbeatable pairing from the same home.">酒粕の発酵と、純米の発酵。同じ蔵の中で生まれる、最強の同郷ペア。</p>
+          <div class="law"><span class="dot"></span>SIMILAR · <span data-ja="似た者同士" data-en="Like with Like">似た者同士</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 3. MATCHING TABLE ========== -->
+<section class="matching" data-screen-label="Matching Table">
+  <div class="matching-inner reveal">
+    <div class="matching-head">
+      <div class="eyebrow">— Seasonal Matching</div>
+      <h2 data-ja="旬の食材 × 潮日和マッチング" data-en="Seasonal Ingredients × Shiobiyori Matching">旬の食材 × 潮日和マッチング</h2>
+      <p class="sub" data-ja="沿岸部の食材を、銘柄ごとに。" data-en="Coastal ingredients paired with each variety.">沿岸部の食材を、銘柄ごとに。</p>
+    </div>
+
+    <div class="match-table">
+      <div class="match-thead">
+        <div class="col">INGREDIENT <span class="ja" data-ja="食材" data-en="Ingredient">食材</span></div>
+        <div class="col">BRAND <span class="ja" data-ja="推奨銘柄" data-en="Recommended">推奨銘柄</span></div>
+        <div class="col">REASON <span class="ja" data-ja="合う理由" data-en="Why It Works">合う理由</span></div>
+      </div>
+
+      <div class="match-row">
+        <div class="ingredient" data-ja="地元の白身魚" data-en="Local White Fish">地元の白身魚<span class="en">White Fish</span></div>
+        <div class="brand" data-ja="純米吟醸" data-en="Junmai Ginjō">純米吟醸</div>
+        <div class="reason" data-ja="繊細な旨みを壊さない、穏やかな香り。素材の透明感をそのまま生かす。" data-en="A gentle aroma that never overpowers. The clarity of the ingredient is preserved as-is.">繊細な旨みを壊さない、穏やかな香り。素材の透明感をそのまま生かす。</div>
+      </div>
+
+      <div class="match-row">
+        <div class="ingredient" data-ja="潮見焼きそばの麺" data-en="Shiomi Yakisoba Noodles">潮見焼きそばの麺<span class="en">Shiomi Yakisoba</span></div>
+        <div class="brand" data-ja="本醸造" data-en="Honjozo">本醸造</div>
+        <div class="reason" data-ja="ソースの甘辛に、米の深みがなじむ。濃い味の食卓を支える、燗の一本。" data-en="The deep richness of rice sake melds seamlessly with the sweet-savory sauce. The perfect warmed companion for bold-flavored dishes.">ソースの甘辛に、米の深みがなじむ。濃い味の食卓を支える、燗の一本。</div>
+      </div>
+
+      <div class="match-row">
+        <div class="ingredient" data-ja="地元野菜（沿岸部産）" data-en="Local Vegetables (Coastal)">地元野菜（沿岸部産）<span class="en">Local Vegetables</span></div>
+        <div class="brand" data-ja="純米" data-en="Junmai">純米</div>
+        <div class="reason" data-ja="土の甘みと、米の甘みが共鳴する。常温でゆったりと。" data-en="The sweetness of the earth resonates with the natural sweetness of rice. Best enjoyed at room temperature.">土の甘みと、米の甘みが共鳴する。常温でゆったりと。</div>
+      </div>
+
+      <div class="match-row">
+        <div class="ingredient" data-ja="発酵食品（塩辛・味噌）" data-en="Fermented Foods (Shiokara, Miso)">発酵食品（塩辛・味噌）<span class="en">Fermented</span></div>
+        <div class="brand" data-ja="特別純米" data-en="Tokubetsu Junmai">特別純米</div>
+        <div class="reason" data-ja="発酵同士の旨みが倍増する。塩辛や味噌の郷土料理に、最も寄り添う一本。" data-en="Fermentation meets fermentation — the umami multiplies. The most natural companion for salted seafood and miso-based regional cuisine.">発酵同士の旨みが倍増する。塩辛や味噌の郷土料理に、最も寄り添う一本。</div>
+      </div>
+
+      <div class="match-row">
+        <div class="ingredient" data-ja="牡蛎・貝類" data-en="Oysters &amp; Shellfish">牡蛎・貝類<span class="en">Oyster &amp; Shellfish</span></div>
+        <div class="brand" data-ja="大吟醸" data-en="Daiginjō">大吟醸</div>
+        <div class="reason" data-ja="海の塩みを、大吟醸の華やかさが引き立てる。冷やして、祝いの杯に。" data-en="The elegant floral notes of daiginjō elevate the ocean's brininess. Serve chilled for a celebratory glass.">海の塩みを、大吟醸の華やかさが引き立てる。冷やして、祝いの杯に。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 4. CTA ========== -->
+<section class="cta" data-screen-label="CTA">
+  <div class="cta-inner">
+    <div class="label">VISIT &amp; TASTE</div>
+    <h2><span data-ja="道の駅しおみで、" data-en="Find Shiobiyori">道の駅しおみで、</span><br/><span data-ja="潮日和を選ぶ。" data-en="at Michi-no-Eki Shiomi.">潮日和を選ぶ。</span></h2>
+    <p data-ja="レシピに合わせて。今日の食卓に、海辺の蔵の一本を。" data-en="Pair it with your recipe. Bring a bottle from this seaside brewery to today's table.">レシピに合わせて。今日の食卓に、海辺の蔵の一本を。</p>
+    <a href="../#access" class="cta-btn" data-ja="道の駅しおみで潮日和を選ぶ　→" data-en="Choose Shiobiyori at Michi-no-Eki Shiomi　→">道の駅しおみで潮日和を選ぶ　→</a>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer" id="footer" data-screen-label="Footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="ja">海凪醸誌</div>
+      <div class="en">UMINAGI BREWING JOURNAL</div>
+      <div class="sub" data-ja="海凪酒造 海凪蔵 公認コンテンツマガジン" data-en="Official Content Magazine — Uminagi Shuzō · Uminagi Kura">海凪酒造 海凪蔵 公認コンテンツマガジン</div>
+      <div class="footer-sns">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="3" y="3" width="18" height="18" rx="4"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.5 3h3l-7 8 8.2 10h-6.4l-5-6.4L4.5 21h-3l7.5-8.5L1 3h6.5l4.5 5.9L17.5 3z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="footer-nav">
+      <a href="../about/" data-ja="酒蔵について" data-en="About the Brewery">酒蔵について</a>
+      <a href="../about/#lineup" data-ja="お酒ラインナップ" data-en="Sake Lineup">お酒ラインナップ</a>
+      <a href="../mariage/" data-ja="マリアージュ特集" data-en="Mariage Feature">マリアージュ特集</a>
+      <a href="./" data-ja="レシピ×ペアリング" data-en="Recipe × Pairing">レシピ×ペアリング</a>
+      <a href="../#access" data-ja="アクセス" data-en="Access">アクセス</a>
+      <a href="#">About</a>
+    </nav>
+
+    <div class="footer-access">
+      <span class="label">ACCESS</span>
+      <span data-ja="道の駅しおみ内" data-en="Inside Michi-no-Eki Shiomi">道の駅しおみ内</span><br/>
+      <span data-ja="潮見町" data-en="Shiomi">潮見町</span>
+      <br/>
+      <a href="#" class="map-link" data-ja="Google マップで見る →" data-en="View on Google Maps →">Google マップで見る →</a>
+      <iframe class="map-embed-footer"
+        src="https://maps.google.com/maps?q=%E9%81%93%E3%81%AE%E9%A7%85%E3%81%97%E3%81%8A%E3%81%BF&amp;output=embed&amp;hl=ja"
+        loading="lazy" allowfullscreen title="Google Map - 道の駅しおみ"></iframe>
+    </div>
+  </div>
+
+  <div class="copyright">© 2026 海凪酒造 海凪蔵　Produced by Farm Eolica Works</div>
+</footer>
+
+<script>
+  // === Scroll header ===
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  });
+
+  // === Mobile menu ===
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('[data-toggle]').forEach(t => {
+    t.addEventListener('click', () => t.parentElement.classList.toggle('open'));
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // === Lang toggle (localStorage persistence) ===
+  let currentLang = localStorage.getItem('namie-lang') || 'ja';
+  function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('namie-lang', lang);
+    document.documentElement.lang = lang === 'ja' ? 'ja' : 'en';
+    document.querySelectorAll('[data-ja][data-en]').forEach(el => {
+      const v = el.getAttribute(lang === 'ja' ? 'data-ja' : 'data-en');
+      const childTags = [...el.children].map(c => c.tagName);
+      const onlyBr = childTags.length > 0 && childTags.every(t => t === 'BR');
+      if (el.children.length === 0 || onlyBr) {
+        el.innerHTML = v;
+      } else {
+        const first = [...el.childNodes].find(n => n.nodeType === Node.TEXT_NODE);
+        if (first) first.nodeValue = v;
+        else el.insertBefore(document.createTextNode(v), el.firstChild);
+      }
+    });
+    document.querySelectorAll('[data-lang]').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+  }
+  document.querySelectorAll('[data-lang]').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang')));
+  });
+  setLang(currentLang);
+
+  // === Intersection Observer animations ===
+  (function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  })();
+</script>
+</body>
+</html>

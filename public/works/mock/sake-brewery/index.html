@@ -1,0 +1,848 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>海凪醸誌 ｜ UMINAGI BREWING JOURNAL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --navy: #1B3A6B;
+    --sand: #D4C5A9;
+    --ink: #2C2A26;
+    --soon: #E8E8E5;
+    --soon-img: #D0CCC5;
+    --white: #F7F5F0;
+    --hilight: #C0392B;
+    --card-img: #C5C0B8;
+    --mincho: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+    --sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    --cormorant: "Cormorant Garamond", "EB Garamond", serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    font-weight: 300;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  /* ============= HEADER ============= */
+  .header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 22px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    transition: background 0.4s ease, padding 0.3s ease;
+  }
+  .header.scrolled { background: var(--ink); padding: 14px 48px; }
+  .logo { display: flex; flex-direction: column; line-height: 1.1; color: var(--white); }
+  .logo .ja { font-family: var(--mincho); font-weight: 500; font-size: 22px; letter-spacing: 0.08em; }
+  .logo .en { font-family: var(--cormorant); font-weight: 300; font-size: 10px; letter-spacing: 0.32em; margin-top: 3px; opacity: 0.85; }
+  .nav-desktop { display: flex; align-items: center; gap: 38px; }
+  .nav-desktop .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-desktop .nav-links a {
+    color: var(--white);
+    font-family: var(--sans); font-weight: 300; font-size: 14px; letter-spacing: 0.1em;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s ease;
+  }
+  .nav-desktop .nav-links a:hover,
+  .nav-desktop .nav-links a.active { border-bottom-color: var(--white); }
+  .nav-item { position: relative; }
+  .nav-item > a, .nav-item > button {
+    color: var(--white); font-family: var(--sans); font-weight: 300; font-size: 14px; letter-spacing: 0.1em;
+    padding-bottom: 4px; border-bottom: 1px solid transparent; transition: border-color 0.25s ease;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-item > a:hover, .nav-item > button:hover { border-bottom-color: var(--white); }
+  .nav-item .caret { font-size: 9px; line-height: 1; transform: translateY(1px); transition: transform 0.25s ease; opacity: 0.7; }
+  .nav-item:hover .caret { transform: translateY(1px) rotate(180deg); }
+  .dropdown {
+    position: absolute; top: calc(100% + 14px); left: 50%;
+    transform: translateX(-50%) translateY(-6px); background: var(--ink);
+    min-width: 220px; padding: 8px 0; opacity: 0; pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease; z-index: 110;
+  }
+  .nav-item:hover .dropdown, .nav-item:focus-within .dropdown { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+  .dropdown::before { content: ""; position: absolute; top: -10px; left: 0; right: 0; height: 14px; }
+  .dropdown a {
+    display: block; padding: 12px 22px; color: var(--white);
+    font-family: var(--sans); font-weight: 300; font-size: 13px; letter-spacing: 0.08em;
+    border-left: 2px solid transparent; transition: border-left-color 0.2s ease, padding-left 0.2s ease, background 0.2s ease;
+  }
+  .dropdown a:hover { border-left-color: var(--navy); padding-left: 26px; background: rgba(255,255,255,0.03); }
+  .dropdown a .en-sub { display: block; font-family: var(--cormorant); font-size: 10px; letter-spacing: 0.3em; opacity: 0.5; margin-top: 2px; }
+  .lang-toggle {
+    display: inline-flex; align-items: center;
+    border: 1px solid rgba(247,245,240,0.6); border-radius: 999px; padding: 4px;
+    font-family: var(--cormorant); font-size: 12px; letter-spacing: 0.15em;
+  }
+  .lang-toggle button { padding: 4px 12px; color: var(--white); border-radius: 999px; transition: background 0.25s ease, color 0.25s ease; opacity: 0.6; }
+  .lang-toggle button.active { background: var(--white); color: var(--ink); opacity: 1; }
+  .hamburger { display: none; width: 32px; height: 22px; position: relative; cursor: pointer; }
+  .hamburger span { position: absolute; left: 0; width: 100%; height: 1px; background: var(--white); transition: transform 0.3s ease, opacity 0.2s ease, top 0.3s ease; }
+  .hamburger span:nth-child(1) { top: 4px; }
+  .hamburger span:nth-child(2) { top: 11px; }
+  .hamburger span:nth-child(3) { top: 18px; }
+  .hamburger.open span:nth-child(1) { top: 11px; transform: rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { top: 11px; transform: rotate(-45deg); }
+  .mobile-menu {
+    position: fixed; inset: 0; background: var(--navy); z-index: 90;
+    display: none; flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+    opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: auto; }
+  .mobile-menu a { color: var(--white); font-family: var(--mincho); font-size: 28px; letter-spacing: 0.18em; }
+  .mobile-menu .en-sub { font-family: var(--cormorant); font-size: 12px; letter-spacing: 0.3em; opacity: 0.5; display: block; margin-top: 4px; text-align: center; }
+  .mobile-menu .lang-toggle { margin-top: 24px; }
+
+  /* ============= HERO — スプリットスクリーン ============= */
+  .hero {
+    position: relative; min-height: 100vh; width: 100%;
+    display: flex; overflow: hidden; color: var(--white);
+  }
+  .hero-left {
+    flex: 0 0 60%; min-height: 100vh;
+    background:
+      radial-gradient(120% 80% at 20% 20%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 50%),
+      linear-gradient(135deg, #234580 0%, #1B3A6B 45%, #142A4F 100%);
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    padding: 0 max(48px, 5vw);
+  }
+  .hero-left::before {
+    content: ""; position: absolute; inset: 0; opacity: 0.06;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='none' stroke='%23ffffff' stroke-width='0.6' opacity='0.9'><circle cx='40' cy='40' r='18'/><circle cx='40' cy='40' r='34'/><circle cx='40' cy='40' r='50'/><circle cx='40' cy='40' r='66'/><circle cx='170' cy='150' r='14'/><circle cx='170' cy='150' r='28'/><circle cx='170' cy='150' r='44'/><circle cx='170' cy='150' r='60'/></g></svg>");
+    background-size: 480px 480px; pointer-events: none;
+  }
+  .hero-left::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 5px);
+    opacity: 0.6; pointer-events: none;
+  }
+  .hero-right { flex: 0 0 40%; position: relative; overflow: hidden; }
+  .hero-slideshow { position: absolute; inset: 0; }
+  .slide {
+    position: absolute; inset: 0; background-size: cover; background-position: center;
+    opacity: 0; animation: slideshow 20s ease-in-out infinite;
+  }
+  .slide-1 { background-image: url('https://images.unsplash.com/photo-1560512823-829485b8bf24?w=800&q=80'); animation-delay: 0s; }
+  .slide-2 { background-image: url('https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&q=80'); animation-delay: 5s; }
+  .slide-3 { background-image: url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80'); animation-delay: 10s; }
+  .slide-4 { background-image: url('https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?w=800&q=80'); animation-delay: 15s; }
+  @keyframes slideshow {
+    0%, 2%  { opacity: 0; }
+    8%      { opacity: 1; }
+    22%     { opacity: 1; }
+    28%     { opacity: 0; }
+    100%    { opacity: 0; }
+  }
+  .hero-right-fade {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 220px;
+    background: linear-gradient(to right, #1B3A6B, transparent);
+    z-index: 2; pointer-events: none;
+  }
+  .hero-inner { position: relative; z-index: 2; text-align: left; max-width: 480px; }
+  .hero-title { font-family: var(--mincho); font-weight: 500; font-size: clamp(42px, 5vw, 68px); letter-spacing: 0.12em; line-height: 1.35; }
+  .hero-sub { font-family: var(--cormorant); font-weight: 300; font-size: 20px; letter-spacing: 0.28em; opacity: 0.7; margin-top: 28px; font-style: italic; }
+  .hero-btn {
+    display: inline-block; margin-top: 52px; padding: 16px 38px;
+    border: 1px solid rgba(247,245,240,0.8); color: var(--white);
+    font-family: var(--sans); font-weight: 300; font-size: 14px; letter-spacing: 0.2em;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .hero-btn:hover { background: var(--white); color: var(--navy); }
+  .hero-scroll { position: absolute; right: 32px; bottom: 40px; font-family: var(--cormorant); font-size: 12px; letter-spacing: 0.32em; color: var(--white); opacity: 0.7; writing-mode: vertical-rl; z-index: 2; }
+  .hero-scroll .arrow { display: block; width: 1px; height: 60px; background: var(--white); margin: 12px auto 0; position: relative; overflow: hidden; }
+  .hero-scroll .arrow::after {
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 30%;
+    background: #1B3A6B; animation: scrollLine 2.2s ease-in-out infinite;
+  }
+  @keyframes scrollLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(330%); } }
+  .hero-lang { position: absolute; left: max(48px, 5vw); bottom: 40px; font-family: var(--cormorant); font-size: 13px; letter-spacing: 0.25em; color: var(--white); opacity: 0.75; z-index: 2; }
+  .hero-lang button { color: var(--white); opacity: 0.5; transition: opacity 0.25s ease; }
+  .hero-lang button.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+  .hero-lang span { opacity: 0.4; margin: 0 8px; }
+
+  /* ============= STORY — 3枚コラージュ ============= */
+  .story {
+    padding: 120px 48px;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+  /* 装飾背景文字 */
+  .story::after {
+    content: "潮";
+    position: absolute; right: -0.03em; bottom: -0.12em;
+    font-family: var(--cormorant); font-weight: 400;
+    font-size: clamp(160px, 20vw, 300px);
+    color: var(--sand); opacity: 0.45;
+    pointer-events: none; line-height: 1; user-select: none; letter-spacing: -0.02em;
+  }
+  .story-inner {
+    max-width: 1180px; margin: 0 auto;
+    display: grid; grid-template-columns: 52% 43%; gap: 5%;
+    align-items: center; position: relative; z-index: 1;
+  }
+  .story-label { font-family: var(--cormorant); font-weight: 400; font-size: 13px; letter-spacing: 0.35em; color: var(--navy); margin-bottom: 24px; }
+  .story-label::before { content: "—"; margin-right: 12px; color: var(--navy); }
+  .story-title { font-family: var(--mincho); font-weight: 500; font-size: 40px; letter-spacing: 0.08em; line-height: 1.5; margin-bottom: 36px; text-wrap: pretty; }
+  .story-body { font-family: var(--sans); font-weight: 300; font-size: 16px; line-height: 2; letter-spacing: 0.04em; margin-bottom: 36px; text-wrap: pretty; }
+  .text-link { display: inline-block; font-family: var(--sans); font-weight: 300; font-size: 14px; letter-spacing: 0.1em; color: var(--navy); border-bottom: 1px solid var(--navy); padding-bottom: 4px; }
+  .text-link::after { content: "→"; margin-left: 10px; transition: transform 0.3s ease; display: inline-block; }
+  .text-link:hover::after { transform: translateX(4px); }
+
+  /* 3枚コラージュ */
+  .story-photos {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px;
+    height: 480px;
+  }
+  .story-photo {
+    background: var(--sand);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .story-photo:first-child { grid-row: span 2; } /* 左の縦長写真 */
+  .story-photo::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(45deg, rgba(44,42,38,0.04) 0 8px, transparent 8px 16px);
+  }
+  .story-photo:nth-child(2) { background: var(--card-img); }
+  .story-photo:nth-child(3) { background: #B8B0A0; }
+  .placeholder-label {
+    position: relative; font-family: "Courier New", monospace; font-size: 10px;
+    letter-spacing: 0.18em; color: var(--ink); opacity: 0.5; text-transform: uppercase; text-align: center;
+  }
+  .placeholder-label .icon { display: block; margin: 0 auto 10px; font-family: var(--mincho); font-size: 28px; opacity: 0.4; letter-spacing: 0; }
+
+  /* ============= QUOTE BAND ============= */
+  .quote-band { background: var(--navy); color: var(--white); padding: 120px 48px; text-align: center; position: relative; overflow: hidden; }
+  .quote-band::before {
+    content: ""; position: absolute; inset: 0; opacity: 0.04;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='none' stroke='%23ffffff' stroke-width='0.6' opacity='0.9'><circle cx='40' cy='40' r='18'/><circle cx='40' cy='40' r='34'/><circle cx='40' cy='40' r='50'/><circle cx='40' cy='40' r='66'/><circle cx='170' cy='150' r='14'/><circle cx='170' cy='150' r='28'/><circle cx='170' cy='150' r='44'/><circle cx='170' cy='150' r='60'/></g></svg>");
+    background-size: 400px 400px; pointer-events: none;
+  }
+  .quote-band::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 6px);
+    pointer-events: none;
+  }
+  .quote-band-inner { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
+  .quote-tag { font-family: var(--cormorant); font-size: 11px; letter-spacing: 0.55em; opacity: 0.4; display: block; margin-bottom: 40px; text-transform: uppercase; }
+  .quote-main { font-family: var(--mincho); font-weight: 500; font-size: clamp(34px, 5.5vw, 68px); letter-spacing: 0.14em; line-height: 1.45; margin-bottom: 36px; word-break: keep-all; }
+  .quote-divider { width: 1px; height: 48px; background: rgba(247,245,240,0.3); margin: 0 auto 36px; }
+  .quote-sub { font-family: var(--sans); font-weight: 300; font-size: 15px; letter-spacing: 0.06em; line-height: 2; opacity: 0.68; }
+
+  /* ============= FEATURES — 特集バナー × 3 (交互レイアウト) ============= */
+  .features {
+    background: var(--sand);
+    clip-path: polygon(0 0, 100% 0, 100% 93%, 0 100%);
+    padding-bottom: calc(80px + 7vw);
+  }
+  .features-head { text-align: center; padding: 80px 48px 64px; }
+  .features-head .label { font-family: var(--cormorant); font-weight: 400; font-size: 22px; letter-spacing: 0.3em; color: var(--ink); margin-bottom: 14px; }
+  .features-head .title { font-family: var(--mincho); font-weight: 500; font-size: 36px; letter-spacing: 0.1em; }
+
+  /* 各バナー */
+  .feature-banner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 480px;
+    position: relative;
+  }
+  /* 偶数バナーは左右入替 */
+  .feature-banner.reverse .feature-img { order: 2; }
+  .feature-banner.reverse .feature-text { order: 1; }
+
+  .feature-img {
+    background: var(--card-img);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .feature-img::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(45deg, rgba(44,42,38,0.04) 0 8px, transparent 8px 16px);
+  }
+  /* バナー別の写真トーン */
+  .feature-banner:nth-child(2) .feature-img { background: #B8B4A8; }
+  .feature-banner:nth-child(3) .feature-img { background: #9EA49A; }
+
+  .feature-text {
+    background: var(--bg);
+    padding: 80px max(48px, 5vw);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .feature-tag { font-family: var(--cormorant); font-weight: 400; font-size: 11px; letter-spacing: 0.4em; color: var(--navy); text-transform: uppercase; margin-bottom: 20px; }
+  .feature-title { font-family: var(--mincho); font-weight: 500; font-size: clamp(26px, 3vw, 38px); letter-spacing: 0.08em; line-height: 1.45; margin-bottom: 28px; text-wrap: pretty; }
+  .feature-desc { font-family: var(--sans); font-weight: 300; font-size: 15px; line-height: 1.9; letter-spacing: 0.04em; margin-bottom: 36px; text-wrap: pretty; }
+
+  /* バナー間の細い区切り */
+  .feature-banner + .feature-banner .feature-text {
+    border-top: 1px solid rgba(44,42,38,0.06);
+  }
+
+  /* ============= ACCESS CARD ============= */
+  .access-card {
+    background: var(--navy); color: var(--white);
+    margin-top: -6vw; padding: calc(60px + 6vw) 48px 60px;
+    position: relative; z-index: 1;
+  }
+  .access-inner {
+    max-width: 1180px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.4fr 1fr 1.2fr;
+    gap: 48px; align-items: start;
+  }
+  .access-brand .ja { font-family: var(--mincho); font-weight: 500; font-size: 26px; letter-spacing: 0.1em; }
+  .access-brand .sub { font-family: var(--cormorant); font-weight: 300; font-size: 12px; letter-spacing: 0.35em; opacity: 0.55; margin-top: 8px; display: block; text-transform: uppercase; }
+  .access-brand p { font-family: var(--sans); font-weight: 300; font-size: 14px; line-height: 1.9; opacity: 0.75; margin-top: 20px; }
+  .access-info-label { font-family: var(--cormorant); font-weight: 400; font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; opacity: 0.45; display: block; margin-bottom: 14px; }
+  .access-info-body { font-family: var(--sans); font-weight: 300; font-size: 14px; line-height: 2; opacity: 0.85; }
+  .access-info-body a { border-bottom: 1px solid rgba(247,245,240,0.4); padding-bottom: 1px; opacity: 0.9; }
+  .access-hours { font-family: var(--sans); font-weight: 300; font-size: 14px; line-height: 2; opacity: 0.85; }
+
+  /* ============= COMING SOON ============= */
+  .soon { background: var(--bg); padding: 80px 48px; position: relative; }
+  .soon-head { text-align: center; margin-bottom: 56px; }
+  .soon-head .title { font-family: var(--mincho); font-weight: 500; font-size: 28px; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .soon-head .sub { font-family: var(--sans); font-weight: 300; font-size: 14px; color: #888; letter-spacing: 0.1em; }
+  .soon-cards { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .soon-card { background: var(--soon); display: flex; flex-direction: column; position: relative; }
+  .soon-card .card-img { background: var(--soon-img); aspect-ratio: 16 / 9; }
+  .soon-card .card-body { opacity: 0.55; padding: 20px 18px 24px; display: flex; flex-direction: column; gap: 8px; }
+  .card-cat { font-family: var(--cormorant); font-weight: 400; font-size: 11px; letter-spacing: 0.32em; color: var(--navy); text-transform: uppercase; }
+  .card-title { font-family: var(--mincho); font-weight: 500; font-size: 18px; letter-spacing: 0.06em; line-height: 1.5; }
+  .card-desc { font-family: var(--sans); font-weight: 300; font-size: 13px; line-height: 1.8; color: var(--ink); text-wrap: pretty; }
+  .badge { position: absolute; top: 12px; right: 12px; background: var(--navy); color: var(--white); font-family: var(--cormorant); font-size: 11px; letter-spacing: 0.18em; padding: 6px 12px; z-index: 2; text-transform: uppercase; }
+  .badge.hilight { background: var(--hilight); top: 12px; left: 12px; right: auto; font-family: var(--mincho); letter-spacing: 0.15em; }
+
+  /* ============= FOOTER ============= */
+  .footer { background: var(--ink); color: var(--white); padding: 60px 48px 30px; }
+  .footer-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr 1.3fr; gap: 60px; padding-bottom: 50px; border-bottom: 1px solid rgba(247,245,240,0.08); }
+  .footer-logo .ja { font-family: var(--mincho); font-weight: 500; font-size: 22px; letter-spacing: 0.1em; }
+  .footer-logo .sub { font-family: var(--sans); font-weight: 300; font-size: 12px; color: rgba(247,245,240,0.5); margin-top: 8px; letter-spacing: 0.08em; }
+  .footer-sns { display: flex; gap: 16px; margin-top: 24px; }
+  .footer-sns a { width: 32px; height: 32px; border: 1px solid rgba(247,245,240,0.4); display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.25s ease, color 0.25s ease; }
+  .footer-sns a:hover { background: var(--white); color: var(--ink); }
+  .footer-sns svg { width: 14px; height: 14px; }
+  .footer-nav { display: flex; flex-direction: column; gap: 14px; }
+  .footer-nav a { font-family: var(--sans); font-weight: 300; font-size: 13px; letter-spacing: 0.1em; color: var(--white); opacity: 0.85; transition: opacity 0.2s ease; }
+  .footer-nav a:hover { opacity: 1; }
+  .footer-access { font-family: var(--sans); font-weight: 300; font-size: 13px; line-height: 2; color: rgba(247,245,240,0.85); letter-spacing: 0.06em; }
+  .footer-access .label { font-family: var(--cormorant); font-weight: 400; font-size: 12px; letter-spacing: 0.3em; color: rgba(247,245,240,0.5); display: block; margin-bottom: 10px; }
+  .footer-access .map-link { display: inline-block; margin-top: 8px; font-size: 12px; border-bottom: 1px solid rgba(247,245,240,0.4); padding-bottom: 2px; }
+  .copyright { text-align: center; margin-top: 30px; font-family: var(--sans); font-weight: 300; font-size: 11px; letter-spacing: 0.15em; color: rgba(247,245,240,0.4); }
+
+  /* ============= MOBILE ============= */
+  @media (max-width: 768px) {
+    .header { padding: 14px 20px; }
+    .header.scrolled { padding: 10px 20px; }
+    .nav-desktop { display: none; }
+    .hamburger { display: block; }
+    .mobile-menu { display: flex; }
+
+    .hero { display: block; }
+    .hero-left { flex: none; min-height: 100vh; padding: 0 24px; justify-content: center; }
+    .hero-inner { text-align: center; max-width: none; }
+    .hero-right { display: none; }
+    .hero-title { font-size: 38px; letter-spacing: 0.1em; line-height: 1.5; }
+    .hero-sub { font-size: 14px; letter-spacing: 0.22em; margin-top: 20px; }
+    .hero-btn { margin-top: 40px; padding: 14px 28px; font-size: 12px; }
+    .hero-scroll { right: 20px; bottom: 24px; font-size: 10px; }
+    .hero-scroll .arrow { height: 40px; }
+    .hero-lang { left: 20px; bottom: 24px; font-size: 11px; }
+
+    .story { padding: 60px 24px; }
+    .story::after { font-size: 120px; }
+    .story-inner { grid-template-columns: 1fr; gap: 36px; }
+    .story-title { font-size: 26px; margin-bottom: 20px; }
+    .story-body { font-size: 14px; margin-bottom: 24px; }
+    .story-photos { height: 260px; }
+    .story-text { order: 1; }
+    .story-photos { order: 2; }
+
+    .quote-band { padding: 80px 24px; }
+    .quote-main { font-size: 30px; letter-spacing: 0.1em; }
+    .quote-sub { font-size: 13px; }
+
+    .features { clip-path: none; padding-bottom: 0; }
+    .features-head { padding: 60px 24px 40px; }
+    .features-head .title { font-size: 24px; }
+    .feature-banner { grid-template-columns: 1fr; min-height: auto; }
+    .feature-banner.reverse .feature-img { order: 0; }
+    .feature-banner.reverse .feature-text { order: 1; }
+    .feature-img { aspect-ratio: 16 / 9; order: 0 !important; }
+    .feature-text { padding: 40px 24px; order: 1 !important; }
+    .feature-title { font-size: 24px; }
+
+    .access-card { margin-top: 0; padding: 60px 24px; }
+    .access-inner { grid-template-columns: 1fr; gap: 32px; }
+
+    .soon { padding: 60px 20px; }
+    .soon-cards { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .soon-card .card-body { padding: 14px 12px 18px; }
+    .card-title { font-size: 14px; }
+    .card-desc { font-size: 11px; }
+    .badge { font-size: 9px; padding: 4px 8px; }
+
+    .footer { padding: 50px 24px 24px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 40px; padding-bottom: 30px; }
+  }
+
+  @media (max-width: 1024px) and (min-width: 769px) {
+    .hero-left { padding: 0 40px; }
+    .hero-inner { max-width: 380px; }
+    .hero-right-fade { width: 160px; }
+    .feature-text { padding: 60px 40px; }
+    .soon-cards { grid-template-columns: repeat(2, 1fr); }
+    .access-inner { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ============= ANIMATIONS ============= */
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-title { animation: fadeInUp 0.8s ease 0.3s both; }
+    .hero-sub   { animation: fadeInUp 0.8s ease 0.5s both; }
+    .hero-btn   { animation: fadeInUp 0.8s ease 0.7s both; }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal.from-left  { transform: translateX(-40px); }
+  .reveal.from-right { transform: translateX(40px); }
+  .reveal.is-visible { opacity: 1 !important; transform: translate(0,0) !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .hero-title, .hero-sub, .hero-btn { animation: none !important; }
+  }
+  .map-embed {
+    width: 100%; height: 240px; border: 1px solid var(--navy); display: block; margin-top: 16px;
+  }
+  .map-embed-footer {
+    width: 100%; height: 180px; border: 1px solid var(--navy); display: block; margin-top: 14px;
+  }
+</style>
+</head>
+<body>
+<div style="background:#1B3A6B;color:#F7F5F0;text-align:center;font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;font-size:12px;letter-spacing:0.03em;padding:6px 14px;">これは Farm Eolica Works の制作イメージ（デモ）です。実在の酒蔵・団体・人物ではありません。</div>
+
+<!-- ========== HEADER ========== -->
+<header class="header" id="header">
+  <a href="#top" class="logo">
+    <span class="ja" data-ja="海凪醸誌" data-en="Uminagi Brewing Journal">海凪醸誌</span>
+    <span class="en">UMINAGI BREWING JOURNAL</span>
+  </a>
+  <nav class="nav-desktop">
+    <div class="nav-links">
+      <div class="nav-item">
+        <button type="button" aria-haspopup="true" data-ja="知る" data-en="Read">知る<span class="caret">▼</span></button>
+        <div class="dropdown" role="menu">
+          <a href="about/" data-ja="酒蔵について" data-en="About the Brewery">酒蔵について<span class="en-sub">ABOUT</span></a>
+          <a href="about/#lineup" data-ja="お酒ラインナップ" data-en="Sake Lineup">お酒ラインナップ<span class="en-sub">LINEUP</span></a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button type="button" aria-haspopup="true" data-ja="味わう" data-en="Taste">味わう<span class="caret">▼</span></button>
+        <div class="dropdown" role="menu">
+          <a href="mariage/" data-ja="マリアージュ特集" data-en="Mariage Feature">マリアージュ特集<span class="en-sub">MARIAGE</span></a>
+          <a href="recipe/" data-ja="レシピ×ペアリング" data-en="Recipe × Pairing">レシピ×ペアリング<span class="en-sub">RECIPE</span></a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#access" data-ja="訪れる" data-en="Visit">訪れる</a>
+      </div>
+      <div class="nav-item">
+        <a href="#footer" data-ja="About" data-en="About">About</a>
+      </div>
+    </div>
+    <div class="lang-toggle" id="langToggle">
+      <button data-lang="ja" class="active">JP</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </nav>
+  <button class="hamburger" id="hamburger" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="about/" data-ja="酒蔵について" data-en="About the Brewery">酒蔵について<span class="en-sub">ABOUT</span></a>
+  <a href="about/#lineup" data-ja="お酒ラインナップ" data-en="Sake Lineup">お酒ラインナップ<span class="en-sub">LINEUP</span></a>
+  <a href="mariage/" data-ja="マリアージュ特集" data-en="Mariage Feature">マリアージュ特集<span class="en-sub">MARIAGE</span></a>
+  <a href="recipe/" data-ja="レシピ×ペアリング" data-en="Recipe × Pairing">レシピ×ペアリング<span class="en-sub">RECIPE</span></a>
+  <a href="#access" data-ja="訪れる" data-en="Visit">訪れる<span class="en-sub">VISIT</span></a>
+  <a href="#footer" data-ja="About" data-en="About">About<span class="en-sub">ABOUT</span></a>
+  <div class="lang-toggle">
+    <button data-lang="ja" class="active">JP</button>
+    <button data-lang="en">EN</button>
+  </div>
+</div>
+
+<!-- ========== HERO — スプリットスクリーン (60/40) ========== -->
+<!-- ANIMATION: hero-inner 各要素フェードインアップ（title 0s → sub 0.2s → btn 0.4s stagger）。ページロード後 0.3s 遅延。 -->
+<section class="hero" id="top">
+  <div class="hero-left">
+    <div class="hero-inner">
+      <h1 class="hero-title" data-ja="波を越えた、一杯。" data-en="A cup that crossed the waves.">波を越えた、一杯。</h1>
+      <p class="hero-sub" data-ja="The sake that survived the sea." data-en="The sake that survived the sea.">The sake that survived the sea.</p>
+      <a href="#story" class="hero-btn" data-ja="酒蔵のストーリーを読む" data-en="Read the Brewery's Story">酒蔵のストーリーを読む</a>
+    </div>
+    <div class="hero-lang" id="heroLang">
+      <button data-lang="ja" class="active">JP</button>
+      <span>／</span>
+      <button data-lang="en">EN</button>
+    </div>
+    <div class="hero-scroll">SCROLL<span class="arrow"></span></div>
+  </div>
+
+  <!-- 本番: .mp4 動画に差し替え。現在: CSSクロスフェード 20s サイクル -->
+  <!-- ANIMATION: 右パネルは動画（object-fit:cover）に差し替え予定。グラデーションブリッジで左と接続。 -->
+  <div class="hero-right">
+    <div class="hero-slideshow" aria-hidden="true">
+      <!-- ダミー写真 seed 固定 → 本番: 酒蔵・潮見の海・田んぼ・港の写真に差し替え -->
+      <div class="slide slide-1"></div>
+      <div class="slide slide-2"></div>
+      <div class="slide slide-3"></div>
+      <div class="slide slide-4"></div>
+    </div>
+    <div class="hero-right-fade" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ========== STORY — 3枚コラージュ ========== -->
+<!-- ANIMATION: story-text: フェードインアップ＋左から（translateX -30px → 0、0.8s）。story-photos: フェードイン（opacity 0→1、1.0s、0.2s遅延）。Intersection Observer トリガー。 -->
+<!-- NOTE: ::after 疑似要素で装飾文字を砂浜色・opacity 0.45 で右下に配置済み。 -->
+<section class="story" id="story">
+  <div class="story-inner">
+    <div class="story-text reveal from-left">
+      <div class="story-label" data-ja="STORY" data-en="STORY">STORY</div>
+      <h2 class="story-title" data-ja="潮見町唯一の酒蔵" data-en="The Only Brewery in Shiomi">潮見町唯一の酒蔵</h2>
+      <p class="story-body"
+         data-ja="蔵の前が海だった。漁師たちが大漁の杯を傾けた、潮日和。かつて大きな自然災害ですべてを失ったが、ひとつだけ残ったものがあった——酵母だ。長い歳月をかけて、酒蔵は潮見に帰ってきた。"
+         data-en="The sea was right at the brewery's door. Fishermen raised their cups of Shiobiyori to celebrate a good catch. A great natural disaster washed everything away — except for one thing. The yeast. After many years, the brewery has come home to Shiomi.">
+        蔵の前が海だった。漁師たちが大漁の杯を傾けた、潮日和。かつて大きな自然災害ですべてを失ったが、ひとつだけ残ったものがあった——酵母だ。長い歳月をかけて、酒蔵は潮見に帰ってきた。
+      </p>
+      <a href="about/" class="text-link" data-ja="海凪酒造のこと、もっと読む" data-en="Read more about Uminagi Shuzō">海凪酒造のこと、もっと読む</a>
+    </div>
+
+    <!-- 3枚コラージュ: 左=縦長メイン / 右上=サブ1 / 右下=サブ2 -->
+    <div class="story-photos reveal">
+      <div class="story-photo" style="background-image: url('https://images.unsplash.com/photo-1583623025817-d180a2221d0a?w=600&q=80'); background-size: cover; background-position: center;"></div>
+      <div class="story-photo" style="background-image: url('https://images.unsplash.com/photo-1601924582970-9238bcb495d9?w=400&q=80'); background-size: cover; background-position: center;"></div>
+      <div class="story-photo" style="background-image: url('https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=400&q=80'); background-size: cover; background-position: center;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== QUOTE BAND ========== -->
+<!-- ANIMATION: quote-tag → quote-main → quote-divider → quote-sub の順にフェードインアップ（各 0.15s stagger）。 -->
+<section class="quote-band">
+  <div class="quote-band-inner reveal">
+    <span class="quote-tag">SHIOBIYORI</span>
+    <p class="quote-main"
+       data-ja="酵母は、生きていた。"
+       data-en="The yeast survived.">酵母は、生きていた。</p>
+    <div class="quote-divider" aria-hidden="true"></div>
+    <p class="quote-sub"
+       data-ja="あの日から長い年月を経て——潮見の海辺に、日和は帰ってきた。"
+       data-en="After many years — Shiobiyori came home to the shores of Shiomi.">
+      あの日から長い年月を経て——潮見の海辺に、日和は帰ってきた。
+    </p>
+  </div>
+</section>
+
+<!-- ========== FEATURES — 特集バナー × 3 (交互レイアウト) ========== -->
+<!-- ANIMATION: 各バナーが Intersection Observer でビューポート侵入時に: 奇数バナー=左からスライドイン、偶数バナー=右からスライドイン（translateX ±60px → 0、0.9s）。 -->
+<!-- NOTE: section 下部に clip-path 対角セパレーター（右側が 7% 高く終わる）。access-card が margin-top: -6vw で接続。 -->
+<section class="features" id="features">
+  <div class="features-head">
+    <div class="label" data-ja="CONTENTS" data-en="CONTENTS">CONTENTS</div>
+    <h2 class="title" data-ja="潮見の味わいを、読む。" data-en="Read the flavors of Shiomi.">潮見の味わいを、読む。</h2>
+  </div>
+
+  <!-- バナー 1: 酒蔵 & ラインナップ — 画像左・テキスト右 -->
+  <div class="feature-banner reveal from-left">
+    <div class="feature-img" style="background-image: url('https://images.unsplash.com/photo-1549213783-8284d0336c4f?w=800&q=80'); background-size: cover; background-position: center;"></div>
+    <div class="feature-text">
+      <span class="feature-tag">BREWERY &amp; LINEUP</span>
+      <h3 class="feature-title" data-ja="酒蔵について＋お酒ラインナップ" data-en="About the Brewery & Sake Lineup">酒蔵について＋お酒ラインナップ</h3>
+      <p class="feature-desc"
+         data-ja="江戸末期から続く潮日和の歴史と復活のストーリー。海凪蔵・山井蔵の二蔵体制で生まれる銘柄を全ラインナップで紹介します。大漁旗のラベルをまとった海凪蔵の新商品も。"
+         data-en="The history of Shiobiyori since the late Edo period, and the story of its revival. Discover the full lineup born from the dual-brewery system — Uminagi Kura and Yamai Kura — including new releases bearing the Uminagi kura's Tairyo-bata label.">
+        江戸末期から続く潮日和の歴史と復活のストーリー。海凪蔵・山井蔵の二蔵体制で生まれる銘柄を全ラインナップで紹介します。大漁旗のラベルをまとった海凪蔵の新商品も。
+      </p>
+      <a href="about/" class="text-link" data-ja="酒蔵とラインナップを読む" data-en="Read about the Brewery & Lineup">酒蔵とラインナップを読む</a>
+    </div>
+  </div>
+
+  <!-- バナー 2: マリアージュ — テキスト左・画像右 (reverse) -->
+  <div class="feature-banner reverse reveal from-right">
+    <div class="feature-img" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80'); background-size: cover; background-position: center;"></div>
+    <div class="feature-text">
+      <span class="feature-tag">MARIAGE</span>
+      <h3 class="feature-title" data-ja="マリアージュ特集" data-en="Mariage Feature">マリアージュ特集</h3>
+      <p class="feature-desc"
+         data-ja="潮見町内の飲食店5店舗と潮日和のペアリングを深掘り。地元の海の幸・沿岸部の発酵食品・地元の郷土料理——それぞれに合うお酒の選び方と楽しみ方を紹介します。"
+         data-en="An in-depth exploration of pairings between five Shiomi restaurants and Shiobiyori. Learn how to choose and enjoy sake with local seafood, coastal fermented foods, and local home cooking.">
+        潮見町内の飲食店5店舗と潮日和のペアリングを深掘り。地元の海の幸・沿岸部の発酵食品・地元の郷土料理——それぞれに合うお酒の選び方と楽しみ方を紹介します。
+      </p>
+      <a href="mariage/" class="text-link" data-ja="マリアージュ特集を読む" data-en="Read the Mariage Feature">マリアージュ特集を読む</a>
+    </div>
+  </div>
+
+  <!-- バナー 3: レシピ×ペアリング — 画像左・テキスト右 -->
+  <div class="feature-banner reveal from-left">
+    <div class="feature-img" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80'); background-size: cover; background-position: center;"></div>
+    <div class="feature-text">
+      <span class="feature-tag">RECIPE × PAIRING</span>
+      <h3 class="feature-title" data-ja="レシピ×ペアリング" data-en="Recipe × Pairing">レシピ×ペアリング</h3>
+      <p class="feature-desc"
+         data-ja="潮見の特産品——潮見焼きそばの麺・地元の海の幸・地元野菜——を使ったレシピと、潮日和との組み合わせ提案。唎酒師監修のフードペアリング理論に基づいて設計しています。"
+         data-en="Recipes using Shiomi specialties — Shiomi Yakisoba noodles, local seafood, local vegetables — paired with Shiobiyori. Designed with food pairing theory supervised by a certified kikisake-shi.">
+        潮見の特産品——潮見焼きそばの麺・地元の海の幸・地元野菜——を使ったレシピと、潮日和との組み合わせ提案。唎酒師監修のフードペアリング理論に基づいて設計しています。
+      </p>
+      <a href="recipe/" class="text-link" data-ja="レシピ&amp;ペアリングを見る" data-en="Browse Recipes &amp; Pairings">レシピ&amp;ペアリングを見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ACCESS CARD — ネイビー背景・コンパクト ========== -->
+<!-- ANIMATION: 3カラム一斉フェードインアップ（0.1s stagger）。 -->
+<!-- NOTE: margin-top: -6vw で Features の対角カットと接続。 -->
+<section class="access-card" id="access">
+  <div class="access-inner reveal">
+    <div class="access-brand">
+      <div class="ja" data-ja="海凪蔵" data-en="Uminagi Kura">海凪蔵</div>
+      <span class="sub">UMINAGI SHUZŌ · SHIOMI</span>
+      <p data-ja="道の駅しおみ内にある潮見唯一の酒蔵。地元の食材と潮日和の出会いを体験できます。"
+         data-en="The only sake brewery in Shiomi, located within Michi-no-Eki Shiomi. Come and experience the meeting of local ingredients and Shiobiyori.">
+        道の駅しおみ内にある潮見唯一の酒蔵。地元の食材と潮日和の出会いを体験できます。
+      </p>
+    </div>
+
+    <div>
+      <span class="access-info-label">ACCESS</span>
+      <div class="access-info-body">
+        <span data-ja="道の駅しおみ 2F" data-en="Michi-no-Eki Shiomi, 2F">道の駅しおみ 2F</span><br/>
+        <span data-ja="潮見町" data-en="Shiomi">潮見町</span><br/>
+        <a href="#" class="map-link" style="color:inherit;border-bottom:1px solid rgba(247,245,240,0.45);padding-bottom:2px;"
+           data-ja="Google マップで見る →" data-en="View on Google Maps →">Google マップで見る →</a>
+      </div>
+    </div>
+
+    <div>
+      <span class="access-info-label">HOURS</span>
+      <div class="access-hours">
+        <span data-ja="9:00 — 18:00" data-en="9:00 AM — 6:00 PM">9:00 — 18:00</span><br/>
+        <span style="opacity:0.6;font-size:12px;" data-ja="定休日：道の駅しおみに準ずる" data-en="Closed: same as Michi-no-Eki Shiomi">定休日：道の駅しおみに準ずる</span>
+      </div>
+    </div>
+  </div>
+  <div style="max-width:1180px;margin:40px auto 0;padding:0 48px 0;">
+    <iframe class="map-embed"
+      src="https://maps.google.com/maps?q=%E9%81%93%E3%81%AE%E9%A7%85%E3%81%97%E3%81%8A%E3%81%BF&amp;output=embed&amp;hl=ja"
+      loading="lazy" allowfullscreen title="Google Map - 道の駅しおみ"></iframe>
+  </div>
+</section>
+
+<!-- ========== COMING SOON ========== -->
+<!-- ANIMATION: カードが列ごとに左右交互スライドイン（1列目: -40px、2列目: +40px、3列目: -40px）。100ms stagger。 -->
+<section class="soon" id="soon">
+  <div class="soon-head">
+    <h2 class="title" data-ja="準備中のコンテンツ" data-en="Coming Soon">準備中のコンテンツ</h2>
+    <p class="sub" data-ja="順次公開予定です" data-en="Releasing in stages">順次公開予定です</p>
+  </div>
+
+  <div class="soon-cards">
+    <div class="soon-card reveal">
+      <span class="badge hilight" data-ja="目玉企画" data-en="Featured">目玉企画</span>
+      <span class="badge">Coming Soon</span>
+      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=600&q=80');background-size:cover;background-position:center;"></div>
+      <div class="card-body">
+        <span class="card-cat">QUIZ</span>
+        <h3 class="card-title" data-ja="潮見体験診断" data-en="Shiomi Experience Quiz">潮見体験診断</h3>
+        <p class="card-desc" data-ja="質問に答えると、あなたに合う潮日和の酒タイプ＋潮見のおすすめ体験がわかります。" data-en="Answer a few questions to find your perfect Shiobiyori match and Shiomi experience.">質問に答えると、あなたに合う潮日和の酒タイプ＋潮見のおすすめ体験がわかります。</p>
+      </div>
+    </div>
+
+    <div class="soon-card reveal" style="transition-delay:0.1s">
+      <span class="badge">Coming Soon</span>
+      <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80');background-size:cover;background-position:center;"></div>
+      <div class="card-body">
+        <span class="card-cat">SDGs</span>
+        <h3 class="card-title" data-ja="SDGs・酒粕企画" data-en="SDGs · Sake Lees">SDGs・酒粕企画</h3>
+        <p class="card-desc" data-ja="酒粕・おりを活かした潮見の新しい食文化。学校連携・地元生産者との共創コンテンツ。" data-en="A new food culture in Shiomi born from sake lees and dregs, with school and local producer collaborations.">酒粕・おりを活かした潮見の新しい食文化。学校連携・地元生産者との共創コンテンツ。</p>
+      </div>
+    </div>
+
+    <div class="soon-card">
+      <span class="badge">Coming Soon</span>
+      <div class="card-img reveal" style="transition-delay:0.2s;background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80');background-size:cover;background-position:center;"></div>
+      <div class="card-body">
+        <span class="card-cat">COLUMN</span>
+        <h3 class="card-title" data-ja="専門家コラム" data-en="Expert Column">専門家コラム</h3>
+        <p class="card-desc" data-ja="唎酒師監修。日本酒の美味しい飲み方・栄養学・沿岸部の食文化。" data-en="Supervised by a certified kikisake-shi. Drinking tips, nutrition, and coastal food culture.">唎酒師監修。日本酒の美味しい飲み方・栄養学・沿岸部の食文化。</p>
+      </div>
+    </div>
+
+    <div class="soon-card">
+      <span class="badge">Coming Soon</span>
+      <div class="card-img reveal" style="transition-delay:0.1s;background-image:url('https://images.unsplash.com/photo-1530099486328-e021101a494a?w=600&q=80');background-size:cover;background-position:center;"></div>
+      <div class="card-body">
+        <span class="card-cat">COLLAB</span>
+        <h3 class="card-title" data-ja="地域観光コラボ" data-en="Regional Tourism Collab">地域観光コラボ</h3>
+        <p class="card-desc" data-ja="地域のインバウンド観光と潮日和の出会い。地域の観光チームとの連携で海外ゲストに潮見を届ける。" data-en="Where inbound tourism in the region meets Shiobiyori — bringing Shiomi to international guests via the local tourism team.">地域のインバウンド観光と潮日和の出会い。地域の観光チームとの連携で海外ゲストに潮見を届ける。</p>
+      </div>
+    </div>
+
+    <div class="soon-card">
+      <span class="badge">Coming Soon</span>
+      <div class="card-img reveal" style="transition-delay:0.2s;background-image:url('https://images.unsplash.com/photo-1547595628-c61a29f496f0?w=600&q=80');background-size:cover;background-position:center;"></div>
+      <div class="card-body">
+        <span class="card-cat">REPORT</span>
+        <h3 class="card-title" data-ja="試飲会レポート" data-en="Tasting Report">試飲会レポート</h3>
+        <p class="card-desc" data-ja="潮見を訪れた海外ゲストと潮日和の試飲会レポート。次回開催情報もここで発信。" data-en="Reports from sake tastings with international guests visiting Shiomi. Next event info posted here.">潮見を訪れた海外ゲストと潮日和の試飲会レポート。次回開催情報もここで発信。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer" id="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="ja">海凪醸誌</div>
+      <div class="sub" data-ja="海凪酒造 海凪蔵" data-en="Uminagi Shuzō · Uminagi Kura">海凪酒造 海凪蔵</div>
+      <div class="footer-sns">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="3" y="3" width="18" height="18" rx="4"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.5 3h3l-7 8 8.2 10h-6.4l-5-6.4L4.5 21h-3l7.5-8.5L1 3h6.5l4.5 5.9L17.5 3zm-1 16h1.6L7.6 4.7H5.9L16.5 19z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="footer-nav">
+      <a href="#story" data-ja="知る" data-en="Read">知る</a>
+      <a href="#features" data-ja="味わう" data-en="Taste">味わう</a>
+      <a href="#access" data-ja="訪れる" data-en="Visit">訪れる</a>
+      <a href="#" data-ja="About" data-en="About">About</a>
+    </nav>
+
+    <div class="footer-access">
+      <span class="label">ACCESS</span>
+      <span data-ja="道の駅しおみ内" data-en="Inside Michi-no-Eki Shiomi">道の駅しおみ内</span><br/>
+      <span data-ja="潮見町" data-en="Shiomi">潮見町</span><br/>
+      <a href="#" class="map-link" data-ja="Google マップで見る →" data-en="View on Google Maps →">Google マップで見る →</a>
+      <iframe class="map-embed-footer"
+        src="https://maps.google.com/maps?q=%E9%81%93%E3%81%AE%E9%A7%85%E3%81%97%E3%81%8A%E3%81%BF&amp;output=embed&amp;hl=ja"
+        loading="lazy" allowfullscreen title="Google Map - 道の駅しおみ"></iframe>
+    </div>
+  </div>
+  <div class="copyright">© 2026 海凪酒造 海凪蔵　Produced by Farm Eolica Works</div>
+</footer>
+
+<script>
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 40); });
+
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  let currentLang = localStorage.getItem('namie-lang') || 'ja';
+  function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('namie-lang', lang);
+    document.documentElement.lang = lang === 'ja' ? 'ja' : 'en';
+    document.querySelectorAll('[data-ja][data-en]').forEach(el => {
+      const v = el.getAttribute(lang === 'ja' ? 'data-ja' : 'data-en');
+      if (el.children.length === 0) {
+        el.textContent = v;
+      } else {
+        const first = [...el.childNodes].find(n => n.nodeType === Node.TEXT_NODE);
+        if (first) first.nodeValue = v;
+        else el.insertBefore(document.createTextNode(v), el.firstChild);
+      }
+    });
+    document.querySelectorAll('[data-lang]').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+  }
+  document.querySelectorAll('[data-lang]').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang')));
+  });
+  setLang(currentLang);
+
+  const sections = ['story','features','access','soon','footer'].map(id => document.getElementById(id));
+  const navLinks = document.querySelectorAll('.nav-desktop .nav-links a');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY + window.innerHeight * 0.35;
+    let activeId = 'story';
+    for (const s of sections) {
+      if (s && y >= s.offsetTop) activeId = s.id;
+    }
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + activeId);
+    });
+  });
+
+  // === Intersection Observer animations ===
+  (function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  })();
+</script>
+
+</body>
+</html>

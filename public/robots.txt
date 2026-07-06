@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /works/mock/
 
 Sitemap: https://farmeolica.com/sitemap-index.xml
