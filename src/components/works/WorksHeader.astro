@@ -1,0 +1,65 @@
+---
+// Farm Eolica Works — Shared Header
+// Used across all /works/ pages. Unifies nav markup + CSS that was
+// previously duplicated per-page. Active state uses aria-current="page"
+// consistently (replaces the old mixed aria-current / .wh-nav-active).
+interface Props {
+  isHome?: boolean;
+  active?: 'capabilities' | 'first-time' | 'contact';
+}
+const { isHome = false, active } = Astro.props;
+const base = isHome ? '' : '/works/';
+---
+
+<header class="wh">
+  <a href="/works/" class="wh-logo">
+    <span class="wh-logo-main">FARM&nbsp;EOLICA</span>
+    <span class="wh-logo-sub">/ WORKS</span>
+  </a>
+  <nav class="wh-nav">
+    <a href={`${base}#about`}>About</a>
+    <a href={`${base}#products`}>Products</a>
+    <a href={`${base}#faq`}>FAQ</a>
+    <a href={`${base}#contact`}>Contact</a>
+    <a href="/works/capabilities" aria-current={active === 'capabilities' ? 'page' : undefined}>できること</a>
+    <a href="/works/first-time" aria-current={active === 'first-time' ? 'page' : undefined}>はじめての方へ</a>
+    <a href="/" class="wh-farm-link">農場HP ↗</a>
+    <a href="/works/contact" class="wh-cta" aria-current={active === 'contact' ? 'page' : undefined}>まずは話してみる →</a>
+  </nav>
+</header>
+
+<style>
+/* ── Header ── */
+.wh{
+  position:sticky;top:0;z-index:100;
+  background:rgba(242,242,240,.92);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--hair);
+  padding:20px 60px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.wh-logo{display:flex;align-items:baseline;gap:10px}
+.wh-logo-main{font-family:var(--dp);font-size:20px;letter-spacing:.22em;color:var(--m)}
+.wh-logo-sub{font-family:var(--dp);font-size:12px;letter-spacing:.3em;color:var(--a)}
+.wh-farm-link{font-family:var(--mn);font-size:10px;letter-spacing:.15em;color:var(--inkm);border:1px solid var(--hair);padding:5px 10px;transition:color .2s,border-color .2s}
+.wh-farm-link:hover{color:var(--m);border-color:var(--m)}
+.wh-nav{display:flex;align-items:center;gap:24px}
+.wh-nav a{font-family:var(--sr);font-size:13px;letter-spacing:.1em;color:var(--ink);transition:color .2s}
+.wh-nav a:hover,.wh-nav a[aria-current="page"]{color:var(--a)}
+.wh-cta{
+  padding:9px 18px;border:1px solid var(--m);
+  color:var(--m)!important;
+  font-family:var(--dp);font-size:11px;letter-spacing:.18em;
+  transition:background .2s,color .2s!important;
+}
+.wh-cta:hover{background:var(--m);color:var(--bg)!important}
+.wh-cta[aria-current="page"]{background:var(--m);color:var(--bg)!important}
+
+/* ── Responsive ── */
+@media (max-width:900px){
+  .wh{padding:16px 20px}
+  .wh-nav{gap:12px;row-gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .wh-nav a{font-size:12px}
+  .wh-farm-link{display:none}
+}
+</style>
