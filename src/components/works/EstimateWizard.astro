@@ -165,16 +165,16 @@
 
     if (branch === 'single') {
       var c = computeSingle();
-      var specialLabel = (c.specialMin === c.specialMax) ? fmt(c.specialMin) : fmt(c.specialMin) + '〜' + fmt(c.specialMax);
-      var normalLabel = (c.normalMin === c.normalMax) ? fmt(c.normalMin) : fmt(c.normalMin) + '〜' + fmt(c.normalMax);
+      var specialLabel = (c.specialMin === c.specialMax) ? fmt(c.specialMin) + '〜' : fmt(c.specialMin) + '〜' + fmt(c.specialMax);
+      var normalLabel = (c.normalMin === c.normalMax) ? fmt(c.normalMin) + '〜' : fmt(c.normalMin) + '〜' + fmt(c.normalMax);
       var extra = [];
       if (c.pages > 0) extra.push('ページ追加 +' + c.pages + 'p（' + fmt(c.pages * PRICING.pagePrice) + '）');
       if (c.domain) extra.push('独自ドメイン設定（+' + fmt(PRICING.domainPrice) + '・ドメイン実費別）');
       if (c.pdf) extra.push('印刷用PDF出力（+' + fmt(PRICING.pdfMin) + '〜' + fmt(PRICING.pdfMax) + '）');
       html += '<div class="eq-result-plan">おすすめ：<b>' + c.plan.label + '</b></div>';
       html += '<div class="eq-result-price-row">'
-        + '<div class="eq-result-price-block"><span class="eq-result-price-label">先着5名 特別価格</span><span class="eq-result-price">' + specialLabel + '〜</span></div>'
-        + '<div class="eq-result-price-block eq-result-price-block-sub"><span class="eq-result-price-label">通常</span><span class="eq-result-price eq-result-price-sub">' + normalLabel + '〜</span></div>'
+        + '<div class="eq-result-price-block"><span class="eq-result-price-label">先着5名 特別価格</span><span class="eq-result-price">' + specialLabel + '</span></div>'
+        + '<div class="eq-result-price-block eq-result-price-block-sub"><span class="eq-result-price-label">通常</span><span class="eq-result-price eq-result-price-sub">' + normalLabel + '</span></div>'
         + '</div>';
       if (extra.length) html += '<div class="eq-result-extra">' + extra.map(function (e) { return '・' + e; }).join('<br />') + '</div>';
     } else if (branch === 'multi') {
@@ -212,13 +212,13 @@
     var lines = [];
     if (branch === 'single') {
       var c = computeSingle();
-      var specialLabel = (c.specialMin === c.specialMax) ? fmt(c.specialMin) : fmt(c.specialMin) + '〜' + fmt(c.specialMax);
-      var normalLabel = (c.normalMin === c.normalMax) ? fmt(c.normalMin) : fmt(c.normalMin) + '〜' + fmt(c.normalMax);
+      var specialLabel = (c.specialMin === c.specialMax) ? fmt(c.specialMin) + '〜' : fmt(c.specialMin) + '〜' + fmt(c.specialMax);
+      var normalLabel = (c.normalMin === c.normalMax) ? fmt(c.normalMin) + '〜' : fmt(c.normalMin) + '〜' + fmt(c.normalMax);
       lines.push('選択：1枚もの（1ページのHP・LP）／' + c.plan.label);
       if (c.pages > 0) lines.push('　・ページ追加 +' + c.pages + 'p');
       if (c.domain) lines.push('　・独自ドメイン設定あり');
       if (c.pdf) lines.push('　・印刷用PDF出力あり');
-      lines.push('概算：' + specialLabel + '〜（先着5名特別価格） ／ 通常 ' + normalLabel + '〜');
+      lines.push('概算：' + specialLabel + '（先着5名特別価格） ／ 通常 ' + normalLabel);
     } else if (branch === 'multi') {
       lines.push('選択：複数ページのHP（5〜10ページ）');
       lines.push('概算：応相談（目安 ' + fmt(PRICING.multi.hint) + '〜）');
