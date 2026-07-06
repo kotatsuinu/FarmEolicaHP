@@ -203,6 +203,7 @@ const flowStages = [
         <div>
           <span class="plan-badge">先着5名 特別価格</span>
           <h3 class="plan-title">スタンダード<br /><span class="plan-title-sub">（microCMS付）</span></h3>
+          <p class="plan-cms-note">microCMSとは？＝ホームページの文章や写真を、自分でパソコン・スマホから書き換えられる仕組みです。</p>
           <div class="plan-list">
             {[
               'ヒアリング（取材・コピーライティング）',
@@ -260,6 +261,8 @@ const flowStages = [
         </div>
       </div>
     </div>
+
+    <p class="plan-estimate-link reveal">スタンダードとシンプル、どちらが合うか迷う方は → <a href="/works/contact#estimate">かんたん見積もりで確認する</a></p>
 
     <!-- 制作期間・納品物・拡張 facts -->
     <div class="cs-facts reveal">
@@ -557,6 +560,9 @@ p{margin:0}
 .plan-title{font-family:var(--sr);font-size:26px;letter-spacing:.05em;margin:0 0 24px;line-height:1.4;color:inherit}
 .plan-title-sub{font-size:15px;color:var(--inkm);letter-spacing:.03em}
 .plan-card-featured .plan-title-sub{color:rgba(242,242,240,.55)}
+.plan-cms-note{font-size:12.5px;line-height:1.8;letter-spacing:.02em;margin:0 0 20px}
+.plan-card-featured .plan-cms-note{color:rgba(242,242,240,.65)}
+.plan-card:not(.plan-card-featured) .plan-cms-note{color:var(--inkm)}
 .plan-list{display:flex;flex-direction:column;gap:11px}
 .plan-list-item{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.8}
 .plan-list-item .target-mark{color:var(--a)}
@@ -575,6 +581,10 @@ p{margin:0}
 .plan-card-featured .plan-price-block-sub .plan-price-label{color:rgba(242,242,240,.5)}
 .plan-price-sub{font-size:18px;font-weight:500;color:var(--inkm)}
 .plan-card-featured .plan-price-sub{color:rgba(242,242,240,.65)}
+
+.plan-estimate-link{margin:0 0 32px;font-size:13px;color:var(--inks)}
+.plan-estimate-link a{color:var(--m);border-bottom:1px solid var(--hair);padding-bottom:2px;transition:color .2s,border-color .2s}
+.plan-estimate-link a:hover{color:var(--a);border-bottom-color:var(--a)}
 
 /* ── Facts (制作期間/納品物/拡張) ── */
 .cs-facts{

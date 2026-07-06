@@ -3,6 +3,7 @@
 // Self-contained page — independent from main HP design
 import { SITE_CONFIG } from '../../config/site';
 import WorksHeader from '../../components/works/WorksHeader.astro';
+import EstimateWizard from '../../components/works/EstimateWizard.astro';
 const ga4Id = SITE_CONFIG.seo.ga4Id;
 const endpoint = SITE_CONFIG.contactForm.endpoint;
 const siteUrl = 'https://farmeolica.com';
@@ -62,6 +63,10 @@ const description = '制作依頼・AI活用のご相談は初回60分無料。�
     </div>
   </div>
 </section>
+
+
+<!-- ══════════ ESTIMATE（かんたん見積もり・C2+D統合） ══════════ -->
+<EstimateWizard />
 
 
 <!-- ══════════ FORM ══════════ -->
