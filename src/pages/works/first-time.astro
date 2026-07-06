@@ -2,6 +2,7 @@
 // Farm Eolica Works — はじめての方へ
 // Self-contained page — independent from main HP design
 import { SITE_CONFIG } from '../../config/site';
+import WorksHeader from '../../components/works/WorksHeader.astro';
 const ga4Id = SITE_CONFIG.seo.ga4Id;
 const siteUrl = 'https://farmeolica.com';
 const title = 'はじめての方へ | Farm Eolica Works';
@@ -39,20 +40,7 @@ const description = '無料相談の理由、私のスタンス、どんな方�
 <body>
 
 <!-- ══════════ HEADER ══════════ -->
-<header class="wh">
-  <a href="/works/" class="wh-logo">
-    <span class="wh-logo-main">FARM&nbsp;EOLICA</span>
-    <span class="wh-logo-sub">/ WORKS</span>
-  </a>
-  <nav class="wh-nav">
-    <a href="/works/#about">About</a>
-    <a href="/works/#services">Services</a>
-    <a href="/works/capabilities">できること</a>
-    <a href="/works/first-time" class="wh-nav-active">はじめての方へ</a>
-    <a href="/" class="wh-farm-link">農場HP ↗</a>
-    <a href="/works/contact" class="wh-cta">まずは話してみる →</a>
-  </nav>
-</header>
+<WorksHeader active="first-time" />
 
 
 <!-- ══════════ PAGE HEADER ══════════ -->
@@ -229,32 +217,6 @@ p{margin:0}
 }
 .reveal{opacity:0;transform:translateY(24px)}
 .reveal.visible{animation:fadeInUp .7s cubic-bezier(.22,1,.36,1) forwards}
-
-/* ── Header ── */
-.wh{
-  position:sticky;top:0;z-index:100;
-  background:rgba(242,242,240,.92);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--hair);
-  padding:20px 60px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.wh-logo{display:flex;align-items:baseline;gap:10px}
-.wh-logo-main{font-family:var(--dp);font-size:20px;letter-spacing:.22em;color:var(--m)}
-.wh-logo-sub{font-family:var(--dp);font-size:12px;letter-spacing:.3em;color:var(--a)}
-.wh-farm-link{font-family:var(--mn);font-size:10px;letter-spacing:.15em;color:var(--inkm);border:1px solid var(--hair);padding:5px 10px;transition:color .2s,border-color .2s}
-.wh-farm-link:hover{color:var(--m);border-color:var(--m)}
-.wh-nav{display:flex;align-items:center;gap:28px}
-.wh-nav a{font-family:var(--sr);font-size:13px;letter-spacing:.1em;color:var(--ink);transition:color .2s}
-.wh-nav a:hover{color:var(--a)}
-.wh-nav-active{color:var(--a)!important}
-.wh-cta{
-  padding:9px 18px;border:1px solid var(--m);
-  color:var(--m)!important;
-  font-family:var(--dp);font-size:11px;letter-spacing:.18em;
-  transition:background .2s,color .2s!important;
-}
-.wh-cta:hover{background:var(--m);color:var(--bg)!important}
 
 /* ── Page Header ── */
 .ph-section{padding:80px 60px 60px;background:var(--m)}
