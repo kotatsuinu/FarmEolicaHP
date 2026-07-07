@@ -398,7 +398,9 @@ const flowStages = [
       <!-- なみえライスバーガー（実名・TV放送） -->
       <a href="/works/case/namie-rice-burger/" class="work-card reveal">
         <div class="work-ph">
-          <div class="ph ph-auto">work / namie rice burger</div>
+          <div class="ph ph-auto">
+            <img src="/images/works/namie-rice-burger-card.jpg" alt="なみえライスバーガー" class="work-img" />
+          </div>
         </div>
         <div class="work-info">
           <span class="work-badge">TV放送 2026.7.10</span>
@@ -411,7 +413,9 @@ const flowStages = [
       <!-- 三宅奈緒（制作サンプル・架空） -->
       <div class="work-card reveal">
         <div class="work-ph">
-          <div class="ph ph-auto">work / showcase</div>
+          <div class="ph ph-auto">
+            <img src="/images/works/miyake-nao-card.jpg" alt="三宅奈緒 Portfolio" class="work-img" />
+          </div>
         </div>
         <div class="work-info">
           <span class="work-badge work-badge-ghost">制作サンプル・架空</span>
@@ -423,7 +427,9 @@ const flowStages = [
       <!-- 地域の酒蔵（完全匿名イメージ例） -->
       <div class="work-card reveal">
         <div class="work-ph">
-          <div class="ph ph-auto">work / concept mock</div>
+          <div class="ph ph-auto">
+            <img src="/images/works/sake-brewery-card.jpg" alt="地域の酒蔵 ストーリーLP" class="work-img" />
+          </div>
         </div>
         <div class="work-info">
           <span class="work-badge work-badge-ghost">完全匿名イメージ例</span>
@@ -674,6 +680,7 @@ a.work-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(26,39,6
   font-family:var(--mn);font-size:11px;letter-spacing:.08em;
   color:rgba(74,59,50,.55);text-transform:uppercase;text-align:center;padding:16px;
 }
+.work-img{width:100%;height:100%;object-fit:cover;display:block}
 .work-info{padding:22px 24px;border-top:1px solid var(--hair);flex:1;display:flex;flex-direction:column}
 .work-badge{display:inline-block;width:fit-content;font-family:var(--mn);font-size:9px;letter-spacing:.2em;color:var(--bg);background:var(--a);padding:3px 9px;margin-bottom:10px}
 .work-badge-ghost{color:var(--a);background:transparent;border:1px solid var(--a)}
