@@ -5,8 +5,10 @@
 // Used on src/pages/works/contact.astro, directly above .form-layout.
 //
 // MONEY-CRITICAL: all figures below are verbatim from
-// farm-eolica-works/02_services/spec/pricing_and_contract.md v0.6
-// (see scratchpad/c2d_estimate_design.md §4). Do not round or invent numbers.
+// farm-eolica-works/02_services/spec/pricing_and_contract.md v0.7
+// (柱2「業務代行〈AI活用〉」§1.2。旧称の表記は本ファイルには残さない。
+//  L3は非公開・応相談のためウィザードには出さない）
+// Do not round or invent numbers.
 ---
 
 <section class="estimate-section" id="estimate">
@@ -93,7 +95,7 @@
 
 <script is:inline>
 (function () {
-  // ── Pricing table（v0.6 逐語・money-critical。丸めない・発明しない） ──
+  // ── Pricing table（v0.7 逐語・money-critical。丸めない・発明しない） ──
   var PRICING = {
     single: {
       cms:   { special: 50000, normal: 100000, label: 'スタンダード（microCMS付）' },
@@ -105,8 +107,8 @@
     pdfMax: 30000,
     multi: { hint: 150000 },
     partner: {
-      l15: { price: 20000, minMonths: 3, label: 'L1.5（お試し軽量）' },
-      l2:  { price: 40000, firstMonth: 20000, minMonths: 3, label: 'L2（軽）' }
+      agency:   { price: 20000, minMonths: 3, label: '代行プラン' },
+      coaching: { price: 40000, firstMonth: 20000, minMonths: 3, label: '代行＋AI活用コーチングプラン' }
     },
     print: [
       { name: 'ロゴ＋ブランディング', min: 15000, max: 40000 },
@@ -186,12 +188,12 @@
         return '<li>' + p.name + '　' + fmt(p.min) + '〜' + fmt(p.max) + '</li>';
       }).join('') + '</ul>';
     } else if (branch === 'partner') {
-      html += '<div class="eq-result-plan">月額AIパートナー（継続的な更新・AI活用の伴走）</div>';
+      html += '<div class="eq-result-plan">業務代行〈AI活用〉（月額・日々の業務をAIでまるごと代行）</div>';
       html += '<ul class="eq-result-list">'
-        + '<li>' + PRICING.partner.l15.label + '　' + fmt(PRICING.partner.l15.price) + '/月〜・最低' + PRICING.partner.l15.minMonths + 'ヶ月</li>'
-        + '<li>' + PRICING.partner.l2.label + '　' + fmt(PRICING.partner.l2.price) + '/月（先着5名：初月' + fmt(PRICING.partner.l2.firstMonth) + '）・最低' + PRICING.partner.l2.minMonths + 'ヶ月</li>'
+        + '<li>' + PRICING.partner.agency.label + '　' + fmt(PRICING.partner.agency.price) + '/月・最低' + PRICING.partner.agency.minMonths + 'ヶ月</li>'
+        + '<li>' + PRICING.partner.coaching.label + '　' + fmt(PRICING.partner.coaching.price) + '/月（先着5名：初月' + fmt(PRICING.partner.coaching.firstMonth) + '）・最低' + PRICING.partner.coaching.minMonths + 'ヶ月</li>'
         + '</ul>';
-      html += '<div class="eq-result-note">さらに踏み込んだ伴走（L3）は非公開・応相談です。</div>';
+      html += '<div class="eq-result-note">常駐対応・大型案件・自動化の仕組みづくりなど、さらに踏み込んだご相談は非公開・個別にご案内します。</div>';
     }
     els.result.innerHTML = html;
   }
@@ -226,8 +228,8 @@
       lines.push('選択：印刷物・デザイン小物');
       lines.push('概算：応相談（参考価格は下記でご案内できます）');
     } else if (branch === 'partner') {
-      lines.push('選択：月額AIパートナー（継続相談）');
-      lines.push('概算：L1.5 ' + fmt(PRICING.partner.l15.price) + '/月〜 ／ L2 ' + fmt(PRICING.partner.l2.price) + '/月（先着5名初月' + fmt(PRICING.partner.l2.firstMonth) + '）');
+      lines.push('選択：業務代行〈AI活用〉（月額）');
+      lines.push('概算：' + PRICING.partner.agency.label + ' ' + fmt(PRICING.partner.agency.price) + '/月 ／ ' + PRICING.partner.coaching.label + ' ' + fmt(PRICING.partner.coaching.price) + '/月（先着5名初月' + fmt(PRICING.partner.coaching.firstMonth) + '）');
     }
     lines.push('※あくまで目安です。正式なお見積もりはこの相談で無料でお出しします。');
     return lines;
