@@ -1,7 +1,8 @@
 ---
-// Farm Eolica Works — Capabilities (Things I've Built)
+// Farm Eolica Works — Capabilities (What You Can Ask For)
 // Design: Layout 3 "Tategaki Bento" (Navy × Copper) — self-contained
-// Reframing: "things I've done for myself" not "things I sell you"
+// Structure: 1) Hero (reframe as capabilities) 2) Task menu (main content, 8 categories)
+//            3) Out of scope (clear boundaries) 4) Record = proof/foundation (existing systems list) 5) CTA
 import { SITE_CONFIG } from '../../config/site';
 import WorksHeader from '../../components/works/WorksHeader.astro';
 const ga4Id = SITE_CONFIG.seo.ga4Id;
@@ -109,8 +110,148 @@ const categories: Category[] = [
 
 const doneCount = categories.flatMap(c => c.items).filter(i => i.done).length;
 const totalCount = categories.flatMap(c => c.items).length;
-const title = '自分のために作ってきたもの、全部見せます。 | Farm Eolica Works';
-const description = `農家として自分のために作り続けてきた${doneCount}個のシステム・自動化の記録。農業DX・業務自動化・財務管理・情報発信まで。`;
+
+// ─── 頼めるタスク一覧（主コンテンツ） ───
+type TaskCategory = {
+  id: string;
+  label: string;
+  labelEn: string;
+  note?: string; // カテゴリ単位の対応範囲の補足（税務除外・件数目安など）
+  items: string[];
+};
+
+const taskCategories: TaskCategory[] = [
+  {
+    id: 'doc',
+    label: '文章・資料づくり',
+    labelEn: 'DOCUMENTS & WRITING',
+    items: [
+      '提案書・企画書ドラフト',
+      '取引先向けメール文案',
+      '店頭POP・チラシのコピー',
+      '議事録・打合せメモの整形・清書',
+      '求人広告文',
+      '業務マニュアル下書き',
+      '見積・契約文書の雛形整理',
+    ],
+  },
+  {
+    id: 'content',
+    label: '情報発信',
+    labelEn: 'CONTENT & SNS',
+    items: [
+      'SNS投稿文（Instagram/X等）',
+      'リール・ショート動画の台本',
+      'ブログのドラフト・リライト',
+      '口コミ・コメント返信',
+      'LINE公式の配信文',
+      'お知らせの月次まとめ更新',
+      'プレスリリース文案',
+    ],
+  },
+  {
+    id: 'books',
+    label: '経理・帳簿まわり',
+    labelEn: 'BOOKKEEPING',
+    note: '※税務判断・申告書の作成/提出は対象外です',
+    items: [
+      '領収書・レシート整理・台帳転記',
+      '請求書作成（複数まとめて）',
+      '経費入力・仕訳の下書き整理（最終確認はお客様側）',
+      '売上・経費の月次集計表',
+      '支払状況の一覧化・催促リスト',
+      '帳票PDF化・保管ファイリング',
+    ],
+  },
+  {
+    id: 'research',
+    label: 'リサーチ・要約',
+    labelEn: 'RESEARCH & SUMMARY',
+    items: [
+      '競合・業者調査＋比較レポート化',
+      '市場・業界動向リサーチ＋要約',
+      '補助金・制度リサーチ（※申請書類の作成代行は対象外）',
+      '顧客アンケートの設計・集計分析',
+      '資料・記事・論文の要約',
+      '月次経営レポート作成',
+    ],
+  },
+  {
+    id: 'data',
+    label: 'データ整理・変換',
+    labelEn: 'DATA ORGANIZING',
+    items: [
+      '表計算の整理・並べ替え・集計',
+      '名簿・顧客リストの名寄せ・重複チェック',
+      'PDF⇔Word/Excel等の形式変換',
+      '画像・文書の変換・圧縮',
+      'フォルダ・ファイル整理・命名統一',
+      '生データ集計・グラフ化（※目安50件超の大量手入力は要相談）',
+    ],
+  },
+  {
+    id: 'slide',
+    label: 'スライド・動画',
+    labelEn: 'SLIDES & VIDEO',
+    items: [
+      '提案書・報告書スライド作成（構成〜デザイン）',
+      '会議・プレゼン資料のブラッシュアップ',
+      '簡単な動画編集（カット・テロップ・BGM挿入）',
+      '静止画からの簡易スライドショー動画',
+      'SNS用ショート動画の簡易編集',
+    ],
+  },
+  {
+    id: 'auto',
+    label: '定型業務の自動化・仕組み化',
+    labelEn: 'WORKFLOW AUTOMATION',
+    note: '※初回の仕組み化のみ1タスク扱い・以降はノーカウントです',
+    items: [
+      '毎月の定型レポートのテンプレ化・自動生成',
+      'SNS投稿・ブログのパターンをテンプレ化',
+      '問い合わせ・口コミ返信のテンプレ化',
+      '請求・見積の雛形化で作成ゼロに',
+      'データ集計の自動化（関数・簡易マクロ等）',
+    ],
+  },
+  {
+    id: 'coach',
+    label: 'AI活用のレクチャー・ノウハウ',
+    labelEn: 'AI COACHING',
+    note: '※代行プランでも軽い質問には対応します',
+    items: [
+      '卓磨が実際に使っているプロンプトの共有',
+      '月次レクチャー・使いこなし相談枠（オンライン）',
+      '業務別の自動化指南',
+      'LINE・Slack相談無制限',
+    ],
+  },
+];
+
+const taskUnitExamples = [
+  '請求書10件の作成',
+  'ブログ1本のリライト',
+  'SNS1週間分の投稿文',
+  '資料1点の清書・整形',
+  '簡単なリサーチ＋要約1件',
+  'データ整理1回',
+];
+
+const outOfScope = [
+  '士業の独占業務（法律相談・契約書作成そのもの、税務相談・確定申告、医療・健康効能の保証等）',
+  '補助金・許認可の申請書類そのものの作成代行（リサーチ・計画書ドラフトまでは対応。提出書類の代筆・提出代行はしません）',
+  '事実の完全保証（AI出力には誤りの可能性があり、最終判断はお客様側にお願いしています）',
+  'クレジットカード番号・マイナンバー・銀行口座等の機微情報は、原則お預かりしません',
+];
+
+const navItems = [
+  { href: '#tasks', label: '頼めること' },
+  { href: '#scope-out', label: '対応外' },
+  { href: '#record', label: '実績' },
+];
+
+const title = 'こんな作業、まるごと頼めます。 | Farm Eolica Works';
+const description = `文章づくり・情報発信・経理・リサーチ・データ整理・スライド動画・仕組み化・AI活用レクチャーまで。個人事業主が自分の農園のために実際に${doneCount}個のシステムを作って運用してきた実績に裏付けられた、業務代行〈AI活用〉で頼めること一覧。`;
 ---
 
 <!doctype html>
@@ -152,25 +293,19 @@ const description = `農家として自分のために作り続けてきた${don
   <div class="wc">
     <div class="cap-hero-inner reveal reveal-hero reveal-d1">
       <div class="sh-top">
-        <span class="sh-en">RECORD</span>
+        <span class="sh-en">CAPABILITIES</span>
         <span class="sh-line"></span>
-        <span class="sh-no">— {doneCount} done / {totalCount} total</span>
+        <span class="sh-no">— {taskCategories.length} CATEGORIES OF TASKS</span>
       </div>
-      <h1 class="cap-h1">自分のために作ってきた、<br />{doneCount}のシステム。</h1>
+      <h1 class="cap-h1">こんな作業、<br />まるごと頼めます。</h1>
       <p class="cap-lead">
-        これは商品カタログではありません。農場で自分が必要として組んだシステムの記録です。<br />
-        この手を、あなたの困りごとにも。月額AIパートナーで一緒に。<br />
-        ここに並ぶひとつひとつが、そのまま「これ、うちでもできますか」の相談材料になります。
+        AIを使える方ほど、「議事録まとめくらい自分でやる」と思うかもしれません。<br />
+        でも、その"くらい"の作業が10も20も積み重なると、結局まとまった時間を奪われます。<br />
+        ひとつひとつは小さくても丸ごと預けられること。そして本当に面倒な"仕組み化"や"リサーチ"まで、同じ窓口で頼めること。<br />
+        それが業務代行〈AI活用〉の価値です。
       </p>
-      <div class="cap-meta">
-        <span class="cap-meta-done">稼働中 {doneCount}件</span>
-        <span class="cap-meta-sep">|</span>
-        <span class="cap-meta-wip">実装中 {totalCount - doneCount}件</span>
-        <span class="cap-meta-sep">|</span>
-        <span class="cap-meta-date">{lastUpdated} 時点</span>
-      </div>
       <div class="cap-hero-cta">
-        <a href="/works/partner/" class="contact-btn-ghost">月額AIパートナーを見る →</a>
+        <a href="/works/partner/" class="contact-btn-ghost">業務代行〈AI活用〉を見る →</a>
       </div>
     </div>
   </div>
@@ -180,14 +315,100 @@ const description = `農家として自分のために作り続けてきた${don
 <!-- ══════════ CATEGORY NAV ══════════ -->
 <nav class="cap-nav">
   <div class="cap-nav-inner">
-    {categories.map(cat => (
-      <a href={`#${cat.id}`} class="cap-nav-pill">{cat.label}</a>
+    {navItems.map(n => (
+      <a href={n.href} class="cap-nav-pill">{n.label}</a>
     ))}
   </div>
 </nav>
 
 
-<!-- ══════════ CATEGORIES ══════════ -->
+<!-- ══════════ TASKS（頼めるタスク一覧・主コンテンツ） ══════════ -->
+<section class="ws" id="tasks">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">WHAT YOU CAN ASK</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— {String(taskCategories.length).padStart(2, '0')} categories</span>
+      </div>
+      <h2 class="sh-jp">頼めるタスク一覧</h2>
+    </div>
+
+    <p class="cap-tasks-lead reveal">
+      "自分でもできるけど、地味に面倒"な作業から、"やりたくても手が回らない"仕組み化まで——まとめて、同じ窓口で引き受けます。
+    </p>
+
+    <div class="task-grid">
+      {taskCategories.map((cat, idx) => (
+        <article class="task-card reveal">
+          <div class="task-card-head">
+            <span class="task-card-num">{String(idx + 1).padStart(2, '0')}</span>
+            <h3 class="task-card-title">{cat.label}</h3>
+          </div>
+          <div class="task-card-en">{cat.labelEn}</div>
+          {cat.note && <p class="task-card-scope-note">{cat.note}</p>}
+          <ul class="task-card-list">
+            {cat.items.map(item => <li>{item}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <div class="task-unit-box reveal">
+      <div class="task-unit-label">1タスクの目安</div>
+      <ul class="task-unit-list">
+        {taskUnitExamples.map(ex => <li>{ex}</li>)}
+      </ul>
+      <p class="task-unit-note">※AI実働30分級・成果物1点が目安。大きく超える依頼は分割か上位プランをご提案します。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ SCOPE OUT（対応外・明確な線引き） ══════════ -->
+<section class="ws ws-alt" id="scope-out">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">OUT OF SCOPE</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 対応の線引き</span>
+      </div>
+      <h2 class="sh-jp">お引き受けできないこと。</h2>
+    </div>
+    <ul class="scope-out-list reveal">
+      {outOfScope.map(item => <li>{item}</li>)}
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════════ RECORD（実績＝土台） ══════════ -->
+<section class="ws" id="record">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">RECORD</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— {doneCount} done / {totalCount} total</span>
+      </div>
+      <h2 class="sh-jp">作ってきたシステム、{doneCount}件。</h2>
+    </div>
+    <p class="cap-record-lead reveal">
+      これは口だけの一覧ではありません。上に挙げた作業を任せられるのは、自分の農園のために実際にこれだけのシステムを作り、毎日使ってきたからです。ここから先は、その裏付けとなる実績の記録です。
+    </p>
+    <div class="rec-meta reveal">
+      <span class="rec-meta-done">稼働中 {doneCount}件</span>
+      <span class="rec-meta-sep">|</span>
+      <span class="rec-meta-wip">実装中 {totalCount - doneCount}件</span>
+      <span class="rec-meta-sep">|</span>
+      <span class="rec-meta-date">{lastUpdated} 時点</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ CATEGORIES（実績カテゴリ） ══════════ -->
 {categories.map((cat, idx) => (
   <section class={`ws${idx % 2 === 1 ? ' ws-alt' : ''}`} id={cat.id}>
     <div class="wc">
@@ -239,11 +460,11 @@ const description = `農家として自分のために作り続けてきた${don
           「こんな課題があるんだけど、相談できるか」<br />
           「自分の仕事に応用できないか知りたい」<br />
           その程度の話から始めましょう。初回は無料です。<br />
-          これを毎月一緒に回すのが、月額AIパートナーです。
+          これを毎月一緒に回すのが、業務代行〈AI活用〉です。
         </p>
         <div class="contact-btns">
           <a href="/works/contact" class="contact-btn-primary">相談する →</a>
-          <a href="/works/partner/" class="contact-btn-ghost">月額AIパートナーを見る →</a>
+          <a href="/works/partner/" class="contact-btn-ghost">業務代行〈AI活用〉を見る →</a>
           <a href="/works/" class="contact-btn-ghost">Works LP →</a>
         </div>
       </div>
@@ -328,6 +549,44 @@ p{margin:0}
 .cap-card-body{font-size:13.5px;line-height:2;color:var(--inks)}
 .cap-card-note{display:inline-block;margin-top:14px;font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--a);border-bottom:1px solid var(--a);padding-bottom:2px;transition:opacity .2s}
 .cap-card-note:hover{opacity:.65}
+
+/* Cap Tasks (頼めるタスク一覧・新設) */
+.cap-tasks-lead{font-size:15px;line-height:2;color:var(--inks);letter-spacing:.03em;max-width:760px;margin:0 0 40px}
+.task-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.task-card{border:1px solid var(--hair);padding:26px 28px;background:var(--bg);transition:border-color .25s,box-shadow .25s}
+.ws-alt .task-card{background:#EAE6DF}
+.task-card:hover{border-color:rgba(184,115,51,.4);box-shadow:0 4px 20px rgba(26,39,68,.06)}
+.task-card-head{display:flex;align-items:baseline;gap:12px;margin-bottom:2px}
+.task-card-num{font-family:var(--mn);font-size:11px;letter-spacing:.1em;color:var(--a)}
+.task-card-title{font-family:var(--sr);font-size:17px;color:var(--m);letter-spacing:.04em;margin:0}
+.task-card-en{font-family:var(--dp);font-size:10px;letter-spacing:.2em;color:var(--inkm);margin:0 0 14px 28px}
+.task-card-scope-note{font-family:var(--mn);font-size:11px;letter-spacing:.03em;color:var(--inkm);margin:0 0 14px;padding:8px 10px;border-left:2px solid var(--a);background:rgba(184,115,51,.06)}
+.task-card-list{margin:0;padding:0;list-style:none}
+.task-card-list li{font-size:13.5px;line-height:1.9;color:var(--inks);padding-left:1.1em;position:relative}
+.task-card-list li::before{content:'—';position:absolute;left:0;color:var(--a)}
+
+/* Task Unit box (1タスクの目安) */
+.task-unit-box{margin-top:40px;padding:30px 34px;background:var(--m)}
+.task-unit-label{font-family:var(--dp);font-size:11px;letter-spacing:.3em;color:var(--a);margin-bottom:16px}
+.task-unit-list{display:flex;flex-wrap:wrap;gap:10px 14px;margin:0 0 16px;padding:0;list-style:none}
+.task-unit-list li{font-family:var(--mn);font-size:12px;letter-spacing:.04em;color:rgba(242,242,240,.85);padding:5px 12px;border:1px solid rgba(242,242,240,.25)}
+.task-unit-note{font-size:12px;letter-spacing:.03em;color:rgba(242,242,240,.55);line-height:1.8}
+
+/* Scope Out (対応外) */
+.scope-out-list{margin:0;padding:0;list-style:none;max-width:920px}
+.scope-out-list li{font-size:14px;line-height:1.9;color:var(--inks);padding:18px 0 18px 1.6em;border-bottom:1px solid var(--hair);position:relative}
+.scope-out-list li:first-child{padding-top:0}
+.scope-out-list li:last-child{border-bottom:none}
+.scope-out-list li::before{content:'×';position:absolute;left:0;top:18px;color:var(--a);font-family:var(--mn);font-size:13px}
+.scope-out-list li:first-child::before{top:0}
+
+/* Record intro (実績＝土台) */
+.cap-record-lead{font-size:15px;line-height:2;color:var(--inks);letter-spacing:.03em;max-width:760px;margin:0 0 28px}
+.rec-meta{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.rec-meta-done{font-family:var(--mn);font-size:11px;letter-spacing:.2em;color:var(--a);border:1px solid var(--a);padding:4px 10px}
+.rec-meta-wip{font-family:var(--mn);font-size:11px;letter-spacing:.2em;color:var(--inkm);border:1px solid var(--hair);padding:4px 10px}
+.rec-meta-sep{color:var(--hair);font-family:var(--mn)}
+.rec-meta-date{font-family:var(--mn);font-size:10px;letter-spacing:.15em;color:var(--inkm)}
 
 /* Contact CTA (reuse from index) */
 .contact-section{padding-bottom:100px}
