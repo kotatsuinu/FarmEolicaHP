@@ -1,0 +1,364 @@
+---
+// Farm Eolica Works — よくあるご質問 (FAQ)
+// Self-contained page — independent from main HP design
+// 既存3カテゴリ8問は src/pages/works/index.astro の #faq セクションから忠実に移設（文言不変）。
+// 追加4問（依頼範囲・進め方まわり）は本ページで新規拡充。
+import { SITE_CONFIG } from '../../config/site';
+import WorksHeader from '../../components/works/WorksHeader.astro';
+const ga4Id = SITE_CONFIG.seo.ga4Id;
+const siteUrl = 'https://farmeolica.com';
+const title = 'よくあるご質問 | 業務代行〈AI活用〉| Farm Eolica';
+const description = '対応エリア、費用、セキュリティ、ご依頼の範囲まで。Farm Eolica Works（HP制作・業務代行〈AI活用〉）によくいただくご質問にまとめてお答えします。';
+
+type FaqItem = {
+  q: string;
+  a: string;
+  wide?: boolean;
+  link?: { href: string; label: string };
+};
+type FaqCategory = {
+  category: string;
+  items: FaqItem[];
+};
+
+const faqCategories: FaqCategory[] = [
+  {
+    category: '制作・運営体制について',
+    items: [
+      {
+        q: '農家業との兼業で、対応は遅くなりませんか？',
+        a: '繁忙期（5月〜10月）は新規受付を制限しております。進行中の案件は週1の定例で品質を担保しており、納期はお見積もり時に明示します。',
+      },
+      {
+        q: '対応エリアの制限はありますか？',
+        a: '全国対応です。打ち合わせはオンラインが基本で、首都圏・東北圏は月1回程度の訪問にも応じます。',
+      },
+      {
+        q: '見積もりは無料ですか？',
+        a: '初回ヒアリングと概算お見積もりまでは無料です。本見積もり以降に作業が発生する場合は事前にお知らせします。',
+      },
+    ],
+  },
+  {
+    category: 'HP制作・開発技術について',
+    items: [
+      {
+        q: 'WordPressじゃなくて大丈夫ですか？',
+        a: 'あえてAstro（静的サイト）で作っています。サーバー契約もプラグインの脆弱性リスクもなく、表示も高速。ソース一式をお渡しするので、私に何かあっても他の制作者に引き継げます。ご事情に応じて、別の形式での納品にも柔軟に対応しますのでご相談ください。',
+      },
+      {
+        q: '「AIが作った適当なシステムやページ」をそのまま納品される不安はありませんか？',
+        a: 'ありません。AIが出力した成果物をそのまま検証なしに納品する安易な開発は行いません。\n\n私はコードを一から手書きするプログラマーではありませんが、AIの出力を一件ずつ人間（関口）が仕様・動作・リスクの観点でレビューする開発プロセスを取り入れています。仕様設計の段階から、どのような技術が使われ、そこにどのようなリスク（脆弱性や依存関係）が含まれているかを人間が検証・判断します。細かいコードのリファクタリングは行いませんが、動作や構造に問題がないと判断できる構成のみをご提案します。',
+        wide: true,
+      },
+    ],
+  },
+  {
+    category: '業務代行〈AI活用〉・セキュリティについて',
+    items: [
+      {
+        q: '業務代行〈AI活用〉は何をやってくれるのですか？',
+        a: 'HP制作後の保守管理はもちろん、ご自身の業務のいくつかについて、生成AIを活用しながら効率的に業務代行をいたします。また、生成AIをつかった業務効率化に興味があるけど、何から始めて良いかわからないという方については、生成AIについてのレクチャーと、業務フローのヒアリングを通じて現場に合わせた改善方法を一緒に考えます。',
+      },
+      {
+        q: 'AIを活用した自動化にあたり、自社の機密情報や個人情報の漏洩リスクはありませんか？',
+        a: '最も重視している部分です。初回のヒアリング時にお客様のセキュリティ基準を伺い、以下のようにAIを介した「データ処理の境界線」を明確に切り分けます。\n\n・AIへの生データ・顧客情報の入力（制限）: AIツールの開発過程や自動化の代行業務において、AIに対して顧客の個人情報や企業の機密生データをそのまま入力することは原則行いません（お客様の明確な合意がある場合を除く）。\n\n・AIを組み込んだシステム内での処理（安全）: 構築した自動化システムの中で、各社の利用規約上、送信データがAIの学習に利用されない有料プランの商用APIや、完全にクローズドなデータベース（BigQuery等）を用い、保存時・通信時ともに暗号化されたGoogle Cloud環境内で処理し、アクセス権限を最小化する設計が可能です（この場合、外部への流出リスクを技術・運用の両面で最小化できます）。\n\nお客様のご要望に合わせ、「どこまでAIにデータを渡してよいか」を整理し、安全な仕組みだけをご提案します。',
+        wide: true,
+      },
+      {
+        q: '業務代行〈AI活用〉で対応できないこと（対象外の業務）はありますか？',
+        a: '安全上の理由から「個人情報を扱うシステム構築・業務代行」や、カード情報・パスワード等の直接お預かりはできません。また大規模システムは月額枠外（別途見積もり・要相談）となります。個人の能力外の業務や、農家兼業のため「定時内の即時チャット対応」を要するものもお受けできません。画一的な外注ではなく、「一緒に悩み、相談しながら業務を効率化するパートナー」として進めさせていただける方を歓迎いたします。',
+        wide: true,
+      },
+      {
+        q: '機密情報や個人情報は、どこまで預けられますか？',
+        a: '企業の根幹機密や個人情報は原則お預かりしません。ただし『この範囲なら』というお客さまとの取り決めのもと、AIに渡す範囲を限定して進めることはご相談の上で可能です（詳しくは『できること』ページの注意事項をご覧ください）。',
+        link: { href: '/works/capabilities', label: '『できること』ページを見る →' },
+      },
+    ],
+  },
+  {
+    category: 'ご依頼の範囲・進め方',
+    items: [
+      {
+        q: '紙の書類や、物理的な作業もお願いできますか？',
+        a: '紙原本のお預かり（保管責任が発生します）や物理的な手作業は原則対象外です。スキャン等でデータ化できれば対応でき、繰り返す作業は自動化の仕組み化もご提案できます。',
+      },
+      {
+        q: 'アカウント連携や権限設定など、自分で作業が必要になりますか？',
+        a: '場合によります。こちらで完結できればお客さまの作業は不要ですが、アカウント承認やAPI連携などお客さま側の操作が必要なケースもあります。ヒアリングの上で最適な形をご提案します。',
+      },
+      {
+        q: '月にどのくらいお願いできますか？',
+        a: '1タスク＝AI実働30分級・成果物1点が目安で、¥20,000／月のプランで月20タスクたっぷりお願いいただけます（順次対応）。詳しくは料金プランをご覧ください。',
+        link: { href: '/works/partner', label: '料金プランを見る →' },
+      },
+    ],
+  },
+];
+---
+
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title}</title>
+  <link rel="canonical" href={`${siteUrl}/works/faq/`} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={`${siteUrl}/works/faq/`} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={`${siteUrl}/images/about/hero.webp`} />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content={`${siteUrl}/images/about/hero.webp`} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Shippori+Mincho:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+  <script define:vars={{ ga4Id }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', ga4Id);
+  </script>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<WorksHeader />
+
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<section class="ph-section">
+  <div class="wc">
+    <div class="mh-rule-top"></div>
+    <div class="mh-top reveal">
+      <span class="mh-kicker">FARM EOLICA WORKS</span>
+      <span class="mh-edition">よくあるご質問 ／ FAQ</span>
+    </div>
+    <h1 class="ph-title reveal">よくあるご質問。</h1>
+    <p class="ph-lead reveal">
+      HP制作・業務代行〈AI活用〉について、よくいただくご質問をまとめました。<br />
+      気になることがあれば、遠慮なくお問い合わせください。
+    </p>
+    <div class="mh-rule-bottom"></div>
+  </div>
+</section>
+
+
+<!-- ══════════ FAQ CONTENT ══════════ -->
+<section class="ws">
+  <div class="wc">
+    <div class="faq-container">
+      {faqCategories.map((cat) => (
+        <div class="faq-category-group">
+          <h2 class="faq-category-title">{cat.category}</h2>
+          <div class="faq-category-list">
+            {cat.items.map((f) => (
+              <details class={`faq-card${f.wide ? ' faq-wide' : ''} reveal`}>
+                <summary class="faq-header">
+                  <div class="faq-q-wrap">
+                    <span class="faq-q">{f.q}</span>
+                  </div>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <p class="faq-a" style="white-space: pre-wrap;">{f.a}</p>
+                {f.link && (
+                  <a href={f.link.href} class="faq-link">{f.link.label}</a>
+                )}
+              </details>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- 呼びかけバンド -->
+  <div class="ft-band reveal">
+    <div class="ft-band-inner">
+      <div class="ft-cta-btns">
+        <a href="/works/capabilities" class="btn-ghost">できることを見る →</a>
+        <a href="/works/contact" class="btn-filled">まずは相談してみる →</a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="wfooter">
+  <a href="/works/" class="wfooter-back">← BACK TO WORKS</a>
+  <nav class="wfooter-legal">
+    <a href="/works/tokushoho">特定商取引法に基づく表記</a>
+    <a href="/works/terms">利用規約</a>
+    <a href="/works/privacy">プライバシーポリシー</a>
+  </nav>
+  <div class="wfooter-copy">&copy; FARM EOLICA WORKS / 福島県浪江町 / 関口卓磨</div>
+</footer>
+
+
+<!-- ══════════ STYLES ══════════ -->
+<style is:global>
+:root {
+  --m: #1A2744;
+  --a: #B87333;
+  --bg: #F2F2F0;
+  --ink: #4A3B32;
+  --inks: rgba(74,59,50,0.72);
+  --inkm: rgba(74,59,50,0.48);
+  --hair: rgba(74,59,50,0.14);
+  --sr: 'Shippori Mincho','Hiragino Mincho ProN',serif;
+  --dp: 'Cinzel',serif;
+  --mn: 'JetBrains Mono','Courier New',monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+p{margin:0}
+
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{opacity:0;transform:translateY(24px)}
+.reveal.visible{animation:fadeInUp .7s cubic-bezier(.22,1,.36,1) forwards}
+
+.wc{max-width:1120px;margin:0 auto}
+
+/* ── Masthead ── */
+.ph-section{padding:52px 60px 44px;background:var(--m)}
+.mh-rule-top{height:5px;border-top:1px solid var(--a);border-bottom:1px solid var(--a);margin-bottom:32px}
+.mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.mh-kicker{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a)}
+.mh-edition{font-family:var(--mn);font-size:11px;letter-spacing:.1em;color:rgba(242,242,240,.55)}
+.ph-title{font-family:var(--sr);font-weight:500;font-size:clamp(46px,5.4vw,76px);color:var(--bg);margin:0 0 22px;letter-spacing:.04em;line-height:1.2}
+.ph-lead{font-family:var(--sr);font-size:19px;color:rgba(242,242,240,.75);letter-spacing:.05em;line-height:1.85;margin:0;max-width:640px}
+.mh-rule-bottom{height:1px;background:rgba(242,242,240,.22);margin-top:40px}
+
+/* ── Section wrapper ── */
+.ws{padding:72px 60px 0}
+
+/* ── FAQ (moved from index.astro #faq — same classes/behavior) ── */
+.faq-container{display:flex;flex-direction:column;gap:56px}
+.faq-category-group{width:100%}
+.faq-category-title{
+  font-family:var(--sr);font-size:16px;color:var(--a);
+  margin:0 0 24px;border-bottom:1px solid var(--hair);
+  padding-bottom:8px;letter-spacing:.08em;text-align:left;
+}
+.faq-category-list{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.faq-card{
+  border:1px solid var(--hair);background:var(--bg);
+  padding:30px 32px;display:flex;flex-direction:column;gap:18px;
+}
+.faq-card[open]{background:rgba(184,115,51,.08)}
+.faq-wide{grid-column:span 2}
+.faq-header{
+  display:flex;align-items:baseline;justify-content:space-between;gap:18px;
+  cursor:pointer;list-style:none;
+}
+.faq-header::-webkit-details-marker{display:none}
+.faq-header::marker{content:''}
+.faq-q-wrap{display:flex;gap:22px;align-items:baseline}
+.faq-q{font-family:var(--sr);font-size:18px;color:var(--m);letter-spacing:.04em}
+.faq-icon{font-family:var(--dp);font-size:18px;color:var(--m);flex-shrink:0}
+.faq-icon::before{content:'+'}
+.faq-card[open] .faq-icon::before{content:'–'}
+.faq-a{padding-left:0;font-size:13.5px;line-height:2.1;color:var(--inks);max-width:680px}
+.faq-link{
+  align-self:flex-start;
+  font-family:var(--dp);font-size:11px;letter-spacing:.18em;
+  color:var(--a);border-bottom:1px solid var(--a);padding-bottom:2px;
+}
+
+/* ── Placeholder (site-wide .ph convention, kept for parity even if unused here) ── */
+.ph{
+  width:100%;height:100%;
+  background:repeating-linear-gradient(135deg,rgba(74,59,50,.06) 0 10px,rgba(74,59,50,.02) 10px 20px);
+  border:1px solid var(--hair);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mn);font-size:11px;letter-spacing:.08em;
+  color:rgba(74,59,50,.55);text-transform:uppercase;
+  text-align:center;padding:16px;
+}
+.ph:has(.work-img){padding:0}
+.work-img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ── 呼びかけバンド ── */
+.ft-band{background:var(--m);padding:56px 60px;margin-top:64px}
+.ft-band-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:center}
+.ft-cta-btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+
+/* ── Buttons ── */
+.btn-filled,.btn-ghost{
+  display:inline-flex;align-items:center;
+  padding:13px 22px;
+  font-family:var(--dp);font-size:12px;letter-spacing:.22em;
+  transition:all .25s;cursor:pointer;
+}
+.btn-filled{background:var(--m);color:var(--bg);border:1px solid var(--m)}
+.btn-filled:hover{background:#253a6b;border-color:#253a6b}
+.btn-ghost{background:transparent;color:var(--m);border:1px solid var(--m)}
+.btn-ghost:hover{background:rgba(26,39,68,.07)}
+.ft-band .btn-filled{background:var(--a);border-color:var(--a);color:var(--m)}
+.ft-band .btn-filled:hover{background:#c98a45;border-color:#c98a45}
+.ft-band .btn-ghost{color:var(--bg);border-color:rgba(242,242,240,.5)}
+.ft-band .btn-ghost:hover{background:rgba(242,242,240,.08)}
+
+/* ── Footer ── */
+.wfooter{
+  padding:20px 60px 40px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--hair);
+  flex-wrap:wrap;gap:16px;
+}
+.wfooter-back{font-family:var(--dp);font-size:12px;letter-spacing:.25em;color:var(--m);transition:color .2s}
+.wfooter-legal{display:flex;gap:22px;flex-wrap:wrap}
+.wfooter-legal a{font-family:var(--mn);font-size:10px;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
+.wfooter-legal a:hover{color:var(--a)}
+.wfooter-back:hover{color:var(--a)}
+.wfooter-copy{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm)}
+
+/* ── Responsive ── */
+@media (max-width:720px){
+  .ph-section{padding:40px 24px 32px}
+  .mh-top{flex-direction:column;align-items:flex-start;gap:10px}
+  .ws{padding:56px 24px 0}
+  .ft-band{padding:44px 24px}
+  .wfooter{padding:20px 24px 32px}
+  .faq-category-list{grid-template-columns:1fr}
+  .faq-wide{grid-column:span 1}
+  .faq-card{padding:24px 22px}
+}
+</style>
+
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script is:inline>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(el){el.classList.add('visible')});return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    });
+  },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  setTimeout(function(){
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible')});
+  },60);
+  els.forEach(function(el){io.observe(el)});
+})();
+</script>
+
+</body>
+</html>
