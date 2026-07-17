@@ -87,6 +87,10 @@ const activePartnerGroup = activePartner || activeCapabilities || activeRecords;
 </header>
 
 <div class="wh-overlay" id="wh-overlay">
+  <button type="button" id="wh-overlay-close" class="wh-overlay-close" aria-label="メニューを閉じる">
+    <span class="wh-overlay-close-x" aria-hidden="true"></span>
+    <span class="wh-overlay-close-x" aria-hidden="true"></span>
+  </button>
   <nav class="wh-overlay-nav" id="wh-overlay-nav" aria-label="works モバイルメニュー">
     <a href="/works/" aria-current={activeTop ? 'page' : undefined} class:list={{ 'is-active': activeTop }}>トップ</a>
     <a href="/works/hp-lp" aria-current={activeHpLp ? 'page' : undefined} class:list={{ 'is-active': activeHpLp }}>ホームページ制作</a>
@@ -210,6 +214,20 @@ const activePartnerGroup = activePartner || activeCapabilities || activeRecords;
   overflow-y:auto;
 }
 .wh-overlay.is-open{opacity:1;visibility:visible;pointer-events:auto}
+
+.wh-overlay-close{
+  position:absolute;top:14px;right:16px;z-index:1;
+  width:48px;height:48px;
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:none;padding:0;margin:0;cursor:pointer;
+}
+.wh-overlay-close-x{
+  position:absolute;width:22px;height:2px;background:var(--ink);
+  transition:background .2s;
+}
+.wh-overlay-close-x:nth-child(1){transform:rotate(45deg)}
+.wh-overlay-close-x:nth-child(2){transform:rotate(-45deg)}
+.wh-overlay-close:hover .wh-overlay-close-x{background:var(--a)}
 
 .wh-overlay-nav{
   box-sizing:border-box;min-height:100%;width:100%;
@@ -350,6 +368,19 @@ const activePartnerGroup = activePartner || activeCapabilities || activeRecords;
       closeMenu();
       hamburger.focus();
     }
+  });
+
+  // Dedicated close (×) button inside the overlay — the hamburger itself is
+  // hidden behind the overlay when open, so this is the visible close affordance.
+  var overlayClose = document.getElementById('wh-overlay-close');
+  if(overlayClose){
+    overlayClose.addEventListener('click', function(){ closeMenu(); hamburger.focus(); });
+  }
+
+  // If the viewport grows to desktop (>=1024px) while the menu is open, the
+  // hamburger disappears — close the overlay so scroll never stays locked.
+  window.addEventListener('resize', function(){
+    if(window.innerWidth >= 1024 && overlay.classList.contains('is-open')) closeMenu();
   });
 
   // "業務代行" submenu: inline expand/collapse inside the overlay.
