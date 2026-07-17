@@ -71,7 +71,53 @@ const activePartnerGroup = activePartner || activeCapabilities || activeRecords;
     <a href="/" class="wh-farm-link">農場HP ↗</a>
     <a href="/works/contact" class="wh-cta" aria-current={activeContact ? 'page' : undefined}>まずは話してみる →</a>
   </nav>
+
+  <button
+    type="button"
+    id="wh-hamburger"
+    class="wh-hamburger"
+    aria-expanded="false"
+    aria-controls="wh-overlay"
+    aria-label="メニューを開く"
+  >
+    <span class="wh-hamburger-bar" aria-hidden="true"></span>
+    <span class="wh-hamburger-bar" aria-hidden="true"></span>
+    <span class="wh-hamburger-bar" aria-hidden="true"></span>
+  </button>
 </header>
+
+<div class="wh-overlay" id="wh-overlay">
+  <nav class="wh-overlay-nav" id="wh-overlay-nav" aria-label="works モバイルメニュー">
+    <a href="/works/" aria-current={activeTop ? 'page' : undefined} class:list={{ 'is-active': activeTop }}>トップ</a>
+    <a href="/works/hp-lp" aria-current={activeHpLp ? 'page' : undefined} class:list={{ 'is-active': activeHpLp }}>ホームページ制作</a>
+
+    <div class="wh-overlay-drop">
+      <button
+        type="button"
+        id="wh-overlay-drop-trigger"
+        class="wh-overlay-drop-trigger"
+        aria-haspopup="true"
+        aria-expanded="false"
+        aria-controls="wh-overlay-drop-menu"
+        aria-current={activePartnerGroup ? 'page' : undefined}
+        class:list={{ 'is-active': activePartnerGroup }}
+      >
+        業務代行<span class="wh-caret" aria-hidden="true">▾</span>
+      </button>
+      <div class="wh-overlay-drop-menu" id="wh-overlay-drop-menu">
+        <a href="/works/partner" aria-current={activePartner ? 'page' : undefined} class:list={{ 'is-active': activePartner }}>業務代行とは</a>
+        <a href="/works/capabilities" aria-current={activeCapabilities ? 'page' : undefined} class:list={{ 'is-active': activeCapabilities }}>できること</a>
+        <a href="/works/records" aria-current={activeRecords ? 'page' : undefined} class:list={{ 'is-active': activeRecords }}>実績・システム例</a>
+      </div>
+    </div>
+
+    <a href="/works/first-time" aria-current={activeFirstTime ? 'page' : undefined} class:list={{ 'is-active': activeFirstTime }}>初めての方へ</a>
+    <a href="/works/faq" aria-current={activeFaq ? 'page' : undefined} class:list={{ 'is-active': activeFaq }}>FAQ</a>
+    <a href="/works/contact" aria-current={activeContact ? 'page' : undefined} class:list={{ 'is-active': activeContact }}>コンタクト</a>
+    <a href="/" class="wh-overlay-farm-link">農場HP ↗</a>
+    <a href="/works/contact" class="wh-overlay-cta" aria-current={activeContact ? 'page' : undefined}>まずは話してみる →</a>
+  </nav>
+</div>
 
 <style>
 /* ── Header ── */
@@ -137,29 +183,93 @@ const activePartnerGroup = activePartner || activeCapabilities || activeRecords;
 }
 .wh-drop-menu a:hover,.wh-drop-menu a[aria-current="page"]{color:var(--a);background:rgba(0,0,0,.035)}
 
-/* ── Responsive ── */
-@media (max-width:900px){
-  .wh{padding:16px 20px}
-  .wh-nav{gap:12px;row-gap:8px;flex-wrap:wrap;justify-content:flex-end}
-  .wh-nav a,.wh-drop-trigger{font-size:12px}
-  .wh-farm-link{display:none}
+/* ── Hamburger button (shown below 1024px) ── */
+.wh-hamburger{
+  display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:5px;
+  width:48px;height:48px;flex-shrink:0;
+  background:none;border:none;padding:0;margin:0;cursor:pointer;
+}
+.wh-hamburger-bar{
+  display:block;width:24px;height:2px;
+  background:var(--ink);
+  transition:transform .25s ease,opacity .2s ease;
+}
+.wh-hamburger[aria-expanded="true"] .wh-hamburger-bar:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.wh-hamburger[aria-expanded="true"] .wh-hamburger-bar:nth-child(2){opacity:0}
+.wh-hamburger[aria-expanded="true"] .wh-hamburger-bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
-  /* Mobile: no hover-popup (avoids off-screen clipping). Tap-only,
-     inline expansion in normal document flow below the trigger. */
-  .wh-drop:hover .wh-drop-menu{opacity:0;visibility:hidden;pointer-events:none}
-  .wh-drop-menu{
-    position:static;transform:none;
-    width:100%;min-width:0;
-    background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;
-    border:none;box-shadow:none;
-    padding:4px 0 0 12px;
-    display:none;
-  }
-  .wh-drop.is-open .wh-drop-menu{
-    display:flex;flex-direction:column;gap:2px;
-    opacity:1;visibility:visible;pointer-events:auto;
-  }
-  .wh-drop-menu a{padding:6px 0;white-space:normal}
+/* ── Overlay menu (mobile nav, <1024px) ── */
+.wh-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(242,242,240,.98);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .22s ease,visibility .22s ease;
+  overflow-y:auto;
+}
+.wh-overlay.is-open{opacity:1;visibility:visible;pointer-events:auto}
+
+.wh-overlay-nav{
+  box-sizing:border-box;min-height:100%;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:20px;
+  padding:100px 24px 60px;
+}
+.wh-overlay-nav > a{
+  font-family:var(--sr);font-size:16px;letter-spacing:.08em;color:var(--ink);
+  min-height:44px;padding:6px 4px;display:flex;align-items:center;
+  transition:color .2s;
+}
+.wh-overlay-nav a:hover,.wh-overlay-nav a[aria-current="page"]{color:var(--a)}
+
+.wh-overlay-drop{display:flex;flex-direction:column;align-items:center;gap:4px}
+.wh-overlay-drop-trigger{
+  display:inline-flex;align-items:center;gap:6px;
+  min-height:44px;
+  background:none;border:none;padding:6px 4px;margin:0;cursor:pointer;
+  font-family:var(--sr);font-size:16px;letter-spacing:.08em;color:var(--ink);
+  transition:color .2s;
+}
+.wh-overlay-drop-trigger:hover,
+.wh-overlay-drop-trigger[aria-current="page"],
+.wh-overlay-drop.is-open .wh-overlay-drop-trigger{color:var(--a)}
+.wh-overlay-drop.is-open .wh-caret{transform:rotate(180deg)}
+
+.wh-overlay-drop-menu{
+  display:none;flex-direction:column;align-items:center;gap:2px;
+  padding:4px 0 0;
+}
+.wh-overlay-drop.is-open .wh-overlay-drop-menu{display:flex}
+.wh-overlay-drop-menu a{
+  font-size:14px;opacity:.85;min-height:44px;
+  padding:6px 4px;display:flex;align-items:center;
+}
+
+.wh-overlay-farm-link{
+  margin-top:12px;
+  font-family:var(--mn);font-size:11px;letter-spacing:.15em;color:var(--inkm);
+  border:1px solid var(--hair);padding:9px 16px;
+  transition:color .2s,border-color .2s;
+}
+.wh-overlay-farm-link:hover{color:var(--m);border-color:var(--m)}
+
+.wh-overlay-cta{
+  margin-top:8px;
+  padding:13px 28px;border:1px solid var(--m);
+  color:var(--m)!important;
+  font-family:var(--dp);font-size:12px;letter-spacing:.18em;
+  transition:background .2s,color .2s!important;
+}
+.wh-overlay-cta:hover{background:var(--m);color:var(--bg)!important}
+.wh-overlay-cta[aria-current="page"]{background:var(--m);color:var(--bg)!important}
+
+/* ── Responsive ── */
+@media (max-width:1023.98px){
+  .wh{padding:16px 20px}
+  .wh-nav{display:none}
+  .wh-hamburger{display:flex}
 }
 </style>
 
@@ -199,5 +309,59 @@ const activePartnerGroup = activePartner || activeCapabilities || activeRecords;
       }
     });
   });
+})();
+
+(function(){
+  var hamburger = document.getElementById('wh-hamburger');
+  var overlay = document.getElementById('wh-overlay');
+  var overlayNav = document.getElementById('wh-overlay-nav');
+  if(!hamburger || !overlay) return;
+
+  function closeMenu(){
+    overlay.classList.remove('is-open');
+    hamburger.setAttribute('aria-expanded','false');
+    hamburger.setAttribute('aria-label','メニューを開く');
+    document.body.style.overflow = '';
+  }
+  function openMenu(){
+    overlay.classList.add('is-open');
+    hamburger.setAttribute('aria-expanded','true');
+    hamburger.setAttribute('aria-label','メニューを閉じる');
+    document.body.style.overflow = 'hidden';
+  }
+
+  hamburger.addEventListener('click', function(){
+    if(overlay.classList.contains('is-open')){ closeMenu(); } else { openMenu(); }
+  });
+
+  // Clicking any link inside the overlay (top-level or submenu) closes it.
+  overlay.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Clicking the empty backdrop area (outside the nav content) closes it.
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay || e.target === overlayNav) closeMenu();
+  });
+
+  // Escape closes and returns focus to the hamburger button.
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('is-open')){
+      closeMenu();
+      hamburger.focus();
+    }
+  });
+
+  // "業務代行" submenu: inline expand/collapse inside the overlay.
+  var subTrigger = document.getElementById('wh-overlay-drop-trigger');
+  var subWrap = subTrigger ? subTrigger.closest('.wh-overlay-drop') : null;
+  if(subTrigger && subWrap){
+    subTrigger.addEventListener('click', function(e){
+      e.stopPropagation();
+      var isOpen = subWrap.classList.contains('is-open');
+      subWrap.classList.toggle('is-open', !isOpen);
+      subTrigger.setAttribute('aria-expanded', String(!isOpen));
+    });
+  }
 })();
 </script>
