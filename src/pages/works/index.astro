@@ -1,0 +1,958 @@
+---
+// Farm Eolica Works — Landing Page
+// Design: Layout 3 "Tategaki Bento" (Navy × Copper)
+// Self-contained page — independent brand identity from main HP
+import { SITE_CONFIG } from '../../config/site';
+import WorksHeader from '../../components/works/WorksHeader.astro';
+import { doneCount } from '../../data/works-systems';
+const ga4Id = SITE_CONFIG.seo.ga4Id;
+const siteUrl = 'https://farmeolica.com';
+const title = 'Farm Eolica Works — あなたの仕事を、あなたの言葉で。';
+const description = '福島・浪江の農家兼元編集者が、あなたのストーリーをWebページにします。1ページHP制作 先着5名¥40,000〜。2026年7月10日、福島中央テレビで放送予定の制作実績あり。';
+---
+
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title}</title>
+  <link rel="canonical" href={`${siteUrl}/works/`} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={`${siteUrl}/works/`} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={`${siteUrl}/images/about/hero.webp`} />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content={`${siteUrl}/images/about/hero.webp`} />
+  <meta name="twitter:site" content="@FarmEolica" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Shippori+Mincho:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+  <script define:vars={{ ga4Id }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', ga4Id);
+  </script>
+</head>
+<body>
+
+<!-- ══════════ 0. HEADER ══════════ -->
+<WorksHeader isHome />
+
+
+<!-- ══════════ 1. HERO — Bento Grid ══════════ -->
+<section class="hero-section">
+  <div class="bento reveal reveal-hero reveal-d1">
+
+    <!-- A: Tategaki title — cols 1-2, rows 1-2 -->
+    <div class="bc bc-title">
+      <p class="tategaki">あなたの仕事を、あなたの言葉で。</p>
+      <span class="bc-title-sub">FARM EOLICA / WORKS</span>
+      <span class="bc-title-loc">福島県浪江町 / SINCE 2021</span>
+    </div>
+
+    <!-- B: Hero image — cols 3-4, row 1 -->
+    <div class="bc bc-img reveal reveal-hero reveal-d2">
+      <div class="hero-kb">
+        <!-- 実写動画が用意できたらここに <video> を差し込み、再生後に静止画へフォールバック -->
+        <div class="hero-kb-slide hero-kb-slide-1" style="background-image:url('/images/works/hero-field.jpg')"></div>
+        <div class="hero-kb-slide hero-kb-slide-2" style="background-image:url('/images/works/hero-bloom.jpg')"></div>
+        <div class="hero-kb-slide hero-kb-slide-3" style="background-image:url('/images/works/hero-atelier.jpg')"></div>
+        <div class="hero-kb-overlay"></div>
+      </div>
+    </div>
+
+    <!-- C: Copy + CTA — cols 3-4, row 2 -->
+    <div class="bc bc-copy reveal reveal-hero reveal-d2">
+      <p class="copy-hook">福島・浪江の農家兼元編集者が、あなたのストーリーをWebページにします。</p>
+      <p class="copy-main">
+        取材からデザイン、コーディング、公開まで。「本当に伝えたいこと」を、聞き手・書き手・作り手を兼ねてひとりで形にします。
+      </p>
+      <p class="copy-sub">— 1ページHP制作 先着5名 特別価格 ¥50,000 受付中</p>
+      <div class="hero-btns">
+        <a href="/works/contact" class="btn-filled">まずは相談してみる →</a>
+        <a href="#works" class="btn-ghost">実績を見る</a>
+      </div>
+    </div>
+
+    <!-- D: 4 stat cells — row 3 (customer-facing value props) -->
+    {[
+      { v: '先着5', l: 'launch price', jp: '1ページHP制作 特別価格 ¥50,000（通常¥100,000）' },
+      { v: '無料', l: 'first consultation', jp: '初回60分ヒアリング・押し売りなし' },
+      { v: '全国', l: 'online only', jp: 'オンライン完結・全国対応' },
+      { v: '納品', l: 'source included', jp: 'ソース一式をGitHubで納品・ロックインなし' },
+    ].map((s, i) => (
+      <div class="bc bc-stat reveal reveal-hero reveal-d3">
+        <div class="stat-no">/{String(i + 1).padStart(2, '0')}</div>
+        <div>
+          <div class="stat-num">{s.v}</div>
+          <div class="stat-jp">{s.jp}</div>
+          <div class="stat-en">{s.l}</div>
+        </div>
+      </div>
+    ))}
+
+  </div>
+</section>
+
+
+<!-- ══════════ 1.5 TV BANNER (7/10最優先) ══════════ -->
+<section class="tv-banner-section">
+  <div class="wc">
+    <a href="/works/case/namie-rice-burger/" class="tv-banner reveal">
+      <div class="tv-banner-left">
+        <span class="tv-banner-label">TV放送予定 — 2026.7.10 福島中央テレビ</span>
+        <p class="tv-banner-headline">
+          浪江創成中学校の生徒が生んだ商品 —
+          <span class="tv-banner-accent">「なみえライスバーガー」の公式LP</span>を制作しました。
+        </p>
+      </div>
+      <div class="tv-banner-right">
+        <span class="tv-banner-cta">なみえライスバーガーの制作実績を見る <span class="tv-banner-arrow">→</span></span>
+      </div>
+    </a>
+  </div>
+</section>
+
+
+<!-- ══════════ 2. VALUE（提供価値） ══════════ -->
+<section class="ws ws-alt" id="about">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">VALUE</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 01 / 06</span>
+      </div>
+      <h2 class="sh-jp">農家兼元編集者が、両方の言葉でつくる。</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="ph ph-45">
+          <img src="/images/works/portrait-greenhouse.jpg" alt="浪江町の圃場にて" class="work-img" />
+        </div>
+        <p class="ph-cap">FIG.01 — 浪江町の圃場にて</p>
+      </div>
+
+      <div class="about-story">
+        {[
+          {
+            n: '01', en: 'FARMER × EDITOR', tag: '農家兼元編集者',
+            jp: '聞く力と、書く力を両方持っています',
+            b: '震災後の浪江町で花き農家を営みながら、前職は出版社の編集者。取材で聞いた言葉を、そのまま届く文章とデザインに変える視点があります。',
+          },
+          {
+            n: '02', en: 'BUILDER', tag: 'AI実装',
+            jp: '実装力の裏付けがあります',
+            b: `経理・受注・販促・記録。自農場の事務をAIで組み替え、現在${doneCount}のシステムを稼働中。その実装力は、下の制作実績でも証明しています。`,
+          },
+          {
+            n: '03', en: 'CONTINUITY', tag: '死んでも困らない納品',
+            jp: '納品するのは、あなたの資産です',
+            b: 'Astro静的サイトで構築し、ソースコード一式をGitHubでまるごとお渡し。あなたのCloudflare無料アカウントで公開するので、もし私に何かあっても、サイトは動き続け、ソースはあなたの手元に残ります。特定の業者に縛られません。',
+          },
+        ].map(r => (
+          <div class="story-item reveal">
+            <div class="story-badge">
+              {r.en}<span class="story-badge-jp"> · {r.tag}</span>
+            </div>
+            <h3 class="story-title">{r.jp}</h3>
+            <p class="story-body">{r.b}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="section-cta-row reveal">
+      <a href="/works/contact" class="section-cta-link">まずは相談してみる →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 2.5 PRODUCTS（サービス層） ══════════ -->
+<section class="ws" id="products">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">PRODUCTS</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 02 / 06</span>
+      </div>
+      <h2 class="sh-jp">ふたつの商品。</h2>
+    </div>
+
+    <div class="products-grid">
+      <a href="/works/hp-lp/" class="product-card product-card-main reveal">
+        <div>
+          <div class="product-cat">WEBSITE — 単発制作</div>
+          <div class="product-title">1ページHP・LP制作</div>
+          <p class="product-body">単発で、あなたの物語がちゃんと伝わるサイトを作ります。取材からデザイン、コーディング、公開まで、ひとりで一貫対応。</p>
+          <p class="product-price">スタンダード（microCMS付）¥50,000〜／シンプル ¥40,000〜<span class="product-price-note">※先着5名・通常価格の半額。料金の詳細は次のページで。</span></p>
+        </div>
+        <span class="product-link">くわしく見る →</span>
+      </a>
+
+      <a href="/works/partner/" class="product-card reveal">
+        <div>
+          <div class="product-cat">AI TASK AGENCY — 月額の業務代行</div>
+          <div class="product-title">業務代行〈AI活用〉</div>
+          <p class="product-body">経理・発信・資料づくりなど、日々の業務をAIで代行します。「そのまま使える成果物」に人が仕上げてお届けする、継続型のサービスです。アプリ・システム開発から日々の困りごとまで、まとめて相談いただけます。</p>
+          <p class="product-price">¥20,000／月〜（3ヶ月〜）<span class="product-price-note">くわしい内容は次のページで。</span></p>
+        </div>
+        <span class="product-link">くわしく見る →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 3. WORKS (実績) ══════════ -->
+<section class="ws" id="works">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">WORKS</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 03 / 06</span>
+      </div>
+      <h2 class="sh-jp">これまでの仕事。</h2>
+    </div>
+
+    <div class="works-grid">
+
+      <!-- 実績1: なみえライスバーガー（主役・実案件・TV放送） -->
+      <a href="/works/case/namie-rice-burger/" class="work-card work-card-big reveal">
+        <div class="work-ph">
+          <div class="ph ph-auto">
+            <img src="/images/works/namie-rice-burger-card.jpg" alt="なみえライスバーガー" class="work-img" />
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">CASE STUDY</span>
+            <span class="work-year">2026</span>
+          </div>
+          <span class="work-badge">TV放送 2026.7.10</span>
+          <div class="work-title">なみえライスバーガー</div>
+          <div class="work-desc">浪江創成中学校「ふるさと創造学」× 道の駅なみえ。生徒の言葉でつくったLP。開発ストーリーは浪江町公式チャンネルで公開中、福島中央テレビでも放送される制作実績。</div>
+          <span class="work-more">詳しく見る →</span>
+        </div>
+      </a>
+
+      <!-- 実績2: 三宅奈緒（制作ショーケース・ダミー案件） -->
+      <a href="/works/case/miyake-nao-photographer/" class="work-card reveal">
+        <div class="work-ph">
+          <div class="ph ph-auto">
+            <img src="/images/works/miyake-nao-card.jpg" alt="三宅奈緒 Portfolio" class="work-img" />
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">SHOWCASE</span>
+            <span class="work-year">2026</span>
+          </div>
+          <span class="work-badge">制作サンプル・架空</span>
+          <div class="work-title">三宅奈緒 / Portfolio</div>
+          <div class="work-desc">Astro + microCMS + Cloudflare Pages + Workers/Resend。全7セクション、フル実装の制作サンプルです（実在の依頼ではなく、制作力を示すための架空案件）。</div>
+          <span class="work-more">詳しく見る →</span>
+        </div>
+      </a>
+
+      <!-- 実績3: 地域の酒蔵（イメージ制作例・完全ダミー） -->
+      <a href="/works/case/regional-sake-brewery/" class="work-card reveal">
+        <div class="work-ph">
+          <div class="ph ph-auto">
+            <img src="/images/works/sake-brewery-card.jpg" alt="地域の酒蔵 ストーリーLP" class="work-img" />
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">CONCEPT</span>
+            <span class="work-year">2026</span>
+          </div>
+          <span class="work-badge">完全匿名イメージ例</span>
+          <div class="work-title">地域の酒蔵 / ストーリーLP</div>
+          <div class="work-desc">日英バイリンガル構成のコンセプトモック。架空の地域の酒蔵をイメージした、ストーリー訴求の見せ方サンプルです。</div>
+          <span class="work-more">詳しく見る →</span>
+        </div>
+      </a>
+
+      <!-- 自社実績（補助・農家がWeb制作できる証拠） -->
+      <a href="https://farmeolica.com" target="_blank" rel="noopener noreferrer" class="work-card reveal">
+        <div class="work-ph">
+          <div class="ph ph-auto">
+            <img src="/images/works/farm-eolica-card.jpg" alt="Farm Eolica 公式HP" class="work-img" />
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">WEBSITE</span>
+            <span class="work-year">2025</span>
+          </div>
+          <span class="work-badge">自社実績</span>
+          <div class="work-title">Farm Eolica 公式HP</div>
+          <div class="work-desc">AstroでゼロからHP構築。商品・お問い合わせ・SEO対応まで一貫稼働中。</div>
+          <span class="work-more">サイトを見る ↗</span>
+        </div>
+      </a>
+
+      <a href="/works/case/cultivation-manager/" class="work-card reveal">
+        <div class="work-ph">
+          <div class="ph ph-auto">
+            <img src="/images/works/cultivation-app-card.jpg" alt="栽培管理アプリ" class="work-img" />
+          </div>
+        </div>
+        <div class="work-info">
+          <div class="work-meta">
+            <span class="work-tag">AI SYSTEM</span>
+            <span class="work-year">2024–</span>
+          </div>
+          <span class="work-badge">自社実績</span>
+          <div class="work-title">栽培管理アプリ</div>
+          <div class="work-desc">作付け記録のデジタル化。全工程をスマホで管理する独自Webアプリ、今も稼働中。</div>
+          <span class="work-more">詳しく見る →</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-cta-row reveal">
+      <a href="/works/contact" class="section-cta-link">まずは相談してみる →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 4.5 できること BANNER ══════════ -->
+<section class="ws ws-parallax">
+  <div class="wc">
+    <div class="ai-banner ai-banner-glass reveal">
+      <div>
+        <div class="ai-banner-label">SINCE 2021 — NAMIE, FUKUSHIMA</div>
+        <p class="ai-banner-headline">
+          <span class="ai-banner-accent">{doneCount}のシステム</span>と自動化を、<br />
+          農場で実際に動かしています。
+        </p>
+        <p class="ai-banner-sub">その仕組みづくりの力を、業務代行〈AI活用〉としてあなたの事業にも。</p>
+      </div>
+      <div class="ai-banner-right">
+        <a href="/works/capabilities" class="ai-banner-cta">
+          実際にできることを見る <span class="ai-banner-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 5. PROCESS ══════════ -->
+<section class="ws">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">PROCESS</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 04 / 06</span>
+      </div>
+      <h2 class="sh-jp">ご依頼から納品まで。</h2>
+    </div>
+
+    <div class="process-grid reveal">
+      <div class="process-hline"></div>
+      {[
+        { n: '01', t: 'ヒアリング', s: '60–90 min', d: 'オンラインで現状と背景を伺います。初回は資料も準備も不要です。' },
+        { n: '02', t: '提案・お見積もり', s: '1 week', d: '方向性のラフ案と概算を、A4一枚にまとめてお送りします。' },
+        { n: '03', t: '制作・調整', s: '2–4 weeks', d: 'AIでドラフト生成 → 人間がレビュー・調整。最低週1回、進行をご報告しながら固めます。' },
+        { n: '04', t: '納品・運用', s: '1 day +', d: 'ソース一式とCloudflareへの公開作業（要望に応じて）、引き継ぎ資料をお渡しします。' },
+      ].map(p => (
+        <div class="process-item">
+          <div class="process-badge">{p.n}</div>
+          <div class="process-title">{p.t}</div>
+          <div class="process-span">{p.s}</div>
+          <p class="process-body">{p.d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 5.5 はじめての方へ BANNER ══════════ -->
+<section class="ws">
+  <div class="wc">
+    <div class="ai-banner reveal">
+      <div>
+        <div class="ai-banner-label">FIRST TIME?</div>
+        <p class="ai-banner-headline">
+          Web制作もAI導入も、<span class="ai-banner-accent">初めてで大丈夫です。</span><br />
+          よくある不安に、ひとつずつお答えします。
+        </p>
+      </div>
+      <div class="ai-banner-right">
+        <a href="/works/first-time" class="ai-banner-cta">
+          はじめての方へ を読む <span class="ai-banner-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 6. FAQ ══════════ -->
+<section class="ws" id="faq">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">FAQ</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 05 / 06</span>
+      </div>
+      <h2 class="sh-jp">よくいただく質問。</h2>
+    </div>
+
+    <div class="faq-teaser reveal">
+      <p class="faq-teaser-body">対応エリア・セキュリティ・ご依頼の範囲など、よくいただくご質問と回答をまとめました。</p>
+      <a href="/works/faq" class="btn-filled">よくあるご質問を見る →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 7. CONTACT ══════════ -->
+<section class="ws contact-section" id="contact">
+  <div class="wc">
+    <div class="contact-panel reveal">
+      <div class="contact-left">
+        <div class="contact-label">— CONTACT / 06 / 06</div>
+        <h2 class="contact-title">
+          まずは、<br />
+          あなたの話を、<br />
+          聞かせてください。
+        </h2>
+      </div>
+      <div class="contact-right">
+        <p class="contact-body">
+          発注を急がせる営業はしません。<br />
+          初回は60分、現状と背景を伺うところから。<br />
+          フォームのほか、Farm Eolica 公式LINEでも気軽にどうぞ。
+        </p>
+        <div class="contact-btns">
+          <a href="/works/contact" class="contact-btn-primary">まずは相談してみる →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ 8. FOOTER ══════════ -->
+<footer class="wfooter">
+  <a href="/" class="wfooter-back">← BACK TO FARM&nbsp;EOLICA</a>
+  <nav class="wfooter-legal">
+    <a href="/works/tokushoho">特定商取引法に基づく表記</a>
+    <a href="/works/terms">利用規約</a>
+    <a href="/works/privacy">プライバシーポリシー</a>
+  </nav>
+  <div class="wfooter-copy">&copy; FARM EOLICA WORKS / 福島県浪江町 / 関口卓磨</div>
+</footer>
+
+
+<!-- ══════════ STYLES ══════════ -->
+<style is:global>
+:root {
+  --m: #1A2744;
+  --a: #B87333;
+  --bg: #F2F2F0;
+  --ink: #4A3B32;
+  --inks: rgba(74,59,50,0.72);
+  --inkm: rgba(74,59,50,0.48);
+  --hair: rgba(74,59,50,0.14);
+  --sr: 'Shippori Mincho','Hiragino Mincho ProN',serif;
+  --dp: 'Cinzel',serif;
+  --mn: 'JetBrains Mono','Courier New',monospace;
+  /* 固定ヘッダー(.wh)の実高さ。JS(SCRIPTSブロック)がResizeObserverで実測値に更新するため、
+     ここは初回描画/JS無効時のフォールバック値（WorksHeader.astroの.whを実測して算出） */
+  --header-h: 90px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:var(--header-h)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+p{margin:0}
+
+/* ── Animations ── */
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(28px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{opacity:0;transform:translateY(28px)}
+.reveal.visible{animation:fadeInUp .75s cubic-bezier(.22,1,.36,1) forwards}
+.reveal-d2{animation-delay:.15s}
+.reveal-d3{animation-delay:.3s}
+
+/* ── Hero ── */
+.hero-section{padding:60px 60px 70px;min-height:80vh;display:flex;flex-direction:column;justify-content:flex-end}
+.bento{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:min(230px,27vh) min(230px,27vh) min(160px,19vh);
+  gap:18px;
+  max-width:1320px;margin:0 auto;width:100%;
+}
+
+/* Placeholder */
+.ph{
+  width:100%;height:100%;
+  background:repeating-linear-gradient(135deg,rgba(74,59,50,.06) 0 10px,rgba(74,59,50,.02) 10px 20px);
+  border:1px solid var(--hair);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mn);font-size:11px;letter-spacing:.08em;
+  color:rgba(74,59,50,.55);text-transform:uppercase;
+}
+.ph-auto{aspect-ratio:auto}
+.ph-45{aspect-ratio:4/5}
+.ph:has(.work-img){padding:0}
+.work-img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Bento cells */
+.bc{border:1px solid var(--hair);overflow:hidden;position:relative}
+
+.bc-title{
+  grid-column:1/span 2;grid-row:1/span 2;
+  background:var(--m);color:var(--bg);
+  padding:32px 28px;display:flex;align-items:center;justify-content:center;
+}
+.tategaki{
+  writing-mode:vertical-rl;text-orientation:mixed;
+  font-family:var(--sr);font-size:clamp(46px,4.4vw,68px);font-weight:500;
+  line-height:1.4;letter-spacing:.1em;color:var(--bg);margin:0;
+  max-height:calc(100% - 64px);overflow:hidden;
+}
+.bc-title-sub{
+  position:absolute;left:36px;bottom:32px;
+  font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a);
+}
+.bc-title-loc{
+  position:absolute;right:36px;top:32px;
+  font-family:var(--mn);font-size:10px;letter-spacing:.2em;color:rgba(242,242,240,.6);
+}
+
+.bc-img{grid-column:3/span 2;grid-row:1;padding:0}
+
+.bc-copy{
+  grid-column:3/span 2;grid-row:2;
+  background:rgba(184,115,51,.1);border:1px solid var(--hair);
+  padding:14px 22px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;
+}
+.copy-main{font-size:13px;line-height:1.8;color:var(--ink);letter-spacing:.04em}
+.copy-sub{font-family:var(--mn);font-size:10px;color:var(--a);letter-spacing:.08em;line-height:1.6;margin-top:5px}
+.hero-btns{display:flex;gap:10px;margin-top:10px}
+
+.bc-stat{
+  grid-row:3;
+  border:1px solid var(--hair);padding:18px 20px;
+  display:flex;flex-direction:column;justify-content:space-between;background:var(--bg);
+}
+.stat-no{font-family:var(--dp);font-size:10px;letter-spacing:.3em;color:var(--inkm)}
+.stat-num{font-family:var(--sr);font-weight:500;font-size:32px;color:var(--m);letter-spacing:.02em;line-height:1}
+.stat-jp{font-family:var(--sr);font-size:12.5px;color:var(--ink);letter-spacing:.04em;margin-top:8px}
+.stat-en{font-family:var(--mn);font-size:10px;letter-spacing:.2em;color:var(--a);margin-top:4px}
+
+/* ── Buttons ── */
+.btn-filled,.btn-ghost{
+  display:inline-flex;align-items:center;
+  padding:13px 22px;
+  font-family:var(--dp);font-size:12px;letter-spacing:.22em;
+  transition:all .25s;cursor:pointer;
+}
+.btn-filled{background:var(--m);color:var(--bg);border:1px solid var(--m)}
+.btn-filled:hover{background:#253a6b;border-color:#253a6b}
+.btn-ghost{background:transparent;color:var(--m);border:1px solid var(--m)}
+.btn-ghost:hover{background:rgba(26,39,68,.07)}
+
+/* ── TV Banner ── */
+.tv-banner-section{padding:0 60px 80px}
+.tv-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:40px;
+  max-width:1320px;margin:0 auto;
+  background:var(--a);color:var(--m);
+  padding:34px 46px;
+  transition:background .25s,transform .25s;
+}
+.tv-banner:hover{background:#c98a45;transform:translateY(-2px)}
+.tv-banner-label{display:block;font-family:var(--mn);font-size:11px;letter-spacing:.28em;color:var(--m);margin-bottom:10px}
+.tv-banner-headline{font-family:var(--sr);font-weight:600;font-size:clamp(18px,2vw,24px);line-height:1.6;letter-spacing:.03em;margin:0}
+.tv-banner-accent{text-decoration:underline;text-underline-offset:4px}
+.tv-banner-right{flex-shrink:0}
+.tv-banner-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 22px;border:1px solid var(--m);
+  font-family:var(--dp);font-size:11px;letter-spacing:.18em;color:var(--m);
+  white-space:nowrap;
+}
+.tv-banner-arrow{font-family:var(--sr);font-size:14px}
+
+/* ── Section commons ── */
+.ws{padding:80px 60px 100px}
+.ws-alt{background:#EAE6DF}
+.wc{max-width:1320px;margin:0 auto}
+
+.sh{margin-bottom:56px}
+.sh-top{display:flex;align-items:baseline;gap:22px;margin-bottom:18px}
+.sh-en{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a)}
+.sh-line{display:inline-block;width:56px;height:1px;background:var(--a);vertical-align:middle}
+.sh-no{font-family:var(--mn);font-size:10px;letter-spacing:.2em;color:var(--inkm)}
+.sh-jp{font-family:var(--sr);font-weight:500;font-size:clamp(36px,3.2vw,52px);color:var(--m);margin:0;letter-spacing:.04em;line-height:1.2}
+
+/* ── About / Value ── */
+.about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:start}
+.ph-cap{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm);margin-top:16px}
+.about-story{display:flex;flex-direction:column;gap:40px;padding-top:6px}
+.story-item{border-left:1px solid var(--hair);padding-left:30px}
+.story-badge{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:5px 12px 4px;border:1px solid var(--a);
+  color:var(--a);font-family:var(--dp);font-size:10px;letter-spacing:.3em;margin-bottom:16px;
+}
+.story-badge-jp{font-family:var(--sr);letter-spacing:0}
+.story-title{font-family:var(--sr);font-size:26px;color:var(--m);letter-spacing:.05em;margin:0 0 14px}
+.story-body{font-size:14.5px;line-height:2.2;color:var(--inks)}
+
+/* ── Section CTA repeater ── */
+.section-cta-row{margin-top:52px;text-align:center}
+.section-cta-link{
+  display:inline-block;font-family:var(--dp);font-size:12px;letter-spacing:.22em;
+  color:var(--m);border-bottom:1px solid var(--a);padding-bottom:4px;transition:color .2s;
+}
+.section-cta-link:hover{color:var(--a)}
+
+/* ── Products (service layer, above WORKS) ── */
+.products-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+.product-card{
+  display:flex;flex-direction:column;justify-content:space-between;gap:28px;
+  background:var(--bg);border:1px solid var(--hair);
+  padding:40px 40px 34px;
+  transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s,border-color .3s;
+}
+a.product-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(26,39,68,.12);border-color:var(--a)}
+.product-card-main{background:var(--m)}
+.product-cat{font-family:var(--dp);font-size:11px;letter-spacing:.3em;color:var(--a);margin-bottom:16px}
+.product-title{font-family:var(--sr);font-size:30px;letter-spacing:.05em;color:var(--m);margin-bottom:14px}
+.product-card-main .product-title{color:var(--bg)}
+.product-body{font-size:14px;line-height:2;color:var(--inks);max-width:420px}
+.product-card-main .product-body{color:rgba(242,242,240,.8)}
+.product-link{
+  align-self:flex-start;
+  font-family:var(--dp);font-size:11px;letter-spacing:.22em;
+  color:var(--a);border-bottom:1px solid var(--a);padding-bottom:3px;
+  transition:color .3s ease,transform .3s cubic-bezier(.22,1,.36,1),font-weight .2s;
+}
+.product-price{
+  font-family:var(--mn);font-size:12px;letter-spacing:.05em;color:var(--m);
+  margin-top:16px;line-height:1.8;
+}
+.product-card-main .product-price{color:var(--bg)}
+.product-price-note{display:block;font-size:10px;letter-spacing:.06em;color:var(--inkm);margin-top:3px}
+.product-card-main .product-price-note{color:rgba(242,242,240,.6)}
+
+/* ── AI Banner (reused for できること / はじめての方へ) ── */
+.ai-banner{
+  background:var(--m);color:var(--bg);padding:60px 50px;
+  display:grid;grid-template-columns:1.4fr 1fr;gap:50px;align-items:center;
+}
+.ai-banner-label{font-family:var(--mn);font-size:11px;letter-spacing:.3em;color:var(--a);margin-bottom:16px}
+.ai-banner-sub{font-family:var(--sr);font-size:14px;line-height:1.9;color:rgba(242,242,240,.75);letter-spacing:.04em;margin:14px 0 0;max-width:640px}
+.ai-banner-headline{font-family:var(--sr);font-size:26px;line-height:1.6;letter-spacing:.04em;max-width:680px;margin:0}
+.ai-banner-accent{color:var(--a)}
+.ai-banner-right{display:flex;justify-content:flex-end}
+.ai-banner-cta{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:16px 28px;border:1px solid var(--bg);
+  font-family:var(--dp);font-size:12px;letter-spacing:.22em;color:var(--bg);
+  transition:background .25s;white-space:nowrap;
+}
+.ai-banner-cta:hover{background:rgba(255,255,255,.1)}
+.ai-banner-arrow{font-family:var(--sr);font-size:14px}
+
+/* ── Parallax Layout (WORKS & Banner) ── */
+#works, .ws-parallax {
+  background-image: linear-gradient(rgba(26, 39, 68, 0.85), rgba(26, 39, 68, 0.85)), url('/images/works/parallax-bg.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#works .sh-jp {
+  color: var(--bg);
+}
+#works .sh-no {
+  color: rgba(242, 242, 240, 0.6);
+}
+#works .section-cta-link {
+  color: var(--bg);
+  border-color: var(--a);
+}
+#works .section-cta-link:hover {
+  color: var(--a);
+}
+.ai-banner-glass {
+  background: rgba(26, 39, 68, 0.45) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(242, 242, 240, 0.15) !important;
+}
+
+/* ── Works ── */
+.works-grid{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;
+  grid-auto-rows:260px;gap:18px;
+}
+.work-card{
+  overflow:hidden;background:var(--bg);border:1px solid var(--hair);
+  display:flex;flex-direction:column;
+  transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s;
+}
+a.work-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(26,39,68,.12)}
+.work-card-big{grid-column:span 2}
+.work-ph{flex:1;overflow:hidden}
+.work-ph .ph{border:none;height:100%}
+.work-info{padding:22px 24px;border-top:1px solid var(--hair)}
+.work-meta{display:flex;justify-content:space-between;font-family:var(--mn);font-size:10px;letter-spacing:.2em;color:var(--a);margin-bottom:8px}
+.work-year{color:var(--inkm)}
+.work-title{font-family:var(--sr);font-size:20px;color:var(--m);letter-spacing:.05em;margin-bottom:6px}
+.work-desc{font-size:13px;line-height:1.9;color:var(--inks)}
+.work-more{display:inline-block;margin-top:10px;font-family:var(--dp);font-size:11px;letter-spacing:.18em;color:var(--a);transition:color .3s ease,transform .3s cubic-bezier(.22,1,.36,1),font-weight .2s}
+a.product-card:hover .product-link,
+a.work-card:hover .work-more{
+  color:var(--a);
+  font-weight:700;
+  transform:translateX(6px);
+}
+
+/* ── Process ── */
+.process-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;position:relative;
+}
+.process-hline{
+  position:absolute;left:12.5%;right:12.5%;top:28px;
+  height:1px;background:var(--hair);
+}
+.process-item{padding:0 28px;position:relative}
+.process-badge{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--bg);border:1px solid var(--m);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--dp);font-size:16px;color:var(--m);letter-spacing:.1em;
+  margin-bottom:30px;position:relative;z-index:2;
+}
+.process-title{font-family:var(--sr);font-size:24px;color:var(--m);letter-spacing:.06em;margin-bottom:10px}
+.process-span{font-family:var(--mn);font-size:10px;letter-spacing:.2em;color:var(--a);margin-bottom:20px}
+.process-body{font-size:13px;line-height:2;color:var(--inks);max-width:240px}
+
+/* ── FAQ teaser (accordion moved to /works/faq) ── */
+.faq-teaser{text-align:center;max-width:640px;margin:0 auto}
+.faq-teaser-body{font-family:var(--sr);font-size:15px;line-height:1.9;color:var(--inks);margin-bottom:28px}
+
+/* ── Contact ── */
+.contact-section{padding-bottom:100px}
+.contact-panel{
+  background:var(--m);color:var(--bg);padding:80px 70px;
+  display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:center;
+}
+.contact-label{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a);margin-bottom:20px}
+.contact-title{
+  font-family:var(--sr);font-weight:500;font-size:clamp(32px,3vw,48px);margin:0;
+  line-height:1.4;letter-spacing:.04em;color:var(--bg);
+}
+.contact-body{
+  font-size:16px;line-height:2.1;color:rgba(242,242,240,.8);
+  letter-spacing:.04em;margin-bottom:40px;max-width:480px;
+}
+.contact-btns{display:flex;gap:16px;flex-wrap:wrap}
+.contact-btn-primary{
+  padding:16px 26px;font-family:var(--dp);font-size:13px;letter-spacing:.22em;
+  background:var(--a);color:var(--m);
+  transition:background .25s;
+}
+.contact-btn-primary:hover{background:#c98a45}
+.contact-btn-ghost{
+  padding:16px 26px;font-family:var(--dp);font-size:13px;letter-spacing:.22em;
+  border:1px solid rgba(242,242,240,.35);color:var(--bg);
+  transition:border-color .25s;
+}
+.contact-btn-ghost:hover{border-color:rgba(242,242,240,.7)}
+
+/* ── Hero copy-hook ── */
+.copy-hook{font-family:var(--sr);font-size:13px;font-weight:600;color:var(--m);letter-spacing:.05em;line-height:1.5;margin-bottom:6px}
+
+/* ── Works badge ── */
+.work-badge{display:inline-block;font-family:var(--mn);font-size:9px;letter-spacing:.22em;color:var(--bg);background:var(--a);padding:2px 8px;margin-bottom:7px}
+
+/* ── First Time section (also reused for svc addon bullets) ── */
+.ftg{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.ft-block{background:var(--bg);border:1px solid var(--hair);padding:36px 32px}
+.ft-block-wide{grid-column:span 2}
+.ft-block-cta{background:rgba(184,115,51,.06)}
+.ft-title{font-family:var(--sr);font-size:22px;color:var(--m);letter-spacing:.05em;margin:0 0 16px}
+.ft-body{font-size:14px;line-height:2.2;color:var(--inks)}
+.ft-list{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.ft-item{display:flex;gap:14px;align-items:flex-start;font-size:13.5px;line-height:1.9;color:var(--inks)}
+.ft-mark{font-family:var(--sr);font-size:14px;font-weight:600;flex-shrink:0;margin-top:2px}
+.ft-ok .ft-mark{color:var(--a)}
+.ft-caution .ft-mark{color:var(--inkm)}
+.ft-link{display:inline-block;margin-top:18px;font-family:var(--dp);font-size:12px;letter-spacing:.22em;color:var(--m);border-bottom:1px solid var(--a);padding-bottom:3px;transition:color .2s}
+.ft-link:hover{color:var(--a)}
+
+/* ── Footer ── */
+.wfooter{
+  padding:20px 60px 40px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--hair);
+}
+.wfooter-back{font-family:var(--dp);font-size:12px;letter-spacing:.25em;color:var(--m);transition:color .2s}
+.wfooter-back:hover{color:var(--a)}
+.wfooter-legal{display:flex;gap:22px;flex-wrap:wrap}
+.wfooter-legal a{font-family:var(--mn);font-size:10px;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
+.wfooter-legal a:hover{color:var(--a)}
+.wfooter-copy{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm)}
+
+/* ── Hero Ken Burns slideshow ── */
+.hero-kb{position:absolute;inset:0;overflow:hidden;background:var(--m)}
+.hero-kb-slide{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  opacity:0;transform:scale(1.04);
+  animation:heroKb 21s infinite;
+}
+.hero-kb-slide-1{animation-delay:0s}
+.hero-kb-slide-2{animation-delay:7s}
+.hero-kb-slide-3{animation-delay:14s}
+@keyframes heroKb{
+  0%{opacity:0;transform:scale(1.04)}
+  10%{opacity:1}
+  33%{opacity:1;transform:scale(1.15)}
+  43%{opacity:0;transform:scale(1.15)}
+  100%{opacity:0}
+}
+.hero-kb-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(26,39,68,.08) 0%,rgba(26,39,68,.4) 100%);
+  pointer-events:none;
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-kb-slide{animation:none;opacity:0;transform:none}
+  .hero-kb-slide-1{opacity:1}
+}
+
+/* ── Responsive ── */
+@media (max-width:900px){
+  /* .wh は900px以下でnav折り返し(WorksHeader.astro側)により縦に伸びるため、
+     JS実測が効くまでのフォールバックも高めに設定 */
+  :root{ --header-h: 150px; }
+  #works, .ws-parallax {
+    background-attachment: scroll;
+  }
+  .hero-section{padding:36px 20px 48px;min-height:auto}
+  .bento{grid-template-columns:1fr;grid-template-rows:none;gap:14px}
+  .bc-title,.bc-img,.bc-copy,.bc-stat{grid-column:1;grid-row:auto}
+  .bc-title{padding:36px 22px;min-height:220px}
+  .tategaki{font-size:clamp(32px,10vw,48px)}
+
+  .tv-banner-section{padding:0 20px 56px}
+  .tv-banner{flex-direction:column;align-items:flex-start;gap:20px;padding:26px 26px}
+
+  .ws{padding:56px 20px 64px}
+  .about-grid{grid-template-columns:1fr;gap:32px}
+
+  .works-grid{grid-template-columns:1fr;grid-auto-rows:auto}
+  .work-card-big{grid-column:span 1}
+  .work-ph{min-height:220px}
+
+  .products-grid{grid-template-columns:1fr;gap:16px}
+  .product-card{padding:32px 26px}
+
+  .ai-banner{grid-template-columns:1fr;gap:24px;padding:44px 26px}
+  .ai-banner-right{justify-content:flex-start}
+
+  .process-grid{grid-template-columns:1fr;gap:40px}
+  .process-hline{display:none}
+  .process-item{padding:0}
+
+  .contact-panel{grid-template-columns:1fr;padding:48px 26px;gap:32px}
+
+  .wfooter{flex-direction:column;gap:16px;padding:24px 20px 32px;text-align:center}
+  .wfooter-legal{justify-content:center}
+}
+
+@media (max-width:600px){
+  .sh-no{display:none}
+  .bento{gap:10px}
+  .bc-title{min-height:190px;padding:30px 18px}
+  .hero-btns{flex-wrap:wrap}
+  .contact-title{font-size:clamp(28px,7vw,36px)}
+}
+</style>
+
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script is:inline>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(el){el.classList.add('visible')});return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    });
+  },{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+  // Hero fires immediately
+  setTimeout(function(){
+    document.querySelectorAll('.reveal-hero').forEach(function(el){el.classList.add('visible')});
+  },30);
+  // Rest via IO
+  els.forEach(function(el){
+    if(!el.classList.contains('reveal-hero'))io.observe(el);
+  });
+  // Fallback
+  setTimeout(function(){
+    document.querySelectorAll('.reveal:not(.visible)').forEach(function(el){el.classList.add('visible')});
+  },1500);
+})();
+</script>
+
+<!-- 固定ヘッダー高さをCSS変数へ反映（アンカージャンプ時のオフセット崩れ対策）
+     .wh(WorksHeader.astro)はnav折り返しで高さが可変のため、scroll-padding-top用の
+     --header-h をResizeObserverで実測値に同期する。JS未実行/無効時は:root等の
+     静的フォールバック値が使われる。 -->
+<script is:inline>
+(function(){
+  var header=document.querySelector('.wh');
+  if(!header)return;
+  var root=document.documentElement;
+  function setH(){
+    root.style.setProperty('--header-h', (Math.ceil(header.getBoundingClientRect().height)+4)+'px');
+  }
+  setH();
+  if('ResizeObserver' in window){
+    new ResizeObserver(setH).observe(header);
+  }else{
+    window.addEventListener('resize', setH);
+  }
+  window.addEventListener('load', setH);
+})();
+</script>
+
+</body>
+</html>

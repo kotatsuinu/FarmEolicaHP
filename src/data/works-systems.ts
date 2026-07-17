@@ -1,0 +1,109 @@
+// Farm Eolica Works — 実績システム一覧（マスタデータ）
+// capabilities.astro / records.astro / index.astro など、実績件数・一覧を参照する
+// 全ページはこのファイルから import する（集計ロジックをここに集約）。
+// 元データは src/pages/works/capabilities.astro の frontmatter から移設（内容は無改変）。
+
+export type WorksSystemItem = {
+  title: string;
+  description: string;
+  done: boolean;
+  note?: string;
+  noteUrl?: string; // note記事URL（公開後に追加）
+};
+
+export type WorksSystemCategory = {
+  id: string;
+  label: string;
+  labelEn: string;
+  items: WorksSystemItem[];
+};
+
+export const lastUpdated = '2026-05-22';
+
+export const worksSystems: WorksSystemCategory[] = [
+  {
+    id: 'agri',
+    label: '農業・営農DX',
+    labelEn: 'AGRI & FARMING',
+    items: [
+      { title: 'ハウス環境制御システム（Eolica System）', description: '温度・換気・遮光カーテンをスマホ一画面で遠隔監視・制御するIoTシステム。ラズパイ×ESP32×AWS IoTで24時間自律稼働・自動復旧まで実装済み。', done: true },
+      { title: '栽培管理アプリ（Cultivation Manager）', description: '作付けから収穫・出荷まで全データをスマホで一元管理するWebアプリ。作業テンプレートの自動展開・タスク管理・BQ分析連携までひとつのアプリで完結。', done: true },
+      { title: '作業記録↔タスク 自動消し込み', description: '農作業を記録すると、対応する予定タスクが自動的に完了扱いになる双方向連携。記録の手間とやり忘れを同時に解消。', done: true },
+      { title: '土壌分析・施肥設計エンジン', description: '土壌分析値を入力すると福島県施肥基準準拠の処方箋を自動計算。Ca:Mg:Kバランス・pH目標・資材選定を7ステップで一括提案。', done: true },
+      { title: '作付計画タイムライン & 売上予測', description: 'ガントチャート形式の作付け計画に市場単価データを自動連携し、作付け別の売上予測・予実比較をリアルタイムで可視化。', done: true },
+      { title: '品種マスタ管理（203品種）', description: '花き203品種×12特性フィールドの品種データベース。市場（FAJ）への出荷価格マッピングと自動単価取得まで一体化。', done: true },
+      { title: '栽培分析ダッシュボード', description: 'BigQueryのデータをWebで可視化する分析基盤。生育ステージ別環境分析・収益性分析・土壌推移・作付け別KPIなど多角的に把握できる。', done: true },
+      { title: '先輩農家向け週次栽培レポート', description: '栽培・収穫データを自動取得し、毎週木曜にAI所感付きの栽培レポートをSlack通知。高齢者向けに大フォント・写真重視のA4 2枚印刷対応。', done: true },
+      { title: '副作物・多年草管理（Polyculture Board）', description: '主力作付け以外の植物（ハーブ・多年草・副作物）をまとめて管理できる専用ダッシュボード。作付け計画のリスケ機能付き。', done: true },
+      { title: '音声入力→栽培記録 自動登録', description: '圃場でスマホに喋るだけでAIが作業内容・使用資材・作付け番号を解釈し、栽培管理アプリに自動登録。記録のために手を止めない農作業環境を目指す。', done: false },
+      { title: '灌水自動制御システム', description: 'ESP32×AWS IoTによる圃場灌水制御。仕様・設計・ファームウェア・施工手順書まで完成済み、一部ハウスで本番稼働中。全圃場への展開施工を継続中。', done: false, note: '一部運用済み・施工継続中' },
+    ],
+  },
+  {
+    id: 'automation',
+    label: '業務自動化・情報収集',
+    labelEn: 'AUTOMATION',
+    items: [
+      { title: 'AIエージェント基盤（OpenClaw）', description: 'Slack上の自然言語で農業・業務の各種処理を自動化するAIエージェント。栽培照会・市況確認・記録操作など複数スキルをオーケストレーション。', done: true },
+      { title: 'PDF資料 AI自動整理（Knowledge Curator）', description: '研究資料・栽培マニュアルのPDFを投げ込むだけで、ローカルLLM＋Geminiが内容を解析・整理し、要約と構造化データを自動生成して知識DBに収録。', done: true },
+      { title: '農場見学写真→知識DB 自動保存', description: 'Slackに農場見学の写真を投稿するだけで、AIが品目・品種・日付を認識してGitHub知識ベースに自動整理・保存。コメントから品種名も自動解釈。', done: true },
+      { title: 'YouTube動画 知識キャプチャ', description: '動画URLをメッセージで送るだけで内容をテキスト化・要約し、知識データベースに自動収録。iPhoneショートカット1タップで投稿可能。', done: true },
+      { title: '帳簿滞留アラート（Actuals Reminder）', description: '帳簿データの取込み遅延・停滞を自動検知し、異常時のみSlackに通知する監視システム。平常時は無通知で通知疲れを防止。', done: true },
+      { title: '直売所売上 速報通知', description: '複数直売所の売上データを自動収集し、夕方速報（21:00）と翌朝の確定レポート（9:30）を2段階で通知。', done: true },
+      { title: '問い合わせ対応 半自動化', description: 'HP問い合わせメール・Instagram DMを自動整理し、AI返信ドラフトをSlack上で確認。承認ボタンを押すだけで送信まで完結するワークフロー。', done: false },
+      { title: '週次AI発信システム（FE Weekly Diary）', description: '週の栽培記録・出来事をもとにnote記事ドラフトをAIが自動生成。AI臭排除チェックを経て、週次連載を半自動で維持できる発信基盤。', done: false, note: '仕様確定・実装準備中' },
+    ],
+  },
+  {
+    id: 'finance',
+    label: '財務・経営管理',
+    labelEn: 'FINANCE & OPS',
+    items: [
+      { title: 'クラウド会計→BigQuery 毎日自動同期', description: 'クラウド会計ソフトの全仕訳データを毎日自動でBigQueryに転送。年度をまたいだ収支分析や税務データ確認が即座に行える基盤を構築。', done: true },
+      { title: '家計・事業一元管理アプリ（Life Money Board）', description: '事業予算・家計・税試算・借入管理・家族会議レポートを一つのWebアプリで管理。栽培計画との自動連携で「今年の事業キャッシュフロー」をリアルタイムで把握。', done: true },
+      { title: 'Zaim家計データ 毎時自動取込', description: '家計アプリZaimのデータを自動取得してBigQueryに同期。修正・削除もリアルタイム追従するリコンサイル機能付き。', done: true },
+      { title: '花き市場 仕切り価格 自動収集・分析', description: '市場（FAJ）の仕切り価格データを自動収集・BigQuery蓄積し、品目別・時期別の市況推移を可視化。作付け計画の意思決定に活用。', done: true },
+      { title: '予算管理アプリ', description: '事業固定費・農業運転資金を年度管理するWebアプリ。NotionからFirestore/BQへ完全移行し、n8nで毎日自動同期。', done: true },
+    ],
+  },
+  {
+    id: 'marketing',
+    label: '情報発信・マーケティング',
+    labelEn: 'MARKETING',
+    items: [
+      { title: 'Instagram 自動投稿システム（SNS Publisher）', description: '写真・文章の生成から承認・投稿予約・メトリクス収集まで一括自動化。Slack上で承認ボタン1つで投稿完了。農繁期でも途切れない発信基盤を実現。', done: true },
+      { title: '商品キャンペーン管理システム', description: '商品PR投稿を一括管理。複数キャンペーン並走・自動リフィル・Slack一括承認まで対応。iPhone撮影のHEICファイルもそのまま使用可能。', done: true },
+      { title: 'AI画像生成パイプライン', description: 'GPT-image-2・Gemini Imagen 4を用途別に使い分ける画像生成システム。note記事サムネイル・商品バナーをコマンド1つで生成。', done: true },
+      { title: '公式HP（Farm Eolica）', description: 'Astroフレームワークで構築した高速Webサイト。商品ページ・問い合わせフォーム・見積もり計算機・SEO対策（JSON-LD/sitemap/llms.txt）まで一体実装。', done: true },
+      { title: '資料・スライド 変換スキル群', description: 'PDF/画像→HTML化、Markdown→PDF/Word、Markdown→スライド（Marp＋D2図解）など、複数の資料変換ツールをコマンド一発で使用できる。', done: true },
+      { title: 'note記事 AI臭排除チェック', description: '15点のチェックリストでAI文体を検出・修正するレビュー機能。note記事を人間らしい文体に仕上げる品質管理ツールとして運用中。', done: true },
+    ],
+  },
+  {
+    id: 'education',
+    label: '教育・学習支援',
+    labelEn: 'EDUCATION',
+    items: [
+      { title: '英語AIテスト生成（AI Exam Maker）', description: '教科書データから授業準備用テストを自動生成。Bloom分類・難易度スコア・8カテゴリ誤答パターンで良問率を向上。実テスト形式準拠の問題を量産できる。', done: true },
+      { title: '英語音読学習アプリ（Life-Sync Echo）', description: '教科書の該当箇所を選ぶと音声付きで音読練習ができるWebアプリ。Azure AI発音評価対応、教科書画像ビューア・語彙ポップアップ付き。', done: true },
+      { title: 'ワークシート 自動生成', description: '学年・ユニットを選ぶだけで印刷用ワークシートをAI生成。英文空欄・和訳ハイライト・発音記号まで自動付与し、授業準備時間を大幅短縮。', done: true },
+      { title: '授業振り返りシステム', description: '生徒が授業ごとにスケール評価＋記述式で振り返りを記録し、教員が全クラス集計・CSVエクスポートできるシステム。', done: true },
+      { title: '授業案・発問案 AI生成（Lesson Planner）', description: '授業の思考ログを入力すると授業案・発問案・黒板掲示ブロックをAIが生成。5パターンの思考ログを学習させて実践的な生成精度を実現。', done: true },
+      { title: '授業評価分析アプリ（Teaching Evaluation）', description: '3観点×複数形式のアンケートを収集・分析する評価システム。全23ページ構成、学年フィルタ・印刷対応・Google認証によるアクセス管理付き。', done: true },
+    ],
+  },
+  {
+    id: 'other',
+    label: 'その他・開発基盤',
+    labelEn: 'DEV INFRA',
+    items: [
+      { title: '戦略マルチエージェント会議', description: '事業戦略の検討時に、戦略家・批判的レビュアー・市場アナリスト・アーキテクトの4エージェントが並列で意見を出し合うレビューシステム。', done: true },
+      { title: '個人知識基盤（学習図書館）', description: '農業・土壌科学・フローラルクラフトなど各領域の教科書MDを蓄積する知識ベース。AIによる自動分類・要約・鮮度管理まで段階的に整備中。', done: true },
+      { title: '農業AI相談チャット基盤', description: '栽培ガイド9品目を蓄積し、Slackからの質問に対して品目別ガイドを参照して回答するAI相談基盤。エンジン実装済み、チャットUI整備中。', done: true },
+      { title: 'カスタムスキル群（Claude Code）', description: '農場固有の作業（作付け振り返り記録・週次レポート生成・note記事執筆・画像生成など）をコマンド一発で実行できる専用スキルを多数整備。', done: true },
+    ],
+  },
+];
+
+export const doneCount = worksSystems.flatMap(c => c.items).filter(i => i.done).length;
+export const totalCount = worksSystems.flatMap(c => c.items).length;

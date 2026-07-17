@@ -1,6 +1,6 @@
 # Farm Eolica Official Website
 
-**Design Concept**: "Organic Lab" (有機的実験室)
+**Design Concept**: "WIND & DATA LABORATORY"
 
 Astro v5 + Tailwind CSS + TypeScriptで構築した、Farm Eolicaの公式ウェブサイト。
 データドリブンな農業と自然の温かみを融合させた、知的でエモーショナルなデザインを実現しています。
@@ -51,7 +51,7 @@ FarmEolicaHP/
 │   ├── layouts/
 │   │   └── Layout.astro      # 共通レイアウト（ヘッダー・フッター）
 │   ├── pages/
-│   │   ├── index.astro       # トップページ（Organic Labコンセプト）
+│   │   ├── index.astro       # トップページ（WIND & DATA LABORATORYコンセプト）
 │   │   ├── products/         # 商品ページ群
 │   │   │   ├── index.astro   # 商品一覧
 │   │   │   └── [...slug].astro # 商品詳細
@@ -73,7 +73,7 @@ FarmEolicaHP/
 
 ---
 
-## 🎨 Design System (Organic Lab v2.2)
+## 🎨 Design System (WIND & DATA LABORATORY v2.2)
 
 ### Color Palette - "Mineral & Soil"
 

@@ -1,0 +1,475 @@
+---
+// Farm Eolica Works — はじめての方へ
+// Self-contained page — independent from main HP design
+import { SITE_CONFIG } from '../../config/site';
+import WorksHeader from '../../components/works/WorksHeader.astro';
+const ga4Id = SITE_CONFIG.seo.ga4Id;
+const siteUrl = 'https://farmeolica.com';
+const title = 'はじめての方へ | Farm Eolica Works';
+const description = '無料相談の理由、私のスタンス、どんな方と仕事したいか。Farm Eolica Works（農家×元編集者×AIエンジニア）と仕事する前に知ってほしいこと。';
+---
+
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title}</title>
+  <link rel="canonical" href={`${siteUrl}/works/first-time/`} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={`${siteUrl}/works/first-time/`} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={`${siteUrl}/images/about/hero.webp`} />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content={`${siteUrl}/images/about/hero.webp`} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Shippori+Mincho:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+  <script define:vars={{ ga4Id }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', ga4Id);
+  </script>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<WorksHeader active="first-time" />
+
+
+<!-- ══════════ MASTHEAD ══════════ -->
+<section class="ph-section">
+  <div class="wc">
+    <div class="mh-rule-top"></div>
+    <div class="mh-top reveal">
+      <span class="mh-kicker">FARM EOLICA WORKS</span>
+      <span class="mh-edition">はじめての方へ ／ FOR FIRST TIME</span>
+    </div>
+    <h1 class="ph-title reveal">はじめての方へ。</h1>
+    <p class="ph-lead reveal">
+      ご相談の前に、少しだけ、私がどんな人間か知ってもらえたら嬉しいです。
+    </p>
+    <div class="mh-rule-bottom"></div>
+  </div>
+</section>
+
+
+<!-- ══════════ CONTENT ══════════ -->
+<section class="ws">
+
+  <!-- Hero wide photo -->
+  <div class="wc">
+    <figure class="ft-hero reveal">
+      <div class="ph ph-hero"><img class="work-img" src="/images/works/first-time/hero.jpg" alt="ハウス内の圃場で作業する Farm Eolica の卓磨" /></div>
+      <figcaption class="ph-cap">FIG.00 — PORTRAIT</figcaption>
+    </figure>
+  </div>
+
+  <!-- Editorial column -->
+  <div class="wc">
+    <div class="ftg">
+
+      <!-- 01: 私のこと -->
+      <article class="ft-sec reveal">
+        <div class="ft-head">
+          <span class="ft-no">01</span>
+          <span class="ft-divider"></span>
+          <h2 class="ft-title">私のこと。</h2>
+        </div>
+        <p class="ft-body">
+          こんにちは、はじめまして。このページを御覧いただきありがとうございます。わたしは、花を育て畑仕事をながら、気づけばAIと共同で商品やシステムを開発すべくパソコンに向かっている、そんな日常を過ごしている、平成3年生まれの男になります。少しだけ自己紹介をさせてください。
+        </p>
+        <p class="ft-body">
+          前職はタウン情報誌の編集者でした。地域の魅力や、そこで暮らす人たちの想いを“言葉”にして伝える仕事です。そこから一転、福島県浪江町で切り花を育てる花農家になりました。トルコギキョウやスプレーマム、ストックなどを育てていて、2024年に開業しました。浪江は、震災からの復興が今も途上にある土地です。
+        </p>
+        <p class="ft-body">
+          農業を志したきっかけの一つは、食べることや料理が好きだったことです。家でもよく料理をするのですが、そのうちに「自分で野菜を育ててみたい」という気持ちが芽生えました。学生時代にワイナリーでアルバイトをした経験も大きくて、手をかけてものを作り上げていく農業という仕事に惹かれるようになりました。
+        </p>
+        <p class="ft-body">
+          普段は自然の中に身を置くのが好きで、学生の頃からキャンプ道具を少しずつ揃えてきました。中でも焚き火は好きで、焚き火台の炎を眺めながらコーヒーやお酒を飲む時間はお気に入りです。お酒は、ワイナリー時代に覚えたワインや、大学時代を過ごした新潟でハマった日本酒、それにビールやウイスキーもよく飲みます。時間があれば友人とゲームをしたり、温泉や最近はサウナで一息ついたりもします。とはいえ今は、その時間の多くを仕事と家族――家のことや、子どもや妻と過ごす時間に使っています。
+        </p>
+        <p class="ft-body">
+          こうして振り返ると、「イイネと思われるコンテンツを作ったり、それを分かち合うこと」、そして「食や自然を大切にする気持ち」が、自分の根っこにあるのだと思います。Farm Eolica（エオリカ）としての農業も、Worksとしてのものづくりも、その延長線上にあります。
+        </p>
+        <aside class="ft-quote">「作ること」と「伝えること」、それが私の原動力です。</aside>
+      </article>
+
+      <hr class="ft-hr" />
+
+      <!-- 02: Worksを立ち上げた理由 -->
+      <article class="ft-sec reveal">
+        <div class="ft-head">
+          <span class="ft-no">02</span>
+          <span class="ft-divider"></span>
+          <h2 class="ft-title">Worksを立ち上げた理由。</h2>
+        </div>
+        <p class="ft-body">
+          もともとパソコンやIT関係は得意なほうでした。農業を始めてからは、チラシやポップなどの販促物、ホームページ、SNS、経営を管理するシステムまで、必要なものはひとつずつ自分の手で作ってきました。最近では、最新のAIを活用した制作の仕組みも自分なりに組み立てて、日々の農場運営に役立てています。
+        </p>
+        <p class="ft-body">
+          Worksを始めたきっかけは、家族や友人からの相談でした。散らかったデータを整理してほしい、もっと安く済む方法はないか調べてほしい、契約の内容を一緒に見直してほしい、欲しいものを自分で作ってあげたい――そんな身近な悩みを、これまでいくつも解決してきました。
+        </p>
+        <p class="ft-body">
+          そのなかで気づいたのは、専門家や業者に頼むと、どうしても費用が高くなってしまうということです。だからこそ、業者に高いお金を払う前に、まず気軽に相談できる身近な人が一人いるだけで、ずいぶん心強いのではないかと思うようになりました。私は家族や友人にとって、そんな“お役立ち役”をずっと担ってきたのだと思います。
+        </p>
+        <p class="ft-body">
+          その役割を、身近な人だけでなく、もう少し広い範囲の方にも届けたい。そう思ってこの屋号を立ち上げました。「Works」という名前には、そうした“お役立ち”の気持ちを込めています。
+        </p>
+        <aside class="ft-quote">業者に高いお金を払う前に、まず気軽に相談できる人が一人いるだけで、心強いはずです。（もちろんプロの業者さんに依頼したほうが、信頼や対応力は高いのかもしれませんが）</aside>
+      </article>
+
+      <hr class="ft-hr" />
+
+      <!-- 03: なぜ無料相談か -->
+      <article class="ft-sec reveal">
+        <div class="ft-head">
+          <span class="ft-no">03</span>
+          <span class="ft-divider"></span>
+          <h2 class="ft-title">なぜ、無料相談なのか。</h2>
+        </div>
+        <p class="ft-body">
+          “無料相談”と言いながら、最後には高額な契約を迫られた――そんな経験をしたことがある方もいるかもしれません。私自身、そういうやり方はしたくないと思っています。
+        </p>
+        <p class="ft-body">
+          最初は、まずお話を聞いて、悩みに共感して、「本当に自分がお役に立てそうか」をすり合わせる段階だと思っています。だから、ご相談は無料です。
+        </p>
+        <p class="ft-body">
+          それに、あなたと60分お話しすることは、私にとってもこの地域のリアルな課題を知る、貴重な経験になります。押し売りをするつもりは全くありません。まずは気軽に、お話しさせてください。
+        </p>
+        <aside class="ft-quote">だから、無料なのです。</aside>
+      </article>
+
+      <hr class="ft-hr" />
+
+      <!-- 02: スタンス（写真枠・右） -->
+      <article class="ft-sec ft-with-thumb ft-thumb-right reveal">
+        <div class="ft-main">
+          <div class="ft-head">
+            <span class="ft-no">04</span>
+            <span class="ft-divider"></span>
+            <h2 class="ft-title">私のスタンス。</h2>
+          </div>
+          <p class="ft-body">
+            「欲しいものを作ります」だけでは終わりません。「それ、目的に合っていますか？」という問いを横に置きながら仕事します。
+          </p>
+          <p class="ft-body">
+            ホームページよりSNSが先かもしれない。予算を使う前に整理すべきことがあるかもしれない。チラシのデザインより、誰に届けるかの設計が先かもしれない。そういった視点も持ちながら、最終的にはあなたが達成したいことに向けて一緒に動きます。
+          </p>
+          <p class="ft-body">
+            コンサルをします、という話ではありません。ただ、「欲しいもの」と「必要なもの」がズレているとき、そっと別の視点を添えることができる——それが私のやり方です。
+          </p>
+          <aside class="ft-quote">悩みや課題があれば、そっと別の視点を添える——そんなお手伝いができるよう頑張ります</aside>
+        </div>
+        <figure class="ft-thumb">
+          <div class="ph ph-45"><img class="work-img" src="/images/works/first-time/meeting.jpg" alt="打ち合わせの準備 — ノートとコーヒー" /></div>
+          <figcaption class="ph-cap">FIG.04 — MEETING</figcaption>
+        </figure>
+      </article>
+
+      <hr class="ft-hr" />
+
+      <!-- 03: もし私が死んでも困らない納品（写真枠・左） -->
+      <article class="ft-sec ft-with-thumb ft-thumb-left reveal">
+        <figure class="ft-thumb">
+          <div class="ph ph-45"><img class="work-img" src="/images/works/first-time/deliverable.jpg" alt="納品するWebサイトのデザインをノートPCで確認" /></div>
+          <figcaption class="ph-cap">FIG.05 — DELIVERABLE</figcaption>
+        </figure>
+        <div class="ft-main">
+          <div class="ft-head">
+            <span class="ft-no">05</span>
+            <span class="ft-divider"></span>
+            <h2 class="ft-title">もし私が突然消えても、困りにくい納品。</h2>
+          </div>
+          <p class="ft-body">
+            個人事業だからこそ気になるのが「もしこの人がいなくなったら、サイトやサービスはどうなるの」という不安があると思います。
+          </p>
+          <p class="ft-body">
+            例えばHPですと、私の制作はAstroという静的サイト生成の技術を使います。WordPressのような複雑なサーバー環境も、月額のサーバー契約も必要ありません。またその性質上、セキュリティ攻撃を受けにくい仕組みでもあります。
+          </p>
+          <aside class="ft-quote">攻撃を受けやすい仕組みを、そもそも持たない作り方です。</aside>
+          <p class="ft-body">
+            納品物はHTML/CSS/JSのソースコード一式をGitHubリポジトリでまるごとお渡しし、公開先はお客様ご自身のCloudflareアカウント（無料枠）です。もし私に何かあってもサイトは動き続けますし、特定の業者に縛られる「ロックイン」もありません。
+          </p>
+        </div>
+      </article>
+
+      <hr class="ft-hr" />
+
+      <!-- 04: こんな方と仕事したい（囲み記事） -->
+      <article class="ft-sec reveal">
+        <div class="ft-head">
+          <span class="ft-no">06</span>
+          <span class="ft-divider"></span>
+          <h2 class="ft-title">こんな方と仕事したい。</h2>
+        </div>
+        <div class="ft-inset">
+          <div class="ft-list">
+            <div class="ft-item ft-ok">
+              <div class="ft-mark-wrap">
+                <span class="ft-mark">◎</span>
+                <span class="ft-mark-label">向いている方</span>
+              </div>
+              <p>食・農・工房・宿・個人店など、ローカルでストーリーを持って仕事をしている方（個人事業主・小規模事業者）。「全部任せます」も「一緒に考えたい」も歓迎。またAIを使った業務効率化に興味があるけど、周りに詳しい人もいないし、ちょっとした相談や活用事例を聞いてみたい・誰かまず手伝ってくれないかな…なんて思っている方。</p>
+            </div>
+            <div class="ft-item ft-caution">
+              <div class="ft-mark-wrap">
+                <span class="ft-mark">△</span>
+                <span class="ft-mark-label">難しい場合</span>
+              </div>
+              <p>農家として個人で動いているため、大企業・大規模案件はお受けが難しい場合があります。また農繁期（5〜10月）は応答が遅くなることもあります。「安く早く大量に」を求める場合も、私より適した選択肢があると思います。</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <hr class="ft-hr" />
+
+      <!-- 05: できること概要（写真枠・右） -->
+      <article class="ft-sec ft-with-thumb ft-thumb-right reveal">
+        <div class="ft-main">
+          <div class="ft-head">
+            <span class="ft-no">07</span>
+            <span class="ft-divider"></span>
+            <h2 class="ft-title">できること、もう少し詳しく。</h2>
+          </div>
+          <div class="ft-services">
+            {[
+              { k: 'HP・LP制作', v: 'スタンダード（1p+microCMS）先着5名¥50,000～・通常¥100,000～。シンプル（CMSなし）先着5名¥40,000～・通常¥80,000～。' },
+              { k: '簡易デザイン', v: '名刺・ショップカード・店頭POP・チラシ。PDF/EPS/PNG納品。' },
+              { k: '業務代行〈AI活用〉', v: '経理・発信・資料づくりなど、日々の業務をAIでまるごと代行。AI活用の相談にも。¥20,000/月〜。' },
+              { k: 'DXツール開発', v: '現場の小さな課題を自動化・システム化。ご相談ください。' },
+            ].map(s => (
+              <div class="ft-svc-row">
+                <span class="ft-svc-k">{s.k}</span>
+                <span class="ft-svc-v">{s.v}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <figure class="ft-thumb">
+          <div class="ph ph-45"><img class="work-img" src="/images/works/first-time/workspace.jpg" alt="デスクでWeb制作をする作業風景" /></div>
+          <figcaption class="ph-cap">FIG.07 — WORKSPACE</figcaption>
+        </figure>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- 呼びかけバンド -->
+  <div class="ft-band reveal">
+    <div class="ft-band-inner">
+      <div class="ft-cta-btns">
+        <a href="/works/capabilities" class="btn-ghost">農場で作ってきた36のシステムを見る →</a>
+        <a href="/works/contact" class="btn-filled">まずは相談してみる →</a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="wfooter">
+  <a href="/works/" class="wfooter-back">← BACK TO WORKS</a>
+  <nav class="wfooter-legal">
+    <a href="/works/tokushoho">特定商取引法に基づく表記</a>
+    <a href="/works/terms">利用規約</a>
+    <a href="/works/privacy">プライバシーポリシー</a>
+  </nav>
+  <div class="wfooter-copy">&copy; FARM EOLICA WORKS / 福島県浪江町 / 関口卓磨</div>
+</footer>
+
+
+<!-- ══════════ STYLES ══════════ -->
+<style is:global>
+:root {
+  --m: #1A2744;
+  --a: #B87333;
+  --bg: #F2F2F0;
+  --ink: #4A3B32;
+  --inks: rgba(74,59,50,0.72);
+  --inkm: rgba(74,59,50,0.48);
+  --hair: rgba(74,59,50,0.14);
+  --sr: 'Shippori Mincho','Hiragino Mincho ProN',serif;
+  --dp: 'Cinzel',serif;
+  --mn: 'JetBrains Mono','Courier New',monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+p{margin:0}
+
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{opacity:0;transform:translateY(24px)}
+.reveal.visible{animation:fadeInUp .7s cubic-bezier(.22,1,.36,1) forwards}
+
+.wc{max-width:1120px;margin:0 auto}
+
+/* ── Masthead ── */
+.ph-section{padding:52px 60px 44px;background:var(--m)}
+.mh-rule-top{height:5px;border-top:1px solid var(--a);border-bottom:1px solid var(--a);margin-bottom:32px}
+.mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.mh-kicker{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a)}
+.mh-edition{font-family:var(--mn);font-size:11px;letter-spacing:.1em;color:rgba(242,242,240,.55)}
+.ph-title{font-family:var(--sr);font-weight:500;font-size:clamp(46px,5.4vw,76px);color:var(--bg);margin:0 0 22px;letter-spacing:.04em;line-height:1.2}
+.ph-lead{font-family:var(--sr);font-size:19px;color:rgba(242,242,240,.75);letter-spacing:.05em;line-height:1.85;margin:0;max-width:640px}
+.mh-rule-bottom{height:1px;background:rgba(242,242,240,.22);margin-top:40px}
+
+/* ── Section wrapper ── */
+.ws{padding:72px 60px 0}
+
+/* ── Placeholder (site-wide .ph convention) ── */
+.ph{
+  width:100%;height:100%;
+  background:repeating-linear-gradient(135deg,rgba(74,59,50,.06) 0 10px,rgba(74,59,50,.02) 10px 20px);
+  border:1px solid var(--hair);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mn);font-size:11px;letter-spacing:.08em;
+  color:rgba(74,59,50,.55);text-transform:uppercase;
+  text-align:center;padding:16px;
+}
+.ph-auto{aspect-ratio:16/9}
+.ph-45{aspect-ratio:4/5}
+.ph-hero{aspect-ratio:2.5/1}
+.ph:has(.work-img){padding:0}
+.work-img{width:100%;height:100%;object-fit:cover;display:block}
+.ph-cap{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm);margin-top:14px}
+
+/* ── Hero figure ── */
+.ft-hero{margin:0 0 60px}
+
+/* ── Editorial column ── */
+.ftg{max-width:760px;margin:0 auto;display:flex;flex-direction:column}
+.ft-sec{padding:48px 0}
+.ft-sec:first-child{padding-top:0}
+.ft-hr{border:none;border-top:1px solid var(--hair);margin:0}
+
+/* ── Section head ── */
+.ft-head{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+.ft-no{font-family:var(--dp);font-size:14px;letter-spacing:.25em;color:var(--a);flex-shrink:0}
+.ft-divider{display:inline-block;width:1px;height:26px;background:var(--a);opacity:.4;flex-shrink:0}
+.ft-title{font-family:var(--sr);font-weight:500;font-size:clamp(24px,2.6vw,32px);color:var(--m);letter-spacing:.05em;margin:0;line-height:1.35}
+
+/* ── Body copy ── */
+.ft-body{font-size:17px;line-height:1.9;color:var(--inks);margin-bottom:22px;overflow-wrap:break-word}
+.ft-body:last-child{margin-bottom:0}
+
+/* ── Pull quote ── */
+.ft-quote{
+  display:block;
+  font-family:var(--sr);font-weight:500;
+  font-size:clamp(22px,2.6vw,29px);
+  color:var(--m);line-height:1.6;letter-spacing:.03em;
+  border-left:3px solid var(--a);
+  padding:6px 0 6px 28px;
+  margin:32px 0;
+}
+
+/* ── With-thumb layout ── */
+.ft-with-thumb{display:grid;grid-template-columns:1fr 220px;gap:36px;align-items:start}
+.ft-with-thumb .ft-main{min-width:0}
+.ft-with-thumb.ft-thumb-left{grid-template-columns:220px 1fr}
+.ft-with-thumb.ft-thumb-left .ft-main{order:2}
+.ft-with-thumb.ft-thumb-left .ft-thumb{order:1}
+.ft-thumb{margin:0}
+
+/* ── Inset box (囲み記事) ── */
+.ft-inset{border:1px solid var(--hair);background:rgba(26,39,68,.04);padding:32px 28px}
+.ft-list{display:flex;flex-direction:column;gap:28px}
+.ft-item{display:flex;flex-direction:column;gap:10px}
+.ft-mark-wrap{display:flex;align-items:center;gap:10px}
+.ft-mark{font-family:var(--sr);font-size:18px;font-weight:600}
+.ft-mark-label{font-family:var(--dp);font-size:10px;letter-spacing:.3em;color:var(--inkm)}
+.ft-ok .ft-mark{color:var(--a)}
+.ft-caution .ft-mark{color:var(--inkm)}
+.ft-item p{font-size:14px;line-height:2;color:var(--inks);margin:0;padding-left:28px}
+
+/* ── Services list ── */
+.ft-services{border-top:1px solid var(--hair)}
+.ft-svc-row{display:flex;flex-direction:column;gap:6px;padding:16px 0;border-bottom:1px solid var(--hair)}
+.ft-svc-k{font-family:var(--sr);font-size:15px;font-weight:500;color:var(--m);letter-spacing:.04em}
+.ft-svc-v{font-size:13.5px;line-height:1.9;color:var(--inks)}
+
+/* ── 呼びかけバンド ── */
+.ft-band{background:var(--m);padding:56px 60px;margin-top:64px}
+.ft-band-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:center}
+.ft-cta-btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+
+/* ── Buttons ── */
+.btn-filled,.btn-ghost{
+  display:inline-flex;align-items:center;
+  padding:13px 22px;
+  font-family:var(--dp);font-size:12px;letter-spacing:.22em;
+  transition:all .25s;cursor:pointer;
+}
+.btn-filled{background:var(--m);color:var(--bg);border:1px solid var(--m)}
+.btn-filled:hover{background:#253a6b;border-color:#253a6b}
+.btn-ghost{background:transparent;color:var(--m);border:1px solid var(--m)}
+.btn-ghost:hover{background:rgba(26,39,68,.07)}
+.ft-band .btn-filled{background:var(--a);border-color:var(--a);color:var(--m)}
+.ft-band .btn-filled:hover{background:#c98a45;border-color:#c98a45}
+.ft-band .btn-ghost{color:var(--bg);border-color:rgba(242,242,240,.5)}
+.ft-band .btn-ghost:hover{background:rgba(242,242,240,.08)}
+
+/* ── Footer ── */
+.wfooter{
+  padding:20px 60px 40px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--hair);
+  flex-wrap:wrap;gap:16px;
+}
+.wfooter-back{font-family:var(--dp);font-size:12px;letter-spacing:.25em;color:var(--m);transition:color .2s}
+.wfooter-legal{display:flex;gap:22px;flex-wrap:wrap}
+.wfooter-legal a{font-family:var(--mn);font-size:10px;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
+.wfooter-legal a:hover{color:var(--a)}
+.wfooter-back:hover{color:var(--a)}
+.wfooter-copy{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm)}
+
+/* ── Responsive ── */
+@media (max-width:720px){
+  .ph-section{padding:40px 24px 32px}
+  .mh-top{flex-direction:column;align-items:flex-start;gap:10px}
+  .ws{padding:56px 24px 0}
+  .ft-band{padding:44px 24px}
+  .wfooter{padding:20px 24px 32px}
+  .ft-with-thumb,.ft-with-thumb.ft-thumb-left{grid-template-columns:1fr;gap:24px}
+  .ft-with-thumb .ft-main,.ft-with-thumb.ft-thumb-left .ft-main{order:2}
+  .ft-with-thumb .ft-thumb,.ft-with-thumb.ft-thumb-left .ft-thumb{order:1}
+  .ft-thumb{max-width:280px}
+  .ft-quote{font-size:clamp(20px,5vw,24px);padding-left:20px}
+}
+</style>
+
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script is:inline>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(el){el.classList.add('visible')});return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    });
+  },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  setTimeout(function(){
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible')});
+  },60);
+  els.forEach(function(el){io.observe(el)});
+})();
+</script>
+
+</body>
+</html>

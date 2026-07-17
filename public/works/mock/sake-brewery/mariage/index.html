@@ -1,0 +1,1422 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>潮見の食卓 × 潮日和 | 海凪醸誌</title>
+<meta name="description" content="潮見町内5店舗の飲食店シェフが選んだ、潮日和とのマリアージュ特集。地元の海鮮、郷土料理、居酒屋、カフェ、中華——潮見の食卓と日本酒の出会いをお届けします。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;500&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --navy: #1B3A6B;
+    --sand: #D4C5A9;
+    --ink: #2C2A26;
+    --white: #F7F5F0;
+    --hilight: #C0392B;
+    --card-img: #C5C0B8;
+    --mincho: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+    --sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    --cormorant: "Cormorant Garamond", "EB Garamond", serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    font-weight: 300;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  /* ============= HEADER (shared with LP) ============= */
+  .header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 22px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    transition: background 0.4s ease, padding 0.3s ease;
+  }
+  .header.scrolled,
+  .header.solid {
+    background: var(--ink);
+    padding: 14px 48px;
+  }
+  .logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    color: var(--white);
+  }
+  .logo .ja {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+  }
+  .logo .en {
+    font-family: var(--cormorant);
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    margin-top: 4px;
+    opacity: 0.85;
+  }
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+  }
+  .nav-desktop .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .nav-item { position: relative; }
+  .nav-item > a,
+  .nav-item > button {
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-item > a:hover,
+  .nav-item > button:hover,
+  .nav-item.active > a,
+  .nav-item.active > button {
+    border-bottom-color: var(--white);
+  }
+  .nav-item .caret {
+    font-size: 9px;
+    line-height: 1;
+    transform: translateY(1px);
+    transition: transform 0.25s ease;
+    opacity: 0.7;
+  }
+  .nav-item:hover .caret { transform: translateY(1px) rotate(180deg); }
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    background: var(--ink);
+    min-width: 220px;
+    padding: 8px 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 110;
+  }
+  .nav-item:hover .dropdown,
+  .nav-item:focus-within .dropdown {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+  .dropdown::before {
+    content: "";
+    position: absolute;
+    top: -10px; left: 0; right: 0; height: 14px;
+  }
+  .dropdown a {
+    display: block;
+    padding: 12px 22px;
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    border-left: 2px solid transparent;
+    transition: border-left-color 0.2s ease, padding-left 0.2s ease, background 0.2s ease;
+  }
+  .dropdown a:hover {
+    border-left-color: var(--navy);
+    padding-left: 26px;
+    background: rgba(255,255,255,0.03);
+  }
+  .dropdown a .en-sub {
+    display: block;
+    font-family: var(--cormorant);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    opacity: 0.5;
+    margin-top: 2px;
+  }
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(247, 245, 240, 0.6);
+    border-radius: 999px;
+    padding: 4px;
+    font-family: var(--cormorant);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+  .lang-toggle button {
+    padding: 4px 12px;
+    color: var(--white);
+    border-radius: 999px;
+    transition: background 0.25s ease, color 0.25s ease;
+    opacity: 0.6;
+  }
+  .lang-toggle button.active {
+    background: var(--white);
+    color: var(--ink);
+    opacity: 1;
+  }
+  .hamburger {
+    display: none;
+    width: 32px;
+    height: 22px;
+    position: relative;
+    cursor: pointer;
+  }
+  .hamburger span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--white);
+    transition: transform 0.3s ease, opacity 0.2s ease, top 0.3s ease;
+  }
+  .hamburger span:nth-child(1) { top: 4px; }
+  .hamburger span:nth-child(2) { top: 11px; }
+  .hamburger span:nth-child(3) { top: 18px; }
+  .hamburger.open span:nth-child(1) { top: 11px; transform: rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { top: 11px; transform: rotate(-45deg); }
+
+  /* mobile menu */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--navy);
+    z-index: 90;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 100px 32px 40px;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: auto; }
+  .mobile-menu .m-group { width: 100%; max-width: 360px; }
+  .mobile-menu .m-top {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 4px;
+    color: var(--white);
+    font-family: var(--mincho);
+    font-size: 22px;
+    letter-spacing: 0.18em;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    cursor: pointer;
+  }
+  .mobile-menu .m-top .m-en {
+    font-family: var(--cormorant);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    opacity: 0.5;
+  }
+  .mobile-menu .m-top .m-caret {
+    font-family: var(--sans);
+    font-size: 14px;
+    transition: transform 0.3s ease;
+    opacity: 0.6;
+    margin-left: auto;
+    padding-left: 14px;
+  }
+  .mobile-menu .m-group.open .m-caret { transform: rotate(180deg); }
+  .mobile-menu .m-sub {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .mobile-menu .m-group.open .m-sub { max-height: 240px; }
+  .mobile-menu .m-sub a {
+    display: block;
+    padding: 14px 18px;
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+  }
+  .mobile-menu .lang-toggle { margin-top: 32px; align-self: center; }
+
+  /* ============= PAGE HEADER ============= */
+  .page-hero {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    background:
+      radial-gradient(120% 80% at 20% 20%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 50%),
+      linear-gradient(135deg, #234580 0%, #1B3A6B 45%, #142A4F 100%);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+    overflow: hidden;
+  }
+  .page-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='none' stroke='%23ffffff' stroke-width='0.6'><circle cx='40' cy='40' r='18'/><circle cx='40' cy='40' r='34'/><circle cx='40' cy='40' r='50'/><circle cx='40' cy='40' r='66'/><circle cx='170' cy='150' r='14'/><circle cx='170' cy='150' r='28'/><circle cx='170' cy='150' r='44'/></g></svg>");
+    background-size: 480px 480px;
+    pointer-events: none;
+  }
+  .page-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 5px);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .page-hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 920px;
+  }
+  .page-hero .ph-eyebrow {
+    font-family: var(--cormorant);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+  .page-hero .ph-title {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: clamp(36px, 5vw, 64px);
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    margin-top: 28px;
+    color: var(--white);
+  }
+  .page-hero .ph-sub {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 16px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.7);
+    margin-top: 24px;
+  }
+  .page-hero .ph-supervisor {
+    margin-top: 56px;
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    font-family: var(--cormorant);
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+  }
+  .page-hero .ph-supervisor::before {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 36px;
+    background: rgba(255,255,255,0.3);
+  }
+  .page-hero .ph-supervisor .ja-line {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: none;
+    display: block;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 4px;
+  }
+
+  /* breadcrumb */
+  .crumb {
+    position: absolute;
+    top: 100px;
+    left: 48px;
+    z-index: 3;
+    font-family: var(--cormorant);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    color: rgba(255,255,255,0.5);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  .crumb a:hover { color: rgba(255,255,255,0.9); }
+  .crumb .sep { opacity: 0.4; }
+  .crumb .here { color: rgba(255,255,255,0.9); }
+
+  /* ============= LEAD ============= */
+  .lead {
+    background: var(--bg);
+    padding: 120px 48px;
+  }
+  .lead-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .lead-eyebrow {
+    font-family: var(--cormorant);
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--navy);
+    opacity: 0.6;
+    margin-bottom: 22px;
+  }
+  .lead h2 {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 32px;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 36px;
+  }
+  .lead p {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 2;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .lead-quote {
+    margin-top: 56px;
+    margin-left: auto;
+    max-width: 520px;
+    background: var(--sand);
+    border-left: 3px solid var(--navy);
+    padding: 28px 32px;
+    font-family: var(--mincho);
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .lead-quote .who {
+    display: block;
+    margin-top: 14px;
+    font-family: var(--cormorant);
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    color: var(--navy);
+    opacity: 0.8;
+  }
+  .lead-quote .who .ja {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    margin-right: 8px;
+  }
+
+  /* ============= FEATURES (5 restaurants) ============= */
+  .restaurants {
+    background: var(--sand);
+    padding: 120px 0;
+  }
+  .restaurants-head {
+    max-width: 1180px;
+    margin: 0 auto 80px;
+    padding: 0 48px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .restaurants-head .label {
+    font-family: var(--cormorant);
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: var(--navy);
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+  .restaurants-head h2 {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: clamp(28px, 3.4vw, 40px);
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    color: var(--ink);
+    margin-top: 18px;
+  }
+  .restaurants-head .right {
+    font-family: var(--cormorant);
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--navy);
+    opacity: 0.7;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-bottom: 6px;
+  }
+
+  .feature-row {
+    max-width: 1180px;
+    margin: 0 auto 60px;
+    padding: 0 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 460px;
+    background: var(--bg);
+  }
+  .feature-row.reverse .photo { order: 2; }
+  .feature-row.reverse .body  { order: 1; }
+  .feature-row .photo {
+    background: var(--card-img);
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;
+  }
+  .feature-row .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .feature-row .photo .ph-meta {
+    position: absolute;
+    left: 24px;
+    bottom: 20px;
+    font-family: var(--cormorant);
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    color: var(--white);
+    opacity: 0.75;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.25);
+    padding: 4px 10px;
+  }
+  .feature-row .body {
+    background: var(--bg);
+    padding: 60px max(48px, 5vw);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  .feature-row .num {
+    font-family: var(--cormorant);
+    font-weight: 300;
+    font-size: 80px;
+    line-height: 1;
+    color: var(--navy);
+    opacity: 0.12;
+    margin-bottom: 8px;
+  }
+  .feature-row .name {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 28px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .feature-row .name .yomi {
+    display: block;
+    font-family: var(--cormorant);
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: var(--navy);
+    opacity: 0.65;
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  .feature-row .genre {
+    margin-top: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--cormorant);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--navy);
+    text-transform: uppercase;
+  }
+  .feature-row .genre::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: var(--navy);
+    opacity: 0.5;
+  }
+  .feature-row .pairing {
+    margin-top: 28px;
+    background: var(--navy);
+    color: var(--white);
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 16px;
+    align-items: baseline;
+  }
+  .feature-row .pairing .label {
+    font-family: var(--cormorant);
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    opacity: 0.65;
+    text-transform: uppercase;
+    grid-column: 1 / -1;
+    margin-bottom: 6px;
+  }
+  .feature-row .pairing .sake {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .feature-row .pairing .x {
+    font-family: var(--cormorant);
+    font-size: 14px;
+    opacity: 0.6;
+    padding: 0 2px;
+  }
+  .feature-row .pairing .dish {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: rgba(247,245,240,0.92);
+  }
+  .feature-row .pairing-row2 {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+  }
+  .feature-row .comment {
+    margin-top: 24px;
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 2;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .feature-row .chef {
+    margin-top: 18px;
+    font-family: var(--cormorant);
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--navy);
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+  .feature-row .chef .ja {
+    font-family: var(--sans);
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    margin-right: 8px;
+  }
+
+  /* ============= GUIDE TABLE ============= */
+  .guide {
+    background: var(--bg);
+    padding: 120px 48px;
+  }
+  .guide-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .guide-head {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .guide-head .eyebrow {
+    font-family: var(--cormorant);
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    color: var(--navy);
+    opacity: 0.6;
+    text-transform: uppercase;
+  }
+  .guide-head h2 {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: clamp(28px, 3.4vw, 38px);
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+    margin-top: 22px;
+    color: var(--ink);
+  }
+  .guide-head p {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    opacity: 0.75;
+    margin-top: 18px;
+  }
+
+  .guide-table {
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+  .guide-row {
+    display: grid;
+    grid-template-columns: 1.3fr 1.2fr 2fr;
+    gap: 32px;
+    padding: 28px 12px;
+    border-bottom: 1px solid rgba(44,42,38,0.12);
+    align-items: center;
+  }
+  .guide-row:last-child { border-bottom: none; }
+  .guide-row.head {
+    background: transparent;
+    border-bottom: 1px solid var(--ink);
+    padding: 22px 12px;
+  }
+  .guide-row.head > div {
+    font-family: var(--cormorant);
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    color: var(--navy);
+    text-transform: uppercase;
+  }
+  .guide-row .dish {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .guide-row .dish .no {
+    font-family: var(--cormorant);
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    color: var(--navy);
+    opacity: 0.5;
+    flex-shrink: 0;
+    min-width: 28px;
+  }
+  .guide-row .sake-chip {
+    display: inline-block;
+    padding: 8px 14px;
+    background: var(--navy);
+    color: var(--white);
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    justify-self: start;
+  }
+  .guide-row .why {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .guide-row .why::before {
+    content: "—— ";
+    color: var(--navy);
+    opacity: 0.5;
+  }
+
+  /* ============= CTA ============= */
+  .cta {
+    background: var(--navy);
+    padding: 100px 48px;
+    text-align: center;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 5px);
+    pointer-events: none;
+  }
+  .cta-inner { position: relative; z-index: 2; }
+  .cta .label {
+    font-family: var(--cormorant);
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
+  .cta h2 {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: clamp(26px, 3.2vw, 36px);
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    margin-top: 22px;
+    color: var(--white);
+  }
+  .cta p {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.7);
+    margin-top: 16px;
+  }
+  .cta-btn {
+    display: inline-block;
+    margin-top: 44px;
+    padding: 18px 42px;
+    border: 1px solid rgba(247, 245, 240, 0.85);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .cta-btn:hover {
+    background: var(--white);
+    color: var(--navy);
+  }
+
+  /* ============= FOOTER (shared) ============= */
+  .footer {
+    background: var(--ink);
+    color: var(--white);
+    padding: 60px 48px 30px;
+  }
+  .footer-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1.3fr;
+    gap: 60px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid rgba(247,245,240,0.08);
+  }
+  .footer-logo .ja {
+    font-family: var(--mincho);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: 0.1em;
+  }
+  .footer-logo .en {
+    font-family: var(--cormorant);
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    opacity: 0.5;
+    margin-top: 4px;
+  }
+  .footer-logo .sub {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 12px;
+    color: rgba(247,245,240,0.5);
+    margin-top: 14px;
+    letter-spacing: 0.08em;
+  }
+  .footer-sns {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .footer-sns a {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(247,245,240,0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .footer-sns a:hover {
+    background: var(--white);
+    color: var(--ink);
+  }
+  .footer-sns svg { width: 14px; height: 14px; }
+  .footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .footer-nav a {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+  .footer-nav a:hover { opacity: 1; }
+  .footer-access {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 2;
+    color: rgba(247,245,240,0.85);
+    letter-spacing: 0.06em;
+  }
+  .footer-access .label {
+    font-family: var(--cormorant);
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: rgba(247,245,240,0.5);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .footer-access .map-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(247,245,240,0.4);
+    padding-bottom: 2px;
+  }
+  .copyright {
+    text-align: center;
+    margin-top: 30px;
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: rgba(247,245,240,0.4);
+  }
+
+  /* ============= MOBILE ============= */
+  @media (max-width: 900px) {
+    .restaurants-head { flex-direction: column; align-items: flex-start; }
+    .restaurants-head .right { padding-bottom: 0; }
+    .feature-row { grid-template-columns: 1fr; min-height: 0; }
+    .feature-row.reverse .photo { order: 1; }
+    .feature-row.reverse .body  { order: 2; }
+    .feature-row .photo { min-height: 320px; }
+    .feature-row .body { padding: 48px 28px; }
+    .feature-row .num { font-size: 64px; }
+    .guide-row { grid-template-columns: 1fr; gap: 8px; padding: 22px 4px; }
+    .guide-row.head { display: none; }
+    .guide-row .dish { font-size: 17px; }
+    .guide-row .sake-chip { font-size: 13px; }
+  }
+  @media (max-width: 768px) {
+    .header { padding: 14px 20px; }
+    .header.scrolled, .header.solid { padding: 10px 20px; }
+    .nav-desktop { display: none; }
+    .hamburger { display: block; }
+    .mobile-menu { display: flex; }
+
+    .crumb { top: 84px; left: 20px; font-size: 9px; gap: 8px; }
+    .page-hero { height: 460px; }
+    .page-hero .ph-eyebrow { font-size: 10px; letter-spacing: 0.32em; }
+    .page-hero .ph-title { margin-top: 22px; }
+    .page-hero .ph-sub { font-size: 13px; margin-top: 18px; }
+    .page-hero .ph-supervisor { margin-top: 36px; font-size: 10px; letter-spacing: 0.24em; }
+
+    .lead { padding: 72px 24px; }
+    .lead h2 { font-size: 24px; }
+    .lead p { font-size: 14px; }
+    .lead-quote { margin-left: 0; padding: 22px 22px; font-size: 15px; }
+
+    .restaurants { padding: 80px 0; }
+    .restaurants-head { padding: 0 24px; margin-bottom: 56px; }
+    .feature-row { padding: 0 24px; margin-bottom: 44px; }
+
+    .guide { padding: 80px 24px; }
+
+    .cta { padding: 72px 24px; }
+    .cta-btn { padding: 14px 28px; font-size: 12px; letter-spacing: 0.2em; }
+
+    .footer { padding: 50px 24px 24px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  /* ============= ANIMATIONS ============= */
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .page-hero-inner { animation: fadeInUp 0.7s ease 0.25s both; }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal.from-left  { transform: translateX(-40px); }
+  .reveal.from-right { transform: translateX(40px); }
+  .reveal.is-visible { opacity: 1 !important; transform: translate(0,0) !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .page-hero-inner { animation: none !important; }
+  }
+  .map-embed-footer {
+    width: 100%; height: 180px; border: 1px solid var(--navy); display: block; margin-top: 14px;
+  }
+</style>
+</head>
+<body>
+<div style="background:#1B3A6B;color:#F7F5F0;text-align:center;font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;font-size:12px;letter-spacing:0.03em;padding:6px 14px;">これは Farm Eolica Works の制作イメージ（デモ）です。実在の酒蔵・団体・人物ではありません。</div>
+
+<!-- ========== HEADER ========== -->
+<header class="header solid" id="header" data-screen-label="Header">
+  <a href="../" class="logo">
+    <span class="ja">海凪醸誌</span>
+    <span class="en">UMINAGI BREWING JOURNAL</span>
+  </a>
+
+  <nav class="nav-desktop">
+    <div class="nav-links">
+      <div class="nav-item">
+        <button type="button" aria-haspopup="true" data-ja="知る" data-en="Read">知る<span class="caret">▼</span></button>
+        <div class="dropdown" role="menu">
+          <a href="../about/" data-ja="酒蔵について" data-en="About the Brewery">酒蔵について<span class="en-sub">ABOUT</span></a>
+          <a href="../about/#lineup" data-ja="お酒ラインナップ" data-en="Sake Lineup">お酒ラインナップ<span class="en-sub">LINEUP</span></a>
+        </div>
+      </div>
+      <div class="nav-item active">
+        <button type="button" aria-haspopup="true" data-ja="味わう" data-en="Taste">味わう<span class="caret">▼</span></button>
+        <div class="dropdown" role="menu">
+          <a href="./" data-ja="マリアージュ特集" data-en="Mariage Feature">マリアージュ特集<span class="en-sub">MARIAGE</span></a>
+          <a href="../recipe/" data-ja="レシピ×ペアリング" data-en="Recipe × Pairing">レシピ×ペアリング<span class="en-sub">RECIPE</span></a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="../#access" data-ja="訪れる" data-en="Visit">訪れる</a>
+      </div>
+      <div class="nav-item">
+        <a href="#">About</a>
+      </div>
+    </div>
+    <div class="lang-toggle">
+      <button data-lang="ja" class="active">JP</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </nav>
+
+  <button class="hamburger" id="hamburger" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- mobile overlay -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="m-group">
+    <div class="m-top" data-toggle>
+      <span data-ja="知る" data-en="Read">知る</span>
+      <span class="m-en">READ</span>
+      <span class="m-caret">▼</span>
+    </div>
+    <div class="m-sub">
+      <a href="../about/" data-ja="酒蔵について" data-en="About the Brewery">酒蔵について</a>
+      <a href="../about/#lineup" data-ja="お酒ラインナップ" data-en="Sake Lineup">お酒ラインナップ</a>
+    </div>
+  </div>
+  <div class="m-group open">
+    <div class="m-top" data-toggle>
+      <span data-ja="味わう" data-en="Taste">味わう</span>
+      <span class="m-en">TASTE</span>
+      <span class="m-caret">▼</span>
+    </div>
+    <div class="m-sub">
+      <a href="./" data-ja="マリアージュ特集" data-en="Mariage Feature">マリアージュ特集</a>
+      <a href="../recipe/" data-ja="レシピ×ペアリング" data-en="Recipe × Pairing">レシピ×ペアリング</a>
+    </div>
+  </div>
+  <div class="m-group">
+    <a class="m-top" href="../#access">
+      <span data-ja="訪れる" data-en="Visit">訪れる</span>
+      <span class="m-en">VISIT</span>
+    </a>
+  </div>
+  <div class="m-group">
+    <a class="m-top" href="#">
+      <span>About</span>
+      <span class="m-en">ABOUT</span>
+    </a>
+  </div>
+  <div class="lang-toggle">
+    <button data-lang="ja" class="active">JP</button>
+    <button data-lang="en">EN</button>
+  </div>
+</div>
+
+<!-- ========== PAGE HERO ========== -->
+<section class="page-hero" id="top" data-screen-label="Page Header">
+  <div class="crumb">
+    <a href="../">HOME</a>
+    <span class="sep">/</span>
+    <a href="#">TASTE</a>
+    <span class="sep">/</span>
+    <span class="here">MARIAGE</span>
+  </div>
+
+  <div class="page-hero-inner">
+    <div class="ph-eyebrow">RESTAURANT COLLAB</div>
+    <h1 class="ph-title" data-ja="潮見の食卓 × 潮日和" data-en="Shiomi Tables × Shiobiyori">潮見の食卓 × 潮日和</h1>
+    <p class="ph-sub" data-ja="潮見町内5店舗のシェフが選んだ、潮日和とのペアリング" data-en="Pairings with Shiobiyori, chosen by chefs from five Shiomi restaurants">潮見町内5店舗のシェフが選んだ、潮日和とのペアリング</p>
+    <div class="ph-supervisor">
+      <div>
+        <span class="ja-line" data-ja="監修" data-en="Supervised by">監修</span>
+        Certified Kikisake-shi ・ Sake Advisory
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== LEAD ========== -->
+<section class="lead" data-screen-label="Lead">
+  <div class=”lead-inner reveal”>
+    <div class=”lead-eyebrow” data-ja=”— Introduction” data-en=”— Introduction”>— Introduction</div>
+    <h2><span data-ja=”マリアージュとは、” data-en=”Mariage is the experience”>マリアージュとは、</span><br/><span data-ja=”お店の体験です。” data-en=”of a restaurant.”>お店の体験です。</span></h2>
+    <p data-ja=”マリアージュ（mariage）はフランス語で「結婚」。食と酒の最良の出会いを指す言葉です。このページでは、潮見町内の飲食店5店舗のシェフたちが実際に選んだ、潮日和との組み合わせを紹介します。お店で飲む体験と、蔵の物語が重なるとき、酒の味わいは変わる。” data-en=”Mariage — French for &quot;marriage&quot; — describes the perfect union of food and drink. On this page, chefs from five Shiomi restaurants share the pairings they have personally chosen with Shiobiyori. When the experience of drinking at a restaurant meets the story of the brewery, the sake takes on an entirely new dimension.”>
+      マリアージュ（mariage）はフランス語で「結婚」。食と酒の最良の出会いを指す言葉です。このページでは、潮見町内の飲食店5店舗のシェフたちが実際に選んだ、潮日和との組み合わせを紹介します。お店で飲む体験と、蔵の物語が重なるとき、酒の味わいは変わる。
+    </p>
+
+    <div class=”lead-quote” data-ja=”&quot;地元の海の幸には、海凪蔵の穏やかな旨みが溶け込みます。漁師が漁師のために醸した酒——潮日和は、海と陸が出会う場所で、もっとも美しく響きます。&quot;” data-en=”&quot;The gentle umami of the Uminagi kura merges seamlessly with the bounty of the local sea. Brewed by fishermen, for fishermen — Shiobiyori resonates most beautifully where ocean meets land.&quot;”>
+      “地元の海の幸には、海凪蔵の穏やかな旨みが溶け込みます。漁師が漁師のために醸した酒——潮日和は、海と陸が出会う場所で、もっとも美しく響きます。”
+      <span class=”who”><span class=”ja”>唎酒師</span>CERTIFIED KIKISAKE-SHI — Supervisor</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 5 RESTAURANTS ========== -->
+<section class="restaurants" data-screen-label="Restaurants">
+  <div class="restaurants-head">
+    <div>
+      <div class="label" data-ja="— Five Restaurants in Shiomi" data-en="— Five Restaurants in Shiomi">— Five Restaurants in Shiomi</div>
+      <h2><span data-ja="潮見で味わう、" data-en="Five tables, five cups,">潮見で味わう、</span><br/><span data-ja="五つの食卓と五つの杯。" data-en="all in Shiomi.">五つの食卓と五つの杯。</span></h2>
+    </div>
+    <div class="right">01 — 05</div>
+  </div>
+
+  <!-- 01 -->
+  <article class="feature-row reveal from-left" data-screen-label="Restaurant 01">
+    <div class="photo">
+      <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=1200&q=80" alt="浜の茶屋 海鮮料理" loading="lazy" />
+      <span class="ph-meta">Hama no Chaya · Seafood</span>
+    </div>
+    <div class="body">
+      <div class="num">01</div>
+      <div class="name" data-ja="浜の茶屋" data-en="Hama no Chaya">浜の茶屋<span class="yomi">HAMA NO CHAYA</span></div>
+      <div class="genre" data-ja="海鮮料理 / Seafood" data-en="Seafood">海鮮料理 / Seafood</div>
+      <div class="pairing">
+        <div class="label">PAIRING</div>
+        <div class="pairing-row2">
+          <span class="sake" data-ja="潮日和 純米吟醸" data-en="Shiobiyori Junmai Ginjō">潮日和 純米吟醸</span>
+          <span class="x">×</span>
+          <span class="dish" data-ja="潮見の鮮魚盛り" data-en="Shiomi Fresh Fish Platter">潮見の鮮魚盛り</span>
+        </div>
+      </div>
+      <p class="comment" data-ja="海の旨みを引き立てるのは、香りを抑えた穏やかな純米吟醸。口に広がる米の甘みが、白身魚の余韻を包む。冷やでも、ぬる燗でも。" data-en="The restrained aroma of this gentle Junmai Ginjō (純米吟醸) lets the ocean's umami shine. A soft sweetness of rice wraps around the lingering finish of white fish. Superb chilled or lightly warmed.">
+        海の旨みを引き立てるのは、香りを抑えた穏やかな純米吟醸。口に広がる米の甘みが、白身魚の余韻を包む。冷やでも、ぬる燗でも。
+      </p>
+      <div class="chef"><span class="ja">板長 高橋</span>Chef Takahashi</div>
+    </div>
+  </article>
+
+  <!-- 02 -->
+  <article class="feature-row reverse reveal from-right" data-screen-label="Restaurant 02">
+    <div class="photo">
+      <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=1200&q=80" alt="食堂しおみ 郷土料理" loading="lazy" />
+      <span class="ph-meta">Shokudō Shiomi · Local</span>
+    </div>
+    <div class="body">
+      <div class="num">02</div>
+      <div class="name" data-ja="食堂しおみ" data-en="Shokudō Shiomi">食堂しおみ<span class="yomi">SHOKUDŌ NAMIE</span></div>
+      <div class="genre" data-ja="郷土料理 / Local Cuisine" data-en="Local Cuisine">郷土料理 / Local Cuisine</div>
+      <div class="pairing">
+        <div class="label">PAIRING</div>
+        <div class="pairing-row2">
+          <span class="sake" data-ja="潮日和 特別純米" data-en="Shiobiyori Tokubetsu Junmai">潮日和 特別純米</span>
+          <span class="x">×</span>
+          <span class="dish" data-ja="潮見焼きそば &amp; 鮭の焼き漬け" data-en="Shiomi Yakisoba &amp; Marinated Grilled Salmon">潮見焼きそば &amp; 鮭の焼き漬け</span>
+        </div>
+      </div>
+      <p class="comment" data-ja="濃い味付けの郷土料理に負けないのは、酸とコクを併せ持つ特別純米。太麺の焼そばに、燗酒を一口。家族の食卓に、ほっと灯がともる組み合わせ。" data-en="Only a Tokubetsu Junmai (特別純米) with its balance of acidity and depth can hold its own against the bold flavours of local home cooking. A sip of warmed sake alongside thick-noodle yakisoba — a combination that lights up the family table.">
+        濃い味付けの郷土料理に負けないのは、酸とコクを併せ持つ特別純米。太麺の焼そばに、燗酒を一口。家族の食卓に、ほっと灯がともる組み合わせ。
+      </p>
+      <div class="chef"><span class="ja">店主 渡辺</span>Owner Watanabe</div>
+    </div>
+  </article>
+
+  <!-- 03 -->
+  <article class="feature-row reveal from-left" data-screen-label="Restaurant 03">
+    <div class="photo">
+      <img src="https://images.unsplash.com/photo-1606851181064-0a1eb52a637b?w=1200&q=80" alt="居酒屋 潮見" loading="lazy" />
+      <span class="ph-meta">Izakaya Shiomi · Tavern</span>
+    </div>
+    <div class="body">
+      <div class="num">03</div>
+      <div class="name" data-ja="居酒屋 潮見" data-en="Izakaya Shiomi">居酒屋 潮見<span class="yomi">IZAKAYA JŌBAN</span></div>
+      <div class="genre" data-ja="居酒屋 / Izakaya" data-en="Izakaya (Tavern)">居酒屋 / Izakaya</div>
+      <div class="pairing">
+        <div class="label">PAIRING</div>
+        <div class="pairing-row2">
+          <span class="sake" data-ja="潮日和 本醸造" data-en="Shiobiyori Honjōzō">潮日和 本醸造</span>
+          <span class="x">×</span>
+          <span class="dish" data-ja="鶏のもも焼き &amp; いか塩辛" data-en="Grilled Chicken Thigh &amp; Salted Squid">鶏のもも焼き &amp; いか塩辛</span>
+        </div>
+      </div>
+      <p class="comment" data-ja="漁師が惚れ込んだ、潮日和の原点。塩辛にあわせて燗にすれば、酒粕の香りが立ちあがる。串もの、煮もの、何でも来い。地元の宵を支える一本。" data-en="The original Shiobiyori, beloved by fishermen. Served warm alongside the briny salted squid, the sake's koji aroma rises beautifully. Grilled skewers, simmered dishes — it meets everything. The bottle that carries Shiomi's evenings.">
+        漁師が惚れ込んだ、潮日和の原点。塩辛にあわせて燗にすれば、酒粕の香りが立ちあがる。串もの、煮もの、何でも来い。地元の宵を支える一本。
+      </p>
+      <div class="chef"><span class="ja">大将 佐藤</span>Master Satō</div>
+    </div>
+  </article>
+
+  <!-- 04 -->
+  <article class="feature-row reverse reveal from-right" data-screen-label="Restaurant 04">
+    <div class="photo">
+      <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&q=80" alt="カフェ・ウェーブ 洋食" loading="lazy" />
+      <span class="ph-meta">Café Wave · Western</span>
+    </div>
+    <div class="body">
+      <div class="num">04</div>
+      <div class="name" data-ja="カフェ・ウェーブ" data-en="Café Wave">カフェ・ウェーブ<span class="yomi">CAFÉ WAVE</span></div>
+      <div class="genre" data-ja="カフェ × 洋食 / Café × Western" data-en="Café × Western Cuisine">カフェ × 洋食 / Café × Western</div>
+      <div class="pairing">
+        <div class="label">PAIRING</div>
+        <div class="pairing-row2">
+          <span class="sake" data-ja="潮日和 大吟醸" data-en="Shiobiyori Daiginjō">潮日和 大吟醸</span>
+          <span class="x">×</span>
+          <span class="dish" data-ja="潮見牛のラグー &amp; ハードチーズ" data-en="Shiomi Beef Ragù &amp; Aged Hard Cheese">潮見牛のラグー &amp; ハードチーズ</span>
+        </div>
+      </div>
+      <p class="comment" data-ja="高い香りの大吟醸は、ワイングラスでこそ。脂のあるラグーを軽やかに流し、熟成チーズの塩気と互いを呼ぶ。日本酒は洋食の隣にいる、と気づく一杯。" data-en="A Daiginjō (大吟醸) of soaring fragrance belongs in a wine glass. It sweeps away the richness of the ragù with ease, and the salinity of aged cheese only calls the sake further forward. A glass that reveals how naturally nihonshu sits beside Western cuisine.">
+        高い香りの大吟醸は、ワイングラスでこそ。脂のあるラグーを軽やかに流し、熟成チーズの塩気と互いを呼ぶ。日本酒は洋食の隣にいる、と気づく一杯。
+      </p>
+      <div class="chef"><span class="ja">オーナー 木村</span>Owner Kimura</div>
+    </div>
+  </article>
+
+  <!-- 05 -->
+  <article class="feature-row reveal from-left" data-screen-label="Restaurant 05">
+    <div class="photo">
+      <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?w=1200&q=80" alt="彩福園 中華料理" loading="lazy" />
+      <span class="ph-meta">Saifuku-en · Chinese</span>
+    </div>
+    <div class="body">
+      <div class="num">05</div>
+      <div class="name" data-ja="彩福園" data-en="Saifuku-en">彩福園<span class="yomi">FUKKŌ-EN</span></div>
+      <div class="genre" data-ja="中華料理 / Chinese" data-en="Chinese Cuisine">中華料理 / Chinese</div>
+      <div class="pairing">
+        <div class="label">PAIRING</div>
+        <div class="pairing-row2">
+          <span class="sake" data-ja="潮日和 山廃純米" data-en="Shiobiyori Yamahai Junmai">潮日和 山廃純米</span>
+          <span class="x">×</span>
+          <span class="dish" data-ja="麻婆豆腐 &amp; 海老の紹興酒蒸し" data-en="Mapo Tofu &amp; Shaoxing-Steamed Prawns">麻婆豆腐 &amp; 海老の紹興酒蒸し</span>
+        </div>
+      </div>
+      <p class="comment" data-ja="スパイスと油の中華に立ち向かうのは、酸とコクの山廃純米。熱燗で寄り添わせれば、辛みの余韻をすっと洗い、次の一口へ誘う。" data-en="Only a Yamahai Junmai (山廃純米) — with its vivid acidity and deep body — can stand up to the spice and oil of Chinese cooking. Served piping hot, it rinses the lingering heat away cleanly and beckons you back for the next bite.">
+        スパイスと油の中華に立ち向かうのは、酸とコクの山廃純米。熱燗で寄り添わせれば、辛みの余韻をすっと洗い、次の一口へ誘う。
+      </p>
+      <div class="chef"><span class="ja">料理長 林</span>Chef Hayashi</div>
+    </div>
+  </article>
+</section>
+
+<!-- ========== GUIDE TABLE ========== -->
+<section class="guide" data-screen-label="Pairing Guide">
+  <div class="guide-inner reveal">
+    <div class="guide-head">
+      <div class="eyebrow" data-ja="— Quick Reference" data-en="— Quick Reference">— Quick Reference</div>
+      <h2 data-ja="料理別 潮日和の選び方" data-en="Choosing Shiobiyori by Dish">料理別 潮日和の選び方</h2>
+      <p data-ja="迷ったときの一覧。料理の系統から、合わせる一本を探してください。" data-en="A handy guide for when you're unsure. Find your perfect bottle by cuisine style.">迷ったときの一覧。料理の系統から、合わせる一本を探してください。</p>
+    </div>
+
+    <div class="guide-table">
+      <div class="guide-row head">
+        <div>Dish Style</div>
+        <div>Recommended</div>
+        <div>Why</div>
+      </div>
+      <div class="guide-row">
+        <div class="dish"><span class="no">01</span><span data-ja="海鮮・白身" data-en="Seafood / White Fish">海鮮・白身</span></div>
+        <div><span class="sake-chip" data-ja="純米吟醸" data-en="Junmai Ginjō">純米吟醸</span></div>
+        <div class="why" data-ja="繊細な旨みに合わせる、香り穏やかな一杯。" data-en="A gently aromatic pour that enhances delicate umami without overpowering it.">繊細な旨みに合わせる、香り穏やかな一杯。</div>
+      </div>
+      <div class="guide-row">
+        <div class="dish"><span class="no">02</span><span data-ja="発酵食品・チーズ" data-en="Fermented Foods / Cheese">発酵食品・チーズ</span></div>
+        <div><span class="sake-chip" data-ja="特別純米" data-en="Tokubetsu Junmai">特別純米</span></div>
+        <div class="why" data-ja="酸とコクが共鳴し、塩気を丸く包む。" data-en="Acidity and depth resonate together, rounding out the saltiness.">酸とコクが共鳴し、塩気を丸く包む。</div>
+      </div>
+      <div class="guide-row">
+        <div class="dish"><span class="no">03</span><span data-ja="郷土・煮物" data-en="Home Cooking / Simmered Dishes">郷土・煮物</span></div>
+        <div><span class="sake-chip" data-ja="本醸造" data-en="Honjōzō">本醸造</span></div>
+        <div class="why" data-ja="濃い味付けに負けない、骨太の深み。" data-en="A robust depth that holds its own against bold, richly seasoned flavours.">濃い味付けに負けない、骨太の深み。</div>
+      </div>
+      <div class="guide-row">
+        <div class="dish"><span class="no">04</span><span data-ja="肉料理・揚げ物" data-en="Meat Dishes / Fried Food">肉料理・揚げ物</span></div>
+        <div><span class="sake-chip" data-ja="大吟醸" data-en="Daiginjō">大吟醸</span></div>
+        <div class="why" data-ja="脂を流す、華やかで高い香り。" data-en="A vibrant, high-toned fragrance that cuts through fat beautifully.">脂を流す、華やかで高い香り。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="cta" data-screen-label="CTA">
+  <div class="cta-inner">
+    <div class="label" data-ja="— Visit Shiomi" data-en="— Visit Shiomi">— Visit Shiomi</div>
+    <h2 data-ja="潮見で食べ歩く。" data-en="Eat your way through Shiomi.">潮見で食べ歩く。</h2>
+    <p data-ja="5店舗の所在地・営業時間は、アクセス情報をご確認ください。" data-en="Please check the access section for the locations and opening hours of all five restaurants.">5店舗の所在地・営業時間は、アクセス情報をご確認ください。</p>
+    <a href="../#access" class="cta-btn" data-ja="アクセスを確認する　→" data-en="View Access Information　→">アクセスを確認する　→</a>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer" id="footer" data-screen-label="Footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="ja">海凪醸誌</div>
+      <div class="en">UMINAGI BREWING JOURNAL</div>
+      <div class="sub" data-ja="海凪酒造 海凪蔵 公認コンテンツマガジン" data-en="Official Content Magazine of Uminagi Shuzō · Uminagi Kura">海凪酒造 海凪蔵 公認コンテンツマガジン</div>
+      <div class="footer-sns">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="3" y="3" width="18" height="18" rx="4"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.5 3h3l-7 8 8.2 10h-6.4l-5-6.4L4.5 21h-3l7.5-8.5L1 3h6.5l4.5 5.9L17.5 3z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="footer-nav">
+      <a href="../about/" data-ja="酒蔵について" data-en="About the Brewery">酒蔵について</a>
+      <a href="../about/#lineup" data-ja="お酒ラインナップ" data-en="Sake Lineup">お酒ラインナップ</a>
+      <a href="./" data-ja="マリアージュ特集" data-en="Mariage Feature">マリアージュ特集</a>
+      <a href="../recipe/" data-ja="レシピ×ペアリング" data-en="Recipe × Pairing">レシピ×ペアリング</a>
+      <a href="../#access" data-ja="アクセス" data-en="Access">アクセス</a>
+      <a href="#">About</a>
+    </nav>
+
+    <div class="footer-access">
+      <span class="label">ACCESS</span>
+      <span data-ja="道の駅しおみ内" data-en="Inside Michi-no-Eki Shiomi">道の駅しおみ内</span><br/>
+      <span data-ja="潮見町" data-en="Shiomi">潮見町</span>
+      <br/>
+      <a href="#" class="map-link" data-ja="Google マップで見る →" data-en="View on Google Maps →">Google マップで見る →</a>
+      <iframe class="map-embed-footer"
+        src="https://maps.google.com/maps?q=%E9%81%93%E3%81%AE%E9%A7%85%E3%81%97%E3%81%8A%E3%81%BF&amp;output=embed&amp;hl=ja"
+        loading="lazy" allowfullscreen title="Google Map - 道の駅しおみ"></iframe>
+    </div>
+  </div>
+
+  <div class="copyright">© 2026 海凪酒造 海凪蔵　Produced by Farm Eolica Works</div>
+</footer>
+
+<script>
+  // === Scroll header (already solid; stays solid) ===
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  });
+
+  // === Mobile menu ===
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('[data-toggle]').forEach(t => {
+    t.addEventListener('click', () => t.parentElement.classList.toggle('open'));
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // === Lang toggle (localStorage persistence) ===
+  let currentLang = localStorage.getItem('namie-lang') || 'ja';
+  function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('namie-lang', lang);
+    document.documentElement.lang = lang === 'ja' ? 'ja' : 'en';
+    document.querySelectorAll('[data-ja][data-en]').forEach(el => {
+      const v = el.getAttribute(lang === 'ja' ? 'data-ja' : 'data-en');
+      const childTags = [...el.children].map(c => c.tagName);
+      const onlyBr = childTags.length > 0 && childTags.every(t => t === 'BR');
+      if (el.children.length === 0 || onlyBr) {
+        el.innerHTML = v;
+      } else {
+        const first = [...el.childNodes].find(n => n.nodeType === Node.TEXT_NODE);
+        if (first) first.nodeValue = v;
+        else el.insertBefore(document.createTextNode(v), el.firstChild);
+      }
+    });
+    document.querySelectorAll('[data-lang]').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+  }
+  document.querySelectorAll('[data-lang]').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang')));
+  });
+  setLang(currentLang);
+
+  // === Intersection Observer animations ===
+  (function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  })();
+</script>
+</body>
+</html>

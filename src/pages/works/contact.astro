@@ -1,0 +1,379 @@
+---
+// Farm Eolica Works — Contact Page
+// Self-contained page — independent from main HP design
+import { SITE_CONFIG } from '../../config/site';
+import WorksHeader from '../../components/works/WorksHeader.astro';
+import EstimateWizard from '../../components/works/EstimateWizard.astro';
+const ga4Id = SITE_CONFIG.seo.ga4Id;
+const endpoint = SITE_CONFIG.contactForm.endpoint;
+const siteUrl = 'https://farmeolica.com';
+const title = 'ご相談・お問い合わせ | Farm Eolica Works';
+const description = '制作依頼・AI活用のご相談は初回60分無料。チラシ・HP制作・ロゴ・業務代行〈AI活用〉のお問い合わせはこちら。';
+---
+
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title}</title>
+  <link rel="canonical" href={`${siteUrl}/works/contact/`} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={`${siteUrl}/works/contact/`} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={`${siteUrl}/images/about/hero.webp`} />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content={`${siteUrl}/images/about/hero.webp`} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Shippori+Mincho:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+  <script define:vars={{ ga4Id }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', ga4Id);
+  </script>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<WorksHeader active="contact" />
+
+
+<!-- ══════════ CONTACT HERO ══════════ -->
+<section class="contact-hero">
+  <div class="wc">
+    <div class="ch-inner reveal reveal-hero reveal-d1">
+      <div class="sh-top">
+        <span class="sh-en">CONTACT</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— 初回相談無料</span>
+      </div>
+      <h1 class="ch-title">まずは、<br />あなたの話を<br />聞かせてください。</h1>
+      <p class="ch-body">
+        発注を急がせる営業はしません。<br />
+        「こういうことできるか？」という話から始めましょう。<br />
+        初回は60分、ヒアリングのみで料金は発生しません。
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ ESTIMATE（かんたん見積もり・C2+D統合） ══════════ -->
+<EstimateWizard />
+
+
+<!-- ══════════ FORM ══════════ -->
+<section class="ws">
+  <div class="wc">
+    <div class="form-layout reveal">
+
+      <!-- Left: Form -->
+      <div class="form-main">
+        <div id="form-success" class="form-success" style="display:none">
+          <div class="fs-icon">✓</div>
+          <h2 class="fs-title">お問い合わせを受け付けました</h2>
+          <p class="fs-body">内容を確認の上、2営業日以内にご連絡いたします（繁忙期は3営業日）。</p>
+          <a href="/works/" class="fs-back">Works トップへ →</a>
+        </div>
+
+        <form id="works-contact-form" novalidate>
+          <!-- Honeypot -->
+          <div style="position:absolute;opacity:0;height:0;width:0;overflow:hidden" aria-hidden="true">
+            <input type="text" name="_honeypot" id="_honeypot" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="f-name" class="form-label">お名前 <span class="req">*</span></label>
+              <input id="f-name" name="name" type="text" class="form-input" placeholder="山田 太郎" required />
+              <span class="form-err" id="err-name"></span>
+            </div>
+            <div class="form-group">
+              <label for="f-email" class="form-label">メールアドレス <span class="req">*</span></label>
+              <input id="f-email" name="email" type="email" class="form-input" placeholder="example@mail.com" required />
+              <span class="form-err" id="err-email"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="f-type" class="form-label">ご相談の種別 <span class="req">*</span></label>
+            <div class="select-wrap">
+              <select id="f-type" name="inquiryType" class="form-input form-select" required>
+                <option value="">選択してください</option>
+                <option value="hp">ホームページ制作について</option>
+                <option value="flyer">チラシ・フライヤー制作について</option>
+                <option value="logo">ロゴ・ブランドデザインについて</option>
+                <option value="ai-partner">業務代行〈AI活用〉について</option>
+                <option value="ai-system">AIシステム・自動化の相談</option>
+                <option value="other">その他・まずは話したい</option>
+              </select>
+              <svg class="select-caret" viewBox="0 0 20 20" fill="currentColor"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+            </div>
+            <span class="form-err" id="err-type"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="f-message" class="form-label">ご相談内容 <span class="req">*</span></label>
+            <textarea id="f-message" name="message" class="form-input form-textarea" rows="6" placeholder="「今HPがなくて集客に困っている」「社名ロゴを新しくしたい」など、状況をざっくり教えてください。" required></textarea>
+            <span class="form-err" id="err-message"></span>
+          </div>
+
+          <div id="form-error" class="form-alert" style="display:none">
+            送信に失敗しました。時間をおいて再度お試しください。
+          </div>
+
+          <div class="form-notice">
+            <p>送信後、自動返信メールをお届けします。その後3日以内に <strong>farmeolica@gmail.com</strong> よりご返信いたします。</p>
+            <p>3日を過ぎてもご返信が届かない場合は、システム不具合や迷惑メールへの振り分けの可能性があります。迷惑メールフォルダをご確認いただくか、SNSのDMよりご連絡いただけると助かります。</p>
+          </div>
+
+          <div class="form-group form-consent">
+            <label class="consent-label" for="f-consent">
+              <input type="checkbox" id="f-consent" name="consent" class="consent-checkbox" required />
+              <span>
+                <a href="/works/terms" target="_blank" rel="noopener noreferrer">利用規約</a>・<a href="/works/privacy" target="_blank" rel="noopener noreferrer">プライバシーポリシー</a>に同意する <span class="req">*</span>
+              </span>
+            </label>
+            <span class="form-err" id="err-consent"></span>
+          </div>
+
+          <div class="form-submit-row">
+            <button type="submit" id="form-submit" class="form-btn">
+              <span id="btn-text">送信する →</span>
+              <span id="btn-loading" style="display:none">送信中...</span>
+            </button>
+            <p class="form-note">初回ヒアリング・概算見積もりは無料です</p>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right: Info -->
+      <aside class="form-aside">
+        <div class="aside-block">
+          <div class="aside-label">RESPONSE TIME</div>
+          <div class="aside-val">2営業日以内</div>
+          <p class="aside-desc">繁忙期（5〜10月）は3営業日以内</p>
+        </div>
+        <div class="aside-block">
+          <div class="aside-label">SERVICE AREA</div>
+          <div class="aside-val">全国対応</div>
+          <p class="aside-desc">打ち合わせはオンライン（Zoom/Google Meet）が基本です</p>
+        </div>
+        <div class="aside-block">
+          <div class="aside-label">FIRST STEP</div>
+          <div class="aside-val">60分無料</div>
+          <p class="aside-desc">初回ヒアリングと概算見積もりまで費用はかかりません</p>
+        </div>
+        <div class="aside-block aside-link-block">
+          <div class="aside-label">ABOUT WORKS</div>
+          <a href="/works/" class="aside-link">Farm Eolica Works について →</a>
+          <a href="/works/capabilities" class="aside-link">作ってきたシステム一覧 →</a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="wfooter">
+  <a href="/works/" class="wfooter-back">← BACK TO FARM&nbsp;EOLICA WORKS</a>
+  <nav class="wfooter-legal">
+    <a href="/works/tokushoho">特定商取引法に基づく表記</a>
+    <a href="/works/terms">利用規約</a>
+    <a href="/works/privacy">プライバシーポリシー</a>
+  </nav>
+  <div class="wfooter-copy">&copy; FARM EOLICA WORKS / 福島県浪江町 / 関口卓磨</div>
+</footer>
+
+
+<!-- ══════════ STYLES ══════════ -->
+<style is:global>
+:root{
+  --m:#1A2744;--a:#B87333;--bg:#F2F2F0;--ink:#4A3B32;
+  --inks:rgba(74,59,50,0.72);--inkm:rgba(74,59,50,0.48);--hair:rgba(74,59,50,0.14);
+  --sr:'Shippori Mincho','Hiragino Mincho ProN',serif;
+  --dp:'Cinzel',serif;--mn:'JetBrains Mono','Courier New',monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+p{margin:0}
+
+/* Animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(28px)}
+.reveal.visible{animation:fadeInUp .75s cubic-bezier(.22,1,.36,1) forwards}
+.reveal-d1{animation-delay:0s}.reveal-d2{animation-delay:.15s}.reveal-hero.visible{animation:fadeInUp .6s cubic-bezier(.22,1,.36,1) forwards}
+
+/* Section commons */
+.ws{padding:80px 60px 100px}
+.wc{max-width:1320px;margin:0 auto}
+.sh-top{display:flex;align-items:baseline;gap:22px;margin-bottom:18px}
+.sh-en{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a)}
+.sh-line{display:inline-block;width:56px;height:1px;background:var(--a);vertical-align:middle}
+.sh-no{font-family:var(--mn);font-size:10px;letter-spacing:.2em;color:var(--inkm)}
+
+/* Contact Hero */
+.contact-hero{background:var(--m);padding:100px 60px 90px}
+.ch-inner{max-width:720px}
+.ch-title{font-family:var(--sr);font-weight:500;font-size:clamp(40px,4vw,64px);color:var(--bg);line-height:1.35;letter-spacing:.04em;margin:0 0 28px}
+.ch-body{font-size:16px;line-height:2.1;color:rgba(242,242,240,.8);letter-spacing:.04em;max-width:560px}
+
+/* Form Layout */
+.form-layout{display:grid;grid-template-columns:1.4fr 1fr;gap:80px;align-items:start}
+.form-main{min-width:0}
+
+/* Form elements */
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+.form-group{margin-bottom:24px}
+.form-label{display:block;font-family:var(--mn);font-size:11px;letter-spacing:.18em;color:var(--inkm);margin-bottom:8px}
+.req{color:var(--a)}
+.form-input{width:100%;background:white;border:1px solid var(--hair);padding:13px 16px;font-family:var(--sr);font-size:15px;color:var(--ink);outline:none;transition:border-color .2s;-webkit-appearance:none;border-radius:0}
+.form-input:focus{border-color:var(--m)}
+.form-input::placeholder{color:var(--inkm)}
+.select-wrap{position:relative}
+.form-select{cursor:pointer;padding-right:40px}
+.select-caret{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--inkm);pointer-events:none}
+.form-textarea{resize:vertical;min-height:140px}
+.form-err{display:block;font-family:var(--mn);font-size:10px;color:#c0392b;margin-top:5px;letter-spacing:.05em}
+.form-alert{border:1px solid rgba(192,57,43,.3);background:rgba(192,57,43,.06);padding:14px 16px;font-family:var(--sr);font-size:14px;color:#c0392b;margin-bottom:20px}
+.form-notice{border:1px solid var(--hair);background:rgba(74,59,50,.04);padding:16px 20px;font-family:var(--sr);font-size:13px;color:var(--inks);line-height:1.85;margin-bottom:24px}
+.form-notice p{margin:0}.form-notice p+p{margin-top:8px}.form-notice strong{color:var(--ink)}
+.consent-label{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;line-height:1.7;color:var(--inks);cursor:pointer}
+.consent-checkbox{margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:var(--m)}
+.consent-label a{color:var(--m);border-bottom:1px solid var(--hair)}
+.consent-label a:hover{color:var(--a);border-bottom-color:var(--a)}
+.form-submit-row{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.form-btn{padding:15px 32px;background:var(--m);color:var(--bg);border:1px solid var(--m);font-family:var(--dp);font-size:13px;letter-spacing:.22em;cursor:pointer;transition:background .25s;-webkit-appearance:none}
+.form-btn:hover:not(:disabled){background:#253a6b}
+.form-btn:disabled{opacity:.6;cursor:not-allowed}
+.form-note{font-family:var(--mn);font-size:10px;letter-spacing:.12em;color:var(--inkm)}
+
+/* Success state */
+.form-success{text-align:center;padding:60px 40px;border:1px solid var(--hair)}
+.fs-icon{font-family:var(--dp);font-size:32px;color:var(--a);margin-bottom:20px}
+.fs-title{font-family:var(--sr);font-size:26px;color:var(--m);margin:0 0 14px}
+.fs-body{font-size:15px;line-height:2;color:var(--inks);margin-bottom:28px}
+.fs-back{font-family:var(--dp);font-size:12px;letter-spacing:.22em;color:var(--a);border-bottom:1px solid var(--a);padding-bottom:2px}
+
+/* Aside */
+.form-aside{border-top:3px solid var(--m);padding-top:32px}
+.aside-block{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid var(--hair)}
+.aside-block:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
+.aside-label{font-family:var(--mn);font-size:10px;letter-spacing:.3em;color:var(--a);margin-bottom:8px}
+.aside-val{font-family:var(--sr);font-size:28px;color:var(--m);letter-spacing:.04em;margin-bottom:8px}
+.aside-desc{font-size:13px;line-height:1.9;color:var(--inks)}
+.aside-link-block{display:flex;flex-direction:column;gap:12px}
+.aside-link{font-family:var(--mn);font-size:11px;letter-spacing:.12em;color:var(--m);border-bottom:1px solid var(--hair);padding-bottom:8px;transition:color .2s,border-color .2s}
+.aside-link:hover{color:var(--a);border-bottom-color:var(--a)}
+
+/* Footer */
+.wfooter{padding:20px 60px 40px;display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center;border-top:1px solid var(--hair)}
+.wfooter-back{font-family:var(--dp);font-size:12px;letter-spacing:.25em;color:var(--m);transition:color .2s}
+.wfooter-back:hover{color:var(--a)}
+.wfooter-legal{display:flex;gap:22px;flex-wrap:wrap}
+.wfooter-legal a{font-family:var(--mn);font-size:10px;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
+.wfooter-legal a:hover{color:var(--a)}
+.wfooter-copy{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm)}
+</style>
+
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script define:vars={{ endpoint }}>
+(function(){
+  /* Reveal animation */
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(el){el.classList.add('visible')});
+  } else {
+    setTimeout(function(){
+      document.querySelectorAll('.reveal-hero').forEach(function(el){el.classList.add('visible')});
+    },30);
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting)return;
+        e.target.classList.add('visible');io.unobserve(e.target);
+      });
+    },{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+    els.forEach(function(el){
+      if(!el.classList.contains('reveal-hero'))io.observe(el);
+    });
+  }
+
+  /* Form */
+  var form=document.getElementById('works-contact-form');
+  var success=document.getElementById('form-success');
+  var errBanner=document.getElementById('form-error');
+  var submit=document.getElementById('form-submit');
+  var btnText=document.getElementById('btn-text');
+  var btnLoading=document.getElementById('btn-loading');
+
+  function setErr(id,msg){
+    var el=document.getElementById('err-'+id);
+    if(el)el.textContent=msg;
+  }
+  function clearErrs(){
+    ['name','email','type','message','consent'].forEach(function(id){setErr(id,'')});
+  }
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    clearErrs();
+    errBanner.style.display='none';
+
+    var data=new FormData(form);
+    var hp=data.get('_honeypot');
+    var name=(data.get('name')||'').trim();
+    var email=(data.get('email')||'').trim();
+    var type=data.get('inquiryType');
+    var msg=(data.get('message')||'').trim();
+    var consent=data.get('consent');
+
+    var ok=true;
+    if(!name){setErr('name','お名前を入力してください');ok=false}
+    if(!email){setErr('email','メールアドレスを入力してください');ok=false}
+    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){setErr('email','正しいメールアドレスを入力してください');ok=false}
+    if(!type){setErr('type','ご相談の種別を選択してください');ok=false}
+    if(!msg){setErr('message','ご相談内容を入力してください');ok=false}
+    if(!consent){setErr('consent','利用規約・プライバシーポリシーへの同意が必要です');ok=false}
+    if(!ok)return;
+
+    if(hp){
+      /* honeypot triggered: silent success */
+      form.style.display='none';success.style.display='block';return;
+    }
+
+    submit.disabled=true;
+    btnText.style.display='none';
+    btnLoading.style.display='inline';
+
+    var params=new URLSearchParams({name:name,email:email,inquiryType:type,message:msg,source:'works'});
+    fetch(endpoint,{method:'POST',mode:'no-cors',body:params})
+      .then(function(){
+        form.style.display='none';
+        success.style.display='block';
+        if(typeof window.gtag==='function'){
+          window.gtag('event','works_contact_submit',{inquiry_type:type});
+        }
+      })
+      .catch(function(){
+        errBanner.style.display='block';
+        submit.disabled=false;
+        btnText.style.display='inline';
+        btnLoading.style.display='none';
+      });
+  });
+})();
+</script>
+
+</body>
+</html>

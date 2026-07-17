@@ -1,0 +1,203 @@
+---
+// Farm Eolica Works — Shared Header
+// Used across all /works/ pages. Unifies nav markup + CSS that was
+// previously duplicated per-page. Active state is self-detected from
+// Astro.url.pathname (aria-current="page" + .is-active), so pages no
+// longer need to pass `active` manually. The `active` prop is kept for
+// backward compatibility (OR'd into the path-based detection) — passing
+// it is harmless and never required.
+interface Props {
+  isHome?: boolean;
+  active?: 'capabilities' | 'first-time' | 'contact';
+}
+const { active } = Astro.props;
+
+// ── Current-path detection ──────────────────────────────────────────
+// trailingSlash:'always' (astro.config.mjs) means built paths end in
+// "/", but we normalize (strip trailing slash, keep root as-is) so this
+// still works in dev/preview modes that may omit it.
+const rawPath = Astro.url.pathname;
+const norm = (p: string) => (p.length > 1 ? p.replace(/\/+$/, '') : p);
+const cur = norm(rawPath);
+const isPath = (p: string) => cur === norm(p);
+
+const activeTop = isPath('/works/');
+const activeHpLp = isPath('/works/hp-lp');
+const activePartner = isPath('/works/partner');
+const activeCapabilities = isPath('/works/capabilities') || active === 'capabilities';
+const activeRecords = isPath('/works/records');
+const activeFirstTime = isPath('/works/first-time') || active === 'first-time';
+const activeFaq = isPath('/works/faq');
+const activeContact = isPath('/works/contact') || active === 'contact';
+const activePartnerGroup = activePartner || activeCapabilities || activeRecords;
+---
+
+<header class="wh">
+  <a href="/works/" class="wh-logo">
+    <span class="wh-logo-main">FARM&nbsp;EOLICA</span>
+    <span class="wh-logo-sub">/ WORKS</span>
+  </a>
+  <nav class="wh-nav">
+    <a href="/works/" aria-current={activeTop ? 'page' : undefined} class:list={{ 'is-active': activeTop }}>トップ</a>
+    <a href="/works/hp-lp" aria-current={activeHpLp ? 'page' : undefined} class:list={{ 'is-active': activeHpLp }}>ホームページ制作</a>
+
+    <div class="wh-drop">
+      <button
+        type="button"
+        class="wh-drop-trigger"
+        aria-haspopup="menu"
+        aria-expanded="false"
+        aria-current={activePartnerGroup ? 'page' : undefined}
+        class:list={{ 'is-active': activePartnerGroup }}
+      >
+        業務代行<span class="wh-caret" aria-hidden="true">▾</span>
+      </button>
+      <ul class="wh-drop-menu" role="menu">
+        <li role="none">
+          <a role="menuitem" href="/works/partner" aria-current={activePartner ? 'page' : undefined} class:list={{ 'is-active': activePartner }}>業務代行とは</a>
+        </li>
+        <li role="none">
+          <a role="menuitem" href="/works/capabilities" aria-current={activeCapabilities ? 'page' : undefined} class:list={{ 'is-active': activeCapabilities }}>できること</a>
+        </li>
+        <li role="none">
+          <a role="menuitem" href="/works/records" aria-current={activeRecords ? 'page' : undefined} class:list={{ 'is-active': activeRecords }}>実績・システム例</a>
+        </li>
+      </ul>
+    </div>
+
+    <a href="/works/first-time" aria-current={activeFirstTime ? 'page' : undefined} class:list={{ 'is-active': activeFirstTime }}>初めての方へ</a>
+    <a href="/works/faq" aria-current={activeFaq ? 'page' : undefined} class:list={{ 'is-active': activeFaq }}>FAQ</a>
+    <a href="/works/contact" aria-current={activeContact ? 'page' : undefined} class:list={{ 'is-active': activeContact }}>コンタクト</a>
+    <a href="/" class="wh-farm-link">農場HP ↗</a>
+    <a href="/works/contact" class="wh-cta" aria-current={activeContact ? 'page' : undefined}>まずは話してみる →</a>
+  </nav>
+</header>
+
+<style>
+/* ── Header ── */
+.wh{
+  position:sticky;top:0;z-index:100;
+  background:rgba(242,242,240,.92);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--hair);
+  padding:20px 60px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.wh-logo{display:flex;align-items:baseline;gap:10px}
+.wh-logo-main{font-family:var(--dp);font-size:20px;letter-spacing:.22em;color:var(--m)}
+.wh-logo-sub{font-family:var(--dp);font-size:12px;letter-spacing:.3em;color:var(--a)}
+.wh-farm-link{font-family:var(--mn);font-size:10px;letter-spacing:.15em;color:var(--inkm);border:1px solid var(--hair);padding:5px 10px;transition:color .2s,border-color .2s}
+.wh-farm-link:hover{color:var(--m);border-color:var(--m)}
+.wh-nav{display:flex;align-items:center;gap:24px}
+.wh-nav a{font-family:var(--sr);font-size:13px;letter-spacing:.1em;color:var(--ink);transition:color .2s}
+.wh-nav a:hover,.wh-nav a[aria-current="page"]{color:var(--a)}
+.wh-cta{
+  padding:9px 18px;border:1px solid var(--m);
+  color:var(--m)!important;
+  font-family:var(--dp);font-size:11px;letter-spacing:.18em;
+  transition:background .2s,color .2s!important;
+}
+.wh-cta:hover{background:var(--m);color:var(--bg)!important}
+.wh-cta[aria-current="page"]{background:var(--m);color:var(--bg)!important}
+
+/* ── Dropdown ("業務代行 ▾") ── */
+.wh-drop{position:relative}
+.wh-drop-trigger{
+  display:inline-flex;align-items:center;gap:4px;
+  background:none;border:none;padding:0;margin:0;cursor:pointer;
+  font-family:var(--sr);font-size:13px;letter-spacing:.1em;color:var(--ink);
+  transition:color .2s;
+}
+.wh-drop-trigger:hover,
+.wh-drop-trigger[aria-current="page"],
+.wh-drop.is-open .wh-drop-trigger{color:var(--a)}
+.wh-caret{font-size:10px;line-height:1;transition:transform .2s ease}
+.wh-drop.is-open .wh-caret{transform:rotate(180deg)}
+
+.wh-drop-menu{
+  list-style:none;margin:0;padding:8px 0;
+  position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%);
+  min-width:190px;
+  background:rgba(242,242,240,.98);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--hair);
+  box-shadow:0 14px 34px rgba(0,0,0,.09);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .18s ease,visibility .18s ease;
+}
+/* PC: hover opens; click/tap toggles .is-open (JS) for touch/keyboard parity */
+.wh-drop:hover .wh-drop-menu,
+.wh-drop.is-open .wh-drop-menu{
+  opacity:1;visibility:visible;pointer-events:auto;
+}
+.wh-drop-menu li{margin:0}
+.wh-drop-menu a{
+  display:block;padding:9px 20px;white-space:nowrap;
+  font-size:12px;letter-spacing:.08em;
+}
+.wh-drop-menu a:hover,.wh-drop-menu a[aria-current="page"]{color:var(--a);background:rgba(0,0,0,.035)}
+
+/* ── Responsive ── */
+@media (max-width:900px){
+  .wh{padding:16px 20px}
+  .wh-nav{gap:12px;row-gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .wh-nav a,.wh-drop-trigger{font-size:12px}
+  .wh-farm-link{display:none}
+
+  /* Mobile: no hover-popup (avoids off-screen clipping). Tap-only,
+     inline expansion in normal document flow below the trigger. */
+  .wh-drop:hover .wh-drop-menu{opacity:0;visibility:hidden;pointer-events:none}
+  .wh-drop-menu{
+    position:static;transform:none;
+    width:100%;min-width:0;
+    background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;
+    border:none;box-shadow:none;
+    padding:4px 0 0 12px;
+    display:none;
+  }
+  .wh-drop.is-open .wh-drop-menu{
+    display:flex;flex-direction:column;gap:2px;
+    opacity:1;visibility:visible;pointer-events:auto;
+  }
+  .wh-drop-menu a{padding:6px 0;white-space:normal}
+}
+</style>
+
+<script is:inline>
+(function(){
+  var drops = document.querySelectorAll('.wh-drop');
+  drops.forEach(function(drop){
+    var trigger = drop.querySelector('.wh-drop-trigger');
+    if(!trigger) return;
+
+    function closeDrop(){
+      drop.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded','false');
+    }
+    function openDrop(){
+      drop.classList.add('is-open');
+      trigger.setAttribute('aria-expanded','true');
+    }
+
+    // Click/tap toggles (covers touch devices and keyboard Enter/Space
+    // on the button, in addition to the CSS :hover reveal on desktop).
+    trigger.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(drop.classList.contains('is-open')){ closeDrop(); } else { openDrop(); }
+    });
+
+    // Outside click closes.
+    document.addEventListener('click', function(e){
+      if(!drop.contains(e.target)) closeDrop();
+    });
+
+    // Escape closes and returns focus to the trigger.
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && drop.classList.contains('is-open')){
+        closeDrop();
+        trigger.focus();
+      }
+    });
+  });
+})();
+</script>
