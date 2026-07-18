@@ -22,11 +22,12 @@
   --inkm: rgba(74,59,50,0.48);
   --hair: rgba(74,59,50,0.14);
   --sr: 'Shippori Mincho','Hiragino Mincho ProN',serif;
+  --zo: 'Zen Old Mincho','Hiragino Mincho ProN',serif;
   --dp: 'Cinzel',serif;
   --mn: 'JetBrains Mono','Courier New',monospace;
 }
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--zo);-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
 a{text-decoration:none;color:inherit}
 p{margin:0}
 
