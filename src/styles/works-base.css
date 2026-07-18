@@ -1,0 +1,40 @@
+/* Farm Eolica Works — 共通ベーススタイル
+ * works配下ページ間で完全重複していた :root トークン / reset / 共通アニメーションのみを収録。
+ * ページ固有CSS（セクションレイアウト・コンポーネント個別スタイル等）はここに入れない。
+ *
+ * 注意（2026-07-18 responsive_ux_proposal §7 フェーズ2 タスク2-1 パイロット時点の既知差異）:
+ * - .wc の max-width は works配下ページ間で不一致（faq/regional-sake-brewery=1120px、
+ *   terms=900px、index=1320px）のため、このファイルには margin のみを収録し、
+ *   max-width は各ページ側の <style> で明示指定する。
+ * - body の overflow-x:hidden は faq.astro のみに存在し、他ページ（index/terms/
+ *   regional-sake-brewery）には無いため、ここには含めずページ側に残している。
+ * - index.astro のみ --header-h 変数と html{scroll-padding-top:var(--header-h)}、
+ *   および .reveal 系のタイミング差異（28px / .75s、他は24px / .7s）を持つが、
+ *   これは固定ヘッダー実装に伴う index 固有の挙動のためここには含めない。
+ */
+
+:root {
+  --m: #1A2744;
+  --a: #B87333;
+  --bg: #F2F2F0;
+  --ink: #4A3B32;
+  --inks: rgba(74,59,50,0.72);
+  --inkm: rgba(74,59,50,0.48);
+  --hair: rgba(74,59,50,0.14);
+  --sr: 'Shippori Mincho','Hiragino Mincho ProN',serif;
+  --dp: 'Cinzel',serif;
+  --mn: 'JetBrains Mono','Courier New',monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+p{margin:0}
+
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{opacity:0;transform:translateY(24px)}
+.reveal.visible{animation:fadeInUp .7s cubic-bezier(.22,1,.36,1) forwards}
+
+.wc{margin:0 auto}
