@@ -1,8 +1,13 @@
 ---
 // Farm Eolica Works — Case Study: 栽培管理アプリ（Cultivation Manager）
 // Self-contained page — independent from main HP design
+import { Image } from 'astro:assets';
 import { SITE_CONFIG } from '../../../config/site';
 import WorksHeader from '../../../components/works/WorksHeader.astro';
+import listShot from '../../../assets/images/works/cases/cultivation-app-list.jpg';
+import taskShot from '../../../assets/images/works/cases/cultivation-app-task.jpg';
+import dashboardShot from '../../../assets/images/works/cases/cultivation-app-dashboard.jpg';
+import mobileShot from '../../../assets/images/works/cases/cultivation-app-mobile.jpg';
 const ga4Id = SITE_CONFIG.seo.ga4Id;
 const siteUrl = 'https://farmeolica.com';
 const title = '栽培管理アプリ（Cultivation Manager）制作実績 | Farm Eolica Works';
@@ -173,22 +178,22 @@ const description = '自社農園Farm Eolicaのために自社開発し、今も
     <div class="cs-shots reveal">
       <div class="cs-shot cs-shot-main">
         <div class="ph ph-auto">
-          <img src="/images/works/cases/cultivation-app-list.jpg" alt="App screenshot — 作付け一覧" class="work-img" />
+          <Image src={listShot} alt="App screenshot — 作付け一覧" class="work-img" widths={[600, 1000, 1400]} sizes="(max-width: 900px) 100vw, 640px" format="webp" loading="lazy" decoding="async" />
         </div>
       </div>
       <div class="cs-shot">
         <div class="ph ph-auto">
-          <img src="/images/works/cases/cultivation-app-task.jpg" alt="App screenshot — タスク管理" class="work-img" />
+          <Image src={taskShot} alt="App screenshot — タスク管理" class="work-img" widths={[400, 700, 1000]} sizes="(max-width: 900px) 50vw, 320px" format="webp" loading="lazy" decoding="async" />
         </div>
       </div>
       <div class="cs-shot">
         <div class="ph ph-auto">
-          <img src="/images/works/cases/cultivation-app-dashboard.jpg" alt="App screenshot — 分析ダッシュボード" class="work-img" />
+          <Image src={dashboardShot} alt="App screenshot — 分析ダッシュボード" class="work-img" widths={[400, 700, 1000]} sizes="(max-width: 900px) 50vw, 320px" format="webp" loading="lazy" decoding="async" />
         </div>
       </div>
       <div class="cs-shot">
         <div class="ph ph-45">
-          <img src="/images/works/cases/cultivation-app-mobile.jpg" alt="App screenshot — スマホ画面" class="work-img" />
+          <Image src={mobileShot} alt="App screenshot — スマホ画面" class="work-img" widths={[400, 700, 1000]} sizes="(max-width: 900px) 50vw, 320px" format="webp" loading="lazy" decoding="async" />
         </div>
       </div>
     </div>
