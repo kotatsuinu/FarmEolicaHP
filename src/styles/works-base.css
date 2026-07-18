@@ -38,3 +38,10 @@ p{margin:0}
 .reveal.visible{animation:fadeInUp .7s cubic-bezier(.22,1,.36,1) forwards}
 
 .wc{margin:0 auto}
+
+/* ── ブレークポイント規格（2026-07-18 responsive_ux_proposal §3.7）──
+ * 全works共通で sm:640px / md:768px / lg:1024px（Tailwind既定）に統一。
+ * 移行マップ: 900→1024(lg) / 720→768(md) / 600→640(sm) / 768据置。
+ * 新規メディアクエリは 640 / 768 / 1024 の3値のみ使用可（他値は理由コメント必須）。
+ * メディアクエリはCSS変数不可のため数値直書き＋本コメントで規格を担保。
+ */
