@@ -5,7 +5,7 @@ flowerType: "トルコギキョウ"
 
 category: "loss_flower"
 availableSeason: "2026年5月〜6月"
-saleStatus: "available"
+saleStatus: "discontinued"
 availableFrom: 2026-05-01
 cultivationNo: "202602"
 
@@ -61,7 +61,7 @@ order: 4
 - ボン・ボヤージュ スイートピンク（ピンク）
 - ベール1型ローズ（アンティークピンク）
 - セレブナイト（深い青〜青紫）
-- セレブシルキーピンク（淡いピンク・6月以降）
+- セレブシルキーピンク（淡いピンク・出荷終了）
 
 5月上旬は白系が中心、徐々にピンク・青紫が加わります。
 

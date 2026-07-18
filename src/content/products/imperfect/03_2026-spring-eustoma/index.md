@@ -4,7 +4,7 @@ description: "冬越しでじっくり育てたトルコギキョウ。草丈は
 flowerType: "トルコギキョウ"
 category: "imperfect"
 availableSeason: "2026年5月〜6月"
-saleStatus: "available"
+saleStatus: "discontinued"
 availableFrom: 2026-05-01
 cultivationNo: "202602"
 
@@ -97,7 +97,7 @@ order: 3
 3. ボン・ボヤージュ スイートピンク（ピンク）
 4. ベール1型ローズ（アンティークピンク）
 5. セレブナイト（深い青〜青紫）
-6. セレブシルキーピンク（淡いピンク・6月以降の予定）
+6. セレブシルキーピンク（淡いピンク・出荷終了）
 
 5月上旬は白系が中心、徐々にピンク・青紫が加わります。
 
