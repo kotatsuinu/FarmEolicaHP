@@ -9,6 +9,9 @@ export default {
         display: ['Cinzel', 'Cormorant Garamond', 'serif'],
         mono: ['Courier Prime', 'Space Mono', 'monospace'], // Lab感のための等幅フォント
       },
+      lineHeight: {
+        jp: '1.9', // 和文本文用（§3.2）。leading-jp で使用。現状は token 定義のみ（本文への適用は別タスク）
+      },
       colors: {
         // Mineral & Soil カラーパレット (WIND & DATA LABORATORY v2.2)
         'eolica-green': '#005243', // ブランドカラー: 深い森、知性

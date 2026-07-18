@@ -26,7 +26,7 @@
   --mn: 'JetBrains Mono','Courier New',monospace;
 }
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
 a{text-decoration:none;color:inherit}
 p{margin:0}
 
@@ -45,3 +45,9 @@ p{margin:0}
  * 新規メディアクエリは 640 / 768 / 1024 の3値のみ使用可（他値は理由コメント必須）。
  * メディアクエリはCSS変数不可のため数値直書き＋本コメントで規格を担保。
  */
+
+/* ── 本文タイポ規格（2026-07-18 responsive_ux_proposal §3.2）── */
+h1,h2,h3{text-wrap:balance}
+/* 本文行長（measure）: 和文約38字。長文段落に class="measure" を付与して使用（opt-in・
+ * 既存レイアウトを壊さないため全体への強制適用はしない）。 */
+.measure{max-width:38rem}
