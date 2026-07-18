@@ -2,15 +2,15 @@
 // Farm Eolica Works — 業務代行〈AI活用〉
 // Self-contained page — independent from main HP design
 import { Image } from 'astro:assets';
-import { SITE_CONFIG } from '../../config/site';
+import WorksLayout from '../../layouts/WorksLayout.astro';
 import WorksHeader from '../../components/works/WorksHeader.astro';
 import cultivationAppCard from '../../assets/images/works/cultivation-app-card.jpg';
 import automationCard from '../../assets/images/works/automation-card.jpg';
 import financeCard from '../../assets/images/works/finance-card.jpg';
-const ga4Id = SITE_CONFIG.seo.ga4Id;
 const siteUrl = 'https://farmeolica.com';
 const title = '業務代行〈AI活用〉 | Farm Eolica Works';
 const description = '業務代行〈AI活用〉は、経理・発信・資料づくりなど日々の業務を、AIを使ってまるごと代行する月額サービスです。人がレビューし、そのまま使える成果物にして毎月お届けします。月¥20,000〜。';
+const canonical = `${siteUrl}/works/partner/`;
 
 // TODO: 数値（浮く時間・Before→After）はすべて仮置き。実測データが揃い次第、差し替えること
 const scenes = [
@@ -31,36 +31,7 @@ const valueAngles = [
 ];
 ---
 
-<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content={description} />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <title>{title}</title>
-  <link rel="canonical" href={`${siteUrl}/works/partner/`} />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={`${siteUrl}/works/partner/`} />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:image" content={`${siteUrl}/images/about/hero.webp`} />
-  <meta property="og:locale" content="ja_JP" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content={`${siteUrl}/images/about/hero.webp`} />
-  <meta name="twitter:site" content="@FarmEolica" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Shippori+Mincho:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
-  <script define:vars={{ ga4Id }}>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', ga4Id);
-  </script>
-</head>
-<body>
+<WorksLayout title={title} description={description} canonical={canonical} twitterCard="summary_large_image" twitterSite="@FarmEolica">
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader />
@@ -438,32 +409,13 @@ const valueAngles = [
 
 <!-- ══════════ STYLES ══════════ -->
 <style is:global>
-:root {
-  --m: #1A2744;
-  --a: #B87333;
-  --bg: #F2F2F0;
-  --ink: #4A3B32;
-  --inks: rgba(74,59,50,0.72);
-  --inkm: rgba(74,59,50,0.48);
-  --hair: rgba(74,59,50,0.14);
-  --sr: 'Shippori Mincho','Hiragino Mincho ProN',serif;
-  --dp: 'Cinzel',serif;
-  --mn: 'JetBrains Mono','Courier New',monospace;
-}
-*,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased}
-a{text-decoration:none;color:inherit}
-p{margin:0}
-
-@keyframes fadeInUp{
-  from{opacity:0;transform:translateY(24px)}
-  to{opacity:1;transform:translateY(0)}
-}
-.reveal{opacity:0;transform:translateY(24px)}
-.reveal.visible{animation:fadeInUp .7s cubic-bezier(.22,1,.36,1) forwards}
+/* :root トークン / reset / @keyframes fadeInUp / .reveal / Google Fonts は
+   src/styles/works-base.css（WorksLayout経由）に移設済み。
+   以下はpartner固有の追加・上書きのみ。.wc の max-width は works配下ページ間で
+   不一致のためページ側で明示指定。 */
 
 /* ── Common section wrappers ── */
-.wc{max-width:1120px;margin:0 auto}
+.wc{max-width:1120px}
 .ws{padding:80px 60px 100px}
 .ws-alt{background:#EAE6DF}
 
@@ -769,5 +721,4 @@ p{margin:0}
 })();
 </script>
 
-</body>
-</html>
+</WorksLayout>
