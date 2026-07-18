@@ -1,8 +1,12 @@
 ---
 // Farm Eolica Works — 業務代行〈AI活用〉
 // Self-contained page — independent from main HP design
+import { Image } from 'astro:assets';
 import { SITE_CONFIG } from '../../config/site';
 import WorksHeader from '../../components/works/WorksHeader.astro';
+import cultivationAppCard from '../../assets/images/works/cultivation-app-card.jpg';
+import automationCard from '../../assets/images/works/automation-card.jpg';
+import financeCard from '../../assets/images/works/finance-card.jpg';
 const ga4Id = SITE_CONFIG.seo.ga4Id;
 const siteUrl = 'https://farmeolica.com';
 const title = '業務代行〈AI活用〉 | Farm Eolica Works';
@@ -342,7 +346,7 @@ const valueAngles = [
       <div class="work-card">
         <div class="work-ph">
           <div class="ph ph-auto">
-            <img src="/images/works/cultivation-app-card.jpg" alt="栽培管理アプリ" class="work-img" />
+            <Image src={cultivationAppCard} alt="栽培管理アプリ" class="work-img" widths={[400, 800]} sizes="(max-width: 900px) 100vw, 400px" format="webp" loading="lazy" />
           </div>
         </div>
         <div class="work-info">
@@ -358,7 +362,7 @@ const valueAngles = [
       <div class="work-card">
         <div class="work-ph">
           <div class="ph ph-auto">
-            <img src="/images/works/automation-card.jpg" alt="自動化システム" class="work-img" />
+            <Image src={automationCard} alt="自動化システム" class="work-img" widths={[400, 800]} sizes="(max-width: 900px) 100vw, 400px" format="webp" loading="lazy" />
           </div>
         </div>
         <div class="work-info">
@@ -374,7 +378,7 @@ const valueAngles = [
       <div class="work-card">
         <div class="work-ph">
           <div class="ph ph-auto">
-            <img src="/images/works/finance-card.jpg" alt="財務・会計の自動化" class="work-img" />
+            <Image src={financeCard} alt="財務・会計の自動化" class="work-img" widths={[400, 800]} sizes="(max-width: 900px) 100vw, 400px" format="webp" loading="lazy" />
           </div>
         </div>
         <div class="work-info">

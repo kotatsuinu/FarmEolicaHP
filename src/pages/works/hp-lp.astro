@@ -1,8 +1,12 @@
 ---
 // Farm Eolica Works — 1ページHP・LP制作 商品詳細ページ
 // Self-contained page — independent from main HP design
+import { Image } from 'astro:assets';
 import { SITE_CONFIG } from '../../config/site';
 import WorksHeader from '../../components/works/WorksHeader.astro';
+import namieRiceBurgerCard from '../../assets/images/works/namie-rice-burger-card.jpg';
+import miyakeNaoCard from '../../assets/images/works/miyake-nao-card.jpg';
+import sakeBreweryCard from '../../assets/images/works/sake-brewery-card.jpg';
 const ga4Id = SITE_CONFIG.seo.ga4Id;
 const siteUrl = 'https://farmeolica.com';
 const title = '1ページHP・LP制作 | Farm Eolica Works';
@@ -399,7 +403,7 @@ const flowStages = [
       <a href="/works/case/namie-rice-burger/" class="work-card reveal">
         <div class="work-ph">
           <div class="ph ph-auto">
-            <img src="/images/works/namie-rice-burger-card.jpg" alt="なみえライスバーガー" class="work-img" />
+            <Image src={namieRiceBurgerCard} alt="なみえライスバーガー" class="work-img" widths={[400, 800]} sizes="(max-width: 900px) 100vw, 400px" format="webp" loading="lazy" />
           </div>
         </div>
         <div class="work-info">
@@ -414,7 +418,7 @@ const flowStages = [
       <div class="work-card reveal">
         <div class="work-ph">
           <div class="ph ph-auto">
-            <img src="/images/works/miyake-nao-card.jpg" alt="三宅奈緒 Portfolio" class="work-img" />
+            <Image src={miyakeNaoCard} alt="三宅奈緒 Portfolio" class="work-img" widths={[400, 800]} sizes="(max-width: 900px) 100vw, 400px" format="webp" loading="lazy" />
           </div>
         </div>
         <div class="work-info">
@@ -428,7 +432,7 @@ const flowStages = [
       <div class="work-card reveal">
         <div class="work-ph">
           <div class="ph ph-auto">
-            <img src="/images/works/sake-brewery-card.jpg" alt="地域の酒蔵 ストーリーLP" class="work-img" />
+            <Image src={sakeBreweryCard} alt="地域の酒蔵 ストーリーLP" class="work-img" widths={[400, 800]} sizes="(max-width: 900px) 100vw, 400px" format="webp" loading="lazy" />
           </div>
         </div>
         <div class="work-info">
