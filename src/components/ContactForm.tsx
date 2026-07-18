@@ -241,7 +241,7 @@ export default function ContactForm() {
   }
 
   const inputClass =
-    'w-full bg-white border px-4 py-3 rounded-none font-serif text-dark-slate focus:outline-none focus:border-eolica-green transition-colors';
+    'w-full bg-white border px-4 py-3 rounded-none font-serif text-base text-dark-slate focus:outline-none focus:border-eolica-green transition-colors';
   const labelClass = 'block font-mono text-xs text-warm-gray-500 tracking-wide mb-2';
   const errorClass = 'text-xs text-red-600 mt-1 font-serif';
 
@@ -339,7 +339,7 @@ export default function ContactForm() {
                 name="productInfo"
                 value={formData.productInfo}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-stone-white border border-warm-gray-200 text-sm font-serif text-wet-soil focus:outline-none focus:border-old-copper transition-colors"
+                className="w-full px-4 py-3 bg-stone-white border border-warm-gray-200 text-base font-serif text-wet-soil focus:outline-none focus:border-old-copper transition-colors"
                 placeholder="例: カンパニュラのドライフラワー（ヘッド）30個"
               />
             </div>
@@ -438,7 +438,7 @@ export default function ContactForm() {
                 name="desiredDate"
                 value={formData.desiredDate}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-stone-white border border-warm-gray-200 text-sm font-serif text-wet-soil focus:outline-none focus:border-old-copper transition-colors"
+                className="w-full px-4 py-3 bg-stone-white border border-warm-gray-200 text-base font-serif text-wet-soil focus:outline-none focus:border-old-copper transition-colors"
               />
             </div>
           </>
@@ -491,7 +491,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={status === 'submitting'}
-            className={`inline-block px-12 py-3 text-xs tracking-widest uppercase font-mono border-2 border-old-copper transition-all duration-300 ${
+            className={`inline-block w-full sm:w-auto px-12 py-3 text-base tracking-widest uppercase font-mono border-2 border-old-copper transition-all duration-300 ${
               status === 'submitting'
                 ? 'opacity-70 cursor-not-allowed text-old-copper'
                 : 'text-old-copper hover:bg-old-copper hover:text-white'

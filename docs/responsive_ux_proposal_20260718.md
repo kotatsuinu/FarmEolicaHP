@@ -1,0 +1,308 @@
+# Farm Eolica 公式サイト レスポンシブ／モバイルUX改善提案書
+
+- **作成日**: 2026-07-18
+- **対象リポジトリ**: FarmEolicaHP（Astro v5 + React islands / `output: 'static'`）
+- **対象範囲**: メインサイト（`src/pages/*.astro`, `products/*`）＋ Works サブサイト（`src/pages/works/*`）
+- **目的**: スマホで「見やすい・疲れない・読みやすい」を、花農園ブランドの静かな上質さを損なわずに実現する。1人経営の保守負担を前提に、効果の高い順に段階導入する。
+
+---
+
+## 1. 現状サマリー
+
+メインサイトは Tailwind CSS v3 で `sm:`/`md:`/`lg:` によるレスポンシブ対応が概ね行き届いており（index 50件・about 38件）、テーブルの `overflow-x-auto` ラップ、`astro:assets` の `<Image>` による srcset 自動生成、そして全画面オーバーレイ式のハンバーガーメニュー（`Layout.astro` 内・48pxタップターゲット）まで備えた**比較的良好な状態**にある。一方 `/works/*` サブサイト15ページは素のスコープCSSで書かれており、**弱点が集中**している——ハンバーガーが無く900px以下でナビ8項目が flex-wrap で折り返すだけ、font-size は17ファイル・364件が px 固定、ブレークポイントは 900/768/720/600px と混在、各ページが独自 `<html>` を持ち共通レイアウトが無い（WorksHeader のみ共有）。さらにサイト全体に共通する穴が3つある：**① viewport meta の不統一**（メイン `Layout.astro:28` に `initial-scale=1` が欠落、works 側は正しい）、**② 画像最適化の穴**（`public/images/` 約11MBが素の `<img>`・特にトップの Instagram グリッド9枚＝各200〜560KB）、**③ ブレークポイント規格の不在**（Tailwind の md768/sm640 と works の独自値が不一致で崩れ方が不統一）。本提案はこの事実を土台に、「メインの良さを規格として言語化し、works をそこへ寄せ、共通の穴3つを最優先で塞ぐ」構成をとる。
+
+---
+
+## 2. 設計思想 — 「スマホで疲れず読める」ための4原則
+
+Farm Eolica のブランドは、落ち着き・信頼・季節感・手仕事の温度。派手な演出ではなく、**紙の印刷物のように静かで丁寧な読み心地**こそがブランド体験になる。モバイルUXの原則もそこから導く。
+
+### 原則1: 本文は 1rem（16px）を下限に、読者の設定を尊重する
+文字は「読ませていただくもの」。px 固定はブラウザの文字拡大設定を無視する＝読者の目の状態を無視することに等しい。本文は rem で組み、16px相当を下限にする。手仕事の温度は、読み手への配慮から始まる。
+
+### 原則2: 行長と行間で「呼吸」をつくる
+和文の疲れない読書体験は、1行の長さ（全角35〜42字）と行間（本文 1.8〜2.0）でほぼ決まる。詰め込まず、余白に語らせる。花圃場の畝間と同じで、間隔が揃っているから美しく、風が通る。
+
+### 原則3: 親指で完結させる
+スマホの操作は片手の親指が基本。タップ対象は44×44px以上、主要な導線（お問い合わせ・次のページ）は画面下部の親指到達域に置き、ホバーでしか出ない情報を作らない。「触れて迷わない」ことは信頼の体験。
+
+### 原則4: 待たせない静けさ — 速さは上質さの一部
+田舎の4G回線でもすっと表示されること。11MBの画像と6家族のWebフォントは「上質」ではなく「重さ」として体験される。画像・フォントを削ぎ落とし、表示のガタつき（CLS）を無くす。静けさとは、何も引っかからないこと。
+
+---
+
+## 3. 改善ポイント一覧（12観点）
+
+> タグ凡例 — 【対象】メイン / works / 共通 【効果】疲労軽減・可読性・速度・操作性・アクセシビリティ（a11y）
+
+### 3.1 基盤 — viewport・リセットCSS・2系統CSSの整合
+
+**なぜモバイルで効くか**: viewport 指定はモバイルレンダリングの初期条件そのもの。基盤の規格が割れていると、以降のどの改善も「ページごとに別の挙動」になり検証コストが倍増する。1人経営では「規格が1つであること」自体が最大の保守効率化。
+
+- **viewport meta の統一**: `Layout.astro:28` の `content="width=device-width"` に `initial-scale=1` を追加し、works 側と同一表記に統一する。iOS Safari の回転時ズームや初期スケールの解釈差を防ぐ1行修正。【対象: メイン】【効果: 可読性・操作性】
+- **リセットCSSの方針**: メインは Tailwind Preflight で足りており追加リセット不要。works は各ページが `body{margin:0…}` などを個別記述しており重複・漏れの温床。works 共通の `works-base.css`（リセット＋後述のデザイントークン）を1本切り出す。【対象: works】【効果: 可読性・保守性】
+- **works 共通レイアウトの新設**: 各ページの独自 `<html>` をやめ、`WorksLayout.astro` を新設して viewport・フォント読込・OGP・共通CSSを一元化する（WorksHeader 共有化の続きの一手）。ページ側は本文とページ固有CSSだけを持つ。【対象: works】【効果: 保守性・速度（フォントCSS重複排除）】
+- **2系統CSSの整合方針**: 大きく2案。
+  - **案A: works を Tailwind 化** — 長所: 規格が完全に1つになり、メインの知見（`px-4 sm:px-6`等の定石）がそのまま効く。ユーティリティなのでデザイン改修も速い。短所: 17ファイル・364箇所の書き換えで見た目劣化（デグレ）リスクが高い。works の緻密な letter-spacing／clamp 設計を Tailwind の arbitrary value で書き直すと可読性がむしろ落ちる箇所もある。工数大。
+  - **案B: 独自CSSのまま規格を揃える** — 長所: 見た目を触らずに「規格（ブレークポイント・rem・トークン）」だけを差し替えられる。デグレリスク小・工数中。短所: 2系統は残る（ただし規格が同じなら実害は小さい）。
+  - **推奨は案B**（詳細は論点1）。CSS変数でトークン（`--bp` 相当のメディアクエリ規約・`--space-*`・`--fs-*`）を定義し、Tailwind の設定値と同じ数値に揃える。【対象: works】【効果: 保守性・可読性】
+
+### 3.2 タイポグラフィ — 疲れない読みやすさの中核
+
+**なぜモバイルで効くか**: スマホの読書は視距離が近く画面が狭い。文字サイズ・行間・行長の3点が崩れていると、内容が良くても数段落で疲れる。また px 固定はOSの文字拡大が効かず、40代以上の読者（花の購入層・works の商談相手）を実質的に締め出す。
+
+- **本文サイズの下限**: 本文・説明文は 1rem（16px相当）以上。works の `font-size:13px` 級の本文相当テキストは 16px へ引き上げる。10〜11px の英字ラベル（`.sh-en` 等の装飾キャプション）は「読ませない装飾」として存置可だが、12px（0.75rem）を下限とする。【対象: works】【効果: 可読性・疲労軽減・a11y】
+- **px→rem 一括変換**: works 17ファイル・364件を `font-size: Npx` → `font-size: (N/16)rem` に機械変換する（sed/スクリプトで一括、変換後に全ページ目視）。`html` の基準サイズは触らない（62.5%ハック禁止）。これでブラウザ文字拡大・OS設定が全て効くようになる。【対象: works】【効果: a11y・可読性】
+- **行間**: 和文本文は `line-height: 1.8〜2.0`。Tailwind の `leading-relaxed`(1.625) は和文にはやや詰まるため、メインは `leading-loose`(2.0) か `tailwind.config` に `lineHeight.jp: '1.9'` を追加して本文へ適用。見出しは 1.3〜1.5（works の `line-height:1.35` は妥当）。キャプション・表は 1.5〜1.6。【対象: 共通】【効果: 疲労軽減・可読性】
+- **行長（measure）**: 本文ブロックに `max-width: 38rem` 前後（全角約38字）を設定。Tailwind の `max-w-prose`(65ch) は欧文基準で和文には広すぎるため使わない。PC で本文が画面幅いっぱいに伸びる箇所（works のテキストセクション）に効く。モバイルでは自動的に画面幅−ガターに収まる。【対象: 共通】【効果: 疲労軽減・可読性】
+- **fluid type（clamp()）の是非**: 見出しのみ採用、本文は固定 rem。works は既に `clamp(32px,2.8vw,48px)` の実績があり方向性は正しい——ただし px 基準を `clamp(2rem, 2.8vw + 1rem, 3rem)` のように **rem基準＋vw加算** へ直す（純vwだけの項はズーム無効になるため加算式にする）。本文を fluid にしないのは、読者のズーム設定との掛け算で予測不能になるため。【対象: works（見出し）】【効果: 可読性】
+- **和文の禁則・折返し**: 全ページ共通で `overflow-wrap: break-word`（長いURL・英単語のはみ出し防止）。見出しには `text-wrap: balance`（2行見出しの泣き別れ改善・非対応ブラウザでは無害に無視される）。必要なら `word-break: auto-phrase` を見出し限定で試す（対応ブラウザのみの上乗せ演出）。字間は和文 0.02〜0.06em（works の `.04em` は良い基準値・本文への 0.1em 超の適用は避ける）。【対象: 共通】【効果: 可読性・疲労軽減】
+- **見出し階層のコントラスト**: サイズ差だけに頼らず「上余白を広く・下余白を狭く」（見出しは次の本文に帰属する）＋ウェイト＋アクセント色（old-copper の英字ラベル併記＝既存パターン）で階層を作る。モバイルでは h2 が 1.5〜1.75rem あれば十分で、PCサイズをそのまま縮めない。【対象: 共通】【効果: 可読性】
+
+### 3.3 レイアウト＆余白
+
+**なぜモバイルで効くか**: モバイルの疲労は「情報密度の高さ」から来る。余白は装飾ではなく休符。特に縦スクロールが長いページでは、セクション間のリズムが一定だと読み進める負担が減る。
+
+- **左右ガターの規格化**: モバイル16〜20px を下限に。メインは `px-4 sm:px-6 lg:px-12` の既存パターンを規格として明文化。works は `--gutter: clamp(16px, 4vw, 60px)` を `works-base.css` に定義し、各ページの `padding:20px 60px` 等を置換（WorksHeader の `padding:16px 20px` @900px は既に近い値）。【対象: works】【効果: 可読性・保守性】
+- **セクション間リズム（fluid spacing）**: セクション縦余白はモバイルでPCの約60%に。Tailwind は `py-12 md:py-20` を標準形に、works は `--space-section: clamp(3rem, 8vw, 6rem)` で統一。「大余白＝章の切れ目」「中余白＝節」「小余白＝段落」の3段だけに絞ると、視線が休む場所が予測可能になり疲れない。【対象: 共通】【効果: 疲労軽減】
+- **多カラム→1カラムのスタック方針**: 2〜3カラムは md 未満で1カラム。スタック順は **DOM順＝読み順を維持**し、`order-*` や `flex-direction: row-reverse` で視覚順だけ入れ替えない（スクリーンリーダー・キーボード操作と視覚の不一致を生む）。画像＋テキストの交互レイアウトは、モバイルでは「画像→テキスト」の順に必ず揃える。【対象: 共通】【効果: 可読性・a11y】
+- **カードグリッド**: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3` を標準形に。カード間 gap はモバイル 16px 以上（タップ誤爆防止を兼ねる）。【対象: 共通】【効果: 操作性】
+- **「呼吸」の演出はコンテンツ削減でも作る**: works のケーススタディ等、モバイルで長大になるページは折りたたみ（`<details>`）や「続きを読む」ではなく、**要約先行の文章構造**（結論→詳細）で対応する。ギミックより編集で密度を下げるのがブランドに合う。【対象: works】【効果: 疲労軽減】
+
+### 3.4 ナビゲーション
+
+**なぜモバイルで効くか**: works の現状（900px以下で8項目が flex-wrap 折返し）は、スマホでヘッダーが2〜3行に伸びて第一印象が雑然とし、12px のリンクが密集してタップ精度も低い。ナビはサイトの「顔」であり、ここの雑然はブランドの「丁寧さ」を直接毀損する。
+
+- **works ハンバーガーの実装（最優先級）**: メイン `Layout.astro` に既存の全画面オーバーレイ式メニュー（`#hamburger-btn`・48px・`md:hidden`、products サブメニューの開閉付き）をパターンの正本とし、WorksHeader に同じ構造を移植する。React 島は不要——WorksHeader は既に `aria-expanded` トグルの vanilla JS（ドロップダウン用）を持っており、同じ流儀で書ける。要件: ①ボタンは44×44px以上 ②`aria-expanded`/`aria-label` ③開時 `Esc`で閉じフォーカス返却（既存ドロップダウンJSの流用可） ④開時は背景スクロールロック ⑤「業務代行」サブメニューはメニュー内でインライン展開（現行 @900px の `position:static` 展開の流用）。切替は 1024px（後述の規格統一に従い、8項目ナビは 900px でも窮屈なため lg 境界でハンバーガーに落とす）。【対象: works】【効果: 操作性・疲労軽減・第一印象】
+- **親指到達域（thumb zone）**: 画面上部は片手親指の死角。①ハンバーガー内の主要導線（コンタクト・まずは話してみる）はメニューの**下部**に大きめに配置 ②各ページ末尾に次の導線（お問い合わせCTA・関連ページ）を必ず置き「上に戻ってナビを開く」操作を不要にする（works の `.wfooter-back` は良い芽。フッターナビとして体系化）。【対象: 共通】【効果: 操作性】
+- **固定ヘッダーの高さ**: WorksHeader は `position:sticky` で固定化済み。モバイルでの高さは 56〜64px 以内に抑える（ハンバーガー化すれば自然に収まる。現状は折返しで100px超になり本文領域を圧迫）。メイン側も同水準で統一。【対象: 共通】【効果: 可読性（本文領域確保）】
+- **スクロール時の挙動**: 縦に長い works のLPでは「下スクロールで隠れ、上スクロールで再表示」の auto-hide が本文領域を最大化する。ただし実装・検証コストに対し効果は中程度なのでフェーズ3。まずは sticky＋低い高さで十分。【対象: works】【効果: 可読性】
+- **現在地表示**: WorksHeader の `aria-current="page"`＋`.is-active` は既に良い実装。ハンバーガー内メニューでも現在地に同じ表示（色＋下線 or 「●」）を出す。メイン側のモバイルメニューにも `aria-current` を揃える。【対象: 共通】【効果: 操作性・a11y】
+- **農場HP⇄Works の相互リンク**: モバイルで `.wh-farm-link` が `display:none` になっており、スマホからは Works→農場HP の導線がヘッダーから消える。ハンバーガー内に「農場HPへ ↗」を残すこと。【対象: works】【効果: 操作性】
+
+### 3.5 タッチ操作
+
+**なぜモバイルで効くか**: タップの失敗（誤タップ・無反応）は小さなストレスの積み重ねで、「なんとなく使いにくいサイト」という印象の主因。特に works のナビリンク（12〜13px・gap 12px）とフッターの法的リンク（10px）は指のサイズに対して小さすぎる。
+
+- **タップターゲット 44×44px 以上**: 文字サイズを上げるのではなく **padding で当たり判定を確保**する（`padding: 12px` を加えれば 13px リンクでも44pxに届く）。works ナビ・`.wfooter-legal a`（10px）・`.wh-farm-link` が主対象。メインのハンバーガーボタン（w-12 h-12＝48px）は既に合格で、この水準を規格とする。【対象: works】【効果: 操作性・a11y】
+- **要素間の間隔**: 隣接タップ対象の間は8px以上。リンクが密集する箇所（works フッター・パンくず・タグ列）は縦積みか gap 拡大で解消。本文中の連続リンクは避け、1文に1リンクを目安に。【対象: 共通】【効果: 操作性】
+- **ホバー依存UIのタッチ代替**: WorksHeader のドロップダウンは hover＋click 両対応で `@media(max-width:900px)` では hover 無効化済み——これは正しい実装で、規格として他へ展開する。追加で `@media (hover:hover)` を使い、**タッチデバイスでは hover スタイル自体を発火させない**（タップ後に hover 状態が残る "sticky hover" 防止）。Tailwind v3 は `hoverOnlyWhenSupported: true`（`future` フラグ）で一括対応可。【対象: 共通】【効果: 操作性】
+- **タップフィードバック**: `:active` で沈み込み（`opacity` や `background` の即時変化）を全ボタン・リンクに。transition は hover 用の 0.2〜0.3s のままだと active が遅れて見えるため、`:active` は transition なしで即時に。【対象: 共通】【効果: 操作性】
+- **スワイプとの競合回避**: 横スクロールUI（テーブル・Instagram グリッドを横スクロール化する場合）は画面端に置かない（iOS の戻るジェスチャと競合）。`overscroll-behavior-x: contain` を横スクロールコンテナに。【対象: 共通】【効果: 操作性】
+
+### 3.6 画像・メディア
+
+**なぜモバイルで効くか**: `public/images/` 約11MBが素の `<img>` のまま＝モバイル回線でこのサイト最大のボトルネック。トップの Instagram グリッド9枚（各200〜560KB＝合計2MB超）は、モバイル表示幅では実際 400px 程度しか必要なく、**転送量を1/10にできる余地**がある。画像はこのサイトの主役（花の写真）だからこそ、速く・ガタつかず出ることがブランド体験になる。
+
+- **astro:assets への移行**: `public/images/` の表示用画像を `src/assets/images/` へ移し、`<Image>`/`<Picture>` コンポーネント化。srcset・幅別リサイズ・WebP（必要なら AVIF）変換がビルド時に自動化される。優先順: ①トップ Instagram グリッド9枚 ②各ページのヒーロー画像 ③works ケーススタディ写真。OGP用など外部から参照される画像のみ `public/` に残す。【対象: 共通】【効果: 速度】
+- **Instagram グリッドの最適化**: 表示は最大3カラム＝1枚あたり最大でも約400px幅。`<Image widths={[400, 800]} sizes="(max-width: 640px) 50vw, 33vw" />` で1枚数十KBに。9枚全てビューポート外になりがちなので `loading="lazy"` 必須。正方形なら `aspect-ratio: 1/1` をCSSで担保。【対象: メイン】【効果: 速度・疲労軽減（CLSゼロ）】
+- **LCP画像の優先読込**: 各ページのファーストビュー画像（トップの hero.jpg 等）だけは `loading="eager"` ＋ `fetchpriority="high"`（Astro の `<Image priority />`）。それ以外は全て `loading="lazy" decoding="async"`。「最初の1枚だけ最速、残りは遅延」が原則。【対象: 共通】【効果: 速度（LCP）】
+- **CLS防止**: 全画像に width/height（または `aspect-ratio`）を必ず持たせる。astro:assets は自動付与されるが、素の `<img>` が残る箇所は手動で属性追加。読み込み中のガタつきは「疲れ」と「安っぽさ」の両方に直結するため、CLS 0.1 未満を規格とする。【対象: 共通】【効果: 疲労軽減・速度】
+- **フォーマット**: WebP を基本（Astro デフォルト）。AVIF は圧縮率で勝るがビルド時間増・画質チューニングの手間があるため、まず WebP で計測し、hero 級の大判のみ AVIF 追加を検討する二段構え。【対象: 共通】【効果: 速度】
+
+### 3.7 ブレークポイント標準化
+
+**なぜモバイルで効くか**: works の 900/768/720/600px 混在は「同じスマホ・同じタブレットでページごとに崩れ方が違う」原因。検証も4規格分必要になる。Tailwind の sm640/md768/lg1024 に一本化すれば、メインの検証知見がそのまま works に効く。
+
+- **標準規格**: `sm: 640px / md: 768px / lg: 1024px`（Tailwind 既定値）に全サイト一本化。モバイルファースト（min-width）で書くのを原則とし、works の max-width 記述は移行時に整理（機械変換では min/max 反転バグが出やすいため、値の置換に留めて向きは現状維持でも可）。【対象: works】【効果: 保守性・可読性】
+- **works 既存値の移行マップ**:
+  | 現状値 | 移行先 | 根拠 |
+  |---|---|---|
+  | 900px（ナビ折返し等） | **1024px (lg)** | 8項目ナビは 768〜1024px でも窮屈。タブレット縦(768px)はハンバーガー側に倒す方が安全 |
+  | 768px | 768px (md) | そのまま規格に合流 |
+  | 720px | **768px (md)** | 48px差に意味のある分岐は無いはず。統合してレイアウトを md で確認 |
+  | 600px | **640px (sm)** | 同上。sm に寄せる |
+- **実装方法**: メディアクエリはCSS変数が使えないため、`works-base.css` にコメントで規格を明文化した上で、各ファイルの数値を単純置換＋全ページ目視確認。将来 works を触るときのルールとして「新規メディアクエリは 640/768/1024 のみ」をコード規約化（`docs/` に1行残す）。【対象: works】【効果: 保守性】
+- **「コンテンツが崩れる所で切る」原則との折り合い**: 本来ブレークポイントはデザイン都合で決めるものだが、1人経営の保守では**規格統一の利益（検証コスト半減）が個別最適を上回る**。どうしても中間で崩れる箇所のみ、例外として理由コメント付きで許可する。【対象: works】【効果: 保守性】
+
+### 3.8 視覚的な疲労軽減
+
+**なぜモバイルで効くか**: スマホは屋外・寝室など照度条件が極端な環境で読まれる。コントラスト不足は屋外で読めず、過剰な純黒×純白は暗所で眩しい。現行の配色（stone-white 系の温かい背景・dark-slate/wet-soil 系の墨色・eolica-green #005243・old-copper）は既に低彩度で方向性が良く、**規格化と例外潰しが仕事**になる。
+
+- **コントラスト比の監査**: 本文は WCAG AA（4.5:1）必須・できれば AAA（7:1）。疑わしいのは ①works の淡色ラベル（`--inkm` 系・`rgba(242,242,240,.85)` on 濃背景は良いが、薄グレー on 薄背景の箇所） ②メインの `text-warm-gray-600` を本文に使っている箇所 ③old-copper（#B87333系）の小サイズ文字（銅色は白背景で 3:1 前後になりがち＝**18px未満の本文には使わない**、ラベル・大見出し限定に）。ツールで機械監査（後述フェーズ2）。【対象: 共通】【効果: 疲労軽減・a11y】
+- **純黒・純白を避ける（現状維持の明文化)**: 既に背景 #f2f2f0・文字は墨色系で正しい。この「紙のような明度差（明度差を確保しつつ純白×純黒は避ける）」を規格として明文化し、今後の追加ページでの逸脱を防ぐ。【対象: 共通】【効果: 疲労軽減】
+- **prefers-reduced-motion**: transition/animation を `@media (prefers-reduced-motion: reduce)` で無効化・短縮する。Tailwind は `motion-safe:`/`motion-reduce:` variant、works はグローバルCSSに一括の抑制ルール（`*{animation-duration:.01ms!important; transition-duration:.01ms!important}` 方式）で足りる。前庭障害・乗り物内閲覧への配慮であり、実装は30分級。【対象: 共通】【効果: 疲労軽減・a11y】
+- **ダークモード**: 対応は**当面見送りを推奨**（論点4で詳述）。ただし `Layout.astro` と works 共通headに `<meta name="color-scheme" content="light">`（またはCSS `:root{color-scheme:light}`）を明示し、ダークモード端末でフォーム部品・スクロールバーだけ暗色になる「まだら反転」事故を防ぐ。これは対応ではなく防衛で、1行で済む。【対象: 共通】【効果: 疲労軽減】
+- **彩度・色温度**: 大面積の高彩度色を使わない現状を維持。写真が主役のサイトでは UI 側の彩度を落とすほど花が映える。エラー表示の赤のみ、機能色として例外的に彩度を許す（3.9参照）。【対象: 共通】【効果: 疲労軽減】
+
+### 3.9 フォーム（contact）のモバイルUX
+
+**なぜモバイルで効くか**: お問い合わせはサイトの収益導線の終点。モバイルのフォーム離脱は入力ストレスに比例する。現状の `ContactForm.tsx`（React島・`client:load`）はラベル `htmlFor` 済み・`type="email"`・`type="date"`・ハニーポットまで備え**土台は良好**だが、モバイル特有の詰めが3点残っている。
+
+- **入力欄の font-size 16px 以上（iOS拡大防止）**: iOS Safari は入力欄の文字が16px未満だと**フォーカス時に画面全体をズーム**し、入力後にレイアウトがずれたままになる。`ContactForm.tsx:342`・`:441` の `text-sm`（14px）入力欄を `text-base` へ。共通 `inputClass`（`:244`）にも `text-base` を明示（現在はサイズ未指定＝継承任せで、将来の親要素変更で壊れうる）。【対象: メイン】【効果: 操作性・疲労軽減】
+- **入力欄の高さ**: `py-3`（12px）＋16px文字＝約48px は合格水準。この組を規格化。【対象: メイン】【効果: 操作性】
+- **inputmode / autocomplete の付与**: 名前に `autoComplete="name"`、メールに `autoComplete="email" inputMode="email"`、電話欄を設けるなら `type="tel" inputMode="tel" autoComplete="tel"`。自動入力が効くと入力時間が体感半分になる。`type="date"` は iOS ネイティブピッカーが出る現状のままで良い。【対象: メイン】【効果: 操作性】
+- **エラー表示**: ①色（赤）だけに依存せず文言＋アイコンで示す ②該当フィールドに `aria-invalid="true"`・エラー文に `role="alert"` ③エラー文はフィールド直下（スマホでは画面上部のサマリーだけだと見えない）④送信ボタン押下時に最初のエラーへスクロール。赤は `text-red-700` 級の濃い赤で背景とのコントラスト確保（現行 `:253` は合格）。【対象: メイン】【効果: 操作性・a11y】
+- **送信ボタンの到達性と明瞭さ**: `:494` の `text-xs`（12px）は主要CTAとして小さい——14px以上に。モバイルでは `w-full sm:w-auto` で幅いっぱいにし、親指で外さないターゲットに。送信中は disabled＋文言変化（「送信中…」）で二度押し防止（実装確認の上、無ければ追加）。【対象: メイン】【効果: 操作性】
+- **works/contact への展開**: works 側のコンタクトページも同じ規格（16px入力・44pxボタン・エラー作法）で点検する。【対象: works】【効果: 操作性】
+
+### 3.10 パフォーマンス — 体感速度はUXの土台
+
+**なぜモバイルで効くか**: 農村部の4G・電波の弱い市場や圃場からの閲覧が現実の利用条件。Core Web Vitals（LCP<2.5s / CLS<0.1 / INP<200ms）はそのままモバイル体感の指標になる。Astro static 出力なのでサーバ側は既に最速——**残る課題はフロント資産（画像11MB＋フォント6家族）に集中**している。
+
+- **画像総量の削減**: 3.6 の astro:assets 化がそのまま最大のパフォーマンス施策（推定で転送量▲80〜90%）。【対象: 共通】【効果: 速度】
+- **Webフォントの棚卸し（重要・タスク2-5で確定）**: メイン `Layout.astro:42` は当初**6家族**（Cinzel / Cormorant Garamond / Shippori Mincho / Zen Old Mincho / Courier Prime / Space Mono）×各2〜3ウェイトを読込していた。使用実態の棚卸しの結果、**当初案「和文明朝1書体へ削減」から「役割分担2書体」へ方針変更**（論点2決定）: works は見出し・ヒーロー = Shippori Mincho／本文コンテンツ = Zen Old Mincho（Zen Old の方が本文可読性が高いとの判断）で役割分担して併用し、main は役割分担せず本文含め Shippori 据置。結果、**works = 4家族**（Shippori Mincho / Zen Old Mincho / Cinzel / JetBrains Mono）・**main = 3家族**（Shippori Mincho / Cinzel / JetBrains Mono・当初の6→3は達成）。mono は JetBrains Mono に統一（Courier Prime / Space Mono 削除）、欧文ディスプレイは Cinzel 継続（Cormorant Garamond 削除）。`display=swap`・preconnect は実装済みで正しい（FOUT許容が正解。FOITは全面回避済み）。【対象: 共通】【効果: 速度・（副次的に）ブランド一貫性】
+- **JS島の最小化**: `ContactForm` の `client:load` は contact ページ主コンテンツなので妥当。折りたたみ系の島（EstimateCalculator 等）はファーストビュー外なら `client:visible` へ。**新規のインタラクションはまず vanilla JS（WorksHeader 方式）で書き、React 島は状態管理が要るものだけ**をルール化。GA4 の Partytown 化は効果に対し複雑さが勝るため見送り。【対象: 共通】【効果: 速度（INP）】
+- **計測ルーチン**: 施策の前後で PageSpeed Insights（モバイル）を主要4ページ（トップ／about／products／works トップ）で記録。フェーズごとに1回、数値をこの docs に追記して効果を可視化する。感覚でなく数値で「やった甲斐」を確認する。【対象: 共通】【効果: 速度（検証）】
+
+### 3.11 アクセシビリティ×UX
+
+**なぜモバイルで効くか**: モバイルのアクセシビリティは「特別対応」ではなく可読性・操作性と地続き。文字拡大耐性は rem 化（3.2）、タップターゲットは 3.5、コントラストは 3.8 と、既出施策の多くが a11y を兼ねる。ここでは残りの独立項目を挙げる。
+
+- **フォーカスリング**: `ContactForm.tsx:244` の `focus:outline-none` は代替が `focus:border-eolica-green`（1px境界色変化）のみで視認性不足。`focus-visible:ring-2 ring-eolica-green ring-offset-2` 型へ置換し、**マウスクリック時は出ずキーボード時だけ出る** `focus-visible` を全サイト規格に。works も `:focus-visible{outline:2px solid var(--a); outline-offset:2px}` を共通CSSへ。外付けキーボード利用の iPad ユーザーにも効く。【対象: 共通】【効果: a11y・操作性】
+- **代替テキスト**: 情報を持つ画像（花の品種写真・ケーススタディ画面）は内容を語る alt、装飾画像は `alt=""`。Instagram グリッドは「◯◯（品種名）の写真」級で十分——「画像」「写真1」は不可。【対象: 共通】【効果: a11y】
+- **見出し構造**: works 各ページが独自 `<html>` を持つ現状は h1 重複・階層飛びの温床。`WorksLayout` 化と同時に「1ページ h1 は1つ・h2→h3 を飛ばさない」を機械チェック（ビルド時 or 目視リスト）。見出し構造はスクリーンリーダーの目次であると同時に、SEO とページ内スキャンのしやすさに直結。【対象: works】【効果: a11y・可読性】
+- **文字拡大耐性の受け入れ基準**: ブラウザ文字サイズ200%でも横スクロールが出ず全機能が使えること（WCAG 1.4.4）。rem化（3.2）完了後にトップ・works トップ・contact の3ページで確認。【対象: 共通】【効果: a11y】
+- **色だけに依存しない**: 本文中リンクは色＋下線（`underline underline-offset-4` で和文でも品よく）。グラフ・表の強調も色＋太字/記号の二重符号化。エラーは 3.9 の通り。【対象: 共通】【効果: a11y・可読性】
+
+### 3.12 テーブル／データのモバイル表示
+
+**なぜモバイルで効くか**: 品種表・価格表・栽培記録などの表は横幅が画面を超えやすい。既に `overflow-x-auto` ラップ済み（合格点）だが、「スクロールできると気づけない」「セルが潰れて読めない」の2つが残る。
+
+- **スクロール可能の視覚ヒント**: 横スクロールコンテナの右端に薄いグラデーション（フェード）を重ね「続きがある」ことを示す。CSS のみで実装可（`background: linear-gradient(...)` を `position:sticky` の擬似要素で）。もっと簡素に「→ 横にスクロールできます」の小キャプションでも十分。【対象: 共通】【効果: 操作性】
+- **セル潰れ防止**: 表本体に `min-w-[560px]` 級を指定し、無理な折返しでセルが縦長に潰れるのを防ぐ（潰すよりスクロールさせる方が読める）。数値列は `whitespace-nowrap` ＋右揃え・`font-mono`（既存の mono 併用と相性が良い）。【対象: 共通】【効果: 可読性】
+- **カード化（選択的に）**: 列が2〜4本の表（品種と価格、日付と作業など）は、モバイルでは1行=1カードの縦積み（`dt/dd` スタック）の方が読みやすい。Tailwind なら「md未満はカード・md以上は表」をユーティリティで切替可能。**全表一律ではなく、スマホで読む頻度の高い表だけ**選んで適用（過剰実装回避）。【対象: メイン】【効果: 可読性・疲労軽減】
+- **先頭列の固定**: 列が多い比較表のみ `sticky left-0 bg-white` で先頭列（品種名等）を固定。対象が現状少なければ見送り可。【対象: メイン】【効果: 可読性】
+
+---
+
+## 4. 優先度と段階導入プラン
+
+> 工数感の目安 — 小: 〜半日 / 中: 1〜2日 / 大: 3日〜。1人経営前提で「1フェーズ=無理なく1〜2週間で消化できる粒度」に割っている。各フェーズ完了時に PageSpeed Insights（モバイル）で計測・記録。
+
+### フェーズ1 — 即効・低コスト（今すぐ、合計2〜3日）
+
+「共通の穴3つ」と収益導線のバグ級課題を塞ぐ。**費用対効果が最も高く、全項目が独立**なので隙間時間に1つずつ消化できる。
+
+| # | 施策 | 対象 | 工数 | 期待効果 |
+|---|---|---|---|---|
+| 1-1 | viewport meta 統一（`Layout.astro:28` に `initial-scale=1` 追加） | メイン | 小(数分) | 描画スケールの安定・works との規格統一 |
+| 1-2 | works ハンバーガーメニュー実装（メインのオーバーレイ式を移植・lg未満で発動） | works | 中 | スマホ第一印象の刷新・操作性・ヘッダー高さ正常化 |
+| 1-3 | works font-size px→rem 一括変換（364件・機械変換＋目視） | works | 小〜中 | 文字拡大が効く＝a11y・可読性の底上げ |
+| 1-4 | Instagram グリッド9枚の astro:assets 化（widths/sizes/lazy） | メイン | 小 | トップの転送量▲2MB級・LCP改善 |
+| 1-5 | LCP画像 `priority` 化＋その他画像 lazy/寸法属性の総点検 | 共通 | 小 | LCP/CLS 改善 |
+| 1-6 | ContactForm 入力欄 `text-sm`→`text-base`（iOS自動ズーム根絶）＋送信ボタン拡大 | メイン | 小 | 問い合わせ導線の入力ストレス除去 |
+| 1-7 | `color-scheme: light` 明示（ダーク端末のまだら反転防止） | 共通 | 小(数分) | 表示事故の防止 |
+
+### フェーズ2 — 体系化（フェーズ1の後、合計1〜2週間）
+
+規格を1つにまとめ、「今後何を作っても崩れない」土台を作る。works の構造改善が中心。
+
+| # | 施策 | 対象 | 工数 | 期待効果 |
+|---|---|---|---|---|
+| 2-1 | `WorksLayout.astro` 新設＋`works-base.css` 切り出し（viewport/フォント/リセット/トークン一元化） | works | 中 | 保守コスト恒久減・フォント読込重複排除 |
+| 2-2 | ブレークポイント統一（900→1024 / 720→768 / 600→640・移行マップ準拠） | works | 中 | 崩れ方の統一・検証コスト半減 |
+| 2-3 | タイポグラフィ規格の適用（本文16px+/行間1.8〜2.0/行長38rem/見出しclamp rem化/text-wrap:balance） | 共通 | 中 | 「疲れない読みやすさ」の中核。体感品質が一段上がる |
+| 2-4 | 残り画像の astro:assets 化（ヒーロー・works ケーススタディ写真） | 共通 | 中 | 総転送量▲80%級・全ページ高速化 |
+| 2-5 | Webフォント削減（論点2の決定後: 6家族→3家族・works とセット統一） | 共通 | 小〜中 | 初期表示の体感高速化・ブランド書体の一貫 |
+| 2-6 | タッチターゲット総点検（44px規格・works ナビ/フッター・`hover:hover`ガード） | 共通 | 小〜中 | 誤タップ根絶 |
+| 2-7 | フォーム仕上げ（autocomplete/inputmode・エラーaria・フォーカスリング規格・works/contact 展開） | 共通 | 小〜中 | 問い合わせ完遂率・a11y |
+| 2-8 | コントラスト機械監査＋是正（old-copper 小文字の使用制限含む） | 共通 | 小 | 屋外可読性・AA準拠 |
+
+### フェーズ3 — 磨き込み（余裕のある時期に、任意）
+
+効果はあるが緊急でない項目。農閑期などに1つずつ。
+
+| # | 施策 | 対象 | 工数 | 期待効果 |
+|---|---|---|---|---|
+| 3-1 | prefers-reduced-motion 一括対応 | 共通 | 小 | 動きに弱い読者への配慮・a11y |
+| 3-2 | テーブルのカード化（スマホ高頻度の表のみ選択適用）＋横スクロールヒント | メイン | 小〜中 | データページの可読性 |
+| 3-3 | ヘッダー auto-hide（下スクロールで隠れ上スクロールで再表示） | works | 小〜中 | 長尺LPの本文領域最大化 |
+| 3-4 | 文字拡大200%・実機横断の受け入れテスト（iPhone SE級/Pro Max級/iPad縦） | 共通 | 小 | 規格の最終検証 |
+| 3-5 | ダークモード再検討（論点4・見送り推奨のため「再評価」のみ） | 共通 | — | 必要になった時に判断材料が揃っている状態 |
+| 3-6 | AVIF 追加（hero級大判のみ）・`client:visible` 化の残り | 共通 | 小 | 速度の上積み |
+
+---
+
+## 5. 意思決定が必要な論点（卓磨さんへの確認事項)
+
+### 論点1: works のCSSを Tailwind に統一移行するか
+- **A案**: Tailwind 化（規格が完全に1つ・メインの定石が全面適用／364箇所書換のデグレリスク・工数大）
+- **B案**: 独自CSSのまま規格統一（トークン＋WorksLayout＋ブレークポイント統一。見た目を触らず規格だけ差替・工数中／2系統は残る）
+- **推奨: B案**。works の緻密な字間・clamp 設計は既に品質が高く、書き換え自体が品質リスク。規格（rem・640/768/1024・トークン）さえ揃えば2系統の実害はほぼ消える。Tailwind 化は将来 works を大改修する機会に「ついで」でやるのが最も安い。
+
+### 論点2: Webフォントを6家族から削減するか（ブランドの見た目に触る判断)
+- 現状: Cinzel / Cormorant Garamond / Shippori Mincho / Zen Old Mincho / Courier Prime / Space Mono（＋works 側で JetBrains Mono）
+- **A案**: 3家族へ削減 — 和文明朝1（Shippori か Zen Old のどちらかに一本化）＋欧文ディスプレイ1（Cinzel）＋mono 1。体感速度と書体の一貫性が向上
+- **B案**: 現状維持（表示は `display=swap` で破綻はしていない。速度だけ諦める）
+- **推奨: A案**。ただし**どの書体を残すかは見た目の好みの問題**なので、主要ページのスクリーンショット比較を作って卓磨さんが選ぶ形にしたい。和文明朝2書体の違いは読者にはほぼ判別されず、削減のブランド毀損リスクは低いと見る。
+- **決着（2026-07-18・タスク2-5）**: Shippori/Zen Old 比較ビュー（Artifact）を卓磨さんが確認した結果、A案の「1書体に一本化」ではなく**「役割分担2書体」に決定** — works は見出し・ヒーロー = Shippori／本文 = Zen Old（Zen Old の方が本文可読性が高いと判断）、main は役割分担せず本文含め Shippori 据置。結果は works = 4家族（Shippori/Zen Old/Cinzel/JetBrains Mono）・main = 3家族（Shippori/Cinzel/JetBrains Mono）。mono は JetBrains Mono に統一。詳細は §3.10・§7（2-5完了ログ）参照。
+
+### 論点3: fluid type（clamp()）の採用範囲
+- **A案**: 見出しのみ clamp（rem基準＋vw加算）・本文は固定 rem — works の既存実績を規格化する形
+- **B案**: 全面 fluid — 実装は美しいが、ズーム設定との相互作用の検証コストが1人経営に見合わない
+- **C案**: fluid 不使用・ブレークポイントごとの段階指定のみ
+- **推奨: A案**。既に works で使われている手法の「px→rem補正＋適用範囲の限定」だけなので追加学習コストがない。
+
+### 論点4: ダークモード対応
+- **A案**: 対応する（`prefers-color-scheme` で反転パレット設計・写真の縁処理・全ページ検証＝工数大）
+- **B案**: 見送り＋`color-scheme: light` 明示だけ行う（まだら反転事故のみ防ぐ）
+- **推奨: B案**。このサイトの世界観は「紙のような温かい白地に花の写真」であり、暗色地は花色の見えを変えてしまう。閲覧の主目的（花を見る・依頼を検討する）に対して夜間長文閲覧の比重は小さく、費用対効果が合わない。将来 note 級の長文読み物コンテンツを常設するなら再評価。
+
+### 論点5: works ヘッダーのハンバーガー切替幅
+- **A案**: lg（1024px）未満でハンバーガー — タブレット縦でも整然。切替が1つでシンプル（推奨）
+- **B案**: md（768px）未満でハンバーガー — タブレット縦は横並びナビ維持。ただし8項目＋CTAは768〜1024pxで窮屈になり、現状の「折返し」問題が部分的に残る
+- **推奨: A案**。判断基準は「iPad 縦（768px）で現行ナビが美しく1行に収まるか」。収まらない現状構成なら A 一択。
+
+---
+
+## 6. 次の一歩
+
+1. 本提案書のレビュー（特に**論点1〜5の判断**をいただく——論点2は書体比較スクショを別途用意可能）
+2. フェーズ1の着手承認（全項目が独立なので、1-1・1-7 の「数分もの」だけ先行実施でも可）
+3. フェーズ1完了時に PageSpeed Insights（モバイル）before/after をこのファイル末尾に追記し、フェーズ2の着手判断へ
+
+> 実装時の注意（本リポジトリ運用）: 作業は develop ブランチで行い、フェーズ単位でコミットを分ける。works の一括変換（1-3, 2-2）は変換コミットと手直しコミットを分離し、デグレ時に切り戻せるようにする。
+
+---
+
+## 7. 実装進捗ログ
+
+- **2026-07-18**: 卓磨さん、論点1〜5すべて推奨案で確定。
+- **2026-07-18**: フェーズ1のメインサイト即効施策3件を実装・ビルド成功（40ページ/4.37s）・develop push（`1b6271f`）。
+  - 1-1 viewport統一（`Layout.astro:28`）／ 1-7(メイン) `color-scheme: light` 明示（`Layout.astro:36`）／ 1-6 ContactForm iOS自動ズーム防止＋送信ボタン拡大（`ContactForm.tsx` L244/342/441/494）。
+  - 残り（1-2 worksハンバーガー・1-3 font rem・1-4/1-5 画像・1-7 works分）＋フェーズ2/3 は焦点セッションへ引き継ぎ → `plans/handoff_20260718_few_hp_responsive_phase1.md`。
+  - サブタスク: 論点2の6→3家族削減は、着手前に書体スクショ比較を用意し卓磨さんが選定。
+- **2026-07-18**: 1-2 works ハンバーガーメニューを実装・ビルド成功（40ページ）・develop push（`0031ad5` 実装本体／`616c787` 品質ゲート修正）。
+  - works全ページ共有の `WorksHeader.astro` に全画面オーバーレイ式ハンバーガーメニューを実装。切替は **1024px未満**（論点5準拠）。**B案（独自CSS維持・論点1）**に従い Tailwind非使用・scoped styleで実装。
+  - a11y要件を全て充足: 44×44px以上のボタン／`aria-expanded`同期・`aria-label`切替／Escで閉じ+フォーカス返却／背景スクロールロック／業務代行サブメニューのインライン展開／`aria-current`で現在地／農場HPリンク・CTAをメニュー内に配置。
+  - 品質ゲートで検出・修正した2件: ①オーバーレイがヘッダー（z-index100）を覆いハンバーガーが裏に隠れる → オーバーレイ内に専用×閉じるボタンを追加（正本Layout.astro流儀）。②メニュー開いたまま1024px超にリサイズするとscrollロックが残るstuck → リサイズ自動クローズを追加。
+  - 残り（1-3 font rem・1-4/1-5 画像・1-7 works分）＋フェーズ2/3 は引き続き焦点セッションへ引き継ぎ。
+  - 実機のタップ感・アニメ・iOS実挙動は卓磨さんのplaytest待ち（感性層）。
+- **2026-07-18**: 1-4/1-5 画像最適化（表示専用画像の `astro:assets` 移行）を実装・ビルド成功（40ページ/4.05s・webp派生生成確認）・develop push（`8999f8e` 移動29枚／`6acd7ba` 編集5ファイル／`ddcb3c2` first-time）。
+  - **表示専用29枚**を `public/images/` → `src/assets/images/` へ `git mv`（履歴保持）し `<Image>` 化: Instagramグリッド9枚（`index.astro`・`import.meta.glob`昇順・`widths=[400,800]`/`sizes="(max-width:640px) 50vw, 33vw"`/`format="webp"`/lazy／親`.aspect-square`でCLS対策）、works ケース本文写真16枚（`case/*.astro` 4ページ・`sake-brewery-recipe.jpg` 524KB含む）、first-time 本文4枚（hero=LCPで`eager`+`fetchpriority="high"`、他lazy）。
+  - **og:image破壊なしを確認**: 移動対象は全て og 非参照の表示専用画像。og:image で参照される `works/*-card.jpg`（works/直下）・`about/hero.webp`（11ページの og フォールバック）は不動。移行後 `src="/images/..."` 生参照の残存ゼロ（残る文字列は全て `import` 文＝`src/assets` 向き）を grep で裏取り。
+  - CLSフォールバックCSS: `img[src^="/images/instagram/"]` セレクタが移行後外れるため `.insta-photo` クラスへ置換（グラデ背景維持）。
+  - **今回は品質ゲートで欠陥ゼロ**（ビルド再実行・移動リネーム・og整合・生imgの残存ゼロ・グリッドコードを実物検証）。
+  - **意図的に後回し（次セッション）**: ①works/index カードサムネ（`*-card.jpg` は og と二重用途＝public残置か複製かを一括判断要）②works/index の CSS背景クロスフェードhero（`background-image`＝`getImage()` 要・技術が別）③note画像・`automation-card.jpg`（764KB・参照未確認）④og フォールバック `about/hero.webp`(552KB) の事前圧縮。
+- **2026-07-18**: 画像最適化フェーズ1残り①〜④を実装・ビルド成功（40ページ）・develop push（`fb02651`）。
+  - **①works/index カードサムネ**: 卓磨さん決定＝複製方式。og用途と重複する dual-use 4枚（sake-brewery/namie-rice-burger/miyake-nao/cultivation-app-card）は public 原本を残置したまま `src/assets/images/works/` へ複製、表示専用3枚（farm-eolica/automation/finance-card）は `src/assets` へ移動。表示側8箇所（works/index.astro 5・hp-lp.astro 3・partner.astro 3のうち計8）を `<Image>`（`widths=[400,800]`/`sizes`/webp/lazy・alt/class維持）化。og:image文字列（`case/*.astro` 4ファイル）と dual-use の public 原本は無変更（品質ゲートで裏取り済）。
+  - **②works/index hero + parallax-bg**: `hero-field/bloom/atelier.jpg` と `parallax-bg.jpg` を `src/assets` へ移動し `getImage({format:'webp', width:1600})` 化。hero はインライン style を動的値に、parallax は scoped `<style>` の `url()` を `var(--parallax-bg)` に置換しインライン style で CSS変数注入（既存グラデ・keyframes・opacity制御は保持）。parallax-bg は当初の本文②には未記載だが同ページ・同手法・354KB減のため今回スコープに含めた。
+  - **③automation-card.jpg（764KB）**: ①の表示専用枠で `<Image>` 化済み（build派生 764kB→19-57kB）。「note画像」はリポジトリに実体アセットが存在せず（テキスト言及のみ）＝③は automation-card で完結。
+  - **④og専用 about/hero.webp**: sharp で in-place 圧縮。565,220B(2951×2214) → 185,124B(1200×900)・quality80・**67%減**。パス・og文字列は不変。表示用の別ファイル `src/assets/images/about/hero.jpg` とは別物で不変。
+  - 検証: `npm run build` 40ページ成功・エラーゼロ、webp派生生成確認。
+  - **残（フェーズ1関連で未了）**: (a) 卓磨さんの実機目視（1-3の装飾ラベル拡大＋今回の画像表示崩れ・感性層）／(b) PageSpeed Insights(モバイル) 主要4ページ計測＝develop デプロイ後に実施し本節末尾に追記予定。
+- **フェーズ2 タスク2-1 完了（2026-07-18）**: works配下全15ページを共通レイアウトへ移行。
+  - 新設: `src/layouts/WorksLayout.astro`（`<html>/<head>`ボイラープレート・viewport・OGP/twitter・Google Fonts読込・GA4を一元化。props: `title/description/ogImage?/canonical?/ogType?/twitterCard?/twitterSite?`）／`src/styles/works-base.css`（共通の`:root`10トークン・reset・`@keyframes fadeInUp`・`.reveal`・`.wc{margin:0 auto}`）。
+  - 移行15ページ: works直下11（index/capabilities/contact/faq/first-time/hp-lp/partner/privacy/records/terms/tokushoho）＋case4（cultivation-manager/miyake-nao-photographer/namie-rice-burger/regional-sake-brewery）。各ページは本文＋固有CSSのみ残す構成に。
+  - ページ固有として保持: `.wc` max-width（900/1120/1320の3種・ページ間で不一致のため共通化せず各ページ保持）／reveal timing（共通24px/.7s、ただし index・contact・records・capabilities は 28px/.75s でローカル上書き＝**works内でreveal timingが割れている既知の不整合。統一するかは要判断**）／index の `--header-h`＋`html{scroll-padding-top}`＋ResizeObserver同期script（固定ヘッダー）／case4の og:image はページ固有カード画像（article/summary_large_image/@FarmEolica）。
+  - 検証: `npm run build` 40ページ・エラー0、dist全worksページ単一`<html>`・title/OGP/twitter が移行前と byte等価。develop push済。
+  - 副作用注記: phase-2コミットは Stop hook auto-commit により generic `[auto]` メッセージで分割確定（内容は全て正しいphase-2編集・無関係WIP混入なし）。
+- **フェーズ2 タスク2-2 完了（2026-07-18）**: works配下のブレークポイント規格統一（§3.7）。develop push（`a06a27c`+`2325a5d` 分割 / auto-commit race）。
+  - works配下メディアクエリは実測**15境界**（handoff記載「16箇所」はラフ値・正確には15）。全て単一`max-width`・`min-width`併用/複合条件ゼロ＝反転リスク無し。うち**12箇所を単純置換**（900→1024 ×7 / 720→768 ×2 / 600→640 ×3）、768据置 ×3（terms/tokushoho/privacy）、`prefers-reduced-motion` ×2は不変。
+  - `src/styles/works-base.css` 末尾にBP規格コメント追記（sm640/md768/lg1024・移行マップ・「新規は3値のみ」規約を明文化）。
+  - 品質ゲート: 変更行は全て`@media`行のみ（stray変更ゼロ）／end-state grepで 1024×7・640×3・768×5・prefers-reduced-motion×2、stale 900/720/600 残存ゼロを裏取り／`npm run build` 40ページ緑。
+- **フェーズ2 タスク2-3 完了（2026-07-18）**: 見出しclampのrem化＋本文タイポ規格追加（§3.2）。develop push（`59110be` 単一・auto-commit race無し）。
+  - **見出しclamp() px→rem 40箇所変換**（works15ページ・20 distinctパターン）。変換規則（Opus決定・§3.2:58の加算式を機械化）: `clamp(Apx,Bvw,Cpx)` → `clamp((A/16)rem, Bvw + (A/32)rem, (C/16)rem)`。min/max値は厳密保持（＝mobile最小・大画面最大の見た目は不変）、中間項に rem 加算を足して**純vwのズーム無効を解消**。§3.2:58の例 `clamp(32px,2.8vw,48px)`→`clamp(2rem, 2.8vw + 1rem, 3rem)` を厳密再現。end-state grepで px始まりclamp残存ゼロ・rem加算式40件を裏取り。
+  - `works-base.css` に本文タイポ規格追加: `body{…overflow-wrap:break-word}`（全worksへ継承・安全）／`h1,h2,h3{text-wrap:balance}`（非対応ブラウザは無害無視）／`.measure{max-width:38rem}`。
+  - `tailwind.config.mjs` に `lineHeight.jp:'1.9'` トークン追加（`leading-jp` で使用可・未使用ならJITで出力ゼロ＝無影響）。
+  - **意図的に「共通CSSへ追加」に留め強制適用しなかった2点（要卓磨判断・次段）**: ①`max-width:38rem` は works共通の「本文」セレクタが存在せず、`p`等へ一律適用するとカード/グリッド/2カラムを壊すため、**opt-inの`.measure`ユーティリティとして提供のみ**（実段落への付与＝視覚を伴う別パス）。②`lineHeight.jp` は token定義のみで**メイン側本文への適用は未実施**（§3.2:56の本文適用はメイン多数コンポーネント改修＝視覚を伴う別タスク）。
+  - 品質ゲート: 変更astro行は全てclamp行（stray変更ゼロ）／17ファイル・50 ins/41 del が算術一致／`npm run build` 40ページ緑。
+  - **残（フェーズ2）**: 2-5（Zen Old未適用ゆえ Shippori/Zen Old 両レンダのスクショ比較を用意→卓磨選定→6→3削減）。保留判断: works内 reveal timing 24px/.7s vs 28px/.75s の統一可否（視覚変更を伴うため2-5後orフェーズ3で諮る）。
+- **フェーズ2 タスク2-5 完了（2026-07-18）**: Webフォント削減・和文明朝の役割分担決定（§3.2/§3.10/論点2）。develop push（`096b265`）・`npm run build` 40ページ緑。
+  - **決定（卓磨）**: 当初案「和文明朝1書体に削減」から**「役割分担2書体」へ方針変更**。works は見出し・ヒーロー = Shippori Mincho／本文コンテンツ = Zen Old Mincho（Zen Old の方が本文可読性が高いとの判断）。main は役割分担せず本文含め Shippori 据置。mono は JetBrains Mono へ統一（欧文ディスプレイは Cinzel 継続）。
+  - **結果**: works = **4家族**（Shippori/Zen Old/Cinzel/JetBrains Mono）、main = **3家族**（Shippori/Cinzel/JetBrains Mono・当初の6→3を達成）。main側読込から Cormorant Garamond / Courier Prime / Space Mono / (Zen Old fallback) を削除。
+  - **実装**: `works-base.css` に `--zo`（Zen Old）変数を追加、`body{font-family}` を `var(--sr)`→`var(--zo)`（本文既定を Zen Old 化・見出しは `var(--sr)`=Shippori 維持）。本文的に `var(--sr)` 固定だった11箇所（`.ph-lead`×7 / `.cs-lead`×4 / `.faq-teaser-body` / `.ai-banner-sub`）を `var(--zo)` へ。`WorksLayout.astro:57` の Google Fonts に Zen Old Mincho を追加。`Layout.astro:43` のURLを3家族（Cinzel/Shippori/JetBrains Mono・700含む）へ削減。`tailwind.config.mjs` の serif/display/mono を新体制（serif=[Shippori,serif] / display=[Cinzel,serif] / mono=[JetBrains Mono,monospace]）へ更新。
+  - **検証**: runtime確認で works body=Zen Old・見出し=Shippori、main h1=Shippori・JetBrains Mono 700 loaded=true・全ページ視覚崩れなし。選定素材として Shippori/Zen Old 比較ビュー Artifact を作成（`https://claude.ai/code/artifact/09518e3d-3297-44e6-9c8c-be4ceabce000`）。
+  - **保留**: works内 reveal timing 24px/.7s vs 28px/.75s の統一（視覚変更ゆえ 2-5後 or フェーズ3で判断・未決着のまま継続）。
+  - **見送り**: main 本文の Zen Old 化（site-wide 役割分担）。`font-serif` が234箇所/27ファイルに散在し高工数のため、卓磨さんが「works のみ＋main は読込削減だけ」を選択。将来やるなら見出し約61箇所の付け替え＋prose 2ファイル調整＋視覚検証を伴う別タスク。

@@ -5,9 +5,12 @@ export default {
     extend: {
       fontFamily: {
         sans: ['system-ui', 'sans-serif'],
-        serif: ['Shippori Mincho', 'Zen Old Mincho', 'serif'],
-        display: ['Cinzel', 'Cormorant Garamond', 'serif'],
-        mono: ['Courier Prime', 'Space Mono', 'monospace'], // Lab感のための等幅フォント
+        serif: ['Shippori Mincho', 'serif'],
+        display: ['Cinzel', 'serif'],
+        mono: ['JetBrains Mono', 'monospace'], // Lab感のための等幅フォント
+      },
+      lineHeight: {
+        jp: '1.9', // 和文本文用（§3.2）。leading-jp で使用。現状は token 定義のみ（本文への適用は別タスク）
       },
       colors: {
         // Mineral & Soil カラーパレット (WIND & DATA LABORATORY v2.2)

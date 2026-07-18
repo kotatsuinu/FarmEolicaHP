@@ -3,12 +3,12 @@
 // Self-contained page — independent from main HP design
 // 既存3カテゴリ8問は src/pages/works/index.astro の #faq セクションから忠実に移設（文言不変）。
 // 追加4問（依頼範囲・進め方まわり）は本ページで新規拡充。
-import { SITE_CONFIG } from '../../config/site';
+import WorksLayout from '../../layouts/WorksLayout.astro';
 import WorksHeader from '../../components/works/WorksHeader.astro';
-const ga4Id = SITE_CONFIG.seo.ga4Id;
 const siteUrl = 'https://farmeolica.com';
 const title = 'よくあるご質問 | 業務代行〈AI活用〉| Farm Eolica';
 const description = '対応エリア、費用、セキュリティ、ご依頼の範囲まで。Farm Eolica Works（HP制作・業務代行〈AI活用〉）によくいただくご質問にまとめてお答えします。';
+const canonical = `${siteUrl}/works/faq/`;
 
 type FaqItem = {
   q: string;
@@ -98,35 +98,7 @@ const faqCategories: FaqCategory[] = [
 ];
 ---
 
-<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content={description} />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <title>{title}</title>
-  <link rel="canonical" href={`${siteUrl}/works/faq/`} />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={`${siteUrl}/works/faq/`} />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:image" content={`${siteUrl}/images/about/hero.webp`} />
-  <meta property="og:locale" content="ja_JP" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:image" content={`${siteUrl}/images/about/hero.webp`} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Shippori+Mincho:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
-  <script define:vars={{ ga4Id }}>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', ga4Id);
-  </script>
-</head>
-<body>
+<WorksLayout title={title} description={description} canonical={canonical}>
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader />
@@ -204,41 +176,26 @@ const faqCategories: FaqCategory[] = [
 
 
 <!-- ══════════ STYLES ══════════ -->
+<!-- :root トークン / reset / @keyframes fadeInUp / .reveal / Google Fonts は
+     src/styles/works-base.css（WorksLayout経由）に移設済み。
+     以下はfaq固有の追加・上書きのみ。 -->
 <style is:global>
-:root {
-  --m: #1A2744;
-  --a: #B87333;
-  --bg: #F2F2F0;
-  --ink: #4A3B32;
-  --inks: rgba(74,59,50,0.72);
-  --inkm: rgba(74,59,50,0.48);
-  --hair: rgba(74,59,50,0.14);
-  --sr: 'Shippori Mincho','Hiragino Mincho ProN',serif;
-  --dp: 'Cinzel',serif;
-  --mn: 'JetBrains Mono','Courier New',monospace;
-}
-*,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{text-decoration:none;color:inherit}
-p{margin:0}
+/* faq固有: 他のworksページ（index/terms/regional-sake-brewery）には無い overflow-x:hidden。
+   共通CSSとして一般化できる裏取りが取れていないためページ側に残置。 */
+body{overflow-x:hidden}
 
-@keyframes fadeInUp{
-  from{opacity:0;transform:translateY(24px)}
-  to{opacity:1;transform:translateY(0)}
-}
-.reveal{opacity:0;transform:translateY(24px)}
-.reveal.visible{animation:fadeInUp .7s cubic-bezier(.22,1,.36,1) forwards}
-
-.wc{max-width:1120px;margin:0 auto}
+/* faq固有: .wc の max-width は works配下ページ間で不一致（index=1320px, terms=900px,
+   regional-sake-brewery=1120px）のため works-base.css には入れず、ページ側で明示指定。 */
+.wc{max-width:1120px}
 
 /* ── Masthead ── */
 .ph-section{padding:52px 60px 44px;background:var(--m)}
 .mh-rule-top{height:5px;border-top:1px solid var(--a);border-bottom:1px solid var(--a);margin-bottom:32px}
 .mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
-.mh-kicker{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a)}
-.mh-edition{font-family:var(--mn);font-size:11px;letter-spacing:.1em;color:rgba(242,242,240,.55)}
-.ph-title{font-family:var(--sr);font-weight:500;font-size:clamp(46px,5.4vw,76px);color:var(--bg);margin:0 0 22px;letter-spacing:.04em;line-height:1.2}
-.ph-lead{font-family:var(--sr);font-size:19px;color:rgba(242,242,240,.75);letter-spacing:.05em;line-height:1.85;margin:0;max-width:640px}
+.mh-kicker{font-family:var(--dp);font-size:0.75rem;letter-spacing:.4em;color:var(--a)}
+.mh-edition{font-family:var(--mn);font-size:0.75rem;letter-spacing:.1em;color:rgba(242,242,240,.55)}
+.ph-title{font-family:var(--sr);font-weight:500;font-size:clamp(2.875rem, 5.4vw + 1.4375rem, 4.75rem);color:var(--bg);margin:0 0 22px;letter-spacing:.04em;line-height:1.2}
+.ph-lead{font-family:var(--zo);font-size:1.1875rem;color:rgba(242,242,240,.75);letter-spacing:.05em;line-height:1.85;margin:0;max-width:640px}
 .mh-rule-bottom{height:1px;background:rgba(242,242,240,.22);margin-top:40px}
 
 /* ── Section wrapper ── */
@@ -248,7 +205,7 @@ p{margin:0}
 .faq-container{display:flex;flex-direction:column;gap:56px}
 .faq-category-group{width:100%}
 .faq-category-title{
-  font-family:var(--sr);font-size:16px;color:var(--a);
+  font-family:var(--sr);font-size:1rem;color:var(--a);
   margin:0 0 24px;border-bottom:1px solid var(--hair);
   padding-bottom:8px;letter-spacing:.08em;text-align:left;
 }
@@ -266,14 +223,14 @@ p{margin:0}
 .faq-header::-webkit-details-marker{display:none}
 .faq-header::marker{content:''}
 .faq-q-wrap{display:flex;gap:22px;align-items:baseline}
-.faq-q{font-family:var(--sr);font-size:18px;color:var(--m);letter-spacing:.04em}
-.faq-icon{font-family:var(--dp);font-size:18px;color:var(--m);flex-shrink:0}
+.faq-q{font-family:var(--sr);font-size:1.125rem;color:var(--m);letter-spacing:.04em}
+.faq-icon{font-family:var(--dp);font-size:1.125rem;color:var(--m);flex-shrink:0}
 .faq-icon::before{content:'+'}
 .faq-card[open] .faq-icon::before{content:'–'}
-.faq-a{padding-left:0;font-size:13.5px;line-height:2.1;color:var(--inks);max-width:680px}
+.faq-a{padding-left:0;font-size:0.84375rem;line-height:2.1;color:var(--inks);max-width:680px}
 .faq-link{
   align-self:flex-start;
-  font-family:var(--dp);font-size:11px;letter-spacing:.18em;
+  font-family:var(--dp);font-size:0.75rem;letter-spacing:.18em;
   color:var(--a);border-bottom:1px solid var(--a);padding-bottom:2px;
 }
 
@@ -283,7 +240,7 @@ p{margin:0}
   background:repeating-linear-gradient(135deg,rgba(74,59,50,.06) 0 10px,rgba(74,59,50,.02) 10px 20px);
   border:1px solid var(--hair);
   display:flex;align-items:center;justify-content:center;
-  font-family:var(--mn);font-size:11px;letter-spacing:.08em;
+  font-family:var(--mn);font-size:0.75rem;letter-spacing:.08em;
   color:rgba(74,59,50,.55);text-transform:uppercase;
   text-align:center;padding:16px;
 }
@@ -299,7 +256,7 @@ p{margin:0}
 .btn-filled,.btn-ghost{
   display:inline-flex;align-items:center;
   padding:13px 22px;
-  font-family:var(--dp);font-size:12px;letter-spacing:.22em;
+  font-family:var(--dp);font-size:0.75rem;letter-spacing:.22em;
   transition:all .25s;cursor:pointer;
 }
 .btn-filled{background:var(--m);color:var(--bg);border:1px solid var(--m)}
@@ -318,15 +275,15 @@ p{margin:0}
   border-top:1px solid var(--hair);
   flex-wrap:wrap;gap:16px;
 }
-.wfooter-back{font-family:var(--dp);font-size:12px;letter-spacing:.25em;color:var(--m);transition:color .2s}
+.wfooter-back{font-family:var(--dp);font-size:0.75rem;letter-spacing:.25em;color:var(--m);transition:color .2s}
 .wfooter-legal{display:flex;gap:22px;flex-wrap:wrap}
-.wfooter-legal a{font-family:var(--mn);font-size:10px;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
+.wfooter-legal a{font-family:var(--mn);font-size:0.75rem;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
 .wfooter-legal a:hover{color:var(--a)}
 .wfooter-back:hover{color:var(--a)}
-.wfooter-copy{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm)}
+.wfooter-copy{font-family:var(--mn);font-size:0.75rem;letter-spacing:.18em;color:var(--inkm)}
 
 /* ── Responsive ── */
-@media (max-width:720px){
+@media (max-width:768px){
   .ph-section{padding:40px 24px 32px}
   .mh-top{flex-direction:column;align-items:flex-start;gap:10px}
   .ws{padding:56px 24px 0}
@@ -360,5 +317,4 @@ p{margin:0}
 })();
 </script>
 
-</body>
-</html>
+</WorksLayout>

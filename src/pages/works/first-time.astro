@@ -1,43 +1,20 @@
 ---
 // Farm Eolica Works — はじめての方へ
 // Self-contained page — independent from main HP design
-import { SITE_CONFIG } from '../../config/site';
+import { Image } from 'astro:assets';
+import WorksLayout from '../../layouts/WorksLayout.astro';
 import WorksHeader from '../../components/works/WorksHeader.astro';
-const ga4Id = SITE_CONFIG.seo.ga4Id;
+import heroShot from '../../assets/images/works/first-time/hero.jpg';
+import meetingShot from '../../assets/images/works/first-time/meeting.jpg';
+import deliverableShot from '../../assets/images/works/first-time/deliverable.jpg';
+import workspaceShot from '../../assets/images/works/first-time/workspace.jpg';
 const siteUrl = 'https://farmeolica.com';
 const title = 'はじめての方へ | Farm Eolica Works';
 const description = '無料相談の理由、私のスタンス、どんな方と仕事したいか。Farm Eolica Works（農家×元編集者×AIエンジニア）と仕事する前に知ってほしいこと。';
+const canonical = `${siteUrl}/works/first-time/`;
 ---
 
-<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content={description} />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <title>{title}</title>
-  <link rel="canonical" href={`${siteUrl}/works/first-time/`} />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={`${siteUrl}/works/first-time/`} />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:image" content={`${siteUrl}/images/about/hero.webp`} />
-  <meta property="og:locale" content="ja_JP" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:image" content={`${siteUrl}/images/about/hero.webp`} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Shippori+Mincho:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
-  <script define:vars={{ ga4Id }}>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', ga4Id);
-  </script>
-</head>
-<body>
+<WorksLayout title={title} description={description} canonical={canonical}>
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader active="first-time" />
@@ -66,7 +43,7 @@ const description = '無料相談の理由、私のスタンス、どんな方�
   <!-- Hero wide photo -->
   <div class="wc">
     <figure class="ft-hero reveal">
-      <div class="ph ph-hero"><img class="work-img" src="/images/works/first-time/hero.jpg" alt="ハウス内の圃場で作業する Farm Eolica の卓磨" /></div>
+      <div class="ph ph-hero"><Image class="work-img" src={heroShot} alt="ハウス内の圃場で作業する Farm Eolica の卓磨" widths={[800, 1200, 1600]} sizes="100vw" format="webp" loading="eager" fetchpriority="high" decoding="async" /></div>
       <figcaption class="ph-cap">FIG.00 — PORTRAIT</figcaption>
     </figure>
   </div>
@@ -167,7 +144,7 @@ const description = '無料相談の理由、私のスタンス、どんな方�
           <aside class="ft-quote">悩みや課題があれば、そっと別の視点を添える——そんなお手伝いができるよう頑張ります</aside>
         </div>
         <figure class="ft-thumb">
-          <div class="ph ph-45"><img class="work-img" src="/images/works/first-time/meeting.jpg" alt="打ち合わせの準備 — ノートとコーヒー" /></div>
+          <div class="ph ph-45"><Image class="work-img" src={meetingShot} alt="打ち合わせの準備 — ノートとコーヒー" widths={[600, 1000, 1400]} sizes="(max-width: 720px) 280px, 220px" format="webp" loading="lazy" decoding="async" /></div>
           <figcaption class="ph-cap">FIG.04 — MEETING</figcaption>
         </figure>
       </article>
@@ -177,7 +154,7 @@ const description = '無料相談の理由、私のスタンス、どんな方�
       <!-- 03: もし私が死んでも困らない納品（写真枠・左） -->
       <article class="ft-sec ft-with-thumb ft-thumb-left reveal">
         <figure class="ft-thumb">
-          <div class="ph ph-45"><img class="work-img" src="/images/works/first-time/deliverable.jpg" alt="納品するWebサイトのデザインをノートPCで確認" /></div>
+          <div class="ph ph-45"><Image class="work-img" src={deliverableShot} alt="納品するWebサイトのデザインをノートPCで確認" widths={[600, 1000, 1400]} sizes="(max-width: 720px) 280px, 220px" format="webp" loading="lazy" decoding="async" /></div>
           <figcaption class="ph-cap">FIG.05 — DELIVERABLE</figcaption>
         </figure>
         <div class="ft-main">
@@ -253,7 +230,7 @@ const description = '無料相談の理由、私のスタンス、どんな方�
           </div>
         </div>
         <figure class="ft-thumb">
-          <div class="ph ph-45"><img class="work-img" src="/images/works/first-time/workspace.jpg" alt="デスクでWeb制作をする作業風景" /></div>
+          <div class="ph ph-45"><Image class="work-img" src={workspaceShot} alt="デスクでWeb制作をする作業風景" widths={[600, 1000, 1400]} sizes="(max-width: 720px) 280px, 220px" format="webp" loading="lazy" decoding="async" /></div>
           <figcaption class="ph-cap">FIG.07 — WORKSPACE</figcaption>
         </figure>
       </article>
@@ -288,40 +265,23 @@ const description = '無料相談の理由、私のスタンス、どんな方�
 
 <!-- ══════════ STYLES ══════════ -->
 <style is:global>
-:root {
-  --m: #1A2744;
-  --a: #B87333;
-  --bg: #F2F2F0;
-  --ink: #4A3B32;
-  --inks: rgba(74,59,50,0.72);
-  --inkm: rgba(74,59,50,0.48);
-  --hair: rgba(74,59,50,0.14);
-  --sr: 'Shippori Mincho','Hiragino Mincho ProN',serif;
-  --dp: 'Cinzel',serif;
-  --mn: 'JetBrains Mono','Courier New',monospace;
-}
-*,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{text-decoration:none;color:inherit}
-p{margin:0}
+/* :root トークン / reset / @keyframes fadeInUp / .reveal / Google Fonts は
+   src/styles/works-base.css（WorksLayout経由）に移設済み。
+   first-time固有: 他のworksページ（terms/regional-sake-brewery等）には無い overflow-x:hidden
+   （faq.astroと同様の理由でページ側に残置）。.wc の max-width も works配下ページ間で
+   不一致のためページ側で明示指定。 */
+body{overflow-x:hidden}
 
-@keyframes fadeInUp{
-  from{opacity:0;transform:translateY(24px)}
-  to{opacity:1;transform:translateY(0)}
-}
-.reveal{opacity:0;transform:translateY(24px)}
-.reveal.visible{animation:fadeInUp .7s cubic-bezier(.22,1,.36,1) forwards}
-
-.wc{max-width:1120px;margin:0 auto}
+.wc{max-width:1120px}
 
 /* ── Masthead ── */
 .ph-section{padding:52px 60px 44px;background:var(--m)}
 .mh-rule-top{height:5px;border-top:1px solid var(--a);border-bottom:1px solid var(--a);margin-bottom:32px}
 .mh-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
-.mh-kicker{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a)}
-.mh-edition{font-family:var(--mn);font-size:11px;letter-spacing:.1em;color:rgba(242,242,240,.55)}
-.ph-title{font-family:var(--sr);font-weight:500;font-size:clamp(46px,5.4vw,76px);color:var(--bg);margin:0 0 22px;letter-spacing:.04em;line-height:1.2}
-.ph-lead{font-family:var(--sr);font-size:19px;color:rgba(242,242,240,.75);letter-spacing:.05em;line-height:1.85;margin:0;max-width:640px}
+.mh-kicker{font-family:var(--dp);font-size:0.75rem;letter-spacing:.4em;color:var(--a)}
+.mh-edition{font-family:var(--mn);font-size:0.75rem;letter-spacing:.1em;color:rgba(242,242,240,.55)}
+.ph-title{font-family:var(--sr);font-weight:500;font-size:clamp(2.875rem, 5.4vw + 1.4375rem, 4.75rem);color:var(--bg);margin:0 0 22px;letter-spacing:.04em;line-height:1.2}
+.ph-lead{font-family:var(--zo);font-size:1.1875rem;color:rgba(242,242,240,.75);letter-spacing:.05em;line-height:1.85;margin:0;max-width:640px}
 .mh-rule-bottom{height:1px;background:rgba(242,242,240,.22);margin-top:40px}
 
 /* ── Section wrapper ── */
@@ -333,7 +293,7 @@ p{margin:0}
   background:repeating-linear-gradient(135deg,rgba(74,59,50,.06) 0 10px,rgba(74,59,50,.02) 10px 20px);
   border:1px solid var(--hair);
   display:flex;align-items:center;justify-content:center;
-  font-family:var(--mn);font-size:11px;letter-spacing:.08em;
+  font-family:var(--mn);font-size:0.75rem;letter-spacing:.08em;
   color:rgba(74,59,50,.55);text-transform:uppercase;
   text-align:center;padding:16px;
 }
@@ -342,7 +302,7 @@ p{margin:0}
 .ph-hero{aspect-ratio:2.5/1}
 .ph:has(.work-img){padding:0}
 .work-img{width:100%;height:100%;object-fit:cover;display:block}
-.ph-cap{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm);margin-top:14px}
+.ph-cap{font-family:var(--mn);font-size:0.75rem;letter-spacing:.18em;color:var(--inkm);margin-top:14px}
 
 /* ── Hero figure ── */
 .ft-hero{margin:0 0 60px}
@@ -355,19 +315,19 @@ p{margin:0}
 
 /* ── Section head ── */
 .ft-head{display:flex;align-items:center;gap:16px;margin-bottom:22px}
-.ft-no{font-family:var(--dp);font-size:14px;letter-spacing:.25em;color:var(--a);flex-shrink:0}
+.ft-no{font-family:var(--dp);font-size:0.875rem;letter-spacing:.25em;color:var(--a);flex-shrink:0}
 .ft-divider{display:inline-block;width:1px;height:26px;background:var(--a);opacity:.4;flex-shrink:0}
-.ft-title{font-family:var(--sr);font-weight:500;font-size:clamp(24px,2.6vw,32px);color:var(--m);letter-spacing:.05em;margin:0;line-height:1.35}
+.ft-title{font-family:var(--sr);font-weight:500;font-size:clamp(1.5rem, 2.6vw + 0.75rem, 2rem);color:var(--m);letter-spacing:.05em;margin:0;line-height:1.35}
 
 /* ── Body copy ── */
-.ft-body{font-size:17px;line-height:1.9;color:var(--inks);margin-bottom:22px;overflow-wrap:break-word}
+.ft-body{font-size:1.0625rem;line-height:1.9;color:var(--inks);margin-bottom:22px;overflow-wrap:break-word}
 .ft-body:last-child{margin-bottom:0}
 
 /* ── Pull quote ── */
 .ft-quote{
   display:block;
   font-family:var(--sr);font-weight:500;
-  font-size:clamp(22px,2.6vw,29px);
+  font-size:clamp(1.375rem, 2.6vw + 0.6875rem, 1.8125rem);
   color:var(--m);line-height:1.6;letter-spacing:.03em;
   border-left:3px solid var(--a);
   padding:6px 0 6px 28px;
@@ -387,17 +347,17 @@ p{margin:0}
 .ft-list{display:flex;flex-direction:column;gap:28px}
 .ft-item{display:flex;flex-direction:column;gap:10px}
 .ft-mark-wrap{display:flex;align-items:center;gap:10px}
-.ft-mark{font-family:var(--sr);font-size:18px;font-weight:600}
-.ft-mark-label{font-family:var(--dp);font-size:10px;letter-spacing:.3em;color:var(--inkm)}
+.ft-mark{font-family:var(--sr);font-size:1.125rem;font-weight:600}
+.ft-mark-label{font-family:var(--dp);font-size:0.75rem;letter-spacing:.3em;color:var(--inkm)}
 .ft-ok .ft-mark{color:var(--a)}
 .ft-caution .ft-mark{color:var(--inkm)}
-.ft-item p{font-size:14px;line-height:2;color:var(--inks);margin:0;padding-left:28px}
+.ft-item p{font-size:0.875rem;line-height:2;color:var(--inks);margin:0;padding-left:28px}
 
 /* ── Services list ── */
 .ft-services{border-top:1px solid var(--hair)}
 .ft-svc-row{display:flex;flex-direction:column;gap:6px;padding:16px 0;border-bottom:1px solid var(--hair)}
-.ft-svc-k{font-family:var(--sr);font-size:15px;font-weight:500;color:var(--m);letter-spacing:.04em}
-.ft-svc-v{font-size:13.5px;line-height:1.9;color:var(--inks)}
+.ft-svc-k{font-family:var(--sr);font-size:0.9375rem;font-weight:500;color:var(--m);letter-spacing:.04em}
+.ft-svc-v{font-size:0.84375rem;line-height:1.9;color:var(--inks)}
 
 /* ── 呼びかけバンド ── */
 .ft-band{background:var(--m);padding:56px 60px;margin-top:64px}
@@ -408,7 +368,7 @@ p{margin:0}
 .btn-filled,.btn-ghost{
   display:inline-flex;align-items:center;
   padding:13px 22px;
-  font-family:var(--dp);font-size:12px;letter-spacing:.22em;
+  font-family:var(--dp);font-size:0.75rem;letter-spacing:.22em;
   transition:all .25s;cursor:pointer;
 }
 .btn-filled{background:var(--m);color:var(--bg);border:1px solid var(--m)}
@@ -427,15 +387,15 @@ p{margin:0}
   border-top:1px solid var(--hair);
   flex-wrap:wrap;gap:16px;
 }
-.wfooter-back{font-family:var(--dp);font-size:12px;letter-spacing:.25em;color:var(--m);transition:color .2s}
+.wfooter-back{font-family:var(--dp);font-size:0.75rem;letter-spacing:.25em;color:var(--m);transition:color .2s}
 .wfooter-legal{display:flex;gap:22px;flex-wrap:wrap}
-.wfooter-legal a{font-family:var(--mn);font-size:10px;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
+.wfooter-legal a{font-family:var(--mn);font-size:0.75rem;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
 .wfooter-legal a:hover{color:var(--a)}
 .wfooter-back:hover{color:var(--a)}
-.wfooter-copy{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm)}
+.wfooter-copy{font-family:var(--mn);font-size:0.75rem;letter-spacing:.18em;color:var(--inkm)}
 
 /* ── Responsive ── */
-@media (max-width:720px){
+@media (max-width:768px){
   .ph-section{padding:40px 24px 32px}
   .mh-top{flex-direction:column;align-items:flex-start;gap:10px}
   .ws{padding:56px 24px 0}
@@ -445,7 +405,7 @@ p{margin:0}
   .ft-with-thumb .ft-main,.ft-with-thumb.ft-thumb-left .ft-main{order:2}
   .ft-with-thumb .ft-thumb,.ft-with-thumb.ft-thumb-left .ft-thumb{order:1}
   .ft-thumb{max-width:280px}
-  .ft-quote{font-size:clamp(20px,5vw,24px);padding-left:20px}
+  .ft-quote{font-size:clamp(1.25rem, 5vw + 0.625rem, 1.5rem);padding-left:20px}
 }
 </style>
 
@@ -471,5 +431,4 @@ p{margin:0}
 })();
 </script>
 
-</body>
-</html>
+</WorksLayout>

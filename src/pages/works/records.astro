@@ -4,45 +4,17 @@
 // Split out of capabilities.astro's RECORD section (2026-07) so the systems
 // list can grow independently of the task-menu page. Structural template
 // copied from capabilities.astro; system data comes from src/data/works-systems.
-import { SITE_CONFIG } from '../../config/site';
+import WorksLayout from '../../layouts/WorksLayout.astro';
 import WorksHeader from '../../components/works/WorksHeader.astro';
 import { worksSystems, doneCount, totalCount, lastUpdated } from '../../data/works-systems';
-const ga4Id = SITE_CONFIG.seo.ga4Id;
 const siteUrl = 'https://farmeolica.com';
 
 const title = '実績・システム例 | 業務代行〈AI活用〉| Farm Eolica';
 const description = `Farm Eolica がこれまで作ってきたシステムの一覧です。個人事業主が自分の農園の業務効率化のために実際に手を動かし、これまでに${totalCount}件のシステムを作り、うち${doneCount}件が稼働中です。`;
+const canonical = `${siteUrl}/works/records/`;
 ---
 
-<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content={description} />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <title>{title}</title>
-  <link rel="canonical" href={`${siteUrl}/works/records/`} />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={`${siteUrl}/works/records/`} />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:image" content={`${siteUrl}/images/about/hero.webp`} />
-  <meta property="og:locale" content="ja_JP" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:image" content={`${siteUrl}/images/about/hero.webp`} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Shippori+Mincho:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
-  <script define:vars={{ ga4Id }}>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', ga4Id);
-  </script>
-</head>
-<body>
+<WorksLayout title={title} description={description} canonical={canonical}>
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader />
@@ -183,19 +155,12 @@ const description = `Farm Eolica がこれまで作ってきたシステムの�
 
 
 <!-- ══════════ STYLES ══════════ -->
+<!-- :root トークン / reset / Google Fonts は src/styles/works-base.css（WorksLayout経由）に
+     移設済み。ただし records固有: @keyframes fadeInUp / .reveal 系のタイミングが
+     works-base.css の共通値（24px / .7s）と異なり 28px / .75s のため、reveal-d2 を
+     含めここに残置（works-base.css の同名定義を上書きする想定・削除禁止）。 -->
 <style is:global>
-:root{
-  --m:#1A2744;--a:#B87333;--bg:#F2F2F0;--ink:#4A3B32;
-  --inks:rgba(74,59,50,0.72);--inkm:rgba(74,59,50,0.48);--hair:rgba(74,59,50,0.14);
-  --sr:'Shippori Mincho','Hiragino Mincho ProN',serif;
-  --dp:'Cinzel',serif;--mn:'JetBrains Mono','Courier New',monospace;
-}
-*,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sr);-webkit-font-smoothing:antialiased}
-a{text-decoration:none;color:inherit}
-p{margin:0}
-
-/* Animations */
+/* Animations (records固有タイミング: 28px / .75s、works-base.css の24px/.7sとは別値) */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 .reveal{opacity:0;transform:translateY(28px)}
 .reveal.visible{animation:fadeInUp .75s cubic-bezier(.22,1,.36,1) forwards}
@@ -204,26 +169,28 @@ p{margin:0}
 /* Section commons */
 .ws{padding:80px 60px 100px}
 .ws-alt{background:#EAE6DF}
-.wc{max-width:1320px;margin:0 auto}
+/* records固有: .wc の max-width は works配下ページ間で不一致のため works-base.css には
+   入れず、ページ側で明示指定。 */
+.wc{max-width:1320px}
 .sh{margin-bottom:56px}
 .sh-top{display:flex;align-items:baseline;gap:22px;margin-bottom:18px}
-.sh-en{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a)}
+.sh-en{font-family:var(--dp);font-size:0.75rem;letter-spacing:.4em;color:var(--a)}
 .sh-line{display:inline-block;width:56px;height:1px;background:var(--a);vertical-align:middle}
-.sh-no{font-family:var(--mn);font-size:10px;letter-spacing:.2em;color:var(--inkm)}
-.sh-jp{font-family:var(--sr);font-weight:500;font-size:clamp(32px,2.8vw,48px);color:var(--m);margin:0;letter-spacing:.04em;line-height:1.2}
+.sh-no{font-family:var(--mn);font-size:0.75rem;letter-spacing:.2em;color:var(--inkm)}
+.sh-jp{font-family:var(--sr);font-weight:500;font-size:clamp(2rem, 2.8vw + 1rem, 3rem);color:var(--m);margin:0;letter-spacing:.04em;line-height:1.2}
 
 /* Cap Hero */
 .cap-hero{background:var(--m);padding:90px 60px 80px}
 .cap-hero-inner{max-width:820px}
-.cap-h1{font-family:var(--sr);font-weight:500;font-size:clamp(34px,3.5vw,54px);color:var(--bg);line-height:1.35;letter-spacing:.04em;margin:0 0 26px}
-.cap-lead{font-size:16px;line-height:2;color:rgba(242,242,240,.8);letter-spacing:.04em;max-width:680px}
+.cap-h1{font-family:var(--sr);font-weight:500;font-size:clamp(2.125rem, 3.5vw + 1.0625rem, 3.375rem);color:var(--bg);line-height:1.35;letter-spacing:.04em;margin:0 0 26px}
+.cap-lead{font-size:1rem;line-height:2;color:rgba(242,242,240,.8);letter-spacing:.04em;max-width:680px}
 .cap-hero-cta{margin-top:32px}
 
 /* Cap Nav */
 .cap-nav{background:var(--bg);border-bottom:1px solid var(--hair);position:sticky;top:68px;z-index:90;overflow:hidden}
 .cap-nav-inner{max-width:1320px;margin:0 auto;padding:0 60px;display:flex;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
 .cap-nav-inner::-webkit-scrollbar{display:none}
-.cap-nav-pill{font-family:var(--mn);font-size:11px;letter-spacing:.12em;color:var(--inkm);padding:14px 18px;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;flex-shrink:0}
+.cap-nav-pill{font-family:var(--mn);font-size:0.75rem;letter-spacing:.12em;color:var(--inkm);padding:14px 18px;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;flex-shrink:0}
 .cap-nav-pill:hover{color:var(--m);border-bottom-color:var(--a)}
 
 /* Cap Grid */
@@ -234,42 +201,42 @@ p{margin:0}
 .ws-alt .cap-card{background:#EAE6DF}
 .cap-card:hover{border-color:rgba(184,115,51,.4);box-shadow:0 4px 20px rgba(26,39,68,.06)}
 .cap-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}
-.cap-card-title{font-family:var(--sr);font-size:17px;color:var(--m);letter-spacing:.04em;line-height:1.5;flex:1;margin:0}
-.cap-badge{font-family:var(--mn);font-size:10px;letter-spacing:.15em;padding:3px 8px;flex-shrink:0;white-space:nowrap;margin-top:3px}
+.cap-card-title{font-family:var(--sr);font-size:1.0625rem;color:var(--m);letter-spacing:.04em;line-height:1.5;flex:1;margin:0}
+.cap-badge{font-family:var(--mn);font-size:0.75rem;letter-spacing:.15em;padding:3px 8px;flex-shrink:0;white-space:nowrap;margin-top:3px}
 .cap-badge-done{border:1px solid var(--a);color:var(--a)}
 .cap-badge-wip{border:1px solid var(--inkm);color:var(--inkm)}
-.cap-card-body{font-size:13.5px;line-height:2;color:var(--inks)}
-.cap-card-note{display:inline-block;margin-top:14px;font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--a);border-bottom:1px solid var(--a);padding-bottom:2px;transition:opacity .2s}
+.cap-card-body{font-size:0.84375rem;line-height:2;color:var(--inks)}
+.cap-card-note{display:inline-block;margin-top:14px;font-family:var(--mn);font-size:0.75rem;letter-spacing:.18em;color:var(--a);border-bottom:1px solid var(--a);padding-bottom:2px;transition:opacity .2s}
 .cap-card-note:hover{opacity:.65}
 
 /* Record intro (実績＝土台) */
-.cap-record-lead{font-size:15px;line-height:2;color:var(--inks);letter-spacing:.03em;max-width:760px;margin:0 0 28px}
+.cap-record-lead{font-size:0.9375rem;line-height:2;color:var(--inks);letter-spacing:.03em;max-width:760px;margin:0 0 28px}
 .rec-meta{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.rec-meta-done{font-family:var(--mn);font-size:11px;letter-spacing:.2em;color:var(--a);border:1px solid var(--a);padding:4px 10px}
-.rec-meta-wip{font-family:var(--mn);font-size:11px;letter-spacing:.2em;color:var(--inkm);border:1px solid var(--hair);padding:4px 10px}
+.rec-meta-done{font-family:var(--mn);font-size:0.75rem;letter-spacing:.2em;color:var(--a);border:1px solid var(--a);padding:4px 10px}
+.rec-meta-wip{font-family:var(--mn);font-size:0.75rem;letter-spacing:.2em;color:var(--inkm);border:1px solid var(--hair);padding:4px 10px}
 .rec-meta-sep{color:var(--hair);font-family:var(--mn)}
-.rec-meta-date{font-family:var(--mn);font-size:10px;letter-spacing:.15em;color:var(--inkm)}
+.rec-meta-date{font-family:var(--mn);font-size:0.75rem;letter-spacing:.15em;color:var(--inkm)}
 
 /* Contact CTA (reuse from index) */
 .contact-section{padding-bottom:100px}
 .contact-panel{background:var(--m);color:var(--bg);padding:80px 70px;display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:center}
-.contact-label{font-family:var(--dp);font-size:11px;letter-spacing:.4em;color:var(--a);margin-bottom:20px}
-.contact-title{font-family:var(--sr);font-weight:500;font-size:clamp(32px,3vw,48px);margin:0;line-height:1.4;letter-spacing:.04em;color:var(--bg)}
-.contact-body{font-size:16px;line-height:2.1;color:rgba(242,242,240,.8);letter-spacing:.04em;margin-bottom:40px;max-width:480px}
+.contact-label{font-family:var(--dp);font-size:0.75rem;letter-spacing:.4em;color:var(--a);margin-bottom:20px}
+.contact-title{font-family:var(--sr);font-weight:500;font-size:clamp(2rem, 3vw + 1rem, 3rem);margin:0;line-height:1.4;letter-spacing:.04em;color:var(--bg)}
+.contact-body{font-size:1rem;line-height:2.1;color:rgba(242,242,240,.8);letter-spacing:.04em;margin-bottom:40px;max-width:480px}
 .contact-btns{display:flex;gap:16px;flex-wrap:wrap}
-.contact-btn-primary{padding:16px 26px;font-family:var(--dp);font-size:13px;letter-spacing:.22em;background:var(--a);color:var(--m);transition:background .25s}
+.contact-btn-primary{padding:16px 26px;font-family:var(--dp);font-size:0.8125rem;letter-spacing:.22em;background:var(--a);color:var(--m);transition:background .25s}
 .contact-btn-primary:hover{background:#c98a45}
-.contact-btn-ghost{padding:16px 26px;font-family:var(--dp);font-size:13px;letter-spacing:.22em;border:1px solid rgba(242,242,240,.35);color:var(--bg);transition:border-color .25s}
+.contact-btn-ghost{padding:16px 26px;font-family:var(--dp);font-size:0.8125rem;letter-spacing:.22em;border:1px solid rgba(242,242,240,.35);color:var(--bg);transition:border-color .25s}
 .contact-btn-ghost:hover{border-color:rgba(242,242,240,.7)}
 
 /* Footer */
 .wfooter{padding:20px 60px 40px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--hair)}
-.wfooter-back{font-family:var(--dp);font-size:12px;letter-spacing:.25em;color:var(--m);transition:color .2s}
+.wfooter-back{font-family:var(--dp);font-size:0.75rem;letter-spacing:.25em;color:var(--m);transition:color .2s}
 .wfooter-back:hover{color:var(--a)}
 .wfooter-legal{display:flex;gap:22px;flex-wrap:wrap}
-.wfooter-legal a{font-family:var(--mn);font-size:10px;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
+.wfooter-legal a{font-family:var(--mn);font-size:0.75rem;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
 .wfooter-legal a:hover{color:var(--a)}
-.wfooter-copy{font-family:var(--mn);font-size:10px;letter-spacing:.18em;color:var(--inkm)}
+.wfooter-copy{font-family:var(--mn);font-size:0.75rem;letter-spacing:.18em;color:var(--inkm)}
 </style>
 
 
@@ -298,5 +265,4 @@ p{margin:0}
 })();
 </script>
 
-</body>
-</html>
+</WorksLayout>
