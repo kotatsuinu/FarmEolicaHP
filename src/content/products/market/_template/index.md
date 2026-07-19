@@ -5,7 +5,7 @@ flowerType: "[花の種類]"
 varieties: []  # 品種名（例: ["チャンピオンiQ ピンク", "チャンピオン スカイブルー"]）
 category: "market"
 availableSeason: "[出荷時期]"
-saleStatus: "available"
+saleStatus: "available"  # available / out_of_stock / seasonal / preparing / discontinued
 cultivationNo: "YYYYNN"  # Cultivation Managerの作付番号
 # image: "./hero.jpg"
 

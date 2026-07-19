@@ -23,7 +23,7 @@ flowerType: "【花の種類を入力 例: カンパニュラ、ストック】"
 category: "dried_flower"
 cultivationNo: "【作付けNo 例: 202603】"
 availableSeason: "【販売時期 例: 2026年春】"
-saleStatus: "available"  # available / out_of_stock / seasonal / discontinued
+saleStatus: "available"  # available / out_of_stock / seasonal / preparing / discontinued
 
 # 価格（税込、後日決定時に設定）
 # price: 1000

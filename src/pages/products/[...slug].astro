@@ -560,7 +560,7 @@ if (product.data.gallery && product.data.gallery.length > 0) {
             ) : !isMarket && (
               <div class="space-y-4">
                 <div class="block w-full text-center px-8 py-4 text-xs tracking-widest font-mono border-2 border-warm-gray-300 text-warm-gray-400">
-                  {isDiscontinued ? 'この商品の販売は終了しました' : '現在販売していません'}
+                  {isDiscontinued ? 'この商品の販売は終了しました' : (product.data.saleStatus === 'seasonal' || product.data.saleStatus === 'preparing') ? '出荷準備中（まもなくご案内します）' : '現在販売していません'}
                 </div>
                 <a
                   href={SITE_CONFIG.sns.instagram}

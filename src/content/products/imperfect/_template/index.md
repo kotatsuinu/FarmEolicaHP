@@ -4,7 +4,7 @@ description: "ここに商品の魅力的な説明文を書いてください。
 flowerType: "トルコギキョウ"
 category: "imperfect"
 availableSeason: "2026年夏"
-saleStatus: "available"
+saleStatus: "available"  # available / out_of_stock / seasonal / preparing / discontinued
 price: 2200
 unit: "セット"
 priceTable:
