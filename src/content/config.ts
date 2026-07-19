@@ -76,6 +76,7 @@ const productsCollection = defineCollection({
       'available',      // 販売中
       'out_of_stock',   // 在庫切れ
       'seasonal',       // 季節限定（時期外）
+      'preparing',      // 出荷準備中（育成中・出荷開始前）
       'discontinued'    // 販売終了
     ]).default('available'),
 

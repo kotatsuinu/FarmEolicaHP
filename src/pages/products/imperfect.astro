@@ -22,7 +22,7 @@ const imperfectProducts = (await getCollection('products'))
     // 販売中を先に、その後は表示順
     if (a.data.saleStatus === 'available' && b.data.saleStatus !== 'available') return -1;
     if (a.data.saleStatus !== 'available' && b.data.saleStatus === 'available') return 1;
-    return (a.data.order || 999) - (b.data.order || 999);
+    return (b.data.order || 999) - (a.data.order || 999);
   });
 
 // 販売中の商品数
