@@ -4,12 +4,15 @@
 // 導入: src/pages/works/faq.astro（パイロット）→ terms/privacy/tokushoho/contact/records
 // （responsive_ux_proposal_20260718.md §7 タスク2-1 batch1）
 //
-// ogType / twitterCard / twitterSite は任意プロパティ化済み（既定値=旧固定値と等価）。
-// 未展開ページ（index.astro / regional-sake-brewery.astro 等）を移行する際は、
-// ogType="article" や twitterCard="summary_large_image" + twitterSite="@FarmEolica" を
-// 明示的に渡すこと。
+// ogType / twitterCard は任意プロパティ（既定値=旧固定値と等価）。ogType="article" 等が
+// 必要なページ（case study等）は明示的に渡すこと。
+// twitterSite は既定値 "@FarmEolica"（works配下の全ページで twitter:site を出す運用、
+// SEO/AEO hygieneパス P0-B にて変更）。個別に上書きしたい場合のみ明示的に渡す。
+// works配下の全ページ（本Layout経由）に <WorksStructuredData /> (Organization JSON-LD) を
+// 描画する。works landing等で二重描画しないよう、個別ページ側で追加描画しないこと。
 import { SITE_CONFIG } from '../config/site';
 import '../styles/works-base.css';
+import WorksStructuredData from '../components/seo/WorksStructuredData.astro';
 
 interface Props {
   title: string;
@@ -28,10 +31,11 @@ const {
   canonical,
   ogType = 'website',
   twitterCard = 'summary',
-  twitterSite,
+  twitterSite = '@FarmEolica',
 } = Astro.props;
 
 const ga4Id = SITE_CONFIG.seo.ga4Id;
+const gscVerification = SITE_CONFIG.seo.gscVerification;
 ---
 
 <!doctype html>
@@ -42,6 +46,7 @@ const ga4Id = SITE_CONFIG.seo.ga4Id;
   <meta name="description" content={description} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>{title}</title>
+  {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
   {canonical && <link rel="canonical" href={canonical} />}
   <meta property="og:type" content={ogType} />
   {canonical && <meta property="og:url" content={canonical} />}
@@ -65,5 +70,6 @@ const ga4Id = SITE_CONFIG.seo.ga4Id;
 </head>
 <body>
 <slot />
+<WorksStructuredData />
 </body>
 </html>

@@ -4,6 +4,9 @@
 import { Image } from 'astro:assets';
 import WorksLayout from '../../../layouts/WorksLayout.astro';
 import WorksHeader from '../../../components/works/WorksHeader.astro';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
+import ArticleSchema from '../../../components/seo/ArticleSchema.astro';
+import { SITE_CONFIG } from '../../../config/site';
 import recipeShot from '../../../assets/images/works/cases/sake-brewery-recipe.jpg';
 import topShot from '../../../assets/images/works/cases/sake-brewery-top.jpg';
 import aboutShot from '../../../assets/images/works/cases/sake-brewery-about.jpg';
@@ -13,9 +16,27 @@ const title = '地域の酒蔵のストーリーLP（匿名コンセプトモッ
 const description = '実在の特定の酒蔵ではなく、地域の酒蔵の魅力を国内外へ伝えるために制作した、架空・匿名のコンセプトモック。マガジン型レイアウト×日英バイリンガルのストーリーLP制作実績。';
 const canonical = `${siteUrl}/works/case/regional-sake-brewery/`;
 const ogImage = `${siteUrl}/images/works/sake-brewery-card.jpg`;
+// ArticleSchema用: headlineは<title>から屋号サフィックスを除いた実データ。datePublishedはgit初出日の実値。
+const articleHeadline = title.replace(/\s*\|\s*Farm Eolica Works$/, '');
+const articleDatePublished = '2026-07-06'; // git初出日（git log --diff-filter=A）
 ---
 
 <WorksLayout title={title} description={description} canonical={canonical} ogImage={ogImage} ogType="article" twitterCard="summary_large_image" twitterSite="@FarmEolica">
+
+<BreadcrumbSchema items={[
+  { name: 'ホーム', url: '/works/' },
+  { name: '制作実績', url: '/works/#works' },
+  { name: '地域の酒蔵のストーリーLP', url: canonical },
+]} />
+<ArticleSchema
+  headline={articleHeadline}
+  description={description}
+  url={canonical}
+  datePublished={articleDatePublished}
+  dateModified="2026-07-23"
+  image={ogImage}
+  publisherId={`${SITE_CONFIG.works.url}#organization`}
+/>
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader />

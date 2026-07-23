@@ -15,6 +15,7 @@ import NoticeInfo from '../../components/products/NoticeInfo.astro';
 import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 
 // ドライフラワーの商品を取得
 const dryFlowerProducts = (await getCollection('products'))
@@ -68,7 +69,13 @@ const noticeItems = [
   title="ドライフラワー | Farm Eolica (ファームエオリカ)"
   description="咲き終わりじゃない、ここからが美しい。Farm Eolicaのドライフラワー。自農場で育てた花を丁寧にドライ加工。クラフト素材としてお届けします。"
   image={dryFlowerHeroImage.src}
+  ogType="website"
 >
+  <BreadcrumbSchema items={[
+    { name: 'ホーム', url: '/' },
+    { name: '商品', url: '/products' },
+    { name: 'ドライフラワー', url: '/products/dry-flower' },
+  ]} />
   <!-- Hero Section -->
   <section class="relative h-[60vh] min-h-[420px] flex items-center justify-center overflow-hidden bg-dried-linen">
     <Image

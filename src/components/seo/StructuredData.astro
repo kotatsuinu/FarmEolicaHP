@@ -10,6 +10,7 @@ const { business, sns, contact } = SITE_CONFIG;
 const schema = {
   "@context": "https://schema.org",
   "@type": ["LocalBusiness", "Organization"],
+  "@id": `${business.url}/#organization`,
   "name": business.name,
   "alternateName": business.nameJa,
   "description": business.description,

@@ -14,6 +14,8 @@ varieties:
 category: "market"
 availableSeason: "2026年7月下旬〜8月（お盆）"
 saleStatus: "preparing"
+datePublished: 2026-07-19
+dateModified: 2026-07-19
 cultivationNo: "202605・202611"
 image: "./eustoma_summer_hero_lavender.jpg"
 gallery:

@@ -4,6 +4,7 @@
 import { Image } from 'astro:assets';
 import WorksLayout from '../../layouts/WorksLayout.astro';
 import WorksHeader from '../../components/works/WorksHeader.astro';
+import ServiceSchema from '../../components/seo/ServiceSchema.astro';
 import namieRiceBurgerCard from '../../assets/images/works/namie-rice-burger-card.jpg';
 import miyakeNaoCard from '../../assets/images/works/miyake-nao-card.jpg';
 import sakeBreweryCard from '../../assets/images/works/sake-brewery-card.jpg';
@@ -11,6 +12,13 @@ const siteUrl = 'https://farmeolica.com';
 const title = '1ページHP・LP制作 | Farm Eolica Works';
 const description = '福島・浪江の農家兼元編集者が、あなたの物語を1ページのWebページにします。取材から公開まで一貫対応。先着5名 特別価格¥40,000〜（通常¥80,000〜）。ソース一式をGitHubで納品、ロックインなし。';
 const canonical = `${siteUrl}/works/hp-lp/`;
+
+// ServiceSchema用価格（画面表示の「通常」価格を採用。先着5名の期間限定価格は除外——
+// AI検索に出す恒常価格として通常価格が適切なため。金額は plan-price-block-sub の表示値と同一）
+const HP_LP_PRICE_TIERS = [
+  { label: 'シンプル（CMSなし）', price: 80000 },
+  { label: 'スタンダード（microCMS付）', price: 100000 },
+];
 
 // FLOW セクション: 依頼〜納品の2レーン詳細フロー（6段・縦タイムライン）
 const flowStages = [
@@ -107,6 +115,14 @@ const flowStages = [
 ---
 
 <WorksLayout title={title} description={description} canonical={canonical}>
+
+<ServiceSchema
+  name="1ページHP・LP制作"
+  description={description}
+  serviceType="ホームページ制作"
+  url={canonical}
+  priceTiers={HP_LP_PRICE_TIERS}
+/>
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader />

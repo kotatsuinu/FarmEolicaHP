@@ -4,6 +4,9 @@
 import { Image } from 'astro:assets';
 import WorksLayout from '../../../layouts/WorksLayout.astro';
 import WorksHeader from '../../../components/works/WorksHeader.astro';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
+import ArticleSchema from '../../../components/seo/ArticleSchema.astro';
+import { SITE_CONFIG } from '../../../config/site';
 import topShot from '../../../assets/images/works/cases/namie-rice-burger-top.jpg';
 import storyShot from '../../../assets/images/works/cases/namie-rice-burger-story.jpg';
 import mobileShot from '../../../assets/images/works/cases/namie-rice-burger-mobile.jpg';
@@ -16,9 +19,27 @@ const ogImage = `${siteUrl}/images/works/namie-rice-burger-card.jpg`;
 const LIVE_LP_URL = 'https://namie-riceburger.pages.dev/';
 const OFFICIAL_VIDEO_URL = 'https://www.youtube.com/watch?v=EIvWzRUcLKo';
 const OFFICIAL_VIDEO_TITLE = 'なみえ創成中学校と道の駅なみえのコラボ「なみえライスバーガー」の開発ストーリー【なみえチャンネル第462回】';
+// ArticleSchema用: headlineは<title>から屋号サフィックスを除いた実データ。datePublishedはgit初出日の実値。
+const articleHeadline = title.replace(/\s*\|\s*Farm Eolica Works$/, '');
+const articleDatePublished = '2026-07-05'; // git初出日（git log --diff-filter=A）
 ---
 
 <WorksLayout title={title} description={description} canonical={canonical} ogImage={ogImage} ogType="article" twitterCard="summary_large_image" twitterSite="@FarmEolica">
+
+<BreadcrumbSchema items={[
+  { name: 'ホーム', url: '/works/' },
+  { name: '制作実績', url: '/works/#works' },
+  { name: 'なみえライスバーガー', url: canonical },
+]} />
+<ArticleSchema
+  headline={articleHeadline}
+  description={description}
+  url={canonical}
+  datePublished={articleDatePublished}
+  dateModified="2026-07-23"
+  image={ogImage}
+  publisherId={`${SITE_CONFIG.works.url}#organization`}
+/>
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader />

@@ -1,0 +1,68 @@
+---
+/**
+ * サービスページ用構造化データ（Service + Offer/AggregateOffer）
+ * works配下の価格明示ページ（partner.astro / hp-lp.astro / index.astro等）に組み込んで使用
+ */
+interface PriceTier {
+  label?: string;
+  price: number;
+}
+
+interface Props {
+  name: string;
+  description: string;
+  serviceType?: string;
+  url: string;
+  provider?: string;
+  areaServed?: string;
+  price?: number;
+  priceTiers?: PriceTier[];
+}
+
+const {
+  name,
+  description,
+  serviceType,
+  url,
+  provider = 'Farm Eolica Works',
+  areaServed = '日本',
+  price,
+  priceTiers,
+} = Astro.props;
+
+// Offers構築（ProductSchema.astroのlowPrice/highPrice算出ロジックを転用）
+let offers: Record<string, unknown> | undefined;
+
+if (priceTiers && priceTiers.length > 0) {
+  const prices = priceTiers.map((t) => t.price);
+  offers = {
+    "@type": "AggregateOffer",
+    "lowPrice": Math.min(...prices),
+    "highPrice": Math.max(...prices),
+    "priceCurrency": "JPY",
+  };
+} else if (price) {
+  offers = {
+    "@type": "Offer",
+    "price": price,
+    "priceCurrency": "JPY",
+  };
+}
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": name,
+  "description": description,
+  ...(serviceType && { "serviceType": serviceType }),
+  "provider": {
+    "@type": "Organization",
+    "name": provider,
+  },
+  "areaServed": areaServed,
+  ...(offers && { "offers": offers }),
+  "url": url,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

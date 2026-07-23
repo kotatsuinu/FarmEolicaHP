@@ -13,6 +13,8 @@ category: "dried_flower"
 cultivationNo: "202604"
 availableSeason: "2026年春"
 saleStatus: "available"
+datePublished: 2026-04-14
+dateModified: 2026-05-05
 
 # 価格（容量ベース、花代+梱包料込、送料別）
 priceTable:

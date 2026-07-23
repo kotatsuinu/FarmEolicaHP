@@ -4,6 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import { SITE_CONFIG } from '../config/site';
 import NoteLinkCard from '../components/NoteLinkCard.astro';
 import SectionHeader from '../components/SectionHeader.astro';
+import PersonSchema from '../components/seo/PersonSchema.astro';
 
 import heroImage from '../assets/images/about/hero.jpg';
 import originImage from '../assets/images/about/origin.jpg';
@@ -14,6 +15,9 @@ import philosophyImage from '../assets/images/about/philosophy.jpg';
 ---
 
 <Layout title="About | Farm Eolica (ファームエオリカ)" description="風を読み、土を耕し、未来を咲かせる。Farm Eolicaの思想と背景。" image={heroImage.src}>
+
+<PersonSchema />
+
   <!-- Hero Section -->
   <section class="relative h-[70vh] md:h-screen w-full overflow-hidden">
     <!-- Background Image -->
@@ -280,7 +284,7 @@ import philosophyImage from '../assets/images/about/philosophy.jpg';
   </section>
 
   <!-- Section 6: Profile -->
-  <section class="py-20 md:py-32 bg-warm-gray-50/50" data-animate>
+  <section id="person-takuma" class="py-20 md:py-32 bg-warm-gray-50/50" data-animate>
     <div class="max-w-4xl mx-auto px-6 lg:px-12">
       <SectionHeader titleJa="農園概要" titleEn="PROFILE" />
 

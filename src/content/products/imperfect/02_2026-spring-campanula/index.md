@@ -6,6 +6,8 @@ category: "imperfect"
 availableSeason: "2026年春"
 saleStatus: "discontinued"
 availableFrom: 2026-03-26
+datePublished: 2026-03-26
+dateModified: 2026-05-08
 
 image: "./main.jpg"
 gallery:

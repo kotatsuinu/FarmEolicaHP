@@ -17,6 +17,7 @@ import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
 import NoteLinkCard from '../../components/NoteLinkCard.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 
 // ロスフラワーの商品を取得
 const lossFlowerProducts = (await getCollection('products'))
@@ -63,7 +64,13 @@ const noticeItems = [
   title="ロスフラワー | Farm Eolica (ファームエオリカ)"
   description="廃棄される花に新しい命を。Farm Eolicaのロスフラワーをクラフト・ドライフラワー用にお届けします。"
   image={lossFlowerHeroImage.src}
+  ogType="website"
 >
+  <BreadcrumbSchema items={[
+    { name: 'ホーム', url: '/' },
+    { name: '商品', url: '/products' },
+    { name: 'ロスフラワー', url: '/products/loss-flower' },
+  ]} />
   <!-- Hero Section -->
   <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
     <div class="absolute inset-0 bg-warm-gray-200">
@@ -102,7 +109,7 @@ const noticeItems = [
     </div>
   </section>
 
-  <!-- Introduction Section -->
+  <!-- Introduction Section（詳しい解説はピラーページ /loss-flower へ集約。ここは要点のみ） -->
   <section class="py-16 md:py-20" data-animate>
     <div class="max-w-4xl mx-auto px-6">
       <div class="space-y-6 text-center">
@@ -110,25 +117,14 @@ const noticeItems = [
           福島県浜通り、浪江町の小さな花農家です。
         </p>
         <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
-          毎日、ハウスで大切に育てた花を市場へ出荷していますが、
-          その作業過程で発生するのが「花頭」の部分。<br />
-          切り花として出荷するには茎の部分が重要ですが、
-          この美しい花の部分だけが余ってしまうのです。
+          仕立てや摘心の作業過程で生まれる、規格外・余剰の切り花「ロスフラワー」。
+          「このまま廃棄してしまうのはもったいない」という想いから、
+          クラフト作家さんやハンドメイドを楽しむ皆さまに、農家直送でお届けしています。
         </p>
-        <div class="py-4">
-          <p class="font-serif text-base text-warm-gray-500 italic">
-            色とりどりの花頭たち。<br />
-            一つひとつ丁寧に手作業で選別され、<br />
-            本来ならその役目を終えてしまう花材たち...
-          </p>
-        </div>
-        <p class="font-serif text-xl text-eolica-green font-medium">
-          「このまま廃棄してしまうのはもったいない」
-        </p>
-        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
-          そんな想いから、クラフト作家さんや<br class="hidden md:inline" />
-          ハンドメイドを楽しむ皆さまに、<br />
-          これらの花材を大切に使っていただけないかと考えました。
+        <p class="text-sm">
+          <a href="/loss-flower" class="text-eolica-green hover:underline">
+            ロスフラワーとは（詳しい解説・花材としての使い方・よくある質問）→
+          </a>
         </p>
       </div>
     </div>
@@ -223,6 +219,11 @@ const noticeItems = [
       <p class="text-center text-sm text-warm-gray-600 mt-8 font-serif">
         切り花とは違う用途で、それぞれの花が持つ本来の美しさを活かしていただく。<br />
         皆さまの手で新たな命を吹き込んでいただけることを、心より願っています。
+      </p>
+      <p class="text-center text-sm mt-4">
+        <a href="/loss-flower" class="text-eolica-green hover:underline">
+          花材としての使い方を詳しく見る →
+        </a>
       </p>
     </div>
   </section>

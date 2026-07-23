@@ -49,6 +49,14 @@ export const SITE_CONFIG = {
       { value: 'other', label: 'その他' },
     ],
   },
+  person: {
+    name: '関口 卓磨',
+    alternateName: 'Sekiguchi Takuma',
+    jobTitle: '園主（新規就農者）',
+    description: 'タウン情報誌の編集者から新規就農。福島県浪江町でFarm Eolica（ファーム・エオリカ）を営み、農研機構「通い農業支援システム」をベースに独自改良したデータ駆動型のスマート農業を実践しながら、トルコギキョウ・スプレーマム・ストック等の花き栽培に取り組む。',
+    knowsAbout: ['ロスフラワー', '花き栽培', '新規就農'],
+    url: 'https://farmeolica.com/about/',
+  },
   business: {
     name: 'Farm Eolica',
     nameJa: 'ファームエオリカ',
@@ -70,5 +78,22 @@ export const SITE_CONFIG = {
   seo: {
     ga4Id: 'G-KCNMWNSTCG',
     gscVerification: 'G1MpntnYo6biV_pargwybWJHOydpQHdetsxbjFB_Cwc',
+  },
+  works: {
+    name: 'Farm Eolica Works',
+    legalName: '関口 卓磨（屋号: Farm Eolica / サブブランド: Farm Eolica Works）',
+    description: '福島県浪江町の農家兼元編集者による、Web制作・AI活用業務代行事業。1ページHP・LP制作からAIを活用した月次業務代行まで、取材からデザイン・実装・運用まで一貫して対応します。',
+    url: 'https://farmeolica.com/works/',
+    founder: '関口 卓磨',
+    knowsAbout: [
+      'ホームページ制作',
+      'ランディングページ制作',
+      'AI活用業務代行',
+      '農業DX',
+      'Web開発',
+      '取材・コピーライティング',
+    ],
+    areaServed: '日本',
+    taxId: 'T1810484782598',
   },
 } as const;

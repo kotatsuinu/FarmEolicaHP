@@ -10,6 +10,7 @@ import marketHeroImage from '../../assets/images/products/market-hero.jpg';
 import ProductCard from '../../components/products/ProductCard.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 
 // 市場出荷品の商品を取得
 const marketProducts = (await getCollection('products'))
@@ -28,7 +29,13 @@ const shippingCount = marketProducts.filter(p => p.data.saleStatus === 'availabl
   title="市場出荷品 | Farm Eolica (ファームエオリカ)"
   description="Farm Eolicaが市場向けに出荷している花の品質を、独自規格で正直に開示しています。"
   image={marketHeroImage.src}
+  ogType="website"
 >
+  <BreadcrumbSchema items={[
+    { name: 'ホーム', url: '/' },
+    { name: '商品', url: '/products' },
+    { name: '市場出荷品', url: '/products/market' },
+  ]} />
   <!-- Hero Section -->
   <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
     <div class="absolute inset-0 bg-warm-gray-200">

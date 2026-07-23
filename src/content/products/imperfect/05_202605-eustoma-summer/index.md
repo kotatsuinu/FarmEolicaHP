@@ -7,6 +7,8 @@ availableSeason: "2026年7月下旬〜8月（お盆）"
 saleStatus: "preparing"
 availableFrom: 2026-07-20
 cultivationNo: "202605・202611"
+datePublished: 2026-07-19
+dateModified: 2026-07-19
 priceTiers:
   - minQuantity: 1
     unitPrice: 185

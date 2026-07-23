@@ -10,13 +10,21 @@ import SectionHeader from '../../components/SectionHeader.astro';
 import NoteLinkCard from '../../components/NoteLinkCard.astro';
 import AppShowcaseCard from '../../components/research/AppShowcaseCard.astro';
 import DemoModal from '../../components/research/DemoModal';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 ---
 
 <Layout
   title="研究成果 | Farm Eolica (ファームエオリカ)"
   description="Farm Eolicaの研究成果。IoT栽培管理システム、混植ボードなど、農業DXの自作アプリと技術的な取り組みをご紹介します。"
   image="/images/top/hero.jpg"
+  ogType="website"
 >
+  <BreadcrumbSchema items={[
+    { name: 'ホーム', url: '/' },
+    { name: '商品', url: '/products' },
+    { name: '研究成果', url: '/products/research' },
+  ]} />
   <!-- Hero Section -->
   <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-eolica-green via-eolica-green/90 to-wet-soil">
     <div class="absolute inset-0 bg-noise opacity-5"></div>
@@ -31,6 +39,17 @@ import DemoModal from '../../components/research/DemoModal';
         花農家が自らコードを書き、栽培とテクノロジーの接点を探る。<br class="hidden md:inline" />
         IoTデータ分析、栽培管理システム、自動化の取り組みを公開しています。
       </p>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section class="pt-6 pb-2">
+    <div class="max-w-6xl mx-auto px-6">
+      <Breadcrumb items={[
+        { name: 'ホーム', url: '/' },
+        { name: '商品', url: '/products' },
+        { name: '研究成果' },
+      ]} />
     </div>
   </section>
 
