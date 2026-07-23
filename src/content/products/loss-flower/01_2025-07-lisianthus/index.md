@@ -6,6 +6,8 @@ flowerType: "トルコキキョウ"
 category: "loss_flower"
 availableSeason: "2025年7〜8月"
 saleStatus: "discontinued"
+datePublished: 2026-02-06
+dateModified: 2026-02-09
 
 # image: "./main.jpg"  # 画像未準備
 # gallery:

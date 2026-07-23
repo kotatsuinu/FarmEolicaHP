@@ -17,6 +17,7 @@ import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
 import NoteLinkCard from '../../components/NoteLinkCard.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 
 // ロスフラワーの商品を取得
 const lossFlowerProducts = (await getCollection('products'))
@@ -63,7 +64,13 @@ const noticeItems = [
   title="ロスフラワー | Farm Eolica (ファームエオリカ)"
   description="廃棄される花に新しい命を。Farm Eolicaのロスフラワーをクラフト・ドライフラワー用にお届けします。"
   image={lossFlowerHeroImage.src}
+  ogType="product"
 >
+  <BreadcrumbSchema items={[
+    { name: 'ホーム', url: '/' },
+    { name: '商品', url: '/products' },
+    { name: 'ロスフラワー', url: '/products/loss-flower' },
+  ]} />
   <!-- Hero Section -->
   <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
     <div class="absolute inset-0 bg-warm-gray-200">

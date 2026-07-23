@@ -16,6 +16,8 @@ interface Props {
   priceTiers?: Array<{ minQuantity: number; unitPrice: number }>;
   boxPricing?: Array<{ size: string; price: number }>;
   flowerType?: string;
+  datePublished?: string;
+  dateModified?: string;
 }
 
 const {
@@ -29,6 +31,8 @@ const {
   priceTiers,
   boxPricing,
   flowerType,
+  datePublished,
+  dateModified,
 } = Astro.props;
 
 const { business } = SITE_CONFIG;
@@ -93,6 +97,9 @@ const schema = {
   "category": category,
   "offers": offers,
   "url": new URL(url, business.url).href,
+  // 鮮度シグナル（P2-I）。git初出日/最終更新日の実値がある商品のみ出力（無い場合は捏造せず省略）
+  ...(datePublished && { "datePublished": datePublished }),
+  ...(dateModified && { "dateModified": dateModified }),
 };
 ---
 

@@ -8,6 +8,8 @@ availableSeason: "2026年5月〜6月"
 saleStatus: "discontinued"
 availableFrom: 2026-05-01
 cultivationNo: "202602"
+datePublished: 2026-05-08
+dateModified: 2026-07-19
 
 image: "./main.jpg"
 gallery:

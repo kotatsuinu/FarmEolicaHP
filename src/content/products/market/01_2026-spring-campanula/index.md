@@ -8,6 +8,8 @@ varieties:
 category: "market"
 availableSeason: "2026年3月〜4月"
 saleStatus: "discontinued"
+datePublished: 2026-03-28
+dateModified: 2026-05-08
 cultivationNo: "202603"
 image: "./hero.jpg"
 

@@ -6,6 +6,8 @@ flowerType: "スプレーストック"
 category: "loss_flower"
 availableSeason: "2025年10〜11月"
 saleStatus: "discontinued"
+datePublished: 2026-02-09
+dateModified: 2026-02-09
 
 image: "./main.jpg"
 gallery:

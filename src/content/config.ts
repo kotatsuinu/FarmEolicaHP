@@ -124,6 +124,10 @@ const productsCollection = defineCollection({
     availableFrom: z.date().optional(),   // 販売開始日
     availableUntil: z.date().optional(),  // 販売終了日
 
+    // 鮮度シグナル（P2-I / structured data用）— git初出日・最終更新日の実値
+    datePublished: z.date().optional(),   // 商品ページ初出日（index.md の git初出日）
+    dateModified: z.date().optional(),    // 商品ページ最終更新日（index.md の git最終更新日）
+
     // 後方互換性（既存データ用）
     inStock: z.boolean().default(true),   // → saleStatusに移行予定
 

@@ -10,6 +10,8 @@ category: "dried_flower"
 cultivationNo: "202603"
 availableSeason: "2026年春"
 saleStatus: "available"
+datePublished: 2026-05-05
+dateModified: 2026-05-05
 
 # 価格（茎付き本数ベース、花代+梱包料込、送料別）
 # 80サイズ箱で発送するため茎長は30cmで切り揃え

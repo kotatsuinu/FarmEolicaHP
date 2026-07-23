@@ -10,6 +10,8 @@ varieties:
 category: "imperfect"
 availableSeason: "2026年6月〜7月"
 saleStatus: "discontinued"
+datePublished: 2026-06-22
+dateModified: 2026-07-19
 
 image: "./main.jpg"
 gallery:

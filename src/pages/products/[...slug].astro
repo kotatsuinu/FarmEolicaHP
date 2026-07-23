@@ -121,7 +121,7 @@ if (product.data.gallery && product.data.gallery.length > 0) {
 }
 ---
 
-<Layout title={`${product.data.flowerType} | Farm Eolica`} description={product.data.description} image={product.data.image?.src}>
+<Layout title={`${product.data.flowerType} | Farm Eolica`} description={product.data.description} image={product.data.image?.src} ogType="product">
   <ProductSchema
     name={product.data.name}
     description={product.data.description}
@@ -133,6 +133,8 @@ if (product.data.gallery && product.data.gallery.length > 0) {
     priceTiers={product.data.priceTiers}
     boxPricing={product.data.priceTable}
     flowerType={product.data.flowerType}
+    datePublished={product.data.datePublished?.toISOString().slice(0, 10)}
+    dateModified={product.data.dateModified?.toISOString().slice(0, 10)}
   />
   <BreadcrumbSchema items={[
     { name: 'ホーム', url: '/' },

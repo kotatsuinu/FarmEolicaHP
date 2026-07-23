@@ -7,9 +7,10 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  ogType?: string;
 }
 
-const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販売', image } = Astro.props;
+const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販売', image, ogType = 'website' } = Astro.props;
 
 const ga4Id = SITE_CONFIG.seo.ga4Id;
 const gscVerification = SITE_CONFIG.seo.gscVerification;
@@ -57,7 +58,7 @@ const ogImage = image
     </script>
 
     <!-- OGP -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

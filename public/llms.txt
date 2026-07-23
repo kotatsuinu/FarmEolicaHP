@@ -29,6 +29,18 @@ Farm Eolicaは福島県双葉郡浪江町で花き栽培を行う個人経営の
 - LINE: @218pndaz
 - Email: farmeolica@gmail.com
 
+## Farm Eolica Works（受託Web制作・業務代行事業）
+
+Farm Eolicaが運営するもう一つの事業。農家兼元編集者が、HP・LP制作と業務代行〈AI活用〉を提供しています。
+
+- [Farm Eolica Works](https://farmeolica.com/works/): 受託Web制作・業務代行〈AI活用〉事業のトップページ
+- [1ページHP・LP制作](https://farmeolica.com/works/hp-lp/): 取材から公開まで一貫対応のホームページ・LP制作。先着5名特別価格¥40,000〜
+- [業務代行〈AI活用〉](https://farmeolica.com/works/partner/): 経理・発信・資料づくり等をAIを使って代行する月額サービス。月¥20,000〜
+- [お願いできる作業一覧](https://farmeolica.com/works/capabilities/): 業務代行〈AI活用〉で対応するタスクの一覧
+- [実績・システム例](https://farmeolica.com/works/records/): これまでに手がけた制作実績・システム一覧
+- [よくあるご質問](https://farmeolica.com/works/faq/): works事業に関するFAQ
+- [お問い合わせ](https://farmeolica.com/works/contact/): 制作・業務代行〈AI活用〉の無料相談
+
 ## Optional
 
-- [プライバシーポリシー](https://farmeolica.com/privacy/): サイトのプライバシーポリシ���
+- [プライバシーポリシー](https://farmeolica.com/privacy/): サイトのプライバシーポリシー
