@@ -10,12 +10,22 @@ import SectionHeader from '../components/SectionHeader.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
 import FaqSchema from '../components/seo/FaqSchema.astro';
+import ArticleSchema from '../components/seo/ArticleSchema.astro';
 import NoteLinkCard from '../components/NoteLinkCard.astro';
 import { SITE_CONFIG } from '../config/site';
 import lossFlowerHeroImage from '../assets/images/products/loss-flower-hero.jpg';
 
 const title = 'ロスフラワー通販｜農家直送の花材をまとめ買い | Farm Eolica (ファームエオリカ)';
 const description = '農家直送のロスフラワー（規格外・余剰の切り花）を通販でお届け。ドライフラワー・レジン・撮影小物の花材に、新鮮なまま5本からまとめ買い。福島県浪江町の花農園から直送、法人の定期仕入れも相談可。';
+
+// ArticleSchema用: H1（headline）・冒頭要約（description）は本文と同一文言（捏造ゼロ）。
+// datePublished は git 初出日（`git log --diff-filter=A --format=%as -- src/pages/loss-flower.astro`）の実値。
+const pageUrl = `${SITE_CONFIG.business.url}/loss-flower/`;
+const ogImageUrl = new URL(lossFlowerHeroImage.src, SITE_CONFIG.business.url).href;
+const articleHeadline = 'ロスフラワーとは｜農家直送の花材を通販でまとめ買い';
+const articleDescription = 'Farm Eolica（福島県浪江町の花農園）が、仕立てや摘心の過程で生まれるロスフラワー（規格外・余剰の切り花）を農家直送でお届けしています。ドライフラワーやレジン、撮影小物などの花材として、新鮮なまま・まとまった本数でご購入いただけます。花の栽培から発送まで生産者本人が手がける一次情報として、このページにまとめました。';
+const articleDatePublished = '2026-07-23'; // git初出日
+const articleDateModified = '2026-07-23';
 
 // root直下なので2階層（ホーム > ロスフラワーとは）。Breadcrumb(視覚) と BreadcrumbSchema(JSON-LD) で共有。
 const breadcrumbItems = [
@@ -66,6 +76,15 @@ const schemaFaqItems = faqItems.map((item) => ({
 
 <BreadcrumbSchema items={breadcrumbItems} />
 <FaqSchema items={schemaFaqItems} />
+<ArticleSchema
+  headline={articleHeadline}
+  description={articleDescription}
+  url={pageUrl}
+  datePublished={articleDatePublished}
+  dateModified={articleDateModified}
+  image={ogImageUrl}
+  publisherId={`${SITE_CONFIG.business.url}/#organization`}
+/>
 
 <div class="pt-32 pb-24 min-h-screen">
   <div class="max-w-4xl mx-auto px-6 lg:px-12">

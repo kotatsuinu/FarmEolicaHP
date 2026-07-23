@@ -1,0 +1,28 @@
+---
+/**
+ * 園主（関口卓磨）Person構造化データ（P1-G）
+ * /about のプロフィールセクション（id="person-takuma"）に1回だけ描画する（正典）。
+ * 他ページのArticle.authorはこの@idを参照するのみ（Person本体をここ以外で再出力しない）。
+ */
+import { SITE_CONFIG } from '../../config/site';
+
+const { person, sns, business } = SITE_CONFIG;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${person.url}#person-takuma`,
+  "name": person.name,
+  "alternateName": person.alternateName,
+  "jobTitle": person.jobTitle,
+  "description": person.description,
+  "url": person.url,
+  "knowsAbout": person.knowsAbout,
+  "sameAs": [sns.note, sns.x],
+  "worksFor": {
+    "@id": `${business.url}/#organization`,
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

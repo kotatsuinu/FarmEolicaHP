@@ -1,0 +1,55 @@
+---
+/**
+ * 記事系ページ用構造化データ（Article）— P1-G
+ * author は常にPerson @id参照（本体は/aboutで1回のみ出力。ここでは再出力しない）。
+ * publisher は呼び出し側が渡すOrganization @id参照（農園 or works、混同しないこと）。
+ * 必須プロパティ（headline/author/datePublished/image/publisher）を欠く場合はこのコンポーネントを
+ * 使わないこと（playbook §2: 不完全スキーマは無より悪化）。
+ */
+import { SITE_CONFIG } from '../../config/site';
+
+interface Props {
+  headline: string;
+  description: string;
+  url: string;
+  datePublished: string;
+  dateModified?: string;
+  image: string;
+  section?: string;
+  publisherId: string;
+}
+
+const {
+  headline,
+  description,
+  url,
+  datePublished,
+  dateModified,
+  image,
+  section,
+  publisherId,
+} = Astro.props;
+
+const authorId = `${SITE_CONFIG.person.url}#person-takuma`;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": headline,
+  "description": description,
+  "url": url,
+  "mainEntityOfPage": url,
+  "datePublished": datePublished,
+  ...(dateModified && { "dateModified": dateModified }),
+  "image": image,
+  ...(section && { "articleSection": section }),
+  "author": {
+    "@id": authorId,
+  },
+  "publisher": {
+    "@id": publisherId,
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

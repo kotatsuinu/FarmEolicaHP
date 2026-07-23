@@ -15,6 +15,7 @@ const { works, business, sns, contact } = SITE_CONFIG;
 const schema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${works.url}#organization`,
   "name": works.name,
   "legalName": works.legalName,
   "description": works.description,
