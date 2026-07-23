@@ -76,7 +76,7 @@ export const SITE_CONFIG = {
     legalName: '関口 卓磨（屋号: Farm Eolica / サブブランド: Farm Eolica Works）',
     description: '福島県浪江町の農家兼元編集者による、Web制作・AI活用業務代行事業。1ページHP・LP制作からAIを活用した月次業務代行まで、取材からデザイン・実装・運用まで一貫して対応します。',
     url: 'https://farmeolica.com/works/',
-    founder: '関口卓磨',
+    founder: '関口 卓磨',
     knowsAbout: [
       'ホームページ制作',
       'ランディングページ制作',
