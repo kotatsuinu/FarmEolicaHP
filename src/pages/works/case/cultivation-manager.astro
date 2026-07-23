@@ -4,6 +4,7 @@
 import { Image } from 'astro:assets';
 import WorksLayout from '../../../layouts/WorksLayout.astro';
 import WorksHeader from '../../../components/works/WorksHeader.astro';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
 import listShot from '../../../assets/images/works/cases/cultivation-app-list.jpg';
 import taskShot from '../../../assets/images/works/cases/cultivation-app-task.jpg';
 import dashboardShot from '../../../assets/images/works/cases/cultivation-app-dashboard.jpg';
@@ -16,6 +17,12 @@ const ogImage = `${siteUrl}/images/works/cultivation-app-card.jpg`;
 ---
 
 <WorksLayout title={title} description={description} canonical={canonical} ogImage={ogImage} ogType="article" twitterCard="summary_large_image" twitterSite="@FarmEolica">
+
+<BreadcrumbSchema items={[
+  { name: 'ホーム', url: '/works/' },
+  { name: '制作実績', url: '/works/#works' },
+  { name: '栽培管理アプリ', url: canonical },
+]} />
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader />

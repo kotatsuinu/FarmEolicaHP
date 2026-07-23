@@ -4,6 +4,7 @@
 import { Image } from 'astro:assets';
 import WorksLayout from '../../layouts/WorksLayout.astro';
 import WorksHeader from '../../components/works/WorksHeader.astro';
+import ServiceSchema from '../../components/seo/ServiceSchema.astro';
 import cultivationAppCard from '../../assets/images/works/cultivation-app-card.jpg';
 import automationCard from '../../assets/images/works/automation-card.jpg';
 import financeCard from '../../assets/images/works/finance-card.jpg';
@@ -11,6 +12,13 @@ const siteUrl = 'https://farmeolica.com';
 const title = '業務代行〈AI活用〉 | Farm Eolica Works';
 const description = '業務代行〈AI活用〉は、経理・発信・資料づくりなど日々の業務を、AIを使ってまるごと代行する月額サービスです。人がレビューし、そのまま使える成果物にして毎月お届けします。月¥20,000〜。';
 const canonical = `${siteUrl}/works/partner/`;
+
+// ServiceSchema用価格（画面表示の「通常」価格を採用。コーチングプランの先着5名初月特別価格は
+// 除外——AI検索に出す恒常価格として通常価格が適切なため。金額は svc-price の表示値と同一）
+const PARTNER_PRICE_TIERS = [
+  { label: '代行プラン', price: 20000 },
+  { label: '代行＋AI活用コーチングプラン', price: 40000 },
+];
 
 // TODO: 数値（浮く時間・Before→After）はすべて仮置き。実測データが揃い次第、差し替えること
 const scenes = [
@@ -32,6 +40,14 @@ const valueAngles = [
 ---
 
 <WorksLayout title={title} description={description} canonical={canonical} twitterCard="summary_large_image" twitterSite="@FarmEolica">
+
+<ServiceSchema
+  name="業務代行〈AI活用〉"
+  description={description}
+  serviceType="AI活用業務代行"
+  url={canonical}
+  priceTiers={PARTNER_PRICE_TIERS}
+/>
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader />

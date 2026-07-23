@@ -4,6 +4,7 @@
 import { Image } from 'astro:assets';
 import WorksLayout from '../../../layouts/WorksLayout.astro';
 import WorksHeader from '../../../components/works/WorksHeader.astro';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
 import topShot from '../../../assets/images/works/cases/namie-rice-burger-top.jpg';
 import storyShot from '../../../assets/images/works/cases/namie-rice-burger-story.jpg';
 import mobileShot from '../../../assets/images/works/cases/namie-rice-burger-mobile.jpg';
@@ -19,6 +20,12 @@ const OFFICIAL_VIDEO_TITLE = 'なみえ創成中学校と道の駅なみえの�
 ---
 
 <WorksLayout title={title} description={description} canonical={canonical} ogImage={ogImage} ogType="article" twitterCard="summary_large_image" twitterSite="@FarmEolica">
+
+<BreadcrumbSchema items={[
+  { name: 'ホーム', url: '/works/' },
+  { name: '制作実績', url: '/works/#works' },
+  { name: 'なみえライスバーガー', url: canonical },
+]} />
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader />

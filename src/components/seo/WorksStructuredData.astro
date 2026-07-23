@@ -1,0 +1,45 @@
+---
+/**
+ * Farm Eolica Works 用の構造化データ（Organization）
+ * WorksLayout.astroに組み込んで使用
+ *
+ * 注意: works は関口卓磨/屋号Farm EolicaのHP制作・業務代行(AI活用)業態であり、
+ * 農園（花き栽培・LocalBusiness）とは別事業。SITE_CONFIG.business の
+ * priceRange/geo/address 等は流用しない。住所非掲載のためLocalBusiness/
+ * ProfessionalServiceは使わず、Organizationとして出力する。
+ */
+import { SITE_CONFIG } from '../../config/site';
+
+const { works, business, sns, contact } = SITE_CONFIG;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": works.name,
+  "legalName": works.legalName,
+  "description": works.description,
+  "url": works.url,
+  "logo": `${business.url}${business.logo}`,
+  "founder": {
+    "@type": "Person",
+    "name": works.founder,
+  },
+  "areaServed": works.areaServed,
+  "knowsAbout": works.knowsAbout,
+  "sameAs": [
+    sns.instagram,
+    sns.note,
+    sns.x,
+    sns.line,
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": contact.email,
+    "contactType": "customer service",
+    "availableLanguage": "Japanese",
+  },
+  "taxID": works.taxId,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

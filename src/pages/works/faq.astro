@@ -5,6 +5,7 @@
 // 追加4問（依頼範囲・進め方まわり）は本ページで新規拡充。
 import WorksLayout from '../../layouts/WorksLayout.astro';
 import WorksHeader from '../../components/works/WorksHeader.astro';
+import FaqSchema from '../../components/seo/FaqSchema.astro';
 const siteUrl = 'https://farmeolica.com';
 const title = 'よくあるご質問 | 業務代行〈AI活用〉| Farm Eolica';
 const description = '対応エリア、費用、セキュリティ、ご依頼の範囲まで。Farm Eolica Works（HP制作・業務代行〈AI活用〉）によくいただくご質問にまとめてお答えします。';
@@ -96,9 +97,13 @@ const faqCategories: FaqCategory[] = [
     ],
   },
 ];
+
+const faqItems = faqCategories.flatMap((c) => c.items.map(({ q, a }) => ({ q, a })));
 ---
 
 <WorksLayout title={title} description={description} canonical={canonical}>
+
+<FaqSchema items={faqItems} />
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader />

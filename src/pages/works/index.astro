@@ -5,6 +5,7 @@
 import { Image, getImage } from 'astro:assets';
 import WorksLayout from '../../layouts/WorksLayout.astro';
 import WorksHeader from '../../components/works/WorksHeader.astro';
+import ServiceSchema from '../../components/seo/ServiceSchema.astro';
 import { doneCount } from '../../data/works-systems';
 import heroFieldSrc from '../../assets/images/works/hero-field.jpg';
 import heroBloomSrc from '../../assets/images/works/hero-bloom.jpg';
@@ -24,9 +25,36 @@ const heroFieldImg = await getImage({ src: heroFieldSrc, format: 'webp', width: 
 const heroBloomImg = await getImage({ src: heroBloomSrc, format: 'webp', width: 1600 });
 const heroAtelierImg = await getImage({ src: heroAtelierSrc, format: 'webp', width: 1600 });
 const parallaxImg = await getImage({ src: parallaxBgSrc, format: 'webp', width: 1600 });
+
+// ServiceSchema用価格（画面表示は先着5名の期間限定価格だが、hp-lp/partner詳細ページと同じく
+// 「通常」価格を採用——AI検索に出す恒常価格として通常価格が適切なため。
+// 画面上のカードテキスト（product-price）は期間限定価格のまま変更しない）
+const HP_LP_PRICE_TIERS = [
+  { label: 'シンプル（CMSなし）', price: 80000 },
+  { label: 'スタンダード（microCMS付）', price: 100000 },
+];
+const PARTNER_PRICE_TIERS = [
+  { label: '代行プラン', price: 20000 },
+  { label: '代行＋AI活用コーチングプラン', price: 40000 },
+];
 ---
 
 <WorksLayout title={title} description={description} canonical={canonical} twitterCard="summary_large_image" twitterSite="@FarmEolica">
+
+<ServiceSchema
+  name="1ページHP・LP制作"
+  description="単発で、あなたの物語がちゃんと伝わるサイトを作ります。取材からデザイン、コーディング、公開まで、ひとりで一貫対応。"
+  serviceType="ホームページ制作"
+  url={`${siteUrl}/works/hp-lp/`}
+  priceTiers={HP_LP_PRICE_TIERS}
+/>
+<ServiceSchema
+  name="業務代行〈AI活用〉"
+  description="経理・発信・資料づくりなど、日々の業務をAIで代行します。「そのまま使える成果物」に人が仕上げてお届けする、継続型のサービスです。アプリ・システム開発から日々の困りごとまで、まとめて相談いただけます。"
+  serviceType="AI活用業務代行"
+  url={`${siteUrl}/works/partner/`}
+  priceTiers={PARTNER_PRICE_TIERS}
+/>
 
 <!-- ══════════ 0. HEADER ══════════ -->
 <WorksHeader isHome />

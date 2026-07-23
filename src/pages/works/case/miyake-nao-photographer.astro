@@ -4,6 +4,7 @@
 import { Image } from 'astro:assets';
 import WorksLayout from '../../../layouts/WorksLayout.astro';
 import WorksHeader from '../../../components/works/WorksHeader.astro';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
 import heroShot from '../../../assets/images/works/cases/miyake-nao-hero.jpg';
 import worksShot from '../../../assets/images/works/cases/miyake-nao-works.jpg';
 import aboutShot from '../../../assets/images/works/cases/miyake-nao-about.jpg';
@@ -17,6 +18,12 @@ const ogImage = `${siteUrl}/images/works/miyake-nao-card.jpg`;
 ---
 
 <WorksLayout title={title} description={description} canonical={canonical} ogImage={ogImage} ogType="article" twitterCard="summary_large_image" twitterSite="@FarmEolica">
+
+<BreadcrumbSchema items={[
+  { name: 'ホーム', url: '/works/' },
+  { name: '制作実績', url: '/works/#works' },
+  { name: '写真家のためのポートフォリオサイト', url: canonical },
+]} />
 
 <!-- ══════════ HEADER ══════════ -->
 <WorksHeader />
