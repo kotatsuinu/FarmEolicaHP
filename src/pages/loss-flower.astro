@@ -1,0 +1,302 @@
+---
+/**
+ * ロスフラワー ピラーページ — root直下 /loss-flower
+ * SEO/AEO施策 P1-E: ロスフラワー通販・花材利用に関する一次情報のリファレンスページ。
+ * 商品カードは置かず、購入導線は /products/loss-flower へのCTAリンクで送る。
+ * schema: BreadcrumbSchema（BreadcrumbList）+ FaqSchema（FAQPage）のみ。Article/Productは付けない（P1-E スペック準拠）。
+ */
+import Layout from '../layouts/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
+import FaqSchema from '../components/seo/FaqSchema.astro';
+import NoteLinkCard from '../components/NoteLinkCard.astro';
+import { SITE_CONFIG } from '../config/site';
+import lossFlowerHeroImage from '../assets/images/products/loss-flower-hero.jpg';
+
+const title = 'ロスフラワー通販｜農家直送の花材をまとめ買い | Farm Eolica (ファームエオリカ)';
+const description = '農家直送のロスフラワー（規格外・余剰の切り花）を通販でお届け。ドライフラワー・レジン・撮影小物の花材に、新鮮なまま5本からまとめ買い。福島県浪江町の花農園から直送、法人の定期仕入れも相談可。';
+
+// root直下なので2階層（ホーム > ロスフラワーとは）。Breadcrumb(視覚) と BreadcrumbSchema(JSON-LD) で共有。
+const breadcrumbItems = [
+  { name: 'ホーム', url: '/' },
+  { name: 'ロスフラワーとは', url: '/loss-flower' },
+];
+
+type FaqItem = {
+  q: string;
+  a: string; // 表示用（\n\n で段落を区切る。white-space: pre-wrap で改行保持）
+};
+
+const faqItems: FaqItem[] = [
+  {
+    q: 'ロスフラワーとは何ですか？',
+    a: '仕立て作業や摘心の過程で生まれる、規格外・余剰の切り花です。花首が10〜20cmほど付いたものから、茎がほとんど無いものまで、状態には幅があります。\n\n福島県浪江町の花農園（Farm Eolica）で、生産者本人が栽培から発送まで手がけてお届けしています。',
+  },
+  {
+    q: '花材としてどんな用途に使えますか？',
+    a: 'ドライフラワー、レジン封入、撮影小物などの花材としてご利用いただけます。\n\n切り花として花瓶で楽しむのとは違う用途で、それぞれの花が持つ美しさを活かしていただけます。',
+  },
+  {
+    q: '何本から注文できますか？（最低ロット）',
+    a: '1本からでもお届け可能です。ただし送料などの輸送コストを考えると、5本以上、まとめてなら10本以上でご購入いただくほうがお得です。\n\n目安は5本以上ですが、本数はご希望に応じて柔軟に対応します。まずはお気軽にご相談ください。',
+  },
+  {
+    q: '届いた花はどのくらい日持ちしますか？',
+    a: '品目や季節によって変わりますが、輸送に問題がなければ通常10日以上日持ちするのが基本です。\n\nお客様からは「届いてから2週間以上経っても元気で、きれいに咲いている」というお声もいただいています。\n\nただし花持ちは品種・時期・輸送状況などによって変動し、生花の特性上どうしても差が出る点はあらかじめご了承ください。',
+  },
+  {
+    q: '法人・店舗として定期的に仕入れられますか？',
+    a: 'はい、承っております。花材としての継続利用や定期便など、数量・頻度・品目に応じて個別に対応いたします。\n\nまずはお気軽にご相談ください。',
+  },
+  {
+    q: '送料や支払い方法は？',
+    a: '発送は佐川急便で、送料は地域により910円〜となります。\n\nお支払いはPayPay・銀行振込・請求書払いに対応しており、初回のお取引は原則ご入金確認後の発送となります。',
+  },
+];
+
+// JSON-LD 用: 表示用の \n\n 改行を空白に正規化してから渡す（/faq と同じ方式）
+const schemaFaqItems = faqItems.map((item) => ({
+  q: item.q,
+  a: item.a.replace(/\n{2,}/g, ' ').replace(/\s+/g, ' ').trim(),
+}));
+---
+
+<Layout title={title} description={description} image={lossFlowerHeroImage.src}>
+
+<BreadcrumbSchema items={breadcrumbItems} />
+<FaqSchema items={schemaFaqItems} />
+
+<div class="pt-32 pb-24 min-h-screen">
+  <div class="max-w-4xl mx-auto px-6 lg:px-12">
+
+    <!-- Breadcrumb -->
+    <div class="mb-10" data-animate>
+      <Breadcrumb items={breadcrumbItems} />
+    </div>
+
+    <!-- Hero / H1 -->
+    <div class="text-center mb-16" data-animate>
+      <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4 uppercase">
+        LOSS FLOWER
+      </p>
+      <h1 class="font-serif text-3xl md:text-4xl lg:text-5xl text-eolica-green tracking-wide leading-tight mb-6">
+        ロスフラワーとは<br class="hidden md:inline" />農家直送の花材を通販でまとめ買い
+      </h1>
+      <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed max-w-2xl mx-auto">
+        Farm Eolica（福島県浪江町の花農園）が、仕立てや摘心の過程で生まれるロスフラワー（規格外・余剰の切り花）を農家直送でお届けしています。ドライフラワーやレジン、撮影小物などの花材として、新鮮なまま・まとまった本数でご購入いただけます。花の栽培から発送まで生産者本人が手がける一次情報として、このページにまとめました。
+      </p>
+    </div>
+
+    <!-- ロスフラワーとは？ -->
+    <section class="py-10 md:py-14" data-animate>
+      <SectionHeader titleJa="ロスフラワーとは？" titleEn="WHAT IS LOSS FLOWER" />
+      <div class="font-serif text-warm-gray-600 leading-relaxed space-y-4">
+        <p>
+          ロスフラワーとは、切り花の仕立て作業や摘心の過程で発生する、規格外・余剰の切り花のことです。切り花として市場に出荷するには適さないものの、花そのものは美しい部分をお届けしています。
+        </p>
+        <p>
+          状態には幅があり、花首が10〜20cmほど付いたものから、茎がほとんど無いものまでさまざまです。福島県浪江町の花農園（Farm Eolica）で、生産者本人が栽培から発送まで手がけている一次情報の花材です。
+        </p>
+      </div>
+    </section>
+
+    <!-- 規格外の切り花との違いは？ -->
+    <section class="py-10 md:py-14 bg-warm-gray-50/50" data-animate>
+      <SectionHeader titleJa="規格外の切り花との違いは？" titleEn="DIFFERENCE" />
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-warm-gray-200">
+              <th class="text-left py-3 pr-4 font-mono text-xs text-warm-gray-500 w-24"></th>
+              <th class="text-center py-3 px-4 font-mono text-xs text-old-copper">ロスフラワー</th>
+              <th class="text-center py-3 pl-4 font-mono text-xs text-eolica-green">規格外切り花</th>
+            </tr>
+          </thead>
+          <tbody class="font-serif">
+            <tr class="border-b border-warm-gray-100">
+              <td class="py-3 pr-4 text-wet-soil">形態</td>
+              <td class="py-3 px-4 text-center text-warm-gray-600">花頭のみ</td>
+              <td class="py-3 pl-4 text-center text-warm-gray-600">茎付き（切り花）</td>
+            </tr>
+            <tr class="border-b border-warm-gray-100">
+              <td class="py-3 pr-4 text-wet-soil">用途</td>
+              <td class="py-3 px-4 text-center text-warm-gray-600">クラフト・ドライフラワー</td>
+              <td class="py-3 pl-4 text-center text-warm-gray-600">花瓶に生けて鑑賞</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 text-wet-soil">価格</td>
+              <td class="py-3 px-4 text-center text-warm-gray-600">一律価格</td>
+              <td class="py-3 pl-4 text-center text-warm-gray-600">花の種類により異なる</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- なぜ農家直送のロスフラワーが花材向きなのか？ -->
+    <section class="py-10 md:py-14" data-animate>
+      <SectionHeader titleJa="なぜ農家直送のロスフラワーが花材向きなのか？" titleEn="WHY DIRECT FROM FARM" />
+      <div class="font-serif text-warm-gray-600 leading-relaxed space-y-4">
+        <p>
+          Farm Eolicaのロスフラワーは、福島県浪江町の花農園から農家直送でお届けします。栽培から発送まで生産者本人が手がけているため、新鮮な状態のまま、まとまった本数でご用意しやすいのが特徴です。
+        </p>
+        <p>
+          ドライフラワーやレジンなど、まとまった量が必要な花材用途にも、農家直送だからこそ対応しやすい花材です。
+        </p>
+      </div>
+    </section>
+
+    <!-- Note Article Link -->
+    <div class="mb-4" data-animate>
+      <p class="font-mono text-[10px] tracking-widest text-warm-gray-400 mb-4 text-center">
+        MORE ABOUT LOSS FLOWER
+      </p>
+      <NoteLinkCard
+        url={SITE_CONFIG.noteArticles.lossFlowerStory}
+        title="農家が語る、ロスフラワーのこと"
+        description="なぜロスフラワーが生まれるのか、農家の想いを綴ったnote記事です。"
+        variant="featured"
+      />
+    </div>
+
+    <!-- 花材としての使い方 -->
+    <section class="py-10 md:py-14 mt-8" data-animate>
+      <SectionHeader titleJa="花材としての使い方" titleEn="USAGE" />
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-stone-white p-6 shadow-lab text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-old-copper/10 rounded-full">
+            <svg class="w-6 h-6 text-old-copper" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-sm text-wet-soil mb-2">ドライフラワー</h3>
+          <p class="text-xs text-warm-gray-600">素材として最適</p>
+        </div>
+        <div class="bg-stone-white p-6 shadow-lab text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-old-copper/10 rounded-full">
+            <svg class="w-6 h-6 text-old-copper" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-sm text-wet-soil mb-2">レジン封入</h3>
+          <p class="text-xs text-warm-gray-600">アクセサリー作りに</p>
+        </div>
+        <div class="bg-stone-white p-6 shadow-lab text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-old-copper/10 rounded-full">
+            <svg class="w-6 h-6 text-old-copper" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-sm text-wet-soil mb-2">撮影小物</h3>
+          <p class="text-xs text-warm-gray-600">フォトプロップスに</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 購入について（価格・最低ロット・送料） -->
+    <section class="py-10 md:py-14 bg-warm-gray-50/50" data-animate>
+      <SectionHeader titleJa="購入について（価格・最低ロット・送料）" titleEn="HOW TO BUY" />
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab space-y-6">
+        <div>
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-2">価格</p>
+          <p class="font-serif text-sm text-warm-gray-600 leading-relaxed">
+            箱サイズごとの詰め合わせで、小箱1,300円〜。詳しい価格・サイズ一覧は商品ページでご確認いただけます。
+          </p>
+        </div>
+        <div>
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-2">最低ロット</p>
+          <p class="font-serif text-sm text-warm-gray-600 leading-relaxed">
+            1本からでもお届け可能です。送料などを考えると5本以上、まとめてなら10本以上でご購入いただくほうがお得です。目安は5本以上ですが、ご希望に応じて柔軟に対応します。
+          </p>
+        </div>
+        <div>
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-2">送料</p>
+          <p class="font-serif text-sm text-warm-gray-600 leading-relaxed">
+            佐川急便での発送、送料は地域により910円〜です。
+          </p>
+        </div>
+        <div>
+          <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-2">支払い方法</p>
+          <p class="font-serif text-sm text-warm-gray-600 leading-relaxed">
+            PayPay・銀行振込・請求書払いに対応しています。初回のお取引は原則ご入金確認後の発送となります。
+          </p>
+        </div>
+      </div>
+      <div class="text-center mt-8">
+        <a
+          href="/products/loss-flower"
+          class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-eolica-green text-eolica-green hover:bg-eolica-green hover:text-white transition-all duration-300"
+        >
+          今お届けできる花を見る・購入する →
+        </a>
+      </div>
+    </section>
+
+    <!-- よくある質問 -->
+    <section class="py-10 md:py-14" data-animate>
+      <SectionHeader titleJa="よくある質問" titleEn="FAQ" />
+      <div class="space-y-4">
+        {faqItems.map((item) => (
+          <details class="group open:bg-old-copper/5 bg-stone-white/95 backdrop-blur-sm shadow-lab transition-colors duration-300">
+            <summary class="cursor-pointer list-none flex justify-between items-start gap-4 p-6 md:p-8 hover:bg-warm-gray-50/50 transition-colors duration-200">
+              <span class="font-serif text-base md:text-lg text-wet-soil leading-relaxed">
+                {item.q}
+              </span>
+              <span class="font-mono text-xs text-old-copper flex-shrink-0 mt-1 group-open:rotate-180 transition-transform duration-300">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </span>
+            </summary>
+            <div class="px-6 md:px-8 pb-6 md:pb-8">
+              <p class="faq-a text-sm text-warm-gray-600 font-serif leading-loose">{item.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="mt-12 text-center" data-animate>
+      <p class="text-warm-gray-600 text-sm font-serif mb-8">
+        ここに載っていないご質問や、ご相談があればお気軽にお問い合わせください。
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="/faq"
+          class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
+        >
+          よくある質問（全般）を見る →
+        </a>
+        <a
+          href="/contact"
+          class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-eolica-green text-eolica-green hover:bg-eolica-green hover:text-white transition-all duration-300"
+        >
+          お問い合わせ →
+        </a>
+      </div>
+    </div>
+
+    <!-- Back to Home -->
+    <div class="mt-16 text-center" data-animate>
+      <a
+        href="/"
+        class="inline-block text-xs tracking-widest uppercase font-mono border-b border-warm-gray-400 pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+      >
+        ← Back to Home
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* FAQ本文は \n\n を含む表示用テキストのため改行を保持する（schema側は正規化済みの別配列を渡している） */
+  .faq-a {
+    white-space: pre-wrap;
+  }
+</style>
+
+</Layout>
