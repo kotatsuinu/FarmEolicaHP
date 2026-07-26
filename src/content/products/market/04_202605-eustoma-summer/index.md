@@ -13,12 +13,19 @@ varieties:
   - "ラグーン ブルーフラッシュ（ハウス3）"
 category: "market"
 availableSeason: "2026年7月下旬〜8月（お盆）"
-saleStatus: "preparing"
+saleStatus: "available"
 datePublished: 2026-07-19
-dateModified: 2026-07-19
+dateModified: 2026-07-26
 cultivationNo: "202605・202611"
-image: "./eustoma_summer_hero_lavender.jpg"
+image: "./prima-lavender-01.jpg"
 gallery:
+  - "./makia-diamond-01.jpg"
+  - "./exe-antique-pink-01.jpg"
+  - "./prima-lavender-02.jpg"
+  - "./prima-lavender-03.jpg"
+  - "./makia-diamond-02.jpg"
+  - "./makia-diamond-03.jpg"
+  - "./exe-antique-pink-02.jpg"
   - "./eustoma_summer_white.jpg"
   - "./eustoma_summer_cream.jpg"
   - "./eustoma_summer_field_buds.jpg"
@@ -40,6 +47,6 @@ order: 4
 
 ### 生育の様子と品質について
 
-トルコキキョウは本来、植物としての生理に近い時期に花を咲かせる「季咲」が基本の作型です。このトルコキキョウもその基本形にあたりますが、近年の異常な暑さで管理が難しくなってきています。株が十分に太る前に咲いてしまったり、着花が不十分になってしまうこともあり、品種によって仕上がりにばらつきが出ています。1〜2輪にとどまる品種もあれば、しっかり3枝取れる品種もあり、今回はその差も含めて正直にお伝えしていく予定です。
+トルコキキョウは本来、植物としての生理に近い時期に花を咲かせる「季咲」が基本の作型です。このトルコキキョウもその基本形にあたりますが、近年の異常な暑さで管理が難しくなってきています。株が十分に太る前に咲いてしまったり、着花が不十分になってしまうこともあり、品種によって仕上がりにばらつきが出ています。1〜2輪にとどまる品種もあれば、しっかり3枝取れる品種もあり、その差も含めてお伝えしていく予定です。
 
-各品種の詳しいレビュー（花姿や色味、品質の傾向など）は、開花・出荷が進み次第、順次更新します。現在は「育てていて、まもなく出荷」という段階です。販売情報（価格・数量等）についても、あわせて後日ご案内します。
+各品種の詳しいレビュー（花姿や色味、品質の傾向など）は、開花・出荷が進み次第、順次更新します。
