@@ -4,11 +4,11 @@ description: "夏トルコキキョウ（季咲）の規格外花です。4月�
 flowerType: "トルコキキョウ（ユーストマ）"
 category: "imperfect"
 availableSeason: "2026年7月下旬〜8月（お盆）"
-saleStatus: "preparing"
+saleStatus: "available"
 availableFrom: 2026-07-20
 cultivationNo: "202605・202611"
 datePublished: 2026-07-19
-dateModified: 2026-07-19
+dateModified: 2026-07-26
 priceTiers:
   - minQuantity: 1
     unitPrice: 185
@@ -32,8 +32,16 @@ boxCapacity:
     boxSize: 120
     maxStems: 70
     maxLength: 50
-image: "./eustoma_summer_hero_lavender.jpg"
+image: "./makia-diamond-01.jpg"
 gallery:
+  - "./prima-lavender-01.jpg"
+  - "./exe-antique-pink-01.jpg"
+  - "./makia-diamond-02.jpg"
+  - "./makia-diamond-03.jpg"
+  - "./prima-lavender-02.jpg"
+  - "./prima-lavender-03.jpg"
+  - "./prima-lavender-04.jpg"
+  - "./exe-antique-pink-02.jpg"
   - "./eustoma_summer_white.jpg"
   - "./eustoma_summer_cream.jpg"
   - "./eustoma_summer_field_buds.jpg"

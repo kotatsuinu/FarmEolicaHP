@@ -13,12 +13,19 @@ varieties:
   - "ラグーン ブルーフラッシュ（ハウス3）"
 category: "market"
 availableSeason: "2026年7月下旬〜8月（お盆）"
-saleStatus: "preparing"
+saleStatus: "available"
 datePublished: 2026-07-19
-dateModified: 2026-07-19
+dateModified: 2026-07-26
 cultivationNo: "202605・202611"
-image: "./eustoma_summer_hero_lavender.jpg"
+image: "./prima-lavender-01.jpg"
 gallery:
+  - "./makia-diamond-01.jpg"
+  - "./exe-antique-pink-01.jpg"
+  - "./prima-lavender-02.jpg"
+  - "./prima-lavender-03.jpg"
+  - "./makia-diamond-02.jpg"
+  - "./makia-diamond-03.jpg"
+  - "./exe-antique-pink-02.jpg"
   - "./eustoma_summer_white.jpg"
   - "./eustoma_summer_cream.jpg"
   - "./eustoma_summer_field_buds.jpg"

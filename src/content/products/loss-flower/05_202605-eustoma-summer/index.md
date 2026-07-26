@@ -4,11 +4,11 @@ description: "夏トルコギキョウ（季咲・作付No.202605・202611）の
 flowerType: "トルコギキョウ（エウストマ）"
 category: "loss_flower"
 availableSeason: "2026年7月下旬〜8月（お盆）"
-saleStatus: "preparing"
+saleStatus: "available"
 availableFrom: 2026-07-20
 cultivationNo: "202605・202611"
 datePublished: 2026-07-19
-dateModified: 2026-07-19
+dateModified: 2026-07-26
 image: "./eustoma_summer_hero_lavender.jpg"
 gallery:
   - "./eustoma_summer_white.jpg"
