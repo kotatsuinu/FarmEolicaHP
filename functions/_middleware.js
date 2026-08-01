@@ -107,17 +107,18 @@ async function timingSafeStringEqual(a, b) {
 export const onRequest = async (context) => {
   const { request, env, next } = context;
 
-  let pathname;
+  let candidates;
   try {
-    pathname = new URL(request.url).pathname.toLowerCase();
+    candidates = pathCandidates(new URL(request.url).pathname);
   } catch {
     // パス判定に失敗する異常系。判定不能な場合は保護側（拒否）に倒す。
     return denyServiceUnavailable();
   }
 
-  const isMembersPath = isUnderPrefix(pathname, MEMBERS_PREFIX);
-  const isGatePath =
-    isUnderPrefix(pathname, MEMBERSHIP_PREFIX) || isUnderPrefix(pathname, TOKUSHOHO_PREFIX);
+  const isMembersPath = candidates.some((path) => isUnderPrefix(path, MEMBERS_PREFIX));
+  const isGatePath = candidates.some(
+    (path) => isUnderPrefix(path, MEMBERSHIP_PREFIX) || isUnderPrefix(path, TOKUSHOHO_PREFIX)
+  );
 
   const isPublished = env && env.MEMBERSHIP_PUBLISHED === 'true';
   const requiresAuth = isMembersPath || (!isPublished && isGatePath);
@@ -135,12 +136,14 @@ export const onRequest = async (context) => {
       return denyServiceUnavailable();
     }
 
+    // 認証スキーム名は RFC 7617 上 大文字小文字を区別しないため、比較は小文字化して行う。
     const authHeader = request.headers.get('Authorization') || '';
-    if (!authHeader.startsWith('Basic ')) {
+    const scheme = 'basic ';
+    if (authHeader.slice(0, scheme.length).toLowerCase() !== scheme) {
       return denyUnauthorized();
     }
 
-    const base64Credentials = authHeader.slice('Basic '.length).trim();
+    const base64Credentials = authHeader.slice(scheme.length).trim();
 
     let decoded;
     try {
