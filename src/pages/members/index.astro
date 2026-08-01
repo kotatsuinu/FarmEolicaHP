@@ -1,0 +1,82 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { SITE_CONFIG } from '../../config/site';
+import '../../styles/kashinfu.css';
+---
+
+<Layout
+  title={`会員ページ | ${SITE_CONFIG.membership.name}`}
+  description="花信風メンバーシップの会員限定ページです。"
+  noindex={true}
+>
+  <div class="pt-32 pb-24 min-h-screen">
+    <div class="kf">
+      <div class="kf-container">
+        <!-- 1. 見出し＋歓迎リード -->
+        <header class="mb-12" data-animate>
+          <h1 class="kf-h1 mb-6">花信風 会員ページ</h1>
+          <p class="kf-body">
+            {/* TODO(コンテンツ未確定): 会員向け歓迎文のトーン・文面は精査中。以下は仮文。 */}
+            ようこそ、花信風会員のみなさま。ここは会員限定のページです。四半期のデータラボ・レポートや会員限定ジャーナルなど、コンテンツを少しずつここに増やしていきます。
+          </p>
+        </header>
+
+        <hr class="kf-divider" />
+
+        <!-- 2. 四半期データラボ・レポート（一覧の器） -->
+        <section class="mb-12" data-animate>
+          <h2 class="kf-h2 mb-6">四半期データラボ・レポート</h2>
+          {/*
+            TODO(コンテンツ未確定): 各号が公開され次第、このセクション内に .kf-card を
+            号ごとに1枚ずつ追加し、号数・公開日・本文（または本文へのリンク）を記載する一覧にする。
+            現時点では準備中プレースホルダのみ表示。
+          */}
+          <div class="kf-card">
+            <p class="kf-body" style="margin-bottom: 0;">
+              {/* TODO(コンテンツ未確定): 準備中プレースホルダ文言 */}
+              準備中です。最初のレポートが公開され次第、こちらに追加します。
+            </p>
+          </div>
+        </section>
+
+        <!-- 3. 会員限定ジャーナル / 第3層コンテンツ（一覧の器） -->
+        <section class="mb-12" data-animate>
+          <h2 class="kf-h2 mb-6">会員限定ジャーナル / 第3層コンテンツ</h2>
+          {/*
+            TODO(コンテンツ未確定): 公開が決まり次第、このセクション内に .kf-card を
+            記事・コンテンツごとに1枚ずつ追加していく一覧にする。
+          */}
+          <div class="kf-card">
+            <p class="kf-body" style="margin-bottom: 0;">
+              {/* TODO(コンテンツ未確定): 準備中プレースホルダ文言 */}
+              準備中です。公開が決まり次第、こちらに追加します。
+            </p>
+          </div>
+        </section>
+
+        <!-- 4. 記念便のお知らせ -->
+        <section class="mb-12" data-animate>
+          <div class="kf-notice">
+            <p class="kf-body" style="margin-bottom: 0;">
+              記念便のお知らせ: 記念便は不定期（年1〜2回程度）でお届けするものです。回数や時期をお約束するものではありませんので、あらかじめご了承ください。
+            </p>
+          </div>
+        </section>
+
+        <!-- 5. 会員限定であることの注記（パスワード共有・定期変更） -->
+        <p class="kf-caption mb-8" data-animate>
+          このページは会員限定です。パスワードの共有はご遠慮ください。パスワードは運営側で定期的に変更します。
+        </p>
+
+        <hr class="kf-divider" />
+
+        <!-- 6. 戻りリンク -->
+        <div class="text-center" data-animate>
+          <a href={SITE_CONFIG.membership.applyPath} class="kf-caption">
+            ← {SITE_CONFIG.membership.name}（{SITE_CONFIG.membership.nameKana}）ページへ戻る
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

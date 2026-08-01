@@ -1,0 +1,204 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { SITE_CONFIG, MEMBERSHIP_PUBLISHED } from '../../config/site';
+
+const { membership, business, contact } = SITE_CONFIG;
+---
+
+<Layout title="特定商取引法に基づく表記 | 花信風 | Farm Eolica" noindex={!MEMBERSHIP_PUBLISHED}>
+  <div class="pt-32 pb-24 min-h-screen">
+    <div class="max-w-3xl mx-auto px-6 lg:px-12">
+      <!-- Header -->
+      <div class="mb-16 text-center" data-animate>
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+          LEGAL
+        </p>
+        <h1 class="font-display text-4xl md:text-5xl tracking-wide text-dark-slate mb-4">
+          特定商取引法に基づく表記
+        </h1>
+        <p class="text-warm-gray-600 font-serif">
+          花信風（かしんふう）メンバーシップ
+        </p>
+      </div>
+
+      <!-- Content -->
+      <div class="bg-stone-white/95 backdrop-blur-sm p-8 md:p-12 shadow-lab-lg" data-animate>
+        <div class="prose prose-slate max-w-none">
+          <section class="mb-12">
+            <p class="text-warm-gray-600 leading-relaxed">
+              「特定商取引に関する法律」第11条に基づき、花信風（かしんふう）メンバーシップについて、以下のとおり表示します。
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              1. 販売事業者
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              関口 卓磨（屋号: Farm Eolica）
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              2. 運営統括責任者
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              関口 卓磨
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              3. 所在地
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              {business.address.region}{business.address.locality}<br />
+              詳細な住所はご請求があれば遅滞なく開示します。
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              4. 電話番号
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              ご請求があれば遅滞なく開示します。
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              5. メールアドレス
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              {contact.email}
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              6. 販売価格
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              花信風 年会費 {membership.annualFeeLabel}＋任意の上乗せ額（任意。上乗せの有無で返礼内容は変わりません）。
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              7. 商品代金以外に必要な費用
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              記念便の送料は年会費に含みます。インターネット接続に必要な通信費はお客様のご負担となります。
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              8. 支払方法
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              クレジットカード決済（Stripe）
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              9. 支払時期
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              お申し込み時に一括してお支払いいただきます。
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              10. 提供時期
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              会員限定ページは決済完了後すみやかにご利用いただけます。四半期レポートは各四半期に、記念便は不定期（年1〜2回・回数および時期は保証いたしません）にお届けします。
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              11. 契約期間・更新
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              入会日から1年間。自動更新はありません。期間満了をもって終了し、継続をご希望の場合は改めてお申し込みください。
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              12. 返品・キャンセル（返品特約）
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              会員限定コンテンツの性質上、決済完了後のご返金は原則として承っておりません。期間途中の解約による日割り返金も行いません。記念便の配送事故・破損については個別に対応いたしますので、お問い合わせください。
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              13. 適格請求書発行事業者登録番号
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              {business.taxId}（インボイス制度対応）
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              14. 動作環境
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed">
+              会員限定ページの閲覧には、一般的なWebブラウザとインターネット接続環境が必要です。
+            </p>
+          </section>
+
+          <section class="mb-12">
+            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+              15. お問い合わせ窓口
+            </h2>
+            <p class="text-warm-gray-600 leading-relaxed mb-4">
+              本表記に関するお問い合わせは、以下までご連絡ください。
+            </p>
+            <div class="bg-warm-gray-50 p-6 rounded font-mono text-sm text-warm-gray-700">
+              <p class="mb-2">Farm Eolica</p>
+              <p>Email: {contact.email}</p>
+            </div>
+          </section>
+
+          <section class="text-right">
+            <p class="font-mono text-xs text-warm-gray-500 tracking-wider">
+              最終更新日：2026年8月1日
+            </p>
+          </section>
+        </div>
+      </div>
+
+      <!-- Related Links -->
+      <div class="mt-12 flex flex-col items-center gap-4" data-animate>
+        <a
+          href={membership.applyPath}
+          class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-rust pb-1 hover:border-lab-green transition-colors duration-300"
+        >
+          花信風（かしんふう）お申し込みページへ
+        </a>
+        <a
+          href="/privacy/"
+          class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-rust pb-1 hover:border-lab-green transition-colors duration-300"
+        >
+          プライバシーポリシーへ
+        </a>
+        <a
+          href="/"
+          class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-rust pb-1 hover:border-lab-green transition-colors duration-300"
+        >
+          ← Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>
