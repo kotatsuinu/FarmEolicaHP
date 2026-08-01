@@ -9,7 +9,14 @@ export default defineConfig({
     react(),
     tailwind(),
     sitemap({
-      filter: (page) => !page.includes('_template'),
+      // /members は会員限定ページのため公開状態に関わらず常にsitemapから除外する。
+      // /membership・/law/tokushoho は花信風メンバーシップの告知GO（環境変数
+      // MEMBERSHIP_PUBLISHED=true）まで未公開のため、GOするまでは除外しておく。
+      filter: (page) =>
+        !page.includes('_template') &&
+        !page.includes('/members') &&
+        (process.env.MEMBERSHIP_PUBLISHED === 'true' ||
+          (!page.includes('/membership') && !page.includes('/law/tokushoho'))),
     }),
   ],
 

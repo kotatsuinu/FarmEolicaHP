@@ -1,0 +1,194 @@
+/* 花信風（かしんふう）メンバーシップ デザインシステム kashinfu_ds_v1
+ * メインHPのTailwindテーマを汚さないよう、CSS変数とユーティリティクラスを
+ * `.kf` クラス配下にスコープしている（src/styles/works-base.css の
+ * 「CSS変数＋短縮クラス」パターンを参考にしつつ、works-base.css が :root
+ * スコープなのに対し、こちらは共有Layoutへ変数が漏れないよう .kf 配下に限定）。
+ * /membership・/law/tokushoho・/members 配下のページはルート要素に
+ * class="kf" を付与して使用する。トークンの値はデザインシステム正本のため改変禁止。
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300&family=Zen+Old+Mincho:wght@400&display=swap');
+
+.kf {
+  /* カラートークン */
+  --kf-cream: #F0ECE5;         /* プライマリ背景（生成り白／リネン） */
+  --kf-greige: #C0B7AB;        /* セカンダリ背景（カード／セクション区切り） */
+  --kf-beige-linen: #AB9B8A;   /* アクセント背景（生成りベージュ麻） */
+  --kf-ivory-ceramic: #DAD3C7; /* 陶器の生成り白 */
+  --kf-ink: #2A2520;           /* 本文インク */
+  --kf-sage-light: #999D8D;    /* 広い塗り面 */
+  --kf-sage-mid: #707463;      /* 見出しテキスト */
+  --kf-sage-dark: #4A573C;     /* 本文サイズのアクセントテキスト */
+  --kf-dusty-gold: #B07A2F;    /* アクセント */
+  --kf-kraft: #B69A7C;         /* クラフト紙・素材感アクセント */
+  --kf-pale-wood: #CAAE90;     /* 淡い木目 */
+
+  /* 書体トークン */
+  --kf-font-heading: "Zen Kaku Gothic New", "Quicksand", sans-serif; /* Light 300・見出し/ラベル用 */
+  --kf-font-body: "Zen Old Mincho", "Cormorant Garamond", serif;    /* Regular 400・本文/長文用 */
+
+  background: var(--kf-cream);
+  color: var(--kf-ink);
+  font-family: var(--kf-font-body);
+  font-weight: 400;
+  line-height: 1.75; /* 本文行間規範 */
+  -webkit-font-smoothing: antialiased;
+}
+
+.kf *,
+.kf *::before,
+.kf *::after {
+  box-sizing: border-box;
+}
+
+.kf a {
+  color: inherit;
+}
+
+/* ルートラッパー配下の中央寄せコンテナ。左右余白は誌面幅の10〜15%相当をclampで実装。 */
+.kf-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: clamp(1.25rem, 6vw, 6rem);
+  padding-right: clamp(1.25rem, 6vw, 6rem);
+}
+
+/* 見出し（Light 300・sage-mid系）。h1/h2/h3の3段階。 */
+.kf-h1,
+.kf-h2,
+.kf-h3 {
+  font-family: var(--kf-font-heading);
+  font-weight: 300;
+  color: var(--kf-sage-mid);
+  line-height: 1.4;
+  margin: 0;
+}
+.kf-h1 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  letter-spacing: 0.04em;
+}
+.kf-h2 {
+  font-size: clamp(1.375rem, 3vw, 1.875rem);
+  letter-spacing: 0.03em;
+}
+.kf-h3 {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  letter-spacing: 0.02em;
+}
+
+/* 本文段落。行間1.75固定。 */
+.kf-body {
+  font-family: var(--kf-font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--kf-ink);
+  margin: 0 0 1.5em;
+}
+.kf-body:last-child {
+  margin-bottom: 0;
+}
+
+/* キャプション（小さめ・彩度控えめ）。画像説明や補足に使用。 */
+.kf-caption {
+  font-family: var(--kf-font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--kf-sage-light);
+  line-height: 1.6;
+}
+
+/* セクション区切り。余白＋hairline ruleでセクションを分ける。 */
+.kf-divider {
+  border: none;
+  border-top: 1px solid var(--kf-greige);
+  margin: clamp(2rem, 6vw, 4rem) 0;
+}
+
+/* 情報カード。greige罫線＋ivory背景。角丸は最小、影は使わず罫線で区切る。 */
+.kf-card {
+  background: var(--kf-ivory-ceramic);
+  border: 1px solid var(--kf-greige);
+  border-radius: 2px;
+  padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+/* 主CTAボタン（<a>想定）。sage-dark背景／cream文字、hoverでsage-midへ。 */
+.kf-cta {
+  display: inline-block;
+  background: var(--kf-sage-dark);
+  color: var(--kf-cream);
+  font-family: var(--kf-font-heading);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  padding: 0.9em 2em;
+  border-radius: 2px;
+  text-align: center;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+.kf-cta:hover {
+  background: var(--kf-sage-mid);
+  opacity: 0.92;
+}
+
+/* CTA直下の注記（決済条件などの小さい補足）。 */
+.kf-cta-note {
+  font-family: var(--kf-font-heading);
+  font-size: 0.75rem;
+  color: var(--kf-sage-light);
+  margin-top: 0.75em;
+  line-height: 1.6;
+}
+
+/* 特定商取引法などの定義リスト（works の lg-rows/lg-row/lg-k/lg-v と同じ構造・花信風の配色）。 */
+.kf-rows {
+  margin: 1.5rem 0;
+}
+.kf-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--kf-greige);
+  align-items: baseline;
+}
+.kf-row:last-child {
+  border-bottom: none;
+}
+.kf-k {
+  font-family: var(--kf-font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--kf-sage-mid);
+  line-height: 1.6;
+}
+.kf-v {
+  font-family: var(--kf-font-body);
+  font-size: 0.9375rem;
+  line-height: 1.9;
+  color: var(--kf-ink);
+}
+.kf-v a {
+  color: var(--kf-dusty-gold);
+  border-bottom: 1px solid var(--kf-greige);
+}
+.kf-v a:hover {
+  border-bottom-color: var(--kf-dusty-gold);
+}
+
+@media (max-width: 640px) {
+  .kf-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+/* 期待管理などの注意書きブロック（罫線囲み）。 */
+.kf-notice {
+  border: 1px solid var(--kf-kraft);
+  background: var(--kf-greige);
+  border-radius: 2px;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  font-size: 0.875rem;
+  line-height: 1.75;
+  color: var(--kf-ink);
+}

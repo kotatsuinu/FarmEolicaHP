@@ -1,5 +1,5 @@
 ---
-import { SITE_CONFIG } from '../config/site';
+import { SITE_CONFIG, MEMBERSHIP_PUBLISHED } from '../config/site';
 import StructuredData from '../components/seo/StructuredData.astro';
 import defaultOgImage from '../assets/images/top/hero.jpg';
 
@@ -8,9 +8,10 @@ interface Props {
   description?: string;
   image?: string;
   ogType?: string;
+  noindex?: boolean;
 }
 
-const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販売', image, ogType = 'website' } = Astro.props;
+const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販売', image, ogType = 'website', noindex = false } = Astro.props;
 
 const ga4Id = SITE_CONFIG.seo.ga4Id;
 const gscVerification = SITE_CONFIG.seo.gscVerification;
@@ -74,6 +75,7 @@ const ogImage = image
     <meta name="twitter:image" content={ogImage} />
 
     <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <title>{title}</title>
 
     <!-- デモモーダル表示時にヘッダーを隠す -->
@@ -168,6 +170,14 @@ const ogImage = image
                 <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">農園について</span>
               </a>
             </li>
+            {MEMBERSHIP_PUBLISHED && (
+              <li>
+                <a href={SITE_CONFIG.membership.applyPath} class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
+                  <span class="text-xs tracking-widest uppercase">KASHINFU</span>
+                  <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">花信風（応援会費）</span>
+                </a>
+              </li>
+            )}
             <li>
               <a href="/faq" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
                 <span class="text-xs tracking-widest uppercase">FAQ</span>
@@ -268,6 +278,14 @@ const ogImage = image
                 <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">農園について</span>
               </a>
             </li>
+            {MEMBERSHIP_PUBLISHED && (
+              <li>
+                <a href={SITE_CONFIG.membership.applyPath} class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
+                  <span class="text-base tracking-widest uppercase">KASHINFU</span>
+                  <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">花信風（応援会費）</span>
+                </a>
+              </li>
+            )}
             <li>
               <a href="/faq" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
                 <span class="text-base tracking-widest uppercase">FAQ</span>
@@ -342,6 +360,18 @@ const ogImage = image
               Privacy Policy
             </a>
           </div>
+
+          <!-- Kashinfu Tokushoho Link (公開時のみ表示) -->
+          {MEMBERSHIP_PUBLISHED && (
+            <div>
+              <a
+                href={SITE_CONFIG.membership.tokushohoPath}
+                class="text-xs tracking-wide opacity-70 hover:opacity-100 hover:text-old-copper transition-all duration-300 font-mono"
+              >
+                花信風 特定商取引法に基づく表記
+              </a>
+            </div>
+          )}
 
           <!-- Related Business Link -->
           <div>
