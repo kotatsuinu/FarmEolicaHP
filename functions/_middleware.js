@@ -36,6 +36,38 @@ function isUnderPrefix(pathname, prefix) {
   return pathname === prefix || pathname.startsWith(`${prefix}/`);
 }
 
+/**
+ * 判定に使うパス候補を組み立てる。
+ *
+ * `new URL(...).pathname` はパーセントエンコードを復号しないため、生値だけで判定すると
+ * `/%6Dembers/...` のようなリクエストが保護判定をすり抜け、静的アセット配信側が
+ * デコード後のパスで会員限定ファイルを返してしまう（ミドルウェア回避）。
+ * これを防ぐため、デコード前後の各段階と、連続スラッシュを圧縮した形（`//members/` 対策）を
+ * すべて候補として持ち、**いずれか一つでも保護対象に一致したら認証を要求する**。
+ * 判定は保護を広げる方向にのみ働くので、誤って公開側に倒れることはない。
+ */
+function pathCandidates(rawPathname) {
+  const candidates = new Set();
+  let current = rawPathname;
+
+  for (let i = 0; i < 3; i += 1) {
+    candidates.add(current.replace(/\/{2,}/g, '/').toLowerCase());
+    if (!current.includes('%')) break;
+    let next;
+    try {
+      next = decodeURIComponent(current);
+    } catch {
+      // 不正なパーセントエンコードは配信側でも解決できない（404になる）ため、
+      // ここで打ち切り、デコード前の候補だけで判定する。
+      break;
+    }
+    if (next === current) break;
+    current = next;
+  }
+
+  return [...candidates];
+}
+
 function denyUnauthorized() {
   return new Response('認証が必要です。', {
     status: 401,
