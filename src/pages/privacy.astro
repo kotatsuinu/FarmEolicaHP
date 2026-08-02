@@ -1,6 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { SITE_CONFIG } from '../config/site';
+import { SITE_CONFIG, MEMBERSHIP_PUBLISHED } from '../config/site';
+
+// 会員/Stripe関連セクション（個人情報の取扱いの委託／外部サービスの利用）は
+// MEMBERSHIP_PUBLISHED時のみ挿入されるため、見出し番号は決め打ちにせず
+// レンダリング順に採番する。
+let sectionNumber = 0;
+const sec = () => ++sectionNumber;
 ---
 
 <Layout title="Privacy Policy | Farm Eolica">
@@ -30,7 +36,7 @@ import { SITE_CONFIG } from '../config/site';
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              1. 個人情報の定義
+              {sec()}. 個人情報の定義
             </h2>
             <p class="text-warm-gray-600 leading-relaxed">
               本ポリシーにおける「個人情報」とは、個人情報保護法第2条第1項により定義された個人情報、すなわち、生存する個人に関する情報であって、当該情報に含まれる氏名、生年月日その他の記述等により特定の個人を識別することができるもの（他の情報と容易に照合することができ、それにより特定の個人を識別することができることとなるものを含む）を指します。
@@ -39,7 +45,7 @@ import { SITE_CONFIG } from '../config/site';
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              2. 個人情報の収集方法
+              {sec()}. 個人情報の収集方法
             </h2>
             <p class="text-warm-gray-600 leading-relaxed mb-4">
               当農園は、以下の方法により個人情報を収集することがあります。
@@ -54,7 +60,7 @@ import { SITE_CONFIG } from '../config/site';
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              3. 個人情報の利用目的
+              {sec()}. 個人情報の利用目的
             </h2>
             <p class="text-warm-gray-600 leading-relaxed mb-4">
               当農園は、収集した個人情報を以下の目的で利用いたします。
@@ -65,13 +71,21 @@ import { SITE_CONFIG } from '../config/site';
               <li>メールマガジン、各種お知らせの配信</li>
               <li>商品・サービスの改善および新サービスの開発</li>
               <li>栽培へのご要望やアンケートの集計・分析</li>
+              {MEMBERSHIP_PUBLISHED && (
+                <>
+                  <li>応援会費型メンバーシップ「{SITE_CONFIG.membership.name}」の会費決済および会員資格の管理</li>
+                  <li>会員名簿の作成・管理、会員限定コンテンツの提供</li>
+                  <li>記念便・会員限定の配布物をお届けするための配送（送付先氏名・住所・電話番号の利用）</li>
+                  <li>会員向けのご連絡（レポート公開のお知らせ等）</li>
+                </>
+              )}
               <li>その他、上記利用目的に付随する業務</li>
             </ul>
           </section>
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              4. 個人情報の第三者提供
+              {sec()}. 個人情報の第三者提供
             </h2>
             <p class="text-warm-gray-600 leading-relaxed">
               当農園は、以下の場合を除き、お客様の個人情報を第三者に提供することはありません。
@@ -86,16 +100,45 @@ import { SITE_CONFIG } from '../config/site';
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              5. 個人情報の安全管理
+              {sec()}. 個人情報の安全管理
             </h2>
             <p class="text-warm-gray-600 leading-relaxed">
               当農園は、個人情報の漏洩、滅失、毀損等を防止するため、必要かつ適切な安全管理措置を講じます。また、個人情報を取り扱う従業者や委託先に対して、必要かつ適切な監督を行います。
             </p>
           </section>
 
+          {MEMBERSHIP_PUBLISHED && (
+            <section class="mb-12">
+              <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
+                {sec()}. 個人情報の取扱いの委託／外部サービスの利用
+              </h2>
+              <p class="text-warm-gray-600 leading-relaxed mb-4">
+                応援会費型メンバーシップ「{SITE_CONFIG.membership.name}」の会費のお支払いには、Stripe（Stripe, Inc. および Stripe Payments Japan 株式会社。以下「Stripe」）の決済サービスを利用しています。
+              </p>
+              <p class="text-warm-gray-600 leading-relaxed mb-4">
+                お客様のクレジットカード情報はStripeが直接取得・処理するものであり、当農園はカード番号等を受け取らず、保有しません。当農園がStripeを通じて確認できる情報は、氏名・メールアドレス・送付先住所・電話番号・決済履歴等です。
+              </p>
+              <h3 class="font-serif text-lg text-dark-slate mb-3 mt-6">
+                個人情報保護法第28条に基づく外的環境の把握
+              </h3>
+              <p class="text-warm-gray-600 leading-relaxed mb-4">
+                Stripeによる処理は、日本国外（米国等）のサーバーで行われる場合があります。当該外国における個人情報の保護に関する制度については、個人情報保護委員会が公表する外国制度に関する情報をご参照ください。
+              </p>
+              <p class="text-warm-gray-600 leading-relaxed mb-4">
+                <a href="https://www.ppc.go.jp/personalinfo/legal/kaiseihogohou/#gaikoku" target="_blank" rel="noopener noreferrer" class="text-old-copper hover:underline">個人情報保護委員会「外国にある第三者への提供」関連ページ</a>
+              </p>
+              <p class="text-warm-gray-600 leading-relaxed mb-4">
+                Stripeは、カードブランドが定める決済セキュリティ基準のうち最も高い認定水準であるPCI DSSレベル1に準拠しており、Stripeの<a href="https://stripe.com/jp/privacy" target="_blank" rel="noopener noreferrer" class="text-old-copper hover:underline">プライバシーポリシー</a>に基づき個人情報を取り扱います。
+              </p>
+              <p class="text-warm-gray-600 leading-relaxed">
+                会員名簿は、Stripeの顧客データを一次情報として管理し、必要最小限の範囲で当農園が保管します。法令に基づく場合を除き、ご本人の同意なく第三者へ提供することはありません。
+              </p>
+            </section>
+          )}
+
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              6. 個人情報の開示・訂正・削除
+              {sec()}. 個人情報の開示・訂正・削除
             </h2>
             <p class="text-warm-gray-600 leading-relaxed">
               お客様は、当農園が保有するご自身の個人情報について、開示、訂正、利用停止、削除を求めることができます。お問い合わせ窓口までご連絡ください。
@@ -104,7 +147,7 @@ import { SITE_CONFIG } from '../config/site';
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              7. Cookie（クッキー）について
+              {sec()}. Cookie（クッキー）について
             </h2>
             <p class="text-warm-gray-600 leading-relaxed">
               当サイトでは、より良いサービスの提供のため、Cookieを使用することがあります。Cookieの使用を希望されない場合、ブラウザの設定により無効にすることが可能です。
@@ -113,7 +156,7 @@ import { SITE_CONFIG } from '../config/site';
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              8. プライバシーポリシーの変更
+              {sec()}. プライバシーポリシーの変更
             </h2>
             <p class="text-warm-gray-600 leading-relaxed">
               当農園は、法令の変更や事業内容の変更等に伴い、本ポリシーを変更することがあります。変更後のプライバシーポリシーは、本ページに掲載した時点で効力を生じるものとします。
@@ -122,13 +165,14 @@ import { SITE_CONFIG } from '../config/site';
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              9. お問い合わせ窓口
+              {sec()}. お問い合わせ窓口
             </h2>
             <p class="text-warm-gray-600 leading-relaxed mb-4">
               個人情報の取扱いに関するお問い合わせは、以下までご連絡ください。
             </p>
             <div class="bg-warm-gray-50 p-6 rounded font-mono text-sm text-warm-gray-700">
-              <p class="mb-2">Farm Eolica</p>
+              <p class="mb-2">{SITE_CONFIG.business.name}</p>
+              <p class="mb-2">{SITE_CONFIG.business.address.region}{SITE_CONFIG.business.address.locality}</p>
               <p class="mb-2">Email: {SITE_CONFIG.contact.email}</p>
               <p class="mb-2">LINE公式アカウント: {SITE_CONFIG.contact.lineId}</p>
               <p>LINE URL: <a href={SITE_CONFIG.sns.line} target="_blank" rel="noopener noreferrer" class="text-old-copper hover:underline">{SITE_CONFIG.sns.line}</a></p>
@@ -138,7 +182,7 @@ import { SITE_CONFIG } from '../config/site';
           <section class="text-right">
             <p class="font-mono text-xs text-warm-gray-500 tracking-wider">
               制定日：2025年1月1日<br />
-              最終更新日：2025年1月1日
+              最終更新日：2026年8月1日
             </p>
           </section>
         </div>

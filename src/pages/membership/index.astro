@@ -1,0 +1,180 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { SITE_CONFIG, MEMBERSHIP_PUBLISHED, MEMBERSHIP_PAYMENT_LINK } from '../../config/site';
+import '../../styles/kashinfu.css';
+
+const { membership } = SITE_CONFIG;
+---
+
+<Layout
+  title={`${membership.name}（${membership.nameKana}）応援会費メンバーシップ | Farm Eolica`}
+  description="Farm Eolicaの応援会費型メンバーシップ「花信風（かしんふう）」のご案内・お申し込みページです。"
+  noindex={!MEMBERSHIP_PUBLISHED}
+>
+  <div class="kf">
+    <div class="kf-container" style="padding-top: clamp(4rem, 10vw, 7rem); padding-bottom: clamp(3rem, 8vw, 5rem);">
+
+      <!-- 1. ヒーロー -->
+      <section>
+        <h1 class="kf-h1">
+          {membership.name}（{membership.nameKana}）
+        </h1>
+        {/* TODO(コピー未確定): タグラインは精査中。以下は仮のリード文（1段落目）。 */}
+        <p class="kf-body" style="margin-top: 1.5em;">
+          花信風は、Farm Eolicaの営みを応援していただく方のための、年会費制のメンバーシップです。
+        </p>
+        {/* TODO(コピー未確定): リード文2段落目（仮文）。 */}
+        <p class="kf-body">
+          栽培の裏側にある試行錯誤やデータを、四半期ごとのレポートと会員限定ページを通じてお届けします。
+        </p>
+      </section>
+
+      <hr class="kf-divider" />
+
+      <!-- 2. 応援会費とは -->
+      <section>
+        <h2 class="kf-h2">応援会費とは</h2>
+        {/* TODO(コピー未確定): 「モノを買う」のではなく「営みを応援し、その内側を受け取る」関係であることの説明（仮文）。 */}
+        <p class="kf-body" style="margin-top: 1.5em;">
+          花信風の会費は、商品やサービスの対価としていただくものではありません。Farm Eolicaという営みそのものへの応援として、お預かりするものです。
+        </p>
+        <p class="kf-body">
+          その応援に対して、私たちは経営や栽培の「内側」——データや試行錯誤の記録——を会員の皆様にお返ししていきます。
+        </p>
+      </section>
+
+      <hr class="kf-divider" />
+
+      <!-- 3. 会員が受け取るもの -->
+      <section>
+        <h2 class="kf-h2">会員が受け取るもの</h2>
+        <div style="display: grid; gap: 1.25rem; margin-top: 1.75rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));">
+          <div class="kf-card">
+            <h3 class="kf-h3">四半期データラボ・レポート</h3>
+            {/* TODO(コピー未確定): 主価値。仮文。 */}
+            <p class="kf-body" style="margin-top: 0.75em;">
+              会員限定のジャーナルとして、四半期ごとに栽培データや農園の記録をお届けします。
+            </p>
+          </div>
+          <div class="kf-card">
+            <h3 class="kf-h3">会員限定ページの閲覧</h3>
+            {/* TODO(コピー未確定): 本音の3階層のうち第3層に相当。仮文。 */}
+            <p class="kf-body" style="margin-top: 0.75em;">
+              通常は公開していない、農園の本音や裏側を綴った会員限定ページを閲覧いただけます。
+            </p>
+          </div>
+          <div class="kf-card">
+            <h3 class="kf-h3">不定期の記念便</h3>
+            {/* TODO(コピー未確定): 期待管理は下記の固定文言セクションで別途明示。ここは仮文。 */}
+            <p class="kf-body" style="margin-top: 0.75em;">
+              花と会員限定の一筆を、不定期にお届けします（詳細は下記「花のお届けについて」をご確認ください）。
+            </p>
+          </div>
+          <div class="kf-card">
+            <h3 class="kf-h3">通販購入代金 5%オフ</h3>
+            {/* TODO(コピー未確定): おまけ扱い。訴求の主軸にしない書き方の仮文。 */}
+            <p class="kf-body" style="margin-top: 0.75em;">
+              通販でお求めいただく際、購入代金が5%オフになります。
+            </p>
+          </div>
+          <div class="kf-card">
+            <h3 class="kf-h3">共創参加権</h3>
+            {/* TODO(コピー未確定): リクエスト・名前クレジット・投票等。仮文。 */}
+            <p class="kf-body" style="margin-top: 0.75em;">
+              栽培リクエストのご提案、名前クレジット、企画への投票など、農園づくりに参加いただけます。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="kf-divider" />
+
+      <!-- 4. 期待管理の固定文言（法務要件のため一字一句この内容を維持） -->
+      <section>
+        <div class="kf-notice">
+          <h3 class="kf-h3" style="margin-bottom: 0.75em;">花のお届けについて</h3>
+          <p class="kf-body" style="margin-bottom: 0;">
+            記念便としてお届けする花は不定期です。年1〜2回を目安としており、回数・時期をお約束するものではありません。花信風の主価値は、四半期データラボ・レポートとFarm Eolicaへの応援そのものです。
+          </p>
+        </div>
+      </section>
+
+      <hr class="kf-divider" />
+
+      <!-- 5. 会費 -->
+      <section>
+        <h2 class="kf-h2">会費</h2>
+        <p class="kf-body" style="margin-top: 1.5em;">
+          年会費 {membership.annualFeeLabel}
+        </p>
+        <p class="kf-body">
+          ＋任意の上乗せ額（任意。上乗せしても返礼内容は全員同じです）
+        </p>
+      </section>
+
+      <hr class="kf-divider" />
+
+      <!-- 6. お申し込み前のご確認（特商法の最終確認画面） -->
+      <section>
+        <h2 class="kf-h2">お申し込み前のご確認</h2>
+        <div class="kf-rows">
+          <div class="kf-row">
+            <div class="kf-k">内容・分量</div>
+            <div class="kf-v">
+              会員期間1年間（会員限定コンテンツの閲覧、四半期レポート、不定期の記念便 年1〜2回・回数/時期の保証なし）
+            </div>
+          </div>
+          <div class="kf-row">
+            <div class="kf-k">価格</div>
+            <div class="kf-v">年会費 {membership.annualFeeLabel}＋任意の上乗せ額（任意）</div>
+          </div>
+          <div class="kf-row">
+            <div class="kf-k">支払時期・方法</div>
+            <div class="kf-v">お申し込み時に一括。クレジットカード決済（Stripe）</div>
+          </div>
+          <div class="kf-row">
+            <div class="kf-k">契約期間</div>
+            <div class="kf-v">入会日から1年間</div>
+          </div>
+          <div class="kf-row">
+            <div class="kf-k">解約条件</div>
+            <div class="kf-v">
+              自動更新はありません。期間満了をもって終了し、継続をご希望の場合は改めてお申し込みいただきます。期間途中の解約による日割り返金は行いません。
+            </div>
+          </div>
+          <div class="kf-row">
+            <div class="kf-k">返品特約</div>
+            <div class="kf-v">
+              会員限定コンテンツの性質上、決済完了後のご返金は原則承っておりません。記念便の配送事故・破損については個別に対応します。
+            </div>
+          </div>
+        </div>
+        <p class="kf-caption">
+          詳細は<a href={membership.tokushohoPath}>特定商取引法に基づく表記</a>および<a href="/privacy/">プライバシーポリシー</a>をご確認ください。
+        </p>
+      </section>
+
+      <hr class="kf-divider" />
+
+      <!-- 7. CTA -->
+      <section style="text-align: center;">
+        {MEMBERSHIP_PAYMENT_LINK ? (
+          <>
+            <a class="kf-cta" href={MEMBERSHIP_PAYMENT_LINK} rel="noopener">お申し込みへ進む</a>
+            <p class="kf-cta-note">
+              Stripeの決済ページへ移動します。お届け先住所・電話番号は決済画面でご入力いただきます。
+            </p>
+          </>
+        ) : (
+          <div class="kf-card">
+            <p class="kf-body" style="margin-bottom: 0;">お申し込みの受付準備中です。</p>
+          </div>
+        )}
+        {!MEMBERSHIP_PUBLISHED && (
+          <p class="kf-caption" style="margin-top: 1em;">※ 現在は準備中の非公開ページです</p>
+        )}
+      </section>
+
+    </div>
+  </div>
+</Layout>

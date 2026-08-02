@@ -74,6 +74,7 @@ export const SITE_CONFIG = {
     },
     foundingDate: '2024',
     logo: '/favicon.svg',
+    taxId: 'T1810484782598', // 花卉本体・Works共用のインボイス登録番号
   },
   seo: {
     ga4Id: 'G-KCNMWNSTCG',
@@ -96,4 +97,65 @@ export const SITE_CONFIG = {
     areaServed: '日本',
     taxId: 'T1810484782598',
   },
+  // 応援会費型メンバーシップ「花信風（かしんふう）」
+  membership: {
+    name: '花信風',
+    nameKana: 'かしんふう',
+    nameEn: 'Kashinfu',
+    annualFee: 13000,                    // 税込・年額
+    annualFeeLabel: '13,000円（税込）',
+    // 任意の上乗せ額あり（Stripe Payment Link 側の任意 line item で受ける）
+    applyPath: '/membership/',
+    tokushohoPath: '/law/tokushoho/',
+    membersPath: '/members/',
+    // Stripe Payment Link。pre-GO はテストモードのみを使い、本番決済を発生させない。
+    // 告知GO時に live を本番Linkへ差し替える（空のまま published にするとビルドが失敗する）。
+    paymentLink: {
+      test: '',   // ← Stripeダッシュボードでテストモードの Payment Link を作成後に貼る
+      live: '',   // ← 告知GO時に本番 Payment Link を貼る
+    },
+  },
 } as const;
+
+/**
+ * 花信風メンバーシップの公開ゲートフラグ。
+ *
+ * Cloudflare Pages の環境変数 `MEMBERSHIP_PUBLISHED` を参照する。値が厳密に文字列
+ * `'true'` のときだけ公開状態とみなし、それ以外（未定義・'false'・その他の値）は
+ * すべて非公開扱い（フェイルクローズ）にする。
+ *
+ * このファイルはReactクライアントコンポーネントからもimportされる可能性があるため、
+ * ブラウザ環境（`process` 未定義）でも例外を投げないようガードしている。
+ *
+ * GO手順: Cloudflare Pages の環境変数に `MEMBERSHIP_PUBLISHED=true` を設定し、
+ * 下記 `SITE_CONFIG.membership.paymentLink.live` に本番 Payment Link を設定した上で
+ * 再デプロイする。
+ */
+export const MEMBERSHIP_PUBLISHED: boolean =
+  typeof process !== 'undefined' && process.env
+    ? process.env.MEMBERSHIP_PUBLISHED === 'true'
+    : false;
+
+/**
+ * 花信風メンバーシップの申込み用 Stripe Payment Link。
+ *
+ * `MEMBERSHIP_PUBLISHED` が true なら本番Link（`paymentLink.live`）、false なら
+ * テストモードLink（`paymentLink.test`）を返す。
+ *
+ * 安全弁: `MEMBERSHIP_PUBLISHED` が true なのに本番Linkが未設定（空文字）の場合は、
+ * テスト用リンクのまま公開してしまう事故を防ぐため、ビルド時（Node実行時）に限り
+ * エラーを投げてビルドを中断する。ブラウザ実行時はこの安全弁を発火させない。
+ */
+export const MEMBERSHIP_PAYMENT_LINK: string = (() => {
+  const link = MEMBERSHIP_PUBLISHED
+    ? SITE_CONFIG.membership.paymentLink.live
+    : SITE_CONFIG.membership.paymentLink.test;
+
+  if (MEMBERSHIP_PUBLISHED && !link && typeof process !== 'undefined' && process.env) {
+    throw new Error(
+      'MEMBERSHIP_PUBLISHED=true だが本番 Payment Link が未設定です。site.ts の membership.paymentLink.live に本番リンクを設定してください（テスト用リンクのまま公開する事故を防ぐためビルドを中断しました）。'
+    );
+  }
+
+  return link;
+})();

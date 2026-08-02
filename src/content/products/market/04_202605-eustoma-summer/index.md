@@ -29,6 +29,54 @@ gallery:
   - "./eustoma_summer_white.jpg"
   - "./eustoma_summer_cream.jpg"
   - "./eustoma_summer_field_buds.jpg"
+qualityGrades:
+  - code: "makia-diamond"
+    label: "マキア2型 ダイヤ（白）"
+    description: "白花。花径は8cm前後、1本あたり3枝立ちが多い品種です。1輪ごとのボリューム感はやや控えめですが、細かく入るフリルが涼やかで、凜とした印象に仕上がりました。今作は長雨による光量不足の影響で節間が若干長めに伸びており、草丈は80〜90cm。3品種のなかでは先行して開花し、7月下旬から出荷しています。"
+    criteria:
+      - item: "出荷状況"
+        value: "出荷中（2026年7月下旬〜／3品種のうち先行して開花）"
+      - item: "草丈"
+        value: "80〜90cm"
+      - item: "花径"
+        value: "8cm前後"
+      - item: "枝数"
+        value: "3枝が中心"
+    samples:
+      - ./makia-diamond-01.jpg
+      - ./makia-diamond-02.jpg
+      - ./makia-diamond-03.jpg
+  - code: "prima-lavender"
+    label: "プリマ2型 ラベンダー（薄紫）"
+    description: "淡い紫（ラベンダー）の花。花径は10cm前後と今回の3品種のなかでは最も大きく、花弁のフリンジもよく出ています。ただし花弁の重なりの強弱には個体差が多少あり、同じ束のなかでも表情に幅が出ます。枝数は2枝が中心、草丈は70cm前後です。"
+    criteria:
+      - item: "出荷状況"
+        value: "出荷中（2026年7月下旬〜順次）"
+      - item: "草丈"
+        value: "70cm前後"
+      - item: "花径"
+        value: "10cm前後"
+      - item: "枝数"
+        value: "2枝が中心"
+    samples:
+      - ./prima-lavender-01.jpg
+      - ./prima-lavender-02.jpg
+      - ./prima-lavender-03.jpg
+  - code: "exe-antique-pink"
+    label: "エグゼ アンティークピンク（褐桃）"
+    description: "褐色がかった桃色（アンティークピンク）の花。花径は9cm前後で、花弁は硬めに仕上がり、フリンジも十分に入っています。枝数は2〜3枝、草丈は70〜80cm。個体によっては花首がやや弱いものが見受けられますので、水揚げ・取り扱いの際はご留意ください。"
+    criteria:
+      - item: "出荷状況"
+        value: "出荷中（2026年7月下旬〜順次）"
+      - item: "草丈"
+        value: "70〜80cm"
+      - item: "花径"
+        value: "9cm前後"
+      - item: "枝数"
+        value: "2〜3枝"
+    samples:
+      - ./exe-antique-pink-01.jpg
+      - ./exe-antique-pink-02.jpg
 tags:
   - "トルコキキョウ"
   - "2026夏"
