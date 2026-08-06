@@ -40,6 +40,9 @@ gallery:
   - "./detail-02.jpg"
   - "./styling.jpg"
 
+snsPopImages:
+  - "./promo.png"
+
 features:
   - "茎長30cmで切り揃え（80サイズ箱で発送）"
   - "ベル型の花が茎いっぱいに連なる存在感"

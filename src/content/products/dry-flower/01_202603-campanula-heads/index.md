@@ -32,6 +32,9 @@ gallery:
   - "./detail-02.jpg"
   - "./styling.jpg"
 
+snsPopImages:
+  - "./promo.png"
+
 features:
   - "釣鐘型の愛らしいフォルム"
   - "ドライでも発色が美しい"

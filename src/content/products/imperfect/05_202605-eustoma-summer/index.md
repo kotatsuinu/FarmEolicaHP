@@ -8,7 +8,7 @@ saleStatus: "available"
 availableFrom: 2026-07-20
 cultivationNo: "202605・202611"
 datePublished: 2026-07-19
-dateModified: 2026-07-26
+dateModified: 2026-08-06
 priceTiers:
   - minQuantity: 1
     unitPrice: 185
@@ -34,6 +34,12 @@ boxCapacity:
     maxLength: 50
 image: "./makia-diamond-01.jpg"
 gallery:
+  - "./voyage-blue-04.jpg"
+  - "./voyage-blue-01.jpg"
+  - "./fino-blue-05.jpg"
+  - "./fino-blue-03.jpg"
+  - "./gran-happiness-07.jpg"
+  - "./gran-happiness-04.jpg"
   - "./prima-lavender-01.jpg"
   - "./exe-antique-pink-01.jpg"
   - "./makia-diamond-02.jpg"
@@ -45,6 +51,10 @@ gallery:
   - "./eustoma_summer_white.jpg"
   - "./eustoma_summer_cream.jpg"
   - "./eustoma_summer_field_buds.jpg"
+snsPopImages:
+  - "./voyage-blue-04.jpg"
+  - "./fino-blue-05.jpg"
+  - "./gran-happiness-07.jpg"
 features:
   - "季咲トルコキキョウ（4月定植・7月下旬〜8月出荷）"
   - "ハウス5主体（5品種）＋ハウス3少量（3品種）の計8品種構成"
@@ -90,6 +100,12 @@ order: 5
 6. ノア シルキーピンク（ハウス3）
 7. ボヤージュ2型 ブルー ver2（ハウス3）
 8. ラグーン ブルーフラッシュ（ハウス3）
+
+---
+
+### 2026年8月5日 撮影分について
+
+現在開花している3品種（ボヤージュ2型 ブルー ver2／フィーノ ブルー／グラン ハピネス）を撮影し、写真を掲載しています。とくにフィーノ ブルーとグラン ハピネスは、今作は自社販売・規格外品を中心にご案内する品種です。
 
 ---
 

@@ -114,6 +114,7 @@ const productsCollection = defineCollection({
     // メディア
     image: image().optional(),            // メイン商品画像（相対パス対応、オプショナル）
     gallery: z.array(image()).optional(), // ギャラリー画像（相対パス対応）
+    snsPopImages: z.array(z.string()).optional(), // SNSキャンペーン用ポップ画像（商品ディレクトリ内の相対パス。仕様: campaign_v2_spec.md §4-1）
 
     // 旬の季節（表示用）
     season: z.array(z.enum([

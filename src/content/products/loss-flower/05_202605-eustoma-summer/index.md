@@ -8,12 +8,22 @@ saleStatus: "available"
 availableFrom: 2026-07-20
 cultivationNo: "202605・202611"
 datePublished: 2026-07-19
-dateModified: 2026-07-26
+dateModified: 2026-08-06
 image: "./eustoma_summer_hero_lavender.jpg"
 gallery:
+  - "./voyage-blue-04.jpg"
+  - "./voyage-blue-01.jpg"
+  - "./fino-blue-05.jpg"
+  - "./fino-blue-03.jpg"
+  - "./gran-happiness-07.jpg"
+  - "./gran-happiness-04.jpg"
   - "./eustoma_summer_white.jpg"
   - "./eustoma_summer_cream.jpg"
   - "./eustoma_summer_field_buds.jpg"
+snsPopImages:
+  - "./voyage-blue-04.jpg"
+  - "./fino-blue-05.jpg"
+  - "./gran-happiness-07.jpg"
 features:
   - "季咲トルコギキョウ（4月定植・7月下旬〜8月出荷）"
   - "ハウス5主体（5品種）＋ハウス3少量（3品種）の計8品種ミックス"
@@ -57,6 +67,10 @@ order: 5
 **カラーについて**
 
 アンティークピンク・ラベンダー・白系など、季節・品種によって色の入り方が変わります。発生状況によりお届けする色味が偏る場合があり、色のご指定はお受けできません。
+
+**2026年8月5日 撮影分について**
+
+現在開花している3品種（ボヤージュ2型 ブルー ver2／フィーノ ブルー／グラン ハピネス）を撮影し、写真を掲載しています。ロスフラワーは仕立て作業で発生する花材のため、掲載写真の品種・色味がそのまま届くものではありません。
 
 ---
 

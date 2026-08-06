@@ -15,10 +15,16 @@ category: "market"
 availableSeason: "2026年7月下旬〜8月（お盆）"
 saleStatus: "available"
 datePublished: 2026-07-19
-dateModified: 2026-07-26
+dateModified: 2026-08-06
 cultivationNo: "202605・202611"
 image: "./prima-lavender-01.jpg"
 gallery:
+  - "./voyage-blue-04.jpg"
+  - "./voyage-blue-01.jpg"
+  - "./fino-blue-05.jpg"
+  - "./fino-blue-03.jpg"
+  - "./gran-happiness-07.jpg"
+  - "./gran-happiness-04.jpg"
   - "./makia-diamond-01.jpg"
   - "./exe-antique-pink-01.jpg"
   - "./prima-lavender-02.jpg"
@@ -29,6 +35,10 @@ gallery:
   - "./eustoma_summer_white.jpg"
   - "./eustoma_summer_cream.jpg"
   - "./eustoma_summer_field_buds.jpg"
+snsPopImages:
+  - "./voyage-blue-04.jpg"
+  - "./fino-blue-05.jpg"
+  - "./gran-happiness-07.jpg"
 qualityGrades:
   - code: "makia-diamond"
     label: "マキア2型 ダイヤ（白）"
@@ -77,6 +87,64 @@ qualityGrades:
     samples:
       - ./exe-antique-pink-01.jpg
       - ./exe-antique-pink-02.jpg
+  - code: "voyage-blue"
+    label: "ボヤージュ2型 ブルー ver2（濃紫）"
+    description: "深い紫の八重咲きで、花弁に細かなフリルが入ります。開花した花とライムグリーンの蕾とのコントラストがはっきり出る品種です。ハウス3（作付No.202611）で栽培しており、この作型では少量出荷にあたります。草丈・花径・枝数など詳しい品質の傾向は、出荷が進み次第あらためて更新します。"
+    criteria:
+      - item: "出荷状況"
+        value: "出荷予定（2026年7月末〜8月下旬）"
+      - item: "栽培ハウス"
+        value: "ハウス3（作付No.202611・3品種1,400株のうちの1品種）"
+      - item: "花色・花姿"
+        value: "深い紫の八重咲き・フリル弁"
+      - item: "写真の撮影日"
+        value: "2026年8月5日"
+    samples:
+      - ./voyage-blue-04.jpg
+      - ./voyage-blue-01.jpg
+      - ./voyage-blue-05.jpg
+      - ./voyage-blue-02.jpg
+      - ./voyage-blue-03.jpg
+      - ./voyage-blue-06.jpg
+  - code: "fino-blue"
+    label: "フィーノ ブルー（濃紫）"
+    description: "濃い紫の花で、中心の黄色いしべがはっきり見えるのが特徴です。花弁の重なりは控えめで、すっきりとした表情に仕上がりました。ハウス5（作付No.202605）で栽培しています。今作は自社販売・規格外品を中心にご案内する品種です。草丈・花径・枝数など詳しい品質の傾向は、出荷が進み次第あらためて更新します。"
+    criteria:
+      - item: "出荷状況"
+        value: "今作は自社販売・規格外品を中心にご案内する品種です"
+      - item: "栽培ハウス"
+        value: "ハウス5（作付No.202605）"
+      - item: "花色・花姿"
+        value: "濃い紫・中心に黄色のしべ"
+      - item: "写真の撮影日"
+        value: "2026年8月5日"
+    samples:
+      - ./fino-blue-05.jpg
+      - ./fino-blue-03.jpg
+      - ./fino-blue-01.jpg
+      - ./fino-blue-02.jpg
+      - ./fino-blue-04.jpg
+      - ./fino-blue-06.jpg
+  - code: "gran-happiness"
+    label: "グラン ハピネス（白）"
+    description: "純白の八重咲きで、細かなフリルが密に入ります。蕾は淡い黄緑色で、開花が進むにつれてボリュームが出る品種です。ハウス5（作付No.202605）で栽培しています。今作は自社販売・規格外品を中心にご案内する品種です。草丈・花径・枝数など詳しい品質の傾向は、出荷が進み次第あらためて更新します。"
+    criteria:
+      - item: "出荷状況"
+        value: "今作は自社販売・規格外品を中心にご案内する品種です"
+      - item: "栽培ハウス"
+        value: "ハウス5（作付No.202605）"
+      - item: "花色・花姿"
+        value: "純白の八重咲き・密なフリル弁"
+      - item: "写真の撮影日"
+        value: "2026年8月5日"
+    samples:
+      - ./gran-happiness-07.jpg
+      - ./gran-happiness-04.jpg
+      - ./gran-happiness-01.jpg
+      - ./gran-happiness-02.jpg
+      - ./gran-happiness-03.jpg
+      - ./gran-happiness-05.jpg
+      - ./gran-happiness-06.jpg
 tags:
   - "トルコキキョウ"
   - "2026夏"
@@ -98,3 +166,11 @@ order: 4
 トルコキキョウは本来、植物としての生理に近い時期に花を咲かせる「季咲」が基本の作型です。このトルコキキョウもその基本形にあたりますが、近年の異常な暑さで管理が難しくなってきています。株が十分に太る前に咲いてしまったり、着花が不十分になってしまうこともあり、品種によって仕上がりにばらつきが出ています。1〜2輪にとどまる品種もあれば、しっかり3枝取れる品種もあり、その差も含めてお伝えしていく予定です。
 
 各品種の詳しいレビュー（花姿や色味、品質の傾向など）は、開花・出荷が進み次第、順次更新します。
+
+---
+
+### 2026年8月5日 撮影分について
+
+現在ハウス内で開花している3品種（ボヤージュ2型 ブルー ver2／フィーノ ブルー／グラン ハピネス）を撮影しました。品種ごとのタブから花姿をご覧いただけます。
+
+なお、**フィーノ ブルーとグラン ハピネスの2品種については、今作は自社販売・規格外品を中心にご案内する品種です。** 市場へお出しする数量は限られますのでご了承ください。ボヤージュ2型 ブルー ver2 は通常どおり出荷を予定しています。
