@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import { SITE_CONFIG } from '../../config/site';
+import { LOSS_FLOWER_BOX_PRICING } from '../../config/pricing';
 
 import EstimateCalculator from '../../components/products/EstimateCalculator';
 import QuantityEstimateCalculator from '../../components/products/QuantityEstimateCalculator';
@@ -33,6 +34,16 @@ const categoryLabels = {
   imperfect: '規格外切り花',
   market: '市場出荷品',
   dried_flower: 'ドライフラワー',
+};
+
+// Google product taxonomyへのマッピング（構造化データのcategory用。src/content/config.tsのcategory enumを網羅）
+const googleProductCategories = {
+  loss_flower:  'Arts & Entertainment > Party & Celebration > Gift Giving > Fresh Cut Flowers',
+  imperfect:    'Arts & Entertainment > Party & Celebration > Gift Giving > Fresh Cut Flowers',
+  craft:        'Arts & Entertainment > Party & Celebration > Gift Giving > Fresh Cut Flowers',
+  aroma:        'Arts & Entertainment > Party & Celebration > Gift Giving > Fresh Cut Flowers',
+  market:       'Arts & Entertainment > Party & Celebration > Gift Giving > Fresh Cut Flowers',
+  dried_flower: 'Home & Garden > Decor > Dried Flowers',
 };
 
 // カテゴリの戻り先URL
@@ -126,15 +137,16 @@ if (product.data.gallery && product.data.gallery.length > 0) {
     name={product.data.name}
     description={product.data.description}
     image={product.data.image?.src}
-    category={categoryLabels[product.data.category] || product.data.category}
+    category={googleProductCategories[product.data.category]}
     saleStatus={product.data.saleStatus}
     url={Astro.url.pathname}
     price={product.data.price}
     priceTiers={product.data.priceTiers}
-    boxPricing={product.data.priceTable}
+    boxPricing={product.data.priceTable ?? (product.data.category === 'loss_flower' ? LOSS_FLOWER_BOX_PRICING : undefined)}
     flowerType={product.data.flowerType}
     datePublished={product.data.datePublished?.toISOString().slice(0, 10)}
     dateModified={product.data.dateModified?.toISOString().slice(0, 10)}
+    purchasable={product.data.category !== 'market'}
   />
   <BreadcrumbSchema items={[
     { name: 'ホーム', url: '/' },
@@ -225,30 +237,20 @@ if (product.data.gallery && product.data.gallery.length > 0) {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="border-b border-warm-gray-100">
-                        <td class="py-3 font-serif text-wet-soil">小箱（60サイズ）</td>
-                        <td class="py-3 text-center font-mono text-xs text-warm-gray-600">約80輪</td>
-                        <td class="py-3 text-right">
-                          <span class="font-mono text-old-copper font-medium">¥1,300</span>
-                          <span class="block text-xs text-warm-gray-500">個人クラフト・撮影に</span>
-                        </td>
-                      </tr>
-                      <tr class="border-b border-warm-gray-100">
-                        <td class="py-3 font-serif text-wet-soil">中箱（80サイズ）</td>
-                        <td class="py-3 text-center font-mono text-xs text-warm-gray-600">約160輪</td>
-                        <td class="py-3 text-right">
-                          <span class="font-mono text-old-copper font-medium">¥2,000</span>
-                          <span class="block text-xs text-warm-gray-500">中規模アレンジに</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="py-3 font-serif text-wet-soil">大箱（100サイズ）</td>
-                        <td class="py-3 text-center font-mono text-xs text-warm-gray-600">約320輪</td>
-                        <td class="py-3 text-right">
-                          <span class="font-mono text-old-copper font-medium">¥3,200</span>
-                          <span class="block text-xs text-eolica-green">単価18%お得</span>
-                        </td>
-                      </tr>
+                      {LOSS_FLOWER_BOX_PRICING.map((tier, index) => (
+                        <tr class:list={[
+                          index < LOSS_FLOWER_BOX_PRICING.length - 1 && "border-b border-warm-gray-100"
+                        ]}>
+                          <td class="py-3 font-serif text-wet-soil">{tier.size}</td>
+                          <td class="py-3 text-center font-mono text-xs text-warm-gray-600">{tier.quantity}</td>
+                          <td class="py-3 text-right">
+                            <span class="font-mono text-old-copper font-medium">¥{tier.price.toLocaleString()}</span>
+                            {tier.note && (
+                              <span class:list={["block text-xs", tier.noteHighlight ? "text-eolica-green" : "text-warm-gray-500"]}>{tier.note}</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>

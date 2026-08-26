@@ -18,6 +18,7 @@ interface Props {
   flowerType?: string;
   datePublished?: string;
   dateModified?: string;
+  purchasable?: boolean;
 }
 
 const {
@@ -33,6 +34,7 @@ const {
   flowerType,
   datePublished,
   dateModified,
+  purchasable = true,
 } = Astro.props;
 
 const { business } = SITE_CONFIG;
@@ -48,10 +50,12 @@ const availabilityMap: Record<string, string> = {
 
 const availability = availabilityMap[saleStatus] || 'https://schema.org/OutOfStock';
 
-// Offers構築
-let offers: Record<string, unknown>;
+// Offers構築（市場出荷品=直接購入不可、または価格情報が一切無い場合はoffersキーごと省略）
+let offers: Record<string, unknown> | undefined;
 
-if (priceTiers && priceTiers.length > 0) {
+if (purchasable === false) {
+  offers = undefined;
+} else if (priceTiers && priceTiers.length > 0) {
   const prices = priceTiers.map((t) => t.unitPrice);
   offers = {
     "@type": "AggregateOffer",
@@ -77,11 +81,7 @@ if (priceTiers && priceTiers.length > 0) {
     "availability": availability,
   };
 } else {
-  offers = {
-    "@type": "Offer",
-    "availability": availability,
-    "priceCurrency": "JPY",
-  };
+  offers = undefined;
 }
 
 const schema = {
@@ -94,8 +94,8 @@ const schema = {
     "@type": "Brand",
     "name": business.name,
   },
-  "category": category,
-  "offers": offers,
+  ...(category && { "category": category }),
+  ...(offers && { "offers": offers }),
   "url": new URL(url, business.url).href,
   // 鮮度シグナル（P2-I）。git初出日/最終更新日の実値がある商品のみ出力（無い場合は捏造せず省略）
   ...(datePublished && { "datePublished": datePublished }),
