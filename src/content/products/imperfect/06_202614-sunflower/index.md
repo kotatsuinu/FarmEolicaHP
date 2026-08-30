@@ -12,6 +12,12 @@ saleStatus: "available"
 datePublished: 2026-08-30
 dateModified: 2026-08-30
 cultivationNo: "202614"
+image: "./main.jpg"
+gallery:
+  - "./sub1.jpg"
+  - "./sub2.jpg"
+  - "./sub3.jpg"
+  - "./sub4.jpg"
 
 priceTiers:
   - minQuantity: 1

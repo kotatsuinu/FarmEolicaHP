@@ -11,6 +11,14 @@ saleStatus: "available"
 datePublished: 2026-08-30
 dateModified: 2026-08-30
 cultivationNo: "202614"
+image: "./hero.jpg"
+gallery:
+  - "./closeup.jpg"
+  - "./bunch.jpg"
+  - "./harvest.jpg"
+  - "./house.jpg"
+  - "./bloom.jpg"
+  - "./bud.jpg"
 
 spec:
   color: "濃オレンジ・レモンイエロー"
