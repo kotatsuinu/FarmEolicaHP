@@ -1,7 +1,11 @@
 # functions/ について（花信風メンバーシップ 認証ゲート）
 
 `_middleware.js` が Cloudflare Pages 上で `/members`（会員限定ページ）と、
-告知GO前の `/membership`・`/law/tokushoho` を Basic認証で保護します。
+告知GO前の `/membership` を Basic認証で保護します。
+
+`/law/tokushoho`（特定商取引法に基づく表記）は、花信風メンバーシップの記載を外し
+個人向け直接販売の全商品共通の表記へ差し替えたため、法定表示として常時公開です
+（このゲートの対象には含まれません）。
 
 ## 設定する環境変数（Cloudflare Pages ダッシュボード）
 
@@ -31,8 +35,8 @@ Pages プロジェクト → Settings → Environment variables で、以下3つ
 ## 告知GO時の手順
 
 1. Cloudflare Pages の環境変数 `MEMBERSHIP_PUBLISHED` を `true` に変更する。
-   → `/membership`（申込ページ）・`/law/tokushoho`（特商法表記）の保護が自動的に外れ、
-   `/members`（会員限定ページ）のみ保護が残ります。
+   → `/membership`（申込ページ）の保護が自動的に外れ、
+   `/members`（会員限定ページ）のみ保護が残ります（`/law/tokushoho` は元々常時公開）。
 2. `src/config/site.ts` の `SITE_CONFIG.membership.paymentLink.live` に、本番の
    Stripe Payment Link を設定する。
 3. 再デプロイする。

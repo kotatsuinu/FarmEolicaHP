@@ -6,18 +6,21 @@
  * - `/members` または `/members/` で始まる全パス
  *   → 会員限定コンテンツのため、公開状態に関わらず常に保護する。
  * - `env.MEMBERSHIP_PUBLISHED` が厳密に文字列 'true' でない間（告知GO前）は、
- *   `/membership` または `/law/tokushoho` で始まるパスも合わせて保護する
- *   （申込ページ・特商法表記を告知GOまで非公開にするためのゲート）。
+ *   `/membership` で始まるパスも合わせて保護する
+ *   （申込ページを告知GOまで非公開にするためのゲート）。
+ * - `/law/tokushoho`（特定商取引法に基づく表記）は法定表示のため常時公開する。
+ *   花信風メンバーシップの記載を外し、個人向け直接販売の全商品共通の表記に
+ *   差し替えたことで会員限定コンテンツではなくなったため、このゲートの対象から除外している。
  * - 上記のいずれにも該当しないパスは、何もせず `context.next()` へ素通しする。
  *
  * 【必要な環境変数】（Cloudflare Pages ダッシュボードで設定。手順は functions/README.md 参照）
  * - MEMBERS_BASIC_USER   : Basic認証のユーザー名
  * - MEMBERS_BASIC_PASS   : Basic認証のパスワード（Secretとして登録すること）
- * - MEMBERSHIP_PUBLISHED : 'true' のときだけ /membership・/law/tokushoho の保護を解除する
+ * - MEMBERSHIP_PUBLISHED : 'true' のときだけ /membership の保護を解除する
  *
  * 【GO時の運用】
- * `MEMBERSHIP_PUBLISHED=true` に変更すると、`/membership`・`/law/tokushoho` は
- * 一般公開になり、`/members` のみが引き続き会員限定として保護される。
+ * `MEMBERSHIP_PUBLISHED=true` に変更すると、`/membership` は一般公開になり、
+ * `/members` のみが引き続き会員限定として保護される。
  *
  * 【判定順序の注意】
  * `/membership` は文字列として `/members` を含むが、"常時保護" の判定は
@@ -28,7 +31,6 @@
 
 const MEMBERS_PREFIX = '/members';
 const MEMBERSHIP_PREFIX = '/membership';
-const TOKUSHOHO_PREFIX = '/law/tokushoho';
 
 /** pathname（小文字化済み）が `/members` 配下かどうか。`/membership` 等の前方一致誤爆を避けるため、
  *  完全一致か「prefix + '/'」で始まる場合のみ真とする。 */
@@ -116,9 +118,7 @@ export const onRequest = async (context) => {
   }
 
   const isMembersPath = candidates.some((path) => isUnderPrefix(path, MEMBERS_PREFIX));
-  const isGatePath = candidates.some(
-    (path) => isUnderPrefix(path, MEMBERSHIP_PREFIX) || isUnderPrefix(path, TOKUSHOHO_PREFIX)
-  );
+  const isGatePath = candidates.some((path) => isUnderPrefix(path, MEMBERSHIP_PREFIX));
 
   const isPublished = env && env.MEMBERSHIP_PUBLISHED === 'true';
   const requiresAuth = isMembersPath || (!isPublished && isGatePath);
