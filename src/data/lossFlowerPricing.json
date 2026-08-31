@@ -1,6 +1,6 @@
 {
   "_about": "ロスフラワーの価格表（カテゴリ共通・税込・送料別）。花の種類に関わらず一律のため、商品ごとではなくカテゴリ単位で持つ。ここが正本で、ホームページの表示（src/pages/products/loss-flower.astro）と、問い合わせ返信の下書き生成（farm-eolica-openclaw）が同じこのファイルを参照する。値を変えるときはこのファイルだけを直す。",
-  "_updatedAt": "2026-09-01",
+  "_updatedAt": "2026-08-31",
   "currency": "JPY",
   "taxIncluded": true,
   "shippingIncluded": false,
