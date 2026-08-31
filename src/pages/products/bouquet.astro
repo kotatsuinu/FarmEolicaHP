@@ -1,0 +1,243 @@
+---
+/**
+ * 花束・テーブルフラワーページ
+ * imperfect.astro を土台に作成（生花・ShippingInfo以外の各種案内コンポーネントを流用）
+ */
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import ProductCard from '../../components/products/ProductCard.astro';
+import NoticeInfo from '../../components/products/NoticeInfo.astro';
+import FlowerCareGuide from '../../components/products/FlowerCareGuide.astro';
+import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+
+// 花束・テーブルフラワーの商品を取得
+const bouquetProducts = (await getCollection('products'))
+  .filter(p => p.data.category === 'bouquet')
+  .sort((a, b) => {
+    // 販売中を先に、その後は表示順
+    if (a.data.saleStatus === 'available' && b.data.saleStatus !== 'available') return -1;
+    if (a.data.saleStatus !== 'available' && b.data.saleStatus === 'available') return 1;
+    return (b.data.order || 999) - (a.data.order || 999);
+  });
+
+// 販売中の商品数
+const availableCount = bouquetProducts.filter(p => p.data.saleStatus === 'available').length;
+
+// Notice用の情報
+const noticeItems = [
+  {
+    title: '商品特性',
+    items: [
+      '季節の花を一人で栽培しているため、時期や注文数によってはお受けできない場合があります',
+      '自然の花を使用するため、写真とはお色や咲き具合が多少異なる場合があります',
+      '季節変動：時期により使用する花の種類が変わります',
+    ]
+  },
+  {
+    title: '梱包・配送について',
+    items: [
+      '保水処理：茎を水で湿らせた状態で梱包',
+      '専用梱包：花束・アレンジの形を保ったまま丁寧に梱包',
+      '配送方法：佐川急便（通常宅配便）',
+      '送料は箱のサイズによって異なります。詳しくは各商品ページをご確認ください',
+    ]
+  },
+  {
+    title: '到着後のお願い',
+    text: '到着後はすぐに茎を切り戻して水に生けてください。2〜3日に一度の水替えで長くお楽しみいただけます。'
+  }
+];
+---
+
+<Layout
+  title="花束・テーブルフラワー | Farm Eolica (ファームエオリカ)"
+  description="福島の畑で育てた季節の花を、そのまま飾れる形にしてご自宅へお届けします。Farm Eolicaの花束・テーブルフラワー。"
+  image="/images/top/hero.jpg"
+  ogType="website"
+>
+  <BreadcrumbSchema items={[
+    { name: 'ホーム', url: '/' },
+    { name: '商品', url: '/products' },
+    { name: '花束・テーブルフラワー', url: '/products/bouquet' },
+  ]} />
+  <!-- Hero Section（画像未受領のためグラデーション背景） -->
+  <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-eolica-green via-eolica-green/90 to-wet-soil">
+    <div class="absolute inset-0 bg-noise opacity-5"></div>
+    <div class="relative z-10 text-center px-6 py-32" data-animate>
+      <p class="font-mono text-xs tracking-widest text-white/70 mb-6">
+        BOUQUET & TABLE FLOWERS
+      </p>
+      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 tracking-wide">
+        花束・テーブルフラワー
+      </h1>
+      <p class="font-serif text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+        福島の畑で育てた季節の花を、<br class="md:hidden" />そのまま飾れる形にしてご自宅へ。
+      </p>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section class="pt-6 pb-2">
+    <div class="max-w-6xl mx-auto px-6">
+      <Breadcrumb items={[
+        { name: 'ホーム', url: '/' },
+        { name: '商品', url: '/products' },
+        { name: '花束・テーブルフラワー' },
+      ]} />
+    </div>
+  </section>
+
+  <!-- Introduction Section -->
+  <section class="py-16 md:py-20" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="space-y-6 text-center">
+        <p class="font-serif text-lg md:text-xl text-wet-soil leading-relaxed">
+          福島県浜通り、浪江町の小さな花農家です。
+        </p>
+        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
+          毎日、ハウスで大切に育てた花を市場へ出荷しています。<br />
+          花束・テーブルフラワーは、<span class="text-eolica-green font-medium">その市場に出す花と同じものを、その週に咲いた花で組んでお届けします。</span>
+        </p>
+        <p class="font-serif text-base md:text-lg text-wet-soil leading-relaxed">
+          飾ってすぐに楽しめる形にして、<br class="hidden md:inline" />
+          花のある暮らしをご自宅までお届けします。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Current Products Section（Introduction直後に配置）-->
+  <section class="py-16 md:py-20 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-6xl mx-auto px-6">
+      <SectionHeader titleJa="現在販売中の花束・テーブルフラワー" titleEn="CURRENT PRODUCTS">
+        {availableCount > 0 ? (
+          <p class="font-mono text-sm text-old-copper mt-3">
+            {availableCount}種類の商品をお届けできます
+          </p>
+        ) : (
+          <p class="font-mono text-sm text-warm-gray-500 mt-3">
+            現在販売中の商品はありません
+          </p>
+        )}
+      </SectionHeader>
+
+      {bouquetProducts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {bouquetProducts.map((product) => (
+            <ProductCard
+              product={product}
+              showStatus={true}
+              showPrice={true}
+              variant="default"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16 bg-stone-white shadow-lab">
+          <p class="font-serif text-warm-gray-500">
+            商品の準備中です。<br />
+            季節ごとに順次追加していきます。
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Price Section -->
+  <section class="py-12 md:py-16" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <SectionHeader titleJa="価格について" titleEn="PRICE" />
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
+        <p class="font-serif text-sm text-warm-gray-600 mb-4">
+          花束・テーブルフラワーの価格は、<span class="text-wet-soil font-medium">商品ごとに異なります</span>。
+        </p>
+        <p class="font-serif text-sm text-warm-gray-600 mb-6">
+          季節や花材の入り方によって組み合わせが変わるため、
+          各商品ページに価格を掲載しています。
+        </p>
+        <div class="border-t border-warm-gray-200 pt-4">
+          <p class="text-xs text-warm-gray-500">
+            ※詳しい価格は各商品ページをご確認ください。<br />
+            ※表示価格はすべて税込です。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shipping Info（80/100サイズ基準のためShippingInfoコンポーネントは使用しない）-->
+  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="bg-stone-white/95 backdrop-blur-sm shadow-lab p-6 md:p-8">
+        <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">
+          SHIPPING <span class="font-serif">ー送料についてー</span>
+        </h3>
+        <p class="font-serif text-sm text-warm-gray-600 mb-4">
+          送料は商品ごとに異なります。各商品ページをご覧ください。
+        </p>
+        {bouquetProducts.length > 0 && (
+          <ul class="space-y-2 text-sm font-serif">
+            {bouquetProducts.map((product) => (
+              <li>
+                <a href={`/products/${product.slug}`} class="text-old-copper hover:underline">
+                  {product.data.name} →
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Notice Section（折りたたみ式）-->
+  <section class="py-12 md:py-16" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <NoticeInfo items={noticeItems} collapsible={true} />
+    </div>
+  </section>
+
+  <!-- Flower Care Guide -->
+  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <FlowerCareGuide collapsible={true} />
+    </div>
+  </section>
+
+  <!-- Payment Section -->
+  <section class="py-12 md:py-16" data-animate>
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
+        <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
+          PAYMENT <span class="font-serif">ーお支払いについてー</span>
+        </h3>
+        <div class="space-y-4">
+          <div class="flex flex-wrap gap-4">
+            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">PayPay</span>
+            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">銀行振込</span>
+            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">請求書</span>
+          </div>
+          <p class="text-xs text-warm-gray-500">
+            ※初回お取引については原則ご入金確認後の発送となります
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Purchase Guide -->
+  <PurchaseGuide variant="full" />
+
+  <!-- Back Link -->
+  <section class="py-12 text-center" data-animate>
+    <a
+      href="/products"
+      class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
+    >
+      ← Back to Products
+    </a>
+  </section>
+</Layout>

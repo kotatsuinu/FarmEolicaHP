@@ -67,6 +67,7 @@ const productsCollection = defineCollection({
       'craft',         // クラフト用（ドライフラワー向け等）
       'dried_flower',  // ドライフラワー（ヘッド・ロングステム）
       'aroma',         // アロマ・香り用
+      'bouquet',       // 花束・テーブルフラワー（個人向け生花）
       'market'         // 市場出荷品（展示のみ）
     ]),
 
