@@ -2,6 +2,7 @@
 name: "トルコギキョウ（ロスフラワー）"
 description: "作付No.202602 春咲き冬越しトルコギキョウの仕立て作業で発生した花頭。花首付きで10〜20cmほどの長さでお届けします。クラフト・押し花アート・ハーバリウムや、コップに生けても楽しめます。"
 flowerType: "トルコギキョウ"
+stemLength: "10〜20cm（花首付き）"
 
 category: "loss_flower"
 availableSeason: "2026年5月〜6月"

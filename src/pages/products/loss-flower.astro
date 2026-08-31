@@ -18,6 +18,7 @@ import NoteLinkCard from '../../components/NoteLinkCard.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import lossFlowerPricing from '../../data/lossFlowerPricing.json';
 
 // ロスフラワーの商品を取得
 const lossFlowerProducts = (await getCollection('products'))
@@ -32,12 +33,10 @@ const lossFlowerProducts = (await getCollection('products'))
 // 販売中の商品数
 const availableCount = lossFlowerProducts.filter(p => p.data.saleStatus === 'available').length;
 
-// 価格一覧（固定）
-const priceList = [
-  { size: '小箱（60サイズ）', quantity: '約40輪', price: 1300, note: '個人クラフト・撮影に' },
-  { size: '中箱（80サイズ）', quantity: '約80輪', price: 2000, note: '中規模アレンジに' },
-  { size: '大箱（100サイズ）', quantity: '約160輪', price: 3200, note: '単価18%お得' },
-];
+// 価格一覧（カテゴリ共通・正本は src/data/lossFlowerPricing.json）
+// ここに値を直接書かないこと。openclaw 側の返信下書き生成が同じ JSON を読むため、
+// ページに直書きすると二重管理になる。
+const priceList = lossFlowerPricing.priceTable;
 
 // Notice用の情報
 const noticeItems = [
@@ -281,7 +280,7 @@ const noticeItems = [
         prices={priceList}
         title="PRICE LIST"
         showStemLength={false}
-        note="※実費ベースの適正価格設定です。大きいサイズほど1輪あたりの料金がお得になります。目安数量はトルコキキョウ（花首付き）換算のあくまで目安です。花の大きさや状態によって実際の数量は大きく前後します。"
+        note={lossFlowerPricing.displayNote}
       />
     </div>
   </section>
