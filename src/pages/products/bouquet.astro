@@ -3,8 +3,10 @@
  * 花束・テーブルフラワーページ
  * imperfect.astro を土台に作成（生花・ShippingInfo以外の各種案内コンポーネントを流用）
  */
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import bouquetHeroImage from '../../assets/images/products/bouquet-hero.jpg';
 import ProductCard from '../../components/products/ProductCard.astro';
 import NoticeInfo from '../../components/products/NoticeInfo.astro';
 import FlowerCareGuide from '../../components/products/FlowerCareGuide.astro';
@@ -63,17 +65,28 @@ const noticeItems = [
     { name: '商品', url: '/products' },
     { name: '花束・テーブルフラワー', url: '/products/bouquet' },
   ]} />
-  <!-- Hero Section（画像未受領のためグラデーション背景） -->
-  <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-eolica-green via-eolica-green/90 to-wet-soil">
-    <div class="absolute inset-0 bg-noise opacity-5"></div>
-    <div class="relative z-10 text-center px-6 py-32" data-animate>
-      <p class="font-mono text-xs tracking-widest text-white/70 mb-6">
+  <!-- Hero Section -->
+  <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-warm-gray-200">
+      <Image
+        src={bouquetHeroImage}
+        alt="花束・テーブルフラワー"
+        class="w-full h-full object-cover"
+        widths={[640, 1280, 1600]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50"></div>
+    </div>
+    <div class="relative z-10 text-center px-6" data-animate>
+      <p class="font-mono text-xs tracking-widest text-white/90 mb-4">
         BOUQUET & TABLE FLOWERS
       </p>
-      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 tracking-wide">
+      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 tracking-wide drop-shadow-lg">
         花束・テーブルフラワー
       </h1>
-      <p class="font-serif text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+      <p class="font-serif text-base md:text-lg text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow">
         福島の畑で育てた季節の花を、<br class="md:hidden" />そのまま飾れる形にしてご自宅へ。
       </p>
     </div>

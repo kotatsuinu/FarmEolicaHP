@@ -4,7 +4,7 @@ description: "その週に咲いた季節の花で組む花束です。花束S�
 flowerType: "季節の花（おまかせ）"
 category: "bouquet"
 availableSeason: "通年（週1回・金〜土着）"
-saleStatus: "preparing"
+saleStatus: "available"
 price: 3300
 unit: "束"
 season:
@@ -13,7 +13,14 @@ season:
   - autumn
   - winter
 datePublished: 2026-08-31
-dateModified: 2026-08-31
+dateModified: 2026-09-01
+
+image: "./main.jpg"
+gallery:
+  - "./sub1.jpg"
+  - "./sub2.jpg"
+  - "./sub3.jpg"
+
 tags:
   - 花束
   - 個人向け
@@ -21,6 +28,10 @@ tags:
   - 贈り物
 order: 3
 ---
+
+## 写真について
+
+写真は花束Sの例です。花束Lは、この写真より花の量を増やしてお作りします。束ねたときのボリューム感を基準に組むため、その週の花によって本数は変わります。
 
 ## この商品について
 
@@ -86,7 +97,3 @@ order: 3
 ## ご注意
 
 季節の花を一人で栽培しているため、時期や注文数によってはお受けできない場合があります。
-
-## 画像
-
-<!-- 画像準備中 -->
