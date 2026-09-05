@@ -67,6 +67,7 @@ const productsCollection = defineCollection({
       'craft',         // クラフト用（ドライフラワー向け等）
       'dried_flower',  // ドライフラワー（ヘッド・ロングステム）
       'aroma',         // アロマ・香り用
+      'bouquet',       // 花束・テーブルフラワー（個人向け生花）
       'market'         // 市場出荷品（展示のみ）
     ]),
 
@@ -159,6 +160,12 @@ const productsCollection = defineCollection({
 
     // タグ・その他
     tags: z.array(z.string()).optional(),
+
+    // 切花長（表示・外部参照用の自由記述）
+    // 「10〜20cm（花首付き）」「花首はほとんど無し」のように、数値で表せない実態があるため文字列。
+    // 数値で確定している場合は spec.length を併用する。
+    // 出典が無い商品には書かない（書いていないこと自体が「未記載」の意味を持つ）
+    stemLength: z.string().optional(),
 
     // スペック情報
     spec: z.object({

@@ -2,6 +2,7 @@
 name: "トルコキキョウ（ロスフラワー）"
 description: "仕立て作業で発生した花頭部分。花首付きで10〜20cmほどの長さでお届け。クラフトやアレンジメント、コップに生けても楽しめます。"
 flowerType: "トルコキキョウ"
+stemLength: "10〜20cm（花首付き）"
 
 category: "loss_flower"
 availableSeason: "2025年7〜8月"

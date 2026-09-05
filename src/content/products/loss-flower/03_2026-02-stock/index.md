@@ -2,6 +2,7 @@
 name: "スプレーストック（ロスフラワー）"
 description: "頂花の摘心で発生した花頭部分。花首はほとんど無いため、クラフトやドライフラワーに最適。白・紫・橙・濃桃・黄の5色展開。"
 flowerType: "スプレーストック"
+stemLength: "花首はほとんど無し（花頭のみ）"
 
 category: "loss_flower"
 availableSeason: "2026年2月"

@@ -1,0 +1,33 @@
+{
+  "_about": "ロスフラワーの価格表（カテゴリ共通・税込・送料別）。花の種類に関わらず一律のため、商品ごとではなくカテゴリ単位で持つ。ここが正本で、ホームページの表示（src/pages/products/loss-flower.astro）と、問い合わせ返信の下書き生成（farm-eolica-openclaw）が同じこのファイルを参照する。値を変えるときはこのファイルだけを直す。",
+  "_updatedAt": "2026-08-31",
+  "currency": "JPY",
+  "taxIncluded": true,
+  "shippingIncluded": false,
+  "uniformAcrossFlowerTypes": true,
+  "priceTable": [
+    {
+      "size": "小箱（60サイズ）",
+      "boxSize": 60,
+      "quantity": "約40輪",
+      "price": 1300,
+      "note": "個人クラフト・撮影に"
+    },
+    {
+      "size": "中箱（80サイズ）",
+      "boxSize": 80,
+      "quantity": "約80輪",
+      "price": 2000,
+      "note": "中規模アレンジに"
+    },
+    {
+      "size": "大箱（100サイズ）",
+      "boxSize": 100,
+      "quantity": "約160輪",
+      "price": 3200,
+      "note": "単価18%お得"
+    }
+  ],
+  "quantityBasis": "目安数量はトルコキキョウ（花首付き）換算のあくまで目安。花の大きさや状態によって実際の数量は大きく前後する",
+  "displayNote": "※実費ベースの適正価格設定です。大きいサイズほど1輪あたりの料金がお得になります。目安数量はトルコキキョウ（花首付き）換算のあくまで目安です。花の大きさや状態によって実際の数量は大きく前後します。"
+}

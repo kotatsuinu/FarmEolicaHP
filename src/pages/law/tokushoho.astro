@@ -1,11 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { SITE_CONFIG, MEMBERSHIP_PUBLISHED } from '../../config/site';
+import { SITE_CONFIG } from '../../config/site';
 
-const { membership, business, contact } = SITE_CONFIG;
+const { business, contact } = SITE_CONFIG;
 ---
 
-<Layout title="特定商取引法に基づく表記 | 花信風 | Farm Eolica" noindex={!MEMBERSHIP_PUBLISHED}>
+<Layout title="特定商取引法に基づく表記 | Farm Eolica">
   <div class="pt-32 pb-24 min-h-screen">
     <div class="max-w-3xl mx-auto px-6 lg:px-12">
       <!-- Header -->
@@ -17,7 +17,7 @@ const { membership, business, contact } = SITE_CONFIG;
           特定商取引法に基づく表記
         </h1>
         <p class="text-warm-gray-600 font-serif">
-          花信風（かしんふう）メンバーシップ
+          お花のご注文について
         </p>
       </div>
 
@@ -26,7 +26,7 @@ const { membership, business, contact } = SITE_CONFIG;
         <div class="prose prose-slate max-w-none">
           <section class="mb-12">
             <p class="text-warm-gray-600 leading-relaxed">
-              「特定商取引に関する法律」第11条に基づき、花信風（かしんふう）メンバーシップについて、以下のとおり表示します。
+              「特定商取引に関する法律」第11条に基づき、以下のとおり表示します。本表記は、当園が個人のお客様へ直接販売するすべての商品（規格外の花、ロスフラワー、ドライフラワーなど）に適用されます。花き市場への出荷は事業者間の取引のため、本表記の対象外です。
             </p>
           </section>
 
@@ -81,7 +81,7 @@ const { membership, business, contact } = SITE_CONFIG;
               6. 販売価格
             </h2>
             <p class="text-warm-gray-600 leading-relaxed">
-              花信風 年会費 {membership.annualFeeLabel}＋任意の上乗せ額（任意。上乗せの有無で返礼内容は変わりません）。
+              各商品ページに記載の金額（すべて税込表示）となります。
             </p>
           </section>
 
@@ -89,9 +89,13 @@ const { membership, business, contact } = SITE_CONFIG;
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
               7. 商品代金以外に必要な費用
             </h2>
-            <p class="text-warm-gray-600 leading-relaxed">
-              記念便の送料は年会費に含みます。インターネット接続に必要な通信費はお客様のご負担となります。
-            </p>
+            <ul class="text-warm-gray-600 leading-relaxed list-disc pl-5 space-y-1">
+              <li>送料は商品とお届け先の地域によって異なります。各商品ページに記載しています。送料を商品代金に含めて販売している商品もあります。</li>
+              <li>沖縄・離島へのお届けは、別途お見積りいたします。</li>
+              <li>気温の高い時期は、品質保持のためクール便でお届けする商品があります。その費用の扱いも各商品ページに記載しています。</li>
+              <li>銀行振込をご利用の場合、振込手数料はお客様のご負担となります。</li>
+              <li>インターネット接続に必要な通信費はお客様のご負担となります。</li>
+            </ul>
           </section>
 
           <section class="mb-12">
@@ -99,7 +103,7 @@ const { membership, business, contact } = SITE_CONFIG;
               8. 支払方法
             </h2>
             <p class="text-warm-gray-600 leading-relaxed">
-              クレジットカード決済（Stripe）
+              銀行振込、または PayPay
             </p>
           </section>
 
@@ -108,35 +112,64 @@ const { membership, business, contact } = SITE_CONFIG;
               9. 支払時期
             </h2>
             <p class="text-warm-gray-600 leading-relaxed">
-              お申し込み時に一括してお支払いいただきます。
+              お問い合わせフォームまたはInstagramのメッセージでご注文いただいた後、当園から金額とお届け予定日をご連絡します。ご入金を確認してから発送する前払いです。
             </p>
           </section>
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              10. 提供時期
+              10. 商品の引渡時期
             </h2>
-            <p class="text-warm-gray-600 leading-relaxed">
-              会員限定ページは決済完了後すみやかにご利用いただけます。四半期レポートは各四半期に、記念便は不定期（年1〜2回・回数および時期は保証いたしません）にお届けします。
-            </p>
+            <ul class="text-warm-gray-600 leading-relaxed list-disc pl-5 space-y-1">
+              <li>お届けの方法と時期は商品によって異なります。各商品ページに記載しています。</li>
+              <li>生花は週1回の発送で、原則として金曜日〜土曜日のお届けとなります。ご注文は発送日の2日前までにお願いします。</li>
+              <li>金曜・土曜のお届けであれば、お届け日と時間帯のご指定を承ります。それ以外の日をご希望の場合は、お問い合わせフォームからご相談ください。</li>
+              <li>ドライフラワーなど日持ちする商品は、お届け日時のご指定を承れない場合があります。</li>
+            </ul>
           </section>
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              11. 契約期間・更新
+              11. 販売数量の制限・その他の特別な販売条件
             </h2>
-            <p class="text-warm-gray-600 leading-relaxed">
-              入会日から1年間。自動更新はありません。期間満了をもって終了し、継続をご希望の場合は改めてお申し込みください。
-            </p>
+            <ul class="text-warm-gray-600 leading-relaxed list-disc pl-5 space-y-1">
+              <li>お届けする花の品種・本数・大きさは、商品によって異なります。各商品ページに記載しています。</li>
+              <li>生花は自然のものです。開花の状況によって、記載した品種と一部異なる花をお届けする場合があります。</li>
+              <li>季節の花を一人で栽培しているため、時期やご注文数によってはお受けできない場合があります。その場合はご注文後すみやかにご連絡します。</li>
+              <li>ロスフラワーは発生量に限りがあるため、ご希望の数量をご用意できない場合があります。</li>
+            </ul>
           </section>
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
               12. 返品・キャンセル（返品特約）
             </h2>
-            <p class="text-warm-gray-600 leading-relaxed">
-              会員限定コンテンツの性質上、決済完了後のご返金は原則として承っておりません。期間途中の解約による日割り返金も行いません。記念便の配送事故・破損については個別に対応いたしますので、お問い合わせください。
-            </p>
+
+            <h3 class="font-serif text-lg text-eolica-green mb-2 mt-6">
+              発送前のキャンセル
+            </h3>
+            <ul class="text-warm-gray-600 leading-relaxed list-disc pl-5 space-y-1">
+              <li>発送前であれば、いつでもキャンセルを承ります。</li>
+              <li>ご入金後にキャンセルされる場合は、ご入金額から振込手数料を差し引いた額を返金いたします。</li>
+              <li>発送後のキャンセルはお受けできません。</li>
+            </ul>
+
+            <h3 class="font-serif text-lg text-eolica-green mb-2 mt-6">
+              お届け後（生花）
+            </h3>
+            <ul class="text-warm-gray-600 leading-relaxed list-disc pl-5 space-y-1">
+              <li>生花という商品の性質上、お客様のご都合による返品・交換はお受けできません。</li>
+              <li>到着時に傷み・折れなど品質に問題があった場合は、お届け日の翌日までにお写真を添えてご連絡ください。次回発送分の再送、または全額返金で対応いたします（この場合の振込手数料は当園が負担します）。</li>
+              <li>お届け日の翌々日以降のご連絡は、生花の性質上、状態の判断ができないため対応いたしかねます。</li>
+            </ul>
+
+            <h3 class="font-serif text-lg text-eolica-green mb-2 mt-6">
+              お届け後（ドライフラワーなど日持ちする商品）
+            </h3>
+            <ul class="text-warm-gray-600 leading-relaxed list-disc pl-5 space-y-1">
+              <li>破損・不良があった場合は、お届け後7日以内にお写真を添えてご連絡ください。交換または全額返金で対応いたします。</li>
+              <li>お客様のご都合による返品・交換はお受けできません。</li>
+            </ul>
           </section>
 
           <section class="mb-12">
@@ -150,16 +183,7 @@ const { membership, business, contact } = SITE_CONFIG;
 
           <section class="mb-12">
             <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              14. 動作環境
-            </h2>
-            <p class="text-warm-gray-600 leading-relaxed">
-              会員限定ページの閲覧には、一般的なWebブラウザとインターネット接続環境が必要です。
-            </p>
-          </section>
-
-          <section class="mb-12">
-            <h2 class="font-serif text-2xl text-dark-slate mb-4 border-b-2 border-rust pb-2">
-              15. お問い合わせ窓口
+              14. お問い合わせ窓口
             </h2>
             <p class="text-warm-gray-600 leading-relaxed mb-4">
               本表記に関するお問い合わせは、以下までご連絡ください。
@@ -172,7 +196,7 @@ const { membership, business, contact } = SITE_CONFIG;
 
           <section class="text-right">
             <p class="font-mono text-xs text-warm-gray-500 tracking-wider">
-              最終更新日：2026年8月1日
+              最終更新日：2026年8月30日
             </p>
           </section>
         </div>
@@ -181,10 +205,10 @@ const { membership, business, contact } = SITE_CONFIG;
       <!-- Related Links -->
       <div class="mt-12 flex flex-col items-center gap-4" data-animate>
         <a
-          href={membership.applyPath}
+          href="/contact"
           class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-rust pb-1 hover:border-lab-green transition-colors duration-300"
         >
-          花信風（かしんふう）お申し込みページへ
+          お問い合わせフォームへ
         </a>
         <a
           href="/privacy/"

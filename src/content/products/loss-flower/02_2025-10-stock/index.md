@@ -2,6 +2,7 @@
 name: "スプレーストック（ロスフラワー）"
 description: "頂花の摘心で発生した花頭部分。花首はほとんど無いため、クラフトやドライフラワーに最適です。"
 flowerType: "スプレーストック"
+stemLength: "花首はほとんど無し（花頭のみ）"
 
 category: "loss_flower"
 availableSeason: "2025年10〜11月"
