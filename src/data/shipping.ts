@@ -1,3 +1,4 @@
+// 生成ファイル: 正本は farm-eolica-docs/02_business/product_catalog/_common/shipping.md。直接編集しないこと。
 export type Region =
   | 'hokkaido'
   | 'kita_tohoku'
