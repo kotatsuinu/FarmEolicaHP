@@ -11,8 +11,9 @@ category: "imperfect"
 availableSeason: "2026年9月上旬〜9月下旬"
 saleStatus: "preparing"
 datePublished: 2026-08-30
-dateModified: 2026-08-30
+dateModified: 2026-09-06
 cultivationNo: "202607"
+image: "./main.jpg"
 
 priceTiers:
   - minQuantity: 1
