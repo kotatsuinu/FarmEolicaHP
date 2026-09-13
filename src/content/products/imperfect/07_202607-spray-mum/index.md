@@ -1,6 +1,6 @@
 ---
 name: "スプレーマム"
-description: "秋のお彼岸に向けて育てているスプレーマムのうち、市場の規格に届かなかったものをお分けしています。黄・ピンク・白の4品種。1本に複数の花がつくデージー咲きです。"
+description: "秋のお彼岸に向けて育てているスプレーマムのうち、市場の規格に届かなかったものをお分けしています。黄・ピンク・白の4品種。1本に複数の花がつくデージー咲きです。花屋・生花店など事業者向けの商品で、10本からご注文いただけます。個人で少量ご希望の場合は、直売所でも取り扱っています。"
 flowerType: "スプレーマム"
 varieties:
   - "セイバーゼル"
@@ -9,24 +9,26 @@ varieties:
   - "セイイレルダ"
 category: "imperfect"
 availableSeason: "2026年9月上旬〜9月下旬"
-saleStatus: "preparing"
+saleStatus: "available"
 datePublished: 2026-08-30
-dateModified: 2026-09-06
+dateModified: 2026-09-13
 cultivationNo: "202607"
 image: "./main.jpg"
 
 priceTiers:
-  - minQuantity: 1
-    unitPrice: 100
-  - minQuantity: 31
-    unitPrice: 95
-  - minQuantity: 51
-    unitPrice: 88
+  - minQuantity: 10
+    unitPrice: 132
+  - minQuantity: 30
+    unitPrice: 121
+  - minQuantity: 60
+    unitPrice: 110
 
 features:
   - 1本に複数輪
   - 4品種
   - 選別済み規格外
+  - 事業者向け・10本から注文可
+  - 個人少量希望は直売所でも取扱
 
 imperfectReasons:
   - 咲き進みのばらつき
