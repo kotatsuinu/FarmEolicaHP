@@ -57,7 +57,7 @@ const productsCollection = defineCollection({
     // 基本情報
     name: z.string(),                     // 商品名
     description: z.string(),              // 商品説明
-    flowerType: z.string(),               // 花の種類（必須: トルコギキョウ、ストック等）
+    flowerType: z.string().optional(),    // 花の種類（トルコギキョウ、ストック等。キャンドル等は無し）
     varieties: z.array(z.string()).optional(), // 品種名（例: ["チャンピオンiQ ピンク", "チャンピオン スカイブルー"]）
 
     // カテゴリ・分類
@@ -68,7 +68,8 @@ const productsCollection = defineCollection({
       'dried_flower',  // ドライフラワー（ヘッド・ロングステム）
       'aroma',         // アロマ・香り用
       'bouquet',       // 花束・テーブルフラワー（個人向け生花）
-      'market'         // 市場出荷品（展示のみ）
+      'market',        // 市場出荷品（展示のみ）
+      'experience'     // 体験コンテンツ
     ]),
 
     // 販売時期・ステータス
