@@ -1,6 +1,6 @@
 ---
 name: "ヒマワリ"
-description: "秋のヒマワリの規格外品です。花の大きさや開花具合にばらつきがあり、市場出荷に必要な本数のまとまりに入らなかったものですが、極端に弱ったものや生育不良、病害虫の出たものは含みません。濃オレンジのネーブル、レモンイエローのクリアレモンともに無花粉。花粉でテーブルや衣服を汚しません。"
+description: "秋のヒマワリの規格外品です。花の大きさや開花具合にばらつきがあり、市場出荷に必要な本数のまとまりに入らなかったものですが、極端に弱ったものや生育不良、病害虫の出たものは含みません。濃オレンジのネーブル、レモンイエローのクリアレモンともに無花粉。花粉でテーブルや衣服を汚しません。2026年秋の出荷を終了しました。"
 flowerType: "ヒマワリ"
 varieties:
   - "ビンセント（2型）ネーブル"
@@ -8,9 +8,9 @@ varieties:
 
 category: "imperfect"
 availableSeason: "2026年8月下旬〜9月中旬"
-saleStatus: "available"
+saleStatus: "discontinued"
 datePublished: 2026-08-30
-dateModified: 2026-08-30
+dateModified: 2026-09-14
 cultivationNo: "202614"
 image: "./main.jpg"
 gallery:
