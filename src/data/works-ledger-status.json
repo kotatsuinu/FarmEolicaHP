@@ -157,6 +157,10 @@
     "dev-game-hamnies": {
       "status": "running",
       "noteUrls": []
+    },
+    "dev-works-ledger-sync": {
+      "status": "running",
+      "noteUrls": []
     }
   }
 }
