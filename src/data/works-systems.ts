@@ -58,7 +58,7 @@ export const worksSystems: WorksSystemCategory[] = [
     items: [
       { key: 'fin-bookkeeping-automation', title: '帳簿付け自動化（領収書→仕訳）', description: '領収書をスキャンするだけで仕訳が自動登録され、確定申告レベルまで帳簿が付く。仕訳は毎日BigQueryへ送り、年度をまたいだ収支分析にも使える。' },
       { key: 'fin-life-money-board', title: '家計・事業一元管理アプリ（Life Money Board）', description: '事業予算・家計・税試算・借入管理・家族会議レポートを一つのWebアプリで管理。栽培計画との自動連携で「今年の事業キャッシュフロー」をリアルタイムで把握。' },
-      { key: 'fin-market-price', title: '花き市場 仕切り価格 自動収集・分析', description: '市場（FAJ）の仕切り価格データを自動収集・BigQuery蓄積し、品目別・時期別の市況推移を可視化。作付け計画の意思決定に活用。' },
+      { key: 'fin-market-price', title: '花き市場 仕切り価格 自動収集・分析', description: '市場の仕切り価格データを自動収集・BigQuery蓄積し、品目別・時期別の市況推移を可視化。作付け計画の意思決定に活用。' },
       { key: 'fin-budget-app', title: '予算管理アプリ', description: '事業固定費・農業運転資金を年度管理するWebアプリ。NotionからFirestore/BQへ完全移行し、n8nで毎日自動同期。' },
     ],
   },
