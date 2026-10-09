@@ -5,7 +5,7 @@
 import { Image, getImage } from 'astro:assets';
 import WorksLayout from '../../layouts/WorksLayout.astro';
 import WorksHeader from '../../components/works/WorksHeader.astro';
-import { doneCount } from '../../data/works-systems';
+import { runningCount } from '../../data/works';
 import heroFieldSrc from '../../assets/images/works/hero-field.jpg';
 import heroBloomSrc from '../../assets/images/works/hero-bloom.jpg';
 import heroAtelierSrc from '../../assets/images/works/hero-atelier.jpg';
@@ -137,7 +137,7 @@ const parallaxImg = await getImage({ src: parallaxBgSrc, format: 'webp', width: 
           {
             n: '02', en: 'BUILDER', tag: 'AI実装',
             jp: '実装力の裏付けがあります',
-            b: `経理・受注・販促・記録。自農場の事務をAIで組み替え、現在${doneCount}のシステムを稼働中。その実装力は、下の制作実績でも証明しています。`,
+            b: `経理・受注・販促・記録。自農場の事務をAIで組み替え、現在${runningCount}のシステムを稼働中。その実装力は、下の制作実績でも証明しています。`,
           },
           {
             n: '03', en: 'CONTINUITY', tag: '死んでも困らない納品',
@@ -324,7 +324,7 @@ const parallaxImg = await getImage({ src: parallaxBgSrc, format: 'webp', width: 
       <div>
         <div class="ai-banner-label">SINCE 2021 — NAMIE, FUKUSHIMA</div>
         <p class="ai-banner-headline">
-          <span class="ai-banner-accent">{doneCount}のシステム</span>と自動化を、<br />
+          <span class="ai-banner-accent">{runningCount}のシステム</span>と自動化を、<br />
           農場で実際に動かしています。
         </p>
         <p class="ai-banner-sub">その仕組みづくりの力を、業務代行〈AI活用〉としてあなたの事業にも。</p>

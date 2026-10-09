@@ -23,6 +23,20 @@ priceTiers:
   - minQuantity: 60
     unitPrice: 110
 
+boxCapacity:
+  - size: "80サイズ"
+    boxSize: 80
+    maxStems: 20
+    maxLength: 30
+  - size: "100サイズ"
+    boxSize: 100
+    maxStems: 45
+    maxLength: 40
+  - size: "120サイズ"
+    boxSize: 120
+    maxStems: 80
+    maxLength: 50
+
 features:
   - 1本に複数輪
   - 4品種

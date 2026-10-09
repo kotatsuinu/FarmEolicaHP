@@ -3,14 +3,15 @@
 // Design: Layout 3 "Tategaki Bento" (Navy × Copper) — self-contained
 // Split out of capabilities.astro's RECORD section (2026-07) so the systems
 // list can grow independently of the task-menu page. Structural template
-// copied from capabilities.astro; system data comes from src/data/works-systems.
+// copied from capabilities.astro; system data comes from src/data/works (works-systems + works-ledger-status.json).
 import WorksLayout from '../../layouts/WorksLayout.astro';
 import WorksHeader from '../../components/works/WorksHeader.astro';
-import { worksSystems, doneCount, totalCount, lastUpdated } from '../../data/works-systems';
+import { shownCategories, plannedItems, runningCount, developingCount, plannedCount, totalCount, lastUpdated } from '../../data/works';
+import { worksInfra } from '../../data/works-infra';
 const siteUrl = 'https://farmeolica.com';
 
 const title = '実績・システム例 | 業務代行〈AI活用〉| Farm Eolica';
-const description = `Farm Eolica がこれまで作ってきたシステムの一覧です。個人事業主が自分の農園の業務効率化のために実際に手を動かし、これまでに${totalCount}件のシステムを作り、うち${doneCount}件が稼働中です。`;
+const description = `Farm Eolica がこれまで作ってきたシステムの一覧です。個人事業主が自分の農園の業務効率化のために実際に手を動かし、これまでに${totalCount}件のシステムを作り、うち${runningCount}件が運用中です。`;
 const canonical = `${siteUrl}/works/records/`;
 ---
 
@@ -27,7 +28,7 @@ const canonical = `${siteUrl}/works/records/`;
       <div class="sh-top">
         <span class="sh-en">RECORD</span>
         <span class="sh-line"></span>
-        <span class="sh-no">— {doneCount} DONE / {totalCount} TOTAL</span>
+        <span class="sh-no">— {runningCount} RUNNING / {totalCount} TOTAL</span>
       </div>
       <h1 class="cap-h1">実績・システム例。</h1>
       <p class="cap-lead">
@@ -45,7 +46,7 @@ const canonical = `${siteUrl}/works/records/`;
 <!-- ══════════ CATEGORY NAV ══════════ -->
 <nav class="cap-nav">
   <div class="cap-nav-inner">
-    {worksSystems.map(cat => (
+    {shownCategories.map(cat => (
       <a href={`#${cat.id}`} class="cap-nav-pill">{cat.label}</a>
     ))}
   </div>
@@ -59,17 +60,19 @@ const canonical = `${siteUrl}/works/records/`;
       <div class="sh-top">
         <span class="sh-en">SYSTEMS</span>
         <span class="sh-line"></span>
-        <span class="sh-no">— {worksSystems.length} categories</span>
+        <span class="sh-no">— {shownCategories.length} categories</span>
       </div>
-      <h2 class="sh-jp">作ってきたシステム、{doneCount}件。</h2>
+      <h2 class="sh-jp">作ってきたシステム、{runningCount}件。</h2>
     </div>
     <p class="cap-record-lead reveal">
       経理・受注・販促・栽培記録まで、自分の農園の業務をひとつずつAIで組み替えてきた記録です。
     </p>
     <div class="rec-meta reveal">
-      <span class="rec-meta-done">稼働中 {doneCount}件</span>
+      <span class="rec-meta-done">運用中 {runningCount}件</span>
       <span class="rec-meta-sep">|</span>
-      <span class="rec-meta-wip">実装中 {totalCount - doneCount}件</span>
+      <span class="rec-meta-wip">開発中 {developingCount}件</span>
+      <span class="rec-meta-sep">|</span>
+      <span class="rec-meta-planned">構想中 {plannedCount}件</span>
       <span class="rec-meta-sep">|</span>
       <span class="rec-meta-date">{lastUpdated} 時点</span>
     </div>
@@ -78,14 +81,14 @@ const canonical = `${siteUrl}/works/records/`;
 
 
 <!-- ══════════ CATEGORIES（実績カテゴリ） ══════════ -->
-{worksSystems.map((cat, idx) => (
+{shownCategories.map((cat, idx) => (
   <section class={`ws${idx % 2 === 1 ? ' ws-alt' : ''}`} id={cat.id}>
     <div class="wc">
       <div class="sh reveal">
         <div class="sh-top">
           <span class="sh-en">{cat.labelEn}</span>
           <span class="sh-line"></span>
-          <span class="sh-no">— {String(idx + 1).padStart(2, '0')} / {String(worksSystems.length).padStart(2, '0')}</span>
+          <span class="sh-no">— {String(idx + 1).padStart(2, '0')} / {String(shownCategories.length).padStart(2, '0')}</span>
         </div>
         <h2 class="sh-jp">{cat.label}</h2>
       </div>
@@ -95,15 +98,25 @@ const canonical = `${siteUrl}/works/records/`;
           <article class="cap-card reveal">
             <div class="cap-card-head">
               <h3 class="cap-card-title">{item.title}</h3>
-              <span class={`cap-badge ${item.done ? 'cap-badge-done' : 'cap-badge-wip'}`}>
-                {item.done ? '稼働中' : (item.note ?? '実装中')}
+              <span class={`cap-badge ${item.status === 'running' ? 'cap-badge-done' : 'cap-badge-wip'}`}>
+                {item.status === 'running' ? '運用中' : '開発中'}
               </span>
             </div>
             <p class="cap-card-body">{item.description}</p>
-            {item.noteUrl && (
-              <a href={item.noteUrl} target="_blank" rel="noopener noreferrer" class="cap-card-note">
+            {item.noteUrls.length === 1 && (
+              <a href={item.noteUrls[0]} target="_blank" rel="noopener noreferrer" class="cap-card-note">
                 note で詳しく読む →
               </a>
+            )}
+            {item.noteUrls.length >= 2 && (
+              <div class="cap-card-notes">
+                <span class="cap-card-notes-label">note で詳しく読む</span>
+                {item.noteUrls.map((url, n) => (
+                  <a href={url} target="_blank" rel="noopener noreferrer" class="cap-card-note-num">
+                    {n < 20 ? String.fromCodePoint(0x2460 + n) : `(${n + 1})`}
+                  </a>
+                ))}
+              </div>
             )}
           </article>
         ))}
@@ -111,6 +124,55 @@ const canonical = `${siteUrl}/works/records/`;
     </div>
   </section>
 ))}
+
+
+<!-- ══════════ PLANNED（これから作るもの） ══════════ -->
+{plannedItems.length > 0 && (
+  <section class={`ws ws-planned${shownCategories.length % 2 === 1 ? ' ws-alt' : ''}`} id="planned">
+    <div class="wc">
+      <div class="sh reveal">
+        <div class="sh-top">
+          <span class="sh-en">PLANNED</span>
+          <span class="sh-line"></span>
+          <span class="sh-no">— {plannedItems.length} ideas</span>
+        </div>
+        <h2 class="sh-jp">これから作るもの <span class="cap-badge cap-badge-planned">構想中</span></h2>
+      </div>
+      <ul class="planned-list">
+        {plannedItems.map(item => (
+          <li class="planned-row reveal">
+            <span class="planned-title">{item.title}</span>
+            <span class="planned-desc">{item.description}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+
+<!-- ══════════ INFRA（実績を支える基盤技術） ══════════ -->
+<section class={`ws ws-infra${(shownCategories.length + (plannedItems.length > 0 ? 1 : 0)) % 2 === 1 ? ' ws-alt' : ''}`} id="infra">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">FOUNDATION</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— {worksInfra.length} technologies</span>
+      </div>
+      <h2 class="sh-jp">実績を支える基盤技術</h2>
+    </div>
+    <p class="cap-record-lead reveal">一覧のシステムは、次の基盤の上で動いています。</p>
+    <ul class="infra-list">
+      {worksInfra.map(item => (
+        <li class="infra-row reveal">
+          <span class="infra-name">{item.name}</span>
+          <span class="infra-role">{item.role}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
 
 
 <!-- ══════════ CTA / CONTACT ══════════ -->
@@ -204,16 +266,36 @@ const canonical = `${siteUrl}/works/records/`;
 .cap-card-title{font-family:var(--sr);font-size:1.0625rem;color:var(--m);letter-spacing:.04em;line-height:1.5;flex:1;margin:0}
 .cap-badge{font-family:var(--mn);font-size:0.75rem;letter-spacing:.15em;padding:3px 8px;flex-shrink:0;white-space:nowrap;margin-top:3px}
 .cap-badge-done{border:1px solid var(--a);color:var(--a)}
-.cap-badge-wip{border:1px solid var(--inkm);color:var(--inkm)}
+.cap-badge-wip{border:1px solid var(--m);color:var(--m);display:inline-flex;align-items:center;gap:6px}
+.cap-badge-wip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--m);flex-shrink:0}
+.cap-badge-planned{border:1px dashed var(--inkm);color:var(--inkm)}
 .cap-card-body{font-size:0.84375rem;line-height:2;color:var(--inks)}
 .cap-card-note{display:inline-block;margin-top:14px;font-family:var(--mn);font-size:0.75rem;letter-spacing:.18em;color:var(--a);border-bottom:1px solid var(--a);padding-bottom:2px;transition:opacity .2s}
 .cap-card-note:hover{opacity:.65}
+.cap-card-notes{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:14px;font-family:var(--mn);font-size:0.75rem;letter-spacing:.18em;color:var(--a)}
+.cap-card-note-num{display:inline-block;min-width:1.6em;text-align:center;color:var(--a);border-bottom:1px solid var(--a);padding-bottom:2px;transition:opacity .2s}
+.cap-card-note-num:hover{opacity:.65}
+
+/* Planned（これから作るもの） */
+.sh-jp .cap-badge-planned{font-size:0.75rem;vertical-align:middle;margin-left:10px}
+.planned-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.planned-row{border:1px dashed var(--inkm);padding:18px 24px;display:flex;flex-direction:column;gap:6px}
+.planned-title{font-family:var(--sr);font-size:1.0625rem;color:var(--m);letter-spacing:.04em;line-height:1.5}
+.planned-desc{font-size:0.84375rem;line-height:2;color:var(--inks)}
+
+/* Infra（実績を支える基盤技術） */
+.infra-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.infra-row{border:1px solid var(--hair);padding:18px 24px;display:flex;flex-direction:column;gap:6px;background:var(--bg)}
+.ws-alt .infra-row{background:#EAE6DF}
+.infra-name{font-family:var(--sr);font-size:1.0625rem;color:var(--m);letter-spacing:.04em;line-height:1.5}
+.infra-role{font-size:0.84375rem;line-height:2;color:var(--inks)}
 
 /* Record intro (実績＝土台) */
 .cap-record-lead{font-size:0.9375rem;line-height:2;color:var(--inks);letter-spacing:.03em;max-width:760px;margin:0 0 28px}
 .rec-meta{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .rec-meta-done{font-family:var(--mn);font-size:0.75rem;letter-spacing:.2em;color:var(--a);border:1px solid var(--a);padding:4px 10px}
 .rec-meta-wip{font-family:var(--mn);font-size:0.75rem;letter-spacing:.2em;color:var(--inkm);border:1px solid var(--hair);padding:4px 10px}
+.rec-meta-planned{font-family:var(--mn);font-size:0.75rem;letter-spacing:.2em;color:var(--inkm);border:1px dashed var(--inkm);padding:4px 10px}
 .rec-meta-sep{color:var(--hair);font-family:var(--mn)}
 .rec-meta-date{font-family:var(--mn);font-size:0.75rem;letter-spacing:.15em;color:var(--inkm)}
 
