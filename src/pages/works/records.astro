@@ -7,6 +7,7 @@
 import WorksLayout from '../../layouts/WorksLayout.astro';
 import WorksHeader from '../../components/works/WorksHeader.astro';
 import { shownCategories, plannedItems, runningCount, developingCount, plannedCount, totalCount, lastUpdated } from '../../data/works';
+import { worksInfra } from '../../data/works-infra';
 const siteUrl = 'https://farmeolica.com';
 
 const title = '実績・システム例 | 業務代行〈AI活用〉| Farm Eolica';
@@ -150,6 +151,30 @@ const canonical = `${siteUrl}/works/records/`;
 )}
 
 
+<!-- ══════════ INFRA（実績を支える基盤技術） ══════════ -->
+<section class={`ws ws-infra${(shownCategories.length + (plannedItems.length > 0 ? 1 : 0)) % 2 === 1 ? ' ws-alt' : ''}`} id="infra">
+  <div class="wc">
+    <div class="sh reveal">
+      <div class="sh-top">
+        <span class="sh-en">FOUNDATION</span>
+        <span class="sh-line"></span>
+        <span class="sh-no">— {worksInfra.length} technologies</span>
+      </div>
+      <h2 class="sh-jp">実績を支える基盤技術</h2>
+    </div>
+    <p class="cap-record-lead reveal">一覧のシステムは、次の基盤の上で動いています。</p>
+    <ul class="infra-list">
+      {worksInfra.map(item => (
+        <li class="infra-row reveal">
+          <span class="infra-name">{item.name}</span>
+          <span class="infra-role">{item.role}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+
 <!-- ══════════ CTA / CONTACT ══════════ -->
 <section class="ws" id="contact">
   <div class="wc">
@@ -257,6 +282,13 @@ const canonical = `${siteUrl}/works/records/`;
 .planned-row{border:1px dashed var(--inkm);padding:18px 24px;display:flex;flex-direction:column;gap:6px}
 .planned-title{font-family:var(--sr);font-size:1.0625rem;color:var(--m);letter-spacing:.04em;line-height:1.5}
 .planned-desc{font-size:0.84375rem;line-height:2;color:var(--inks)}
+
+/* Infra（実績を支える基盤技術） */
+.infra-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.infra-row{border:1px solid var(--hair);padding:18px 24px;display:flex;flex-direction:column;gap:6px;background:var(--bg)}
+.ws-alt .infra-row{background:#EAE6DF}
+.infra-name{font-family:var(--sr);font-size:1.0625rem;color:var(--m);letter-spacing:.04em;line-height:1.5}
+.infra-role{font-size:0.84375rem;line-height:2;color:var(--inks)}
 
 /* Record intro (実績＝土台) */
 .cap-record-lead{font-size:0.9375rem;line-height:2;color:var(--inks);letter-spacing:.03em;max-width:760px;margin:0 0 28px}
