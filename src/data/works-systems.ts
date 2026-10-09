@@ -96,6 +96,7 @@ export const worksSystems: WorksSystemCategory[] = [
       { key: 'dev-agri-chat', title: '栽培判断支援AIサポーター', description: '肥料・環境制御・出荷時期の判断を、栽培ガイドを参照してAIが助言する構想。Slackから質問できる形を検討している。' },
       { key: 'dev-custom-skills', title: 'カスタムスキル群（Claude Code）', description: '農場固有の作業（作付け振り返り記録・確定申告前チェック・画像生成など）をコマンド一発で実行できる専用スキルを多数整備。' },
       { key: 'dev-game-hamnies', title: 'ゲーム開発（Hamnies）', description: 'AIと作るゲーム開発スタジオ。共通の土台を整え、探索アドベンチャーや放置系ゲームを開発している。' },
+      { key: 'dev-works-ledger-sync', title: '実績一覧の自動更新（システム台帳連携）', description: '作ったシステムの名簿（システム台帳）を正本に、このページの状態やnoteへのリンクを自動で更新する仕組み。新しいシステムの紹介文はAIが下書きし、園主の確認を経て載せる。' },
     ],
   },
 ];
