@@ -1,0 +1,162 @@
+{
+  "lastUpdated": "2026-10-09",
+  "items": {
+    "agri-eolica-system": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "agri-cultivation-manager": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "agri-soil-fertilizer": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "agri-new-crop-selection": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "agri-planting-timeline": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "agri-analysis-dashboard": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "agri-polyculture-board": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "agri-voice-record": {
+      "status": "running",
+      "noteUrls": [
+        "https://note.com/farm_eolica/n/n40774c92226d",
+        "https://note.com/farm_eolica/n/neef73f307b81",
+        "https://note.com/farm_eolica/n/n7b6c72694988",
+        "https://note.com/farm_eolica/n/n43911aea4b62"
+      ]
+    },
+    "agri-irrigation": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "auto-openclaw": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "auto-knowledge-curator": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "auto-youtube-capture": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "auto-actuals-reminder": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "auto-direct-sales-alert": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "auto-inquiry-reply": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "auto-weekly-diary": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "auto-meeting-minutes": {
+      "status": "running",
+      "noteUrls": [
+        "https://note.com/farm_eolica/n/na619a27af7e6",
+        "https://note.com/farm_eolica/n/n3b19f11d49e1",
+        "https://note.com/farm_eolica/n/n9855ad9f24c9"
+      ]
+    },
+    "auto-slack-reports": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "fin-bookkeeping-automation": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "fin-life-money-board": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "fin-market-price": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "fin-budget-app": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "mkt-sns-publisher": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "mkt-official-hp": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "mkt-document-skills": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "mkt-note-ai-check": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "mkt-podcast": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "mkt-ai-video": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "mkt-manuscript-review": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "edu-teaching-materials": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "edu-class-feedback": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "dev-strategy-council": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "dev-task-board": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "dev-knowledge-base": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "dev-agri-chat": {
+      "status": "planned",
+      "noteUrls": []
+    },
+    "dev-custom-skills": {
+      "status": "running",
+      "noteUrls": []
+    },
+    "dev-game-hamnies": {
+      "status": "running",
+      "noteUrls": []
+    }
+  }
+}
