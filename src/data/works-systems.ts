@@ -56,8 +56,7 @@ export const worksSystems: WorksSystemCategory[] = [
     label: '財務・経営管理',
     labelEn: 'FINANCE & OPS',
     items: [
-      { key: 'fin-accounting-bq-sync', title: 'クラウド会計→BigQuery 毎日自動同期', description: 'クラウド会計ソフトの全仕訳データを毎日自動でBigQueryに転送。年度をまたいだ収支分析や税務データ確認が即座に行える基盤を構築。' },
-      { key: 'fin-bookkeeping-automation', title: '帳簿付け自動化（領収書→仕訳）', description: '領収書をスキャンするだけで仕訳が自動登録され、確定申告レベルまで帳簿が付く。経理の手間を大きく減らす。' },
+      { key: 'fin-bookkeeping-automation', title: '帳簿付け自動化（領収書→仕訳）', description: '領収書をスキャンするだけで仕訳が自動登録され、確定申告レベルまで帳簿が付く。仕訳は毎日BigQueryへ送り、年度をまたいだ収支分析にも使える。' },
       { key: 'fin-life-money-board', title: '家計・事業一元管理アプリ（Life Money Board）', description: '事業予算・家計・税試算・借入管理・家族会議レポートを一つのWebアプリで管理。栽培計画との自動連携で「今年の事業キャッシュフロー」をリアルタイムで把握。' },
       { key: 'fin-market-price', title: '花き市場 仕切り価格 自動収集・分析', description: '市場（FAJ）の仕切り価格データを自動収集・BigQuery蓄積し、品目別・時期別の市況推移を可視化。作付け計画の意思決定に活用。' },
       { key: 'fin-budget-app', title: '予算管理アプリ', description: '事業固定費・農業運転資金を年度管理するWebアプリ。NotionからFirestore/BQへ完全移行し、n8nで毎日自動同期。' },
@@ -68,11 +67,11 @@ export const worksSystems: WorksSystemCategory[] = [
     label: '情報発信・マーケティング',
     labelEn: 'MARKETING',
     items: [
-      { key: 'mkt-sns-publisher', title: 'Instagram 自動投稿システム（SNS Publisher）', description: '写真・文章の生成から承認・投稿予約・メトリクス収集まで一括自動化。Slack上で承認ボタン1つで投稿完了。農繁期でも途切れない発信基盤を実現。複数の商品キャンペーンを並行して回すこともできる。' },
+      { key: 'mkt-sns-publisher', title: 'Instagram 自動投稿システム（SNS Publisher）', description: '写真・文章の生成から承認・投稿予約・メトリクス収集まで一括自動化。Slack上で承認ボタン1つで投稿完了。複数の商品キャンペーンの並行運用にも対応し、農繁期でも途切れない発信基盤を実現。' },
       { key: 'mkt-official-hp', title: '公式HP（Farm Eolica）', description: 'Astroフレームワークで構築した高速Webサイト。商品ページ・問い合わせフォーム・見積もり計算機・SEO対策（JSON-LD/sitemap/llms.txt）まで一体実装。' },
       { key: 'mkt-document-skills', title: '資料・スライド 変換スキル群', description: 'PDF/画像→HTML化、Markdown→PDF/Word、Markdown→スライド（Marp＋D2図解）など、複数の資料変換ツールをコマンド一発で使用できる。' },
       { key: 'mkt-note-ai-check', title: 'note記事 執筆パイプライン', description: '素材から園主の文体で原稿を起こし、15点のチェックでAIらしい言い回しを取り除く仕組み。記事を自分の言葉で、スムーズに書き上げられる。' },
-      { key: 'mkt-podcast', title: '音声配信（Podcast）の自動化', description: 'stand.fmの音声配信で、編集とライブ中のコメント読み上げを自動化する構想。AIと対話しながら配信する仕組みも検討中。' },
+      { key: 'mkt-podcast', title: '音声配信（Podcast）の自動化', description: 'stand.fmの配信から、文字起こしとnote記事の下書きまでを自動で作る。ライブ中のコメント読み上げや、AIと対話しながらの配信は開発中。' },
       { key: 'mkt-ai-video', title: 'AI動画制作パイプライン', description: '原稿からナレーション付きのプレゼン動画を作り、撮影素材からSNS動画を半自動で仕上げる。演出込みの高品質動画も指示だけで作れるよう、試験運用中。' },
       { key: 'mkt-manuscript-review', title: 'スマホ原稿レビューアプリ', description: 'スマホでnote原稿を読み、段落をタップしてコメントを残すと、AIが読んで原稿を直す。外出先でも推敲が進む。' },
     ],

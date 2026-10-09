@@ -8,7 +8,7 @@ export type WorksInfraItem = {
 };
 
 export const worksInfra: WorksInfraItem[] = [
-  { name: 'Cloudflare', role: 'Webサイトの配信と、社内向け画面を安全に使うための接続を支えています。' },
+  { name: 'Cloudflare', role: 'Webサイトの配信と、管理用の画面へ安全につなぐ仕組みを支えています。' },
   { name: 'n8n', role: 'システム同士をつなぎ、定期処理や通知の流れを自動で回す土台です。' },
   { name: 'Google BigQuery', role: '栽培・販売・会計のデータを1か所に集めて分析する土台です。' },
   { name: 'Firebase', role: '栽培管理や予算管理など、スマホで使うアプリのデータ保存と認証に使っています。' },
