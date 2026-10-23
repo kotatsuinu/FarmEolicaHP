@@ -1,9 +1,11 @@
 {
-  "lastUpdated": "2026-10-09",
+  "lastUpdated": "2026-10-20",
   "items": {
     "agri-eolica-system": {
       "status": "running",
-      "noteUrls": []
+      "noteUrls": [
+        "https://note.com/farm_eolica/n/n6cb38b24dc84"
+      ]
     },
     "agri-cultivation-manager": {
       "status": "running",
@@ -40,7 +42,9 @@
     },
     "agri-irrigation": {
       "status": "running",
-      "noteUrls": []
+      "noteUrls": [
+        "https://note.com/farm_eolica/n/n6cb38b24dc84"
+      ]
     },
     "auto-openclaw": {
       "status": "running",
