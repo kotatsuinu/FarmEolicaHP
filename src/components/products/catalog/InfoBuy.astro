@@ -1,0 +1,17 @@
+---
+/**
+ * お支払い・ご購入の流れの中身（InfoRow の中に置く）。
+ * 内容は各ページの Payment と PurchaseGuide（問い合わせフォーム・Instagram DM）と同じ。
+ */
+import { SITE_CONFIG } from '../../../config/site';
+---
+
+<h4>お支払い</h4>
+<p>PayPay・銀行振込・請求書がご利用いただけます。</p>
+<p class="note">※初回お取引については原則ご入金確認後の発送となります</p>
+<h4>ご購入・お問い合わせ</h4>
+<ul>
+  <li><a href="/contact?type=estimate">問い合わせ・ご注文フォーム</a>（見積もり内容を引き継いでお問い合わせいただけます）</li>
+  <li><a href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener noreferrer">Instagram DM</a>（@farm_eolica へDMでお気軽に）</li>
+</ul>
+<p class="note">ご不明な点がございましたら、お気軽にお問い合わせください。農作業中は返信にお時間いただく場合がございます。</p>

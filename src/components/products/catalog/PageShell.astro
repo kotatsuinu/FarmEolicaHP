@@ -1,0 +1,64 @@
+---
+/**
+ * 商品ページ共通の包み。字体・色と、写真の奥行きの動き（script）を1回だけ持つ。
+ * 動くのは .plx（写真の枠）の中の img だけ。
+ */
+---
+
+<div class="pl"><slot /></div>
+
+<style>
+  .pl { font-family: theme('fontFamily.serif'); color: #33291F; line-height: 1.85; overflow-x: clip; }
+  .pl :global(a) { text-decoration: none; }
+
+  /* 奥行きの動き：枠より大きい写真を、スクロールに合わせて script が動かす */
+  .pl :global(.plx) { position: relative; overflow: hidden; }
+  .pl :global(.plx > img) {
+    position: absolute; left: 0; width: 100%; top: -15%; height: 130%;
+    object-fit: cover; will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pl :global(.plx > img) { transform: none !important; }
+  }
+</style>
+
+<script>
+  // 奥行きの動き：枠の中心が画面中心からどれだけ離れているかで、写真を -11%〜+11% 動かす
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    const frames = Array.from(document.querySelectorAll<HTMLElement>('.pl .plx'));
+    const visible = new Set<HTMLElement>();
+    const update = () => {
+      const vh = window.innerHeight;
+      visible.forEach((el) => {
+        const img = el.querySelector<HTMLElement>(':scope > img');
+        if (!img) return;
+        const r = el.getBoundingClientRect();
+        let p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+        p = Math.max(-1, Math.min(1, p));
+        img.style.transform = `translate3d(0, ${(-p * 11).toFixed(2)}%, 0)`;
+      });
+    };
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        update();
+      });
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        const el = e.target as HTMLElement;
+        if (e.isIntersecting) visible.add(el);
+        else visible.delete(el);
+      });
+      onScroll();
+    });
+    frames.forEach((el) => io.observe(el));
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+  }
+</script>

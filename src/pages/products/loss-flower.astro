@@ -1,44 +1,42 @@
 ---
 /**
- * ロスフラワーページ
- * Notionコンテンツを参考に構成
- * 価格は花の種類に関わらず一律（ページレベルで固定表示）
+ * ロスフラワーページ（スマホ第一・商品一覧と同じ作り）
+ * 価格は花の種類に関わらず一律（正本は src/data/lossFlowerPricing.json）
  */
-import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import lossFlowerHeroImage from '../../assets/images/products/loss-flower-hero.jpg';
 import { SITE_CONFIG } from '../../config/site';
-import ProductCard from '../../components/products/ProductCard.astro';
-import PriceTable from '../../components/products/PriceTable.astro';
-import ShippingInfo from '../../components/products/ShippingInfo.astro';
-import NoticeInfo from '../../components/products/NoticeInfo.astro';
-import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
 import NoteLinkCard from '../../components/NoteLinkCard.astro';
-import SectionHeader from '../../components/SectionHeader.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import PageShell from '../../components/products/catalog/PageShell.astro';
+import PageHero from '../../components/products/catalog/PageHero.astro';
+import PageIntro from '../../components/products/catalog/PageIntro.astro';
+import ProductShelf from '../../components/products/catalog/ProductShelf.astro';
+import LaterList from '../../components/products/catalog/LaterList.astro';
+import PastStrip from '../../components/products/catalog/PastStrip.astro';
+import InfoRows from '../../components/products/catalog/InfoRows.astro';
+import InfoRow from '../../components/products/catalog/InfoRow.astro';
+import InfoPriceTable from '../../components/products/catalog/InfoPriceTable.astro';
+import InfoShipping from '../../components/products/catalog/InfoShipping.astro';
+import InfoCompare from '../../components/products/catalog/InfoCompare.astro';
+import InfoNotice from '../../components/products/catalog/InfoNotice.astro';
+import InfoBuy from '../../components/products/catalog/InfoBuy.astro';
+import OtherCategories from '../../components/products/catalog/OtherCategories.astro';
+import ContactBand from '../../components/products/catalog/ContactBand.astro';
+import { byCategory, splitByStatus } from '../../components/products/catalog/split';
 import lossFlowerPricing from '../../data/lossFlowerPricing.json';
 
-// ロスフラワーの商品を取得
-const lossFlowerProducts = (await getCollection('products'))
-  .filter(p => p.data.category === 'loss_flower')
-  .sort((a, b) => {
-    // 販売中を先に、その後は表示順
-    if (a.data.saleStatus === 'available' && b.data.saleStatus !== 'available') return -1;
-    if (a.data.saleStatus !== 'available' && b.data.saleStatus === 'available') return 1;
-    return (b.data.order || 999) - (a.data.order || 999);
-  });
-
-// 販売中の商品数
-const availableCount = lossFlowerProducts.filter(p => p.data.saleStatus === 'available').length;
+// ロスフラワーの商品を取得し、棚／あとで／これまでに振り分ける
+const lossFlowerProducts = byCategory(await getCollection('products'), 'loss_flower');
+const { shelf, later, past } = splitByStatus(lossFlowerProducts);
 
 // 価格一覧（カテゴリ共通・正本は src/data/lossFlowerPricing.json）
 // ここに値を直接書かないこと。openclaw 側の返信下書き生成が同じ JSON を読むため、
 // ページに直書きすると二重管理になる。
 const priceList = lossFlowerPricing.priceTable;
 
-// Notice用の情報
+// ご注意の情報
 const noticeItems = [
   {
     title: '商品特性',
@@ -57,6 +55,12 @@ const noticeItems = [
     text: '濡れたキッチンペーパー・不織布で包み、通気性のあるスリーブに入れてお届けします。'
   }
 ];
+
+const compareRows: [string, string, string][] = [
+  ['形態', '花頭のみ', '茎付き（切り花）'],
+  ['用途', 'クラフト・ドライフラワー', '花瓶に生けて鑑賞'],
+  ['価格', '一律価格', '花の種類により異なる'],
+];
 ---
 
 <Layout
@@ -70,266 +74,80 @@ const noticeItems = [
     { name: '商品', url: '/products' },
     { name: 'ロスフラワー', url: '/products/loss-flower' },
   ]} />
-  <!-- Hero Section -->
-  <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 bg-warm-gray-200">
-      <Image
-        src={lossFlowerHeroImage}
-        alt="ロスフラワー"
-        class="w-full h-full object-cover"
-        widths={[640, 1280, 1920]}
-        sizes="100vw"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50"></div>
-    </div>
-    <div class="relative z-10 text-center px-6" data-animate>
-      <p class="font-mono text-xs tracking-widest text-white/90 mb-4">
-        LOSS FLOWER
-      </p>
-      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 tracking-wide drop-shadow-lg">
-        ロスフラワー
-      </h1>
-      <p class="font-serif text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow">
-        廃棄される花に、<br class="md:hidden" />新しい命を
-      </p>
-    </div>
-  </section>
 
-  <!-- Breadcrumb -->
-  <section class="pt-6 pb-2">
-    <div class="max-w-6xl mx-auto px-6">
-      <Breadcrumb items={[
+  <PageShell>
+    <PageHero
+      image={lossFlowerHeroImage}
+      alt="ロスフラワー"
+      title="ロスフラワー"
+      lead="廃棄される花に、新しい命を。"
+      crumb={[
         { name: 'ホーム', url: '/' },
         { name: '商品', url: '/products' },
         { name: 'ロスフラワー' },
-      ]} />
-    </div>
-  </section>
+      ]}
+    />
 
-  <!-- Introduction Section（詳しい解説はピラーページ /loss-flower へ集約。ここは要点のみ） -->
-  <section class="py-16 md:py-20" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="space-y-6 text-center">
-        <p class="font-serif text-lg md:text-xl text-wet-soil leading-relaxed">
-          福島県浜通り、浪江町の小さな花農家です。
-        </p>
-        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
-          仕立てや摘心の作業過程で生まれる、規格外・余剰の切り花「ロスフラワー」。
-          「このまま廃棄してしまうのはもったいない」という想いから、
-          クラフト作家さんやハンドメイドを楽しむ皆さまに、農家直送でお届けしています。
-        </p>
-        <p class="text-sm">
-          <a href="/loss-flower" class="text-eolica-green hover:underline">
-            ロスフラワーとは（詳しい解説・花材としての使い方・よくある質問）→
-          </a>
-        </p>
-      </div>
-    </div>
-  </section>
+    <PageIntro>
+      <p>福島県浜通り、浪江町の小さな花農家です。仕立てや摘心の作業で生まれる規格外・余剰の切り花「ロスフラワー」を、クラフト作家さんやハンドメイドを楽しむ方へ、農家直送でお届けしています。</p>
+      <p><a href="/loss-flower">ロスフラワーとは（詳しい解説・花材としての使い方・よくある質問）→</a></p>
+    </PageIntro>
 
-  <!-- Note Article Link -->
-  <section class="py-8 md:py-12" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <p class="font-mono text-[10px] tracking-widest text-warm-gray-400 mb-4 text-center">
-        MORE ABOUT LOSS FLOWER
-      </p>
+    <ProductShelf
+      airy
+      items={shelf}
+      heading="いまお届けできる花"
+      showPrice={false}
+      emptyText="いまはロスフラワーの受付を休んでいます。次に咲く花は出荷予報でご覧いただけます。"
+    />
+    <LaterList items={later} noun="ロスフラワー" showPrice={false} />
+    <PastStrip items={past} />
+
+    <InfoRows>
+      <InfoRow title="値段" open>
+        <p>どの花でも同一価格です（送料別）。</p>
+        <InfoPriceTable prices={priceList} note={lossFlowerPricing.displayNote} />
+      </InfoRow>
+      <InfoRow title="送料"><InfoShipping /></InfoRow>
+      <InfoRow title="使い道">
+        <ul>
+          <li><b>ドライフラワー</b>：素材として最適です。</li>
+          <li><b>レジン封入</b>：アクセサリー作りに。</li>
+          <li><b>撮影小物</b>：フォトプロップスに。</li>
+        </ul>
+        <p>切り花とは違う用途で、それぞれの花が持つ本来の美しさを活かしていただけたらと願っています。</p>
+        <p><a href="/loss-flower">花材としての使い方を詳しく見る →</a></p>
+      </InfoRow>
+      <InfoRow title="規格外切り花との違い">
+        <InfoCompare
+          cols={['ロスフラワー', '規格外切り花']}
+          rows={compareRows}
+          linkHref="/products/imperfect"
+          linkText="規格外切り花はこちら →"
+        />
+      </InfoRow>
+      <InfoRow title="ご注意"><InfoNotice items={noticeItems} /></InfoRow>
+      <InfoRow title="お支払い・ご購入の流れ"><InfoBuy /></InfoRow>
+    </InfoRows>
+
+    <section class="note-card">
       <NoteLinkCard
         url={SITE_CONFIG.noteArticles.lossFlowerStory}
         title="農家が語る、ロスフラワーのこと"
         description="なぜロスフラワーが生まれるのか、農家の想いを綴ったnote記事です。"
         variant="featured"
       />
-    </div>
-  </section>
+    </section>
 
-  <!-- Current Products Section（Introduction直後に配置）-->
-  <section class="py-16 md:py-20 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-6xl mx-auto px-6">
-      <SectionHeader titleJa="現在お届けできる花" titleEn="CURRENT FLOWERS">
-        {availableCount > 0 ? (
-          <p class="font-mono text-sm text-old-copper mt-3">
-            {availableCount}種類の花をご用意しています
-          </p>
-        ) : (
-          <p class="font-mono text-sm text-warm-gray-500 mt-3">
-            現在販売中の商品はありません
-          </p>
-        )}
-      </SectionHeader>
-
-      {lossFlowerProducts.length > 0 ? (
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {lossFlowerProducts.map((product) => (
-            <ProductCard
-              product={product}
-              showStatus={true}
-              showPrice={false}
-              variant="default"
-            />
-          ))}
-        </div>
-      ) : (
-        <div class="text-center py-16 bg-stone-white shadow-lab">
-          <p class="font-serif text-warm-gray-500">
-            商品の準備中です。<br />
-            季節ごとに順次追加していきます。
-          </p>
-        </div>
-      )}
-    </div>
-  </section>
-
-  <!-- Usage Section -->
-  <section class="py-12 md:py-16" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <SectionHeader titleJa="用途" titleEn="USAGE" />
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-stone-white p-6 shadow-lab text-center">
-          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-old-copper/10 rounded-full">
-            <svg class="w-6 h-6 text-old-copper" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-            </svg>
-          </div>
-          <h3 class="font-serif text-sm text-wet-soil mb-2">ドライフラワー</h3>
-          <p class="text-xs text-warm-gray-600">素材として最適</p>
-        </div>
-        <div class="bg-stone-white p-6 shadow-lab text-center">
-          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-old-copper/10 rounded-full">
-            <svg class="w-6 h-6 text-old-copper" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-            </svg>
-          </div>
-          <h3 class="font-serif text-sm text-wet-soil mb-2">レジン封入</h3>
-          <p class="text-xs text-warm-gray-600">アクセサリー作りに</p>
-        </div>
-        <div class="bg-stone-white p-6 shadow-lab text-center">
-          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-old-copper/10 rounded-full">
-            <svg class="w-6 h-6 text-old-copper" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-          </div>
-          <h3 class="font-serif text-sm text-wet-soil mb-2">撮影小物</h3>
-          <p class="text-xs text-warm-gray-600">フォトプロップスに</p>
-        </div>
-      </div>
-      <p class="text-center text-sm text-warm-gray-600 mt-8 font-serif">
-        切り花とは違う用途で、それぞれの花が持つ本来の美しさを活かしていただく。<br />
-        皆さまの手で新たな命を吹き込んでいただけることを、心より願っています。
-      </p>
-      <p class="text-center text-sm mt-4">
-        <a href="/loss-flower" class="text-eolica-green hover:underline">
-          花材としての使い方を詳しく見る →
-        </a>
-      </p>
-    </div>
-  </section>
-
-  <!-- Difference Section -->
-  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
-        <h3 class="font-serif text-lg text-wet-soil mb-6">
-          規格外切り花との違い
-        </h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="border-b border-warm-gray-200">
-                <th class="text-left py-3 pr-4 font-mono text-xs text-warm-gray-500 w-24"></th>
-                <th class="text-center py-3 px-4 font-mono text-xs text-old-copper">ロスフラワー</th>
-                <th class="text-center py-3 pl-4 font-mono text-xs text-eolica-green">規格外切り花</th>
-              </tr>
-            </thead>
-            <tbody class="font-serif">
-              <tr class="border-b border-warm-gray-100">
-                <td class="py-3 pr-4 text-wet-soil">形態</td>
-                <td class="py-3 px-4 text-center text-warm-gray-600">花頭のみ</td>
-                <td class="py-3 pl-4 text-center text-warm-gray-600">茎付き（切り花）</td>
-              </tr>
-              <tr class="border-b border-warm-gray-100">
-                <td class="py-3 pr-4 text-wet-soil">用途</td>
-                <td class="py-3 px-4 text-center text-warm-gray-600">クラフト・ドライフラワー</td>
-                <td class="py-3 pl-4 text-center text-warm-gray-600">花瓶に生けて鑑賞</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 text-wet-soil">価格</td>
-                <td class="py-3 px-4 text-center text-warm-gray-600">一律価格</td>
-                <td class="py-3 pl-4 text-center text-warm-gray-600">花の種類により異なる</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="text-xs text-warm-gray-500 mt-6">
-          用途に応じてお選びください。
-          <a href="/products/imperfect" class="text-eolica-green hover:underline">
-            規格外切り花はこちら →
-          </a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Price Section -->
-  <section class="py-12 md:py-16" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <SectionHeader titleJa="価格について" titleEn="PRICE" description="どの花でも同一価格です（送料別）" />
-      <PriceTable
-        prices={priceList}
-        title="PRICE LIST"
-        showStemLength={false}
-        note={lossFlowerPricing.displayNote}
-      />
-    </div>
-  </section>
-
-  <!-- Shipping Info -->
-  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <ShippingInfo collapsible={true} />
-    </div>
-  </section>
-
-  <!-- Notice Section（折りたたみ式）-->
-  <section class="py-12 md:py-16" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <NoticeInfo items={noticeItems} collapsible={true} />
-    </div>
-  </section>
-
-  <!-- Payment Section -->
-  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
-        <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
-          PAYMENT <span class="font-serif">ーお支払いについてー</span>
-        </h3>
-        <div class="space-y-4">
-          <div class="flex flex-wrap gap-4">
-            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">PayPay</span>
-            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">銀行振込</span>
-            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">請求書</span>
-          </div>
-          <p class="text-xs text-warm-gray-500">
-            ※初回お取引については原則ご入金確認後の発送となります
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Purchase Guide -->
-  <PurchaseGuide variant="full" />
-
-  <!-- Back Link -->
-  <section class="py-12 text-center" data-animate>
-    <a
-      href="/products"
-      class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
-    >
-      ← Back to Products
-    </a>
-  </section>
+    <OtherCategories current="loss-flower" />
+    <ContactBand />
+  </PageShell>
 </Layout>
+
+<style>
+  .note-card { padding: 28px 20px 0; }
+  @media (min-width: 768px) {
+    .note-card { padding: 36px max(48px, calc(50% - 552px)) 0; }
+    .note-card > :global(a) { max-width: 760px; }
+  }
+</style>

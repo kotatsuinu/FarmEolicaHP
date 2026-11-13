@@ -1,0 +1,128 @@
+---
+/**
+ * 商品の棚。スマホは横にめくる・PC 768px〜 は4列。
+ * 末尾に出荷予報（/cultivation）への入口カード。0件のときは入口ボックス
+ * （index のように <Fragment slot="empty"> で差し替えもできる）。
+ */
+import { Image } from 'astro:assets';
+import type { ProductEntry } from './split';
+
+interface Props {
+  items: ProductEntry[];
+  heading: string;
+  showPrice?: boolean;
+  chipLabel?: string;
+  description?: string;
+  emptyText?: string;
+  emptyHref?: string;
+  emptyCta?: string;
+  airy?: boolean;
+}
+const {
+  items,
+  heading,
+  showPrice = true,
+  chipLabel,
+  description,
+  emptyText = 'いまは受付を休んでいます。次に咲く花は出荷予報でご覧いただけます。',
+  emptyHref = '/cultivation',
+  emptyCta = '出荷予報を見る →',
+  airy = false,
+} = Astro.props;
+
+const count = items.length;
+const chip = (s: string) => chipLabel ?? (s === 'seasonal' ? '季節限定' : '販売中');
+---
+
+<section class:list={['sec', 'inner', { airy }]}>
+  <div class="sec-h">
+    <h2>{heading}</h2>
+    <small>{count}件</small>
+  </div>
+  {description && <p class="sec-d">{description}</p>}
+
+  {count > 0 ? (
+    <>
+      <div class="shelf">
+        {items.map((p) => (
+          <a class="pc" href={`/products/${p.slug}`}>
+            <div class="pc-img">
+              {p.data.image ? (
+                <Image src={p.data.image} alt={p.data.name} width={600} height={750} sizes="(min-width: 768px) 25vw, 66vw" loading="lazy" />
+              ) : (
+                <span class="noimg">画像準備中</span>
+              )}
+              <span class="chip">{chip(p.data.saleStatus)}</span>
+            </div>
+            <h3>{p.data.name}</h3>
+            {p.data.flowerType && <span class="sub">{p.data.flowerType}</span>}
+            {showPrice && p.data.price && (
+              <span class="price">¥{p.data.price.toLocaleString()} <small>／ {p.data.unit}</small></span>
+            )}
+          </a>
+        ))}
+        <a class="pc-next" href="/cultivation">
+          <b>これから出る花</b>
+          <span>畑で育っている花と、出荷の見込み</span>
+          <i>出荷予報を見る →</i>
+        </a>
+      </div>
+      <p class="swipe">← 横にめくれます</p>
+    </>
+  ) : Astro.slots.has('empty') ? (
+    <slot name="empty" />
+  ) : (
+    <div class="gate">
+      <p>{emptyText}</p>
+      <a href={emptyHref}>{emptyCta}</a>
+    </div>
+  )}
+</section>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .sec { padding-top: 28px; padding-bottom: 8px; }
+  .sec.airy { padding-top: 48px; }
+  .sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .sec-h h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0; line-height: 1.5; }
+  .sec-h small { font-family: theme('fontFamily.mono'); font-size: 12px; color: #B87333; }
+  .sec-d { font-size: 14px; line-height: 1.8; color: #4A3B32; margin: -6px 0 14px; }
+
+  .shelf {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 66%; gap: 12px;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    margin: 0 -20px; padding: 0 20px 6px; scroll-padding: 20px; scrollbar-width: none;
+  }
+  .shelf::-webkit-scrollbar { display: none; }
+  .pc { scroll-snap-align: start; display: grid; gap: 4px; align-content: start; }
+  .pc-img { position: relative; aspect-ratio: 4 / 5; border-radius: 6px; overflow: hidden; background: #E0DDD7; }
+  .pc-img :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .noimg { position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; color: #7D7B77; }
+  .chip { position: absolute; top: 8px; left: 8px; font-size: 11px; padding: 2px 8px; border-radius: 3px; background: #005243; color: #fff; line-height: 1.7; }
+  .pc h3 { font-size: 16px; font-weight: 600; margin: 6px 0 0; color: #33291F; line-height: 1.5; }
+  .sub { font-size: 12px; color: #7D7B77; }
+  .price { font-family: theme('fontFamily.mono'); font-size: 14px; color: #4A3B32; }
+  .price small { color: #7D7B77; font-size: 12px; }
+  .pc-next {
+    scroll-snap-align: start; border-radius: 6px; background: #005243; color: #fff !important;
+    aspect-ratio: 4 / 5; padding: 18px; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px;
+  }
+  .pc-next b { font-size: 18px; font-weight: 600; }
+  .pc-next span { font-size: 12.5px; opacity: .85; line-height: 1.6; }
+  .pc-next i { font-style: normal; font-family: theme('fontFamily.mono'); font-size: 13px; margin-top: 6px; }
+  .swipe { font-size: 11px; color: #7D7B77; margin: 6px 0 0; }
+
+  /* 0件のとき（入口ボックス） */
+  .gate { border: 1px solid #E0DDD7; border-radius: 6px; background: #FBFBF9; padding: 20px; display: grid; gap: 10px; }
+  .gate p { font-size: 14.5px; line-height: 1.85; color: #4A3B32; margin: 0; }
+  .gate a { font-size: 14px; color: #B87333; font-weight: 600; justify-self: start; }
+
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .sec { padding-top: 48px; }
+    .sec.airy { padding-top: 56px; }
+    .sec-h h2 { font-size: 24px; }
+    .shelf { grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); overflow: visible; margin: 0; padding: 0; gap: 20px; }
+    .swipe { display: none; }
+  }
+</style>

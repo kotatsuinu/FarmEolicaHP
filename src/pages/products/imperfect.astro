@@ -1,35 +1,33 @@
 ---
 /**
- * 規格外切り花ページ
- * Notionコンテンツを参考に構成
+ * 規格外切り花ページ（スマホ第一・商品一覧と同じ作り）
  */
-import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import imperfectHeroImage from '../../assets/images/products/imperfect-hero.jpg';
-import ProductCard from '../../components/products/ProductCard.astro';
-import ShippingInfo from '../../components/products/ShippingInfo.astro';
-import NoticeInfo from '../../components/products/NoticeInfo.astro';
-import FlowerCareGuide from '../../components/products/FlowerCareGuide.astro';
-import PurchaseGuide from '../../components/products/PurchaseGuide.astro';
-import SectionHeader from '../../components/SectionHeader.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import PageShell from '../../components/products/catalog/PageShell.astro';
+import PageHero from '../../components/products/catalog/PageHero.astro';
+import PageIntro from '../../components/products/catalog/PageIntro.astro';
+import ProductShelf from '../../components/products/catalog/ProductShelf.astro';
+import LaterList from '../../components/products/catalog/LaterList.astro';
+import PastStrip from '../../components/products/catalog/PastStrip.astro';
+import InfoRows from '../../components/products/catalog/InfoRows.astro';
+import InfoRow from '../../components/products/catalog/InfoRow.astro';
+import InfoShipping from '../../components/products/catalog/InfoShipping.astro';
+import InfoCompare from '../../components/products/catalog/InfoCompare.astro';
+import InfoCare from '../../components/products/catalog/InfoCare.astro';
+import InfoNotice from '../../components/products/catalog/InfoNotice.astro';
+import InfoBuy from '../../components/products/catalog/InfoBuy.astro';
+import OtherCategories from '../../components/products/catalog/OtherCategories.astro';
+import ContactBand from '../../components/products/catalog/ContactBand.astro';
+import { byCategory, splitByStatus } from '../../components/products/catalog/split';
 
-// 規格外品の商品を取得
-const imperfectProducts = (await getCollection('products'))
-  .filter(p => p.data.category === 'imperfect')
-  .sort((a, b) => {
-    // 販売中を先に、その後は表示順
-    if (a.data.saleStatus === 'available' && b.data.saleStatus !== 'available') return -1;
-    if (a.data.saleStatus !== 'available' && b.data.saleStatus === 'available') return 1;
-    return (b.data.order || 999) - (a.data.order || 999);
-  });
+// 規格外品の商品を取得し、棚／あとで／これまでに振り分ける
+const imperfectProducts = byCategory(await getCollection('products'), 'imperfect');
+const { shelf, later, past } = splitByStatus(imperfectProducts);
 
-// 販売中の商品数
-const availableCount = imperfectProducts.filter(p => p.data.saleStatus === 'available').length;
-
-// Notice用の情報
+// ご注意の情報
 const noticeItems = [
   {
     title: '商品特性',
@@ -53,6 +51,12 @@ const noticeItems = [
     text: '到着後はすぐに茎を切り戻して水に生けてください。2〜3日に一度の水替えで長くお楽しみいただけます。'
   }
 ];
+
+const compareRows: [string, string, string][] = [
+  ['形態', '茎付き（切り花）', '花頭のみ'],
+  ['用途', '花瓶に生けて鑑賞', 'クラフト・ドライフラワー'],
+  ['価格', '花の種類により異なる', '一律価格'],
+];
 ---
 
 <Layout
@@ -66,231 +70,56 @@ const noticeItems = [
     { name: '商品', url: '/products' },
     { name: '規格外切り花', url: '/products/imperfect' },
   ]} />
-  <!-- Hero Section -->
-  <section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 bg-warm-gray-200">
-      <Image
-        src={imperfectHeroImage}
-        alt="規格外切り花"
-        class="w-full h-full object-cover"
-        widths={[640, 1280, 1920]}
-        sizes="100vw"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50"></div>
-    </div>
-    <div class="relative z-10 text-center px-6" data-animate>
-      <p class="font-mono text-xs tracking-widest text-white/90 mb-4">
-        IMPERFECT FLOWERS
-      </p>
-      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 tracking-wide drop-shadow-lg">
-        規格外切り花
-      </h1>
-      <p class="font-serif text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow">
-        咲き誇る花に、<br class="md:hidden" />規格はいらない。
-      </p>
-    </div>
-  </section>
 
-  <!-- Breadcrumb -->
-  <section class="pt-6 pb-2">
-    <div class="max-w-6xl mx-auto px-6">
-      <Breadcrumb items={[
+  <PageShell>
+    <PageHero
+      image={imperfectHeroImage}
+      alt="規格外切り花"
+      title="規格外切り花"
+      lead="咲き誇る花に、規格はいらない。"
+      crumb={[
         { name: 'ホーム', url: '/' },
         { name: '商品', url: '/products' },
         { name: '規格外切り花' },
-      ]} />
-    </div>
-  </section>
+      ]}
+    />
 
-  <!-- Introduction Section -->
-  <section class="py-16 md:py-20" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="space-y-6 text-center">
-        <p class="font-serif text-lg md:text-xl text-wet-soil leading-relaxed">
-          福島県浜通り、浪江町の小さな花農家です。
-        </p>
-        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
-          毎日、ハウスで大切に育てた花を市場へ出荷していますが、<br />
-          市場の厳しい規格により、花は美しく咲いているにも関わらず<br />
-          「規格外」として分けられる花たちがあります。
-        </p>
-        <div class="py-4 border-l-4 border-old-copper/30 pl-6 max-w-md mx-auto">
-          <p class="font-serif text-sm text-warm-gray-500 italic text-left">
-            「茎の長さが少し足りない」<br />
-            「全体の形がわずかに規格に合わない」<br />
-            「色合いが微妙に基準と異なる」
-          </p>
-        </div>
-        <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
-          そんな理由だけで市場に出せない花たち。<br />
-          でも、<span class="text-eolica-green font-medium">その美しさは市場品と何ら変わりません。</span>
-        </p>
-        <p class="font-serif text-base md:text-lg text-wet-soil leading-relaxed">
-          より多くの方に花のある暮らしを楽しんでいただきたく、<br class="hidden md:inline" />
-          季節ごとの規格外切り花をご自宅へ直接お届けすることにいたしました。
-        </p>
-      </div>
-    </div>
-  </section>
+    <PageIntro>
+      <p>福島県浜通り、浪江町の小さな花農家です。茎の長さが少し足りない、形や色合いが規格とわずかに違う。そんな理由だけで市場に出せない花があります。</p>
+      <p>でも、その美しさは市場品と変わりません。季節ごとの規格外切り花を、ご自宅へ直接お届けします。</p>
+    </PageIntro>
 
-  <!-- Current Products Section（Introduction直後に配置）-->
-  <section class="py-16 md:py-20 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-6xl mx-auto px-6">
-      <SectionHeader titleJa="現在販売中の花" titleEn="CURRENT PRODUCTS">
-        {availableCount > 0 ? (
-          <p class="font-mono text-sm text-old-copper mt-3">
-            {availableCount}種類の花をお届けできます
-          </p>
-        ) : (
-          <p class="font-mono text-sm text-warm-gray-500 mt-3">
-            現在販売中の商品はありません
-          </p>
-        )}
-      </SectionHeader>
+    <ProductShelf
+      airy
+      items={shelf}
+      heading="いま買える花"
+      showPrice={false}
+      emptyText="いまは規格外切り花の受付を休んでいます。次に咲く花は出荷予報でご覧いただけます。"
+    />
+    <LaterList items={later} noun="切り花" showPrice={false} />
+    <PastStrip items={past} />
 
-      {imperfectProducts.length > 0 ? (
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {imperfectProducts.map((product) => (
-            <ProductCard
-              product={product}
-              showStatus={true}
-              showPrice={false}
-              variant="default"
-            />
-          ))}
-        </div>
-      ) : (
-        <div class="text-center py-16 bg-stone-white shadow-lab">
-          <p class="font-serif text-warm-gray-500">
-            商品の準備中です。<br />
-            季節ごとに順次追加していきます。
-          </p>
-        </div>
-      )}
-    </div>
-  </section>
+    <InfoRows>
+      <InfoRow title="値段" open>
+        <p>規格外切り花の価格は、<b>花の種類や時期によって異なります</b>。</p>
+        <p>同じ花でも、季節や出荷状況によって規格外となる理由や量が変わるため、都度適正な価格を設定しています。</p>
+        <p class="note">※詳しい価格は各商品ページをご確認ください。<br />※表示価格はすべて税込・送料別となります。</p>
+      </InfoRow>
+      <InfoRow title="送料"><InfoShipping /></InfoRow>
+      <InfoRow title="ロスフラワーとの違い">
+        <InfoCompare
+          cols={['規格外切り花', 'ロスフラワー']}
+          rows={compareRows}
+          linkHref="/products/loss-flower"
+          linkText="ロスフラワーはこちら →"
+        />
+      </InfoRow>
+      <InfoRow title="届いたら"><InfoCare /></InfoRow>
+      <InfoRow title="ご注意"><InfoNotice items={noticeItems} /></InfoRow>
+      <InfoRow title="お支払い・ご購入の流れ"><InfoBuy /></InfoRow>
+    </InfoRows>
 
-  <!-- Difference Section -->
-  <section class="py-12 md:py-16" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
-        <h3 class="font-serif text-lg text-wet-soil mb-6">
-          ロスフラワーとの違い
-        </h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="border-b border-warm-gray-200">
-                <th class="text-left py-3 pr-4 font-mono text-xs text-warm-gray-500 w-24"></th>
-                <th class="text-center py-3 px-4 font-mono text-xs text-eolica-green">規格外切り花</th>
-                <th class="text-center py-3 pl-4 font-mono text-xs text-old-copper">ロスフラワー</th>
-              </tr>
-            </thead>
-            <tbody class="font-serif">
-              <tr class="border-b border-warm-gray-100">
-                <td class="py-3 pr-4 text-wet-soil">形態</td>
-                <td class="py-3 px-4 text-center text-warm-gray-600">茎付き（切り花）</td>
-                <td class="py-3 pl-4 text-center text-warm-gray-600">花頭のみ</td>
-              </tr>
-              <tr class="border-b border-warm-gray-100">
-                <td class="py-3 pr-4 text-wet-soil">用途</td>
-                <td class="py-3 px-4 text-center text-warm-gray-600">花瓶に生けて鑑賞</td>
-                <td class="py-3 pl-4 text-center text-warm-gray-600">クラフト・ドライフラワー</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 text-wet-soil">価格</td>
-                <td class="py-3 px-4 text-center text-warm-gray-600">花の種類により異なる</td>
-                <td class="py-3 pl-4 text-center text-warm-gray-600">一律価格</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="text-xs text-warm-gray-500 mt-6">
-          用途に応じてお選びください。
-          <a href="/products/loss-flower" class="text-old-copper hover:underline">
-            ロスフラワーはこちら →
-          </a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Price Section -->
-  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <SectionHeader titleJa="価格について" titleEn="PRICE" />
-      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
-        <p class="font-serif text-sm text-warm-gray-600 mb-4">
-          規格外切り花の価格は、<span class="text-wet-soil font-medium">花の種類や時期によって異なります</span>。
-        </p>
-        <p class="font-serif text-sm text-warm-gray-600 mb-6">
-          同じ花でも、季節や出荷状況によって規格外となる理由や量が変わるため、
-          都度適正な価格を設定しています。
-        </p>
-        <div class="border-t border-warm-gray-200 pt-4">
-          <p class="text-xs text-warm-gray-500">
-            ※詳しい価格は各商品ページをご確認ください。<br />
-            ※表示価格はすべて税込・送料別となります。
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Shipping Info -->
-  <section class="py-12 md:py-16" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <ShippingInfo collapsible={true} />
-    </div>
-  </section>
-
-  <!-- Notice Section（折りたたみ式）-->
-  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <NoticeInfo items={noticeItems} collapsible={true} />
-    </div>
-  </section>
-
-  <!-- Flower Care Guide -->
-  <section class="py-12 md:py-16" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <FlowerCareGuide collapsible={true} />
-    </div>
-  </section>
-
-  <!-- Payment Section -->
-  <section class="py-12 md:py-16 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="bg-stone-white p-6 md:p-8 shadow-lab">
-        <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
-          PAYMENT <span class="font-serif">ーお支払いについてー</span>
-        </h3>
-        <div class="space-y-4">
-          <div class="flex flex-wrap gap-4">
-            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">PayPay</span>
-            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">銀行振込</span>
-            <span class="px-4 py-2 bg-warm-gray-50 text-sm font-mono text-wet-soil">請求書</span>
-          </div>
-          <p class="text-xs text-warm-gray-500">
-            ※初回お取引については原則ご入金確認後の発送となります
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Purchase Guide -->
-  <PurchaseGuide variant="full" />
-
-  <!-- Back Link -->
-  <section class="py-12 text-center" data-animate>
-    <a
-      href="/products"
-      class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
-    >
-      ← Back to Products
-    </a>
-  </section>
+    <OtherCategories current="imperfect" />
+    <ContactBand />
+  </PageShell>
 </Layout>

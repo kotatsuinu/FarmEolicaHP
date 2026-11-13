@@ -1,0 +1,25 @@
+---
+/**
+ * ご注意の中身（InfoRow の中に置く）。NoticeInfo と同じ items の形を受け取る。
+ */
+interface NoticeItem {
+  title: string;
+  items?: string[];
+  text?: string;
+}
+interface Props {
+  items: NoticeItem[];
+}
+const { items } = Astro.props;
+---
+
+{items.map((item) => (
+  <>
+    <h4>{item.title}</h4>
+    {item.items ? (
+      <ul>{item.items.map((t) => <li>{t}</li>)}</ul>
+    ) : item.text ? (
+      <p>{item.text}</p>
+    ) : null}
+  </>
+))}

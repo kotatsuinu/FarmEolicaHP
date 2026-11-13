@@ -1,0 +1,31 @@
+---
+/**
+ * 商品ごとの値段の一覧（花束の「値段」の行）。各行は商品ページへのリンク。
+ */
+import type { ProductEntry } from './split';
+
+interface Props {
+  items: ProductEntry[];
+}
+const { items } = Astro.props;
+const priced = items.filter((p) => p.data.price);
+---
+
+{priced.length > 0 && (
+  <div class="list">
+    {priced.map((p) => (
+      <a class="li" href={`/products/${p.slug}`}>
+        <span>{p.data.name}</span>
+        <span class="pr">¥{p.data.price!.toLocaleString()} <small>／ {p.data.unit}</small></span>
+      </a>
+    ))}
+  </div>
+)}
+
+<style>
+  .list { display: grid; margin: 10px 0 8px; }
+  .li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 0; border-top: 1px solid #E0DDD7; color: #33291F; }
+  .li:last-child { border-bottom: 1px solid #E0DDD7; }
+  .pr { font-family: theme('fontFamily.mono'); font-size: 13px; white-space: nowrap; }
+  .pr small { font-size: 11px; color: #7D7B77; }
+</style>

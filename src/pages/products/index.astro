@@ -3,7 +3,7 @@
  * 商品一覧ページ（スマホ第一）
  * 上から：題の写真 → いま買える花 → 花の種類から選ぶ → ほかのページ
  *         → これから出る花の帯 → 考え方 → お問い合わせ
- * 設計案：2026-11-13 園主了承。奥行きの動きは末尾の script（写真だけ遅れて動かす）。
+ * 設計案：2026-11-13 園主了承。題・棚・お問い合わせ帯と奥行きの動きは catalog/ の部品。
  */
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
@@ -11,6 +11,10 @@ import Layout from '../../layouts/Layout.astro';
 import { SITE_CONFIG } from '../../config/site';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import PageShell from '../../components/products/catalog/PageShell.astro';
+import PageHero from '../../components/products/catalog/PageHero.astro';
+import ProductShelf from '../../components/products/catalog/ProductShelf.astro';
+import ContactBand from '../../components/products/catalog/ContactBand.astro';
 
 import productsHeroImage from '../../assets/images/products/products-hero.jpg';
 import bouquetImage from '../../assets/images/products/bouquet-hero.jpg';
@@ -28,8 +32,6 @@ const buyable = (await getCollection('products'))
   .filter((p) => p.data.saleStatus === 'available' || p.data.saleStatus === 'seasonal')
   .sort((a, b) => rank(a.data.category) - rank(b.data.category) || a.slug.localeCompare(b.slug));
 const count = buyable.length;
-
-const chipLabel = (s: string) => (s === 'seasonal' ? '季節限定' : '販売中');
 
 const tiles = [
   { title: '花束・テーブルフラワー', note: 'ご自宅に・贈り物に', href: '/products/bouquet', image: bouquetImage },
@@ -55,66 +57,17 @@ const others = [
     { name: '商品', url: '/products' },
   ]} />
 
-  <div class="pl">
-    <!-- 題の写真 -->
-    <section class="plx hero">
-      <Image
-        src={productsHeroImage}
-        alt=""
-        widths={[640, 1280, 1920]}
-        sizes="100vw"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <div class="hero-txt">
-        <h1>商品</h1>
-        <p>福島県浪江町の畑で育てた花を、花束や切り花でお届けします。</p>
-      </div>
-    </section>
-
-    <div class="inner crumb">
-      <Breadcrumb items={[
-        { name: 'ホーム', url: '/' },
-        { name: '商品' },
-      ]} />
-    </div>
+  <PageShell>
+    <PageHero
+      image={productsHeroImage}
+      title="商品"
+      lead="福島県浪江町の畑で育てた花を、花束や切り花でお届けします。"
+      crumb={[{ name: 'ホーム', url: '/' }, { name: '商品' }]}
+    />
 
     <!-- いま買える花 -->
-    <section class="sec inner">
-      <div class="sec-h">
-        <h2>いま買える花</h2>
-        <small>{count}件</small>
-      </div>
-
-      {count > 0 ? (
-        <>
-          <div class="shelf">
-            {buyable.map((p) => (
-              <a class="pc" href={`/products/${p.slug}`}>
-                <div class="pc-img">
-                  {p.data.image ? (
-                    <Image src={p.data.image} alt={p.data.name} width={600} height={750} sizes="(min-width: 768px) 25vw, 66vw" loading="lazy" />
-                  ) : (
-                    <span class="noimg">画像準備中</span>
-                  )}
-                  <span class="chip">{chipLabel(p.data.saleStatus)}</span>
-                </div>
-                <h3>{p.data.name}</h3>
-                {p.data.flowerType && <span class="sub">{p.data.flowerType}</span>}
-                {p.data.price && (
-                  <span class="price">¥{p.data.price.toLocaleString()} <small>／ {p.data.unit}</small></span>
-                )}
-              </a>
-            ))}
-            <a class="pc-next" href="/cultivation">
-              <b>これから出る花</b>
-              <span>畑で育っている花と、出荷の見込み</span>
-              <i>出荷予報を見る →</i>
-            </a>
-          </div>
-          <p class="swipe">← 横にめくれます</p>
-        </>
-      ) : (
+    <ProductShelf items={buyable} heading="いま買える花">
+      <Fragment slot="empty">
         <div class="empty plx">
           <Image src={dialogueImage} alt="" width={1200} sizes="(min-width: 768px) 1100px, 100vw" loading="lazy" />
           <div class="empty-txt">
@@ -126,8 +79,8 @@ const others = [
             </div>
           </div>
         </div>
-      )}
-    </section>
+      </Fragment>
+    </ProductShelf>
 
     <!-- 花の種類から選ぶ -->
     <section class="sec inner">
@@ -179,73 +132,19 @@ const others = [
       <a href="/about">Farm Eolicaについて →</a>
     </section>
 
-    <!-- お問い合わせ -->
-    <section class="contact">
-      <div class="contact-in">
-        <div>
-          <h2>お問い合わせ・ご注文</h2>
-          <p>花の種類や届く日のご相談も、お気軽にどうぞ。</p>
-        </div>
-        <div class="cbtns">
-          <a class="cbtn main" href={SITE_CONFIG.sns.line} target="_blank" rel="noopener">公式LINEで問い合わせる</a>
-          <a class="cbtn" href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener">Instagram</a>
-          <a class="cbtn" href="/contact">お問い合わせフォーム</a>
-        </div>
-      </div>
-    </section>
-  </div>
+    <ContactBand />
+  </PageShell>
 </Layout>
 
 <style>
-  .pl { font-family: theme('fontFamily.serif'); color: #33291F; line-height: 1.85; overflow-x: clip; }
-  .pl a { text-decoration: none; }
   .inner { padding-left: 20px; padding-right: 20px; }
 
-  /* 奥行きの動き：枠より大きい写真を、スクロールに合わせて script が動かす */
-  .plx { position: relative; overflow: hidden; }
-  .plx > :global(img) {
-    position: absolute; left: 0; width: 100%; top: -15%; height: 130%;
-    object-fit: cover; will-change: transform;
-  }
-  .hero::after, .tile::after, .band::after, .empty::after { content: ''; position: absolute; inset: 0; z-index: 1; }
-
-  .hero { height: 300px; color: #fff; }
-  .hero::after { background: linear-gradient(to top, rgba(22,26,24,.72), rgba(22,26,24,.05) 70%); }
-  .hero-txt { position: absolute; left: 20px; right: 20px; bottom: 22px; z-index: 2; display: grid; gap: 6px; }
-  .hero h1 { font-size: 30px; font-weight: 600; letter-spacing: .04em; color: #fff; line-height: 1.45; margin: 0; }
-  .hero p { font-size: 14px; line-height: 1.75; opacity: .92; margin: 0; }
-
-  .crumb { padding-top: 12px; }
+  /* 写真の上に重ねる暗幕（奥行きの枠 .plx は PageShell が持つ） */
+  .tile::after, .band::after, .empty::after { content: ''; position: absolute; inset: 0; z-index: 1; }
 
   .sec { padding-top: 28px; padding-bottom: 8px; }
   .sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
   .sec-h h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0; line-height: 1.5; }
-  .sec-h small { font-family: theme('fontFamily.mono'); font-size: 12px; color: #B87333; }
-
-  /* 棚 */
-  .shelf {
-    display: grid; grid-auto-flow: column; grid-auto-columns: 66%; gap: 12px;
-    overflow-x: auto; scroll-snap-type: x mandatory;
-    margin: 0 -20px; padding: 0 20px 6px; scroll-padding: 20px; scrollbar-width: none;
-  }
-  .shelf::-webkit-scrollbar { display: none; }
-  .pc { scroll-snap-align: start; display: grid; gap: 4px; align-content: start; }
-  .pc-img { position: relative; aspect-ratio: 4 / 5; border-radius: 6px; overflow: hidden; background: #E0DDD7; }
-  .pc-img :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .noimg { position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; color: #7D7B77; }
-  .chip { position: absolute; top: 8px; left: 8px; font-size: 11px; padding: 2px 8px; border-radius: 3px; background: #005243; color: #fff; line-height: 1.7; }
-  .pc h3 { font-size: 16px; font-weight: 600; margin: 6px 0 0; color: #33291F; line-height: 1.5; }
-  .sub { font-size: 12px; color: #7D7B77; }
-  .price { font-family: theme('fontFamily.mono'); font-size: 14px; color: #4A3B32; }
-  .price small { color: #7D7B77; font-size: 12px; }
-  .pc-next {
-    scroll-snap-align: start; border-radius: 6px; background: #005243; color: #fff !important;
-    aspect-ratio: 4 / 5; padding: 18px; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px;
-  }
-  .pc-next b { font-size: 18px; font-weight: 600; }
-  .pc-next span { font-size: 12.5px; opacity: .85; line-height: 1.6; }
-  .pc-next i { font-style: normal; font-family: theme('fontFamily.mono'); font-size: 13px; margin-top: 6px; }
-  .swipe { font-size: 11px; color: #7D7B77; margin: 6px 0 0; }
 
   /* 0件のとき */
   .empty { border-radius: 8px; height: 280px; color: #fff; }
@@ -290,25 +189,10 @@ const others = [
   .philo p { font-size: 14.5px; color: #4A3B32; margin: 0; }
   .philo a { font-size: 13px; color: #B87333; }
 
-  /* お問い合わせ */
-  .contact { background: #005243; color: #fff; padding: 36px 20px; }
-  .contact-in { display: grid; gap: 12px; }
-  .contact h2 { font-size: 20px; font-weight: 600; margin: 0; line-height: 1.5; }
-  .contact p { font-size: 13px; opacity: .88; margin: 0; }
-  .cbtns { display: grid; gap: 8px; margin-top: 4px; }
-  .cbtn { font-size: 14px; padding: 12px 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,.6); text-align: center; color: #fff !important; }
-  .cbtn.main { background: #F2F2F0; color: #005243 !important; border-color: #F2F2F0; font-weight: 700; }
-
   @media (min-width: 768px) {
     .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
-    .hero { height: 400px; }
-    .hero-txt { left: max(48px, calc(50% - 552px)); right: auto; bottom: 40px; max-width: 560px; }
-    .hero h1 { font-size: 40px; }
-    .hero p { font-size: 15px; }
     .sec { padding-top: 48px; }
     .sec-h h2 { font-size: 24px; }
-    .shelf { grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); overflow: visible; margin: 0; padding: 0; gap: 20px; }
-    .swipe { display: none; }
     .empty { height: 300px; }
     .empty-txt { inset: auto 40px 36px 40px; max-width: 520px; }
     .cats { grid-template-columns: 1.45fr 1fr; grid-template-rows: 240px 240px; gap: 16px; }
@@ -320,53 +204,5 @@ const others = [
     .band-txt { left: max(48px, calc(50% - 552px)); }
     .philo { padding-top: 56px; padding-bottom: 56px; }
     .philo p { max-width: 40em; }
-    .contact { padding: 48px max(48px, calc(50% - 552px)); }
-    .contact-in { grid-template-columns: 1fr auto; align-items: center; }
-    .cbtns { grid-auto-flow: column; margin: 0; }
-    .cbtn { padding: 12px 22px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .plx > :global(img) { transform: none !important; }
   }
 </style>
-
-<script>
-  // 奥行きの動き：枠の中心が画面中心からどれだけ離れているかで、写真を -11%〜+11% 動かす
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce) {
-    const frames = Array.from(document.querySelectorAll<HTMLElement>('.pl .plx'));
-    const visible = new Set<HTMLElement>();
-    const update = () => {
-      const vh = window.innerHeight;
-      visible.forEach((el) => {
-        const img = el.querySelector<HTMLElement>(':scope > img');
-        if (!img) return;
-        const r = el.getBoundingClientRect();
-        let p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
-        p = Math.max(-1, Math.min(1, p));
-        img.style.transform = `translate3d(0, ${(-p * 11).toFixed(2)}%, 0)`;
-      });
-    };
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        update();
-      });
-    };
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        const el = e.target as HTMLElement;
-        if (e.isIntersecting) visible.add(el);
-        else visible.delete(el);
-      });
-      onScroll();
-    });
-    frames.forEach((el) => io.observe(el));
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-  }
-</script>
