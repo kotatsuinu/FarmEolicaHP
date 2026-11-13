@@ -25,7 +25,7 @@ const { image, title, lead, crumb, alt = '' } = Astro.props;
     fetchpriority="high"
   />
   <div class="hero-txt">
-    <h1>{title}</h1>
+    <h1 class:list={[{ long: title.length > 9 }]}>{title}</h1>
     {lead && <p>{lead}</p>}
   </div>
 </section>
@@ -41,6 +41,8 @@ const { image, title, lead, crumb, alt = '' } = Astro.props;
   .hero-txt { position: absolute; left: 20px; right: 20px; bottom: 22px; z-index: 2; display: grid; gap: 6px; }
   .hero h1 { font-size: 30px; font-weight: 600; letter-spacing: .04em; color: #fff; line-height: 1.45; margin: 0; }
   .hero p { font-size: 14px; line-height: 1.75; opacity: .92; margin: 0; }
+  /* 長い題（花束・テーブルフラワー等）がスマホで1文字だけ折り返さないように */
+  @media (max-width: 767px) { .hero h1.long { font-size: 26px; } }
   .crumb { padding-top: 12px; }
 
   @media (min-width: 768px) {
