@@ -1,83 +1,52 @@
 ---
 /**
- * 商品紹介メインLP
- * グラフィカルで引きのあるページ
- * 各カテゴリへのリンクカード配置
+ * 商品一覧ページ（スマホ第一）
+ * 上から：題の写真 → いま買える花 → 花の種類から選ぶ → ほかのページ
+ *         → これから出る花の帯 → 考え方 → お問い合わせ
+ * 設計案：2026-11-13 園主了承。奥行きの動きは末尾の script（写真だけ遅れて動かす）。
  */
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { SITE_CONFIG } from '../../config/site';
-import SectionHeader from '../../components/SectionHeader.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 
 import productsHeroImage from '../../assets/images/products/products-hero.jpg';
+import bouquetImage from '../../assets/images/products/bouquet-hero.jpg';
 import categoryImperfectImage from '../../assets/images/products/category-imperfect.jpg';
 import categoryLossFlowerImage from '../../assets/images/products/category-loss-flower.jpg';
-import categoryMarketImage from '../../assets/images/products/category-market.jpg';
+import dialogueImage from '../../assets/images/top/dialogue.jpg';
 
-// カテゴリ情報
-const categories = [
-  {
-    id: 'bouquet',
-    title: '花束・テーブルフラワー',
-    titleEn: 'BOUQUET',
-    description: '福島の畑で育てた季節の花を、そのまま飾れる形にしてご自宅へ。市場に出す花と同じものをお届けします。',
-    href: '/products/bouquet',
-    available: true,
-    image: null,
-  },
-  {
-    id: 'imperfect',
-    title: '規格外切り花',
-    titleEn: 'IMPERFECT',
-    description: '市場規格に満たないけれど、美しさは変わらない。茎付きの切り花をお届けします。',
-    href: '/products/imperfect',
-    available: true,
-    image: categoryImperfectImage,
-  },
-  {
-    id: 'loss-flower',
-    title: 'ロスフラワー',
-    titleEn: 'LOSS FLOWER',
-    description: '廃棄される花頭に新しい命を。クラフト・ドライフラワー素材として。',
-    href: '/products/loss-flower',
-    available: true,
-    image: categoryLossFlowerImage,
-  },
-  {
-    id: 'dry-flower',
-    title: 'ドライフラワー',
-    titleEn: 'DRIED FLOWER',
-    description: '咲き終わりじゃない、ここからが美しい。農場から直接届くドライフラワー。ヘッドとロングステムの2ジャンル展開。',
-    href: '/products/dry-flower',
-    available: true,
-    image: null,
-  },
-  {
-    id: 'market',
-    title: '市場出荷品',
-    titleEn: 'MARKET',
-    description: '独自品質規格で花の品質を正直に開示。市場関係者・買い手の方へ。',
-    href: '/products/market',
-    available: true,
-    image: categoryMarketImage,
-  },
-  {
-    id: 'research',
-    title: '研究成果',
-    titleEn: 'RESEARCH',
-    description: '自作の栽培管理アプリやIoTデータ分析など、農業DXの取り組みを公開。デモ版もお試しいただけます。',
-    href: '/products/research',
-    available: true,
-    image: null,
-  },
+// いま買える花（販売中・季節限定）をカテゴリー順＋フォルダ名順に並べる
+const categoryOrder = ['bouquet', 'imperfect', 'loss_flower', 'dried_flower', 'market'];
+const rank = (c: string) => {
+  const i = categoryOrder.indexOf(c);
+  return i === -1 ? categoryOrder.length : i;
+};
+const buyable = (await getCollection('products'))
+  .filter((p) => p.data.saleStatus === 'available' || p.data.saleStatus === 'seasonal')
+  .sort((a, b) => rank(a.data.category) - rank(b.data.category) || a.slug.localeCompare(b.slug));
+const count = buyable.length;
+
+const chipLabel = (s: string) => (s === 'seasonal' ? '季節限定' : '販売中');
+
+const tiles = [
+  { title: '花束・テーブルフラワー', note: 'ご自宅に・贈り物に', href: '/products/bouquet', image: bouquetImage },
+  { title: '規格外切り花', note: 'たっぷり使いたい方に', href: '/products/imperfect', image: categoryImperfectImage },
+  { title: 'ロスフラワー', note: 'クラフトの素材に', href: '/products/loss-flower', image: categoryLossFlowerImage },
+];
+
+const others = [
+  { title: 'ドライフラワー', note: '花の頭だけ・茎つきの2種類', href: '/products/dry-flower' },
+  { title: '市場出荷品', note: 'お花屋さん・市場の方へ（品質の規格）', href: '/products/market' },
+  { title: '研究成果', note: '畑で作ったアプリと記録', href: '/products/research' },
 ];
 ---
 
 <Layout
-  title="Products | Farm Eolica (ファームエオリカ)"
-  description="Farm Eolicaの商品・研究成果。規格外切り花、ロスフラワー、市場出荷品、研究成果をご紹介します。"
+  title="商品 | Farm Eolica (ファームエオリカ)"
+  description="Farm Eolicaの商品一覧。福島県浪江町の畑で育てた花を、花束・規格外切り花・ロスフラワーなどでお届けします。"
   image={productsHeroImage.src}
   ogType="website"
 >
@@ -85,186 +54,319 @@ const categories = [
     { name: 'ホーム', url: '/' },
     { name: '商品', url: '/products' },
   ]} />
-  <!-- Hero Section -->
-  <section class="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 bg-warm-gray-200">
+
+  <div class="pl">
+    <!-- 題の写真 -->
+    <section class="plx hero">
       <Image
         src={productsHeroImage}
-        alt="Products"
-        class="w-full h-full object-cover"
+        alt=""
         widths={[640, 1280, 1920]}
         sizes="100vw"
         loading="eager"
         fetchpriority="high"
       />
-      <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50"></div>
-    </div>
-    <div class="relative z-10 text-center px-6" data-animate>
-      <p class="font-mono text-xs tracking-widest text-white/90 mb-6">
-        PRODUCTS & RESEARCH
-      </p>
-      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-8 tracking-wide drop-shadow-lg">
-        商品・研究成果
-      </h1>
-      <p class="font-serif text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow">
-        規格外の花、ドライフラワー、実験室から生まれる<br class="hidden md:inline" />
-        すべての価値をお届けします
-      </p>
-    </div>
-
-    <!-- Scroll Indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/70">
-      <div class="flex flex-col items-center gap-2">
-        <span class="font-mono text-[10px] tracking-widest">SCROLL</span>
-        <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
+      <div class="hero-txt">
+        <h1>商品</h1>
+        <p>福島県浪江町の畑で育てた花を、花束や切り花でお届けします。</p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Breadcrumb -->
-  <section class="pt-6 pb-2">
-    <div class="max-w-6xl mx-auto px-6">
+    <div class="inner crumb">
       <Breadcrumb items={[
         { name: 'ホーム', url: '/' },
         { name: '商品' },
       ]} />
     </div>
-  </section>
 
-  <!-- Introduction Section -->
-  <section class="py-20 md:py-28" data-animate>
-    <div class="max-w-4xl mx-auto px-6 text-center">
-      <p class="font-serif text-lg md:text-xl text-wet-soil leading-relaxed mb-8">
-        福島県浪江町の小さな花農家、Farm Eolica。
-      </p>
-      <p class="font-serif text-base md:text-lg text-warm-gray-600 leading-relaxed">
-        市場への出荷だけでなく、<br class="hidden md:inline" />
-        規格外品やロスフラワーを通じて、<br />
-        より多くの方に花のある暮らしをお届けしたいと考えています。<br /><br />
-        また、IoTを活用した栽培データや実験記録など、<br class="hidden md:inline" />
-        農業の「研究成果」も公開していきます。
-      </p>
-    </div>
-  </section>
+    <!-- いま買える花 -->
+    <section class="sec inner">
+      <div class="sec-h">
+        <h2>いま買える花</h2>
+        <small>{count}件</small>
+      </div>
 
-  <!-- Categories Section -->
-  <section class="py-20 md:py-28 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-6xl mx-auto px-6">
-      <SectionHeader titleJa="カテゴリ一覧" titleEn="CATEGORIES" />
-
-      <div class="grid md:grid-cols-2 gap-8">
-        {categories.map((category, index) => (
-          <a
-            href={category.href}
-            class="group block bg-stone-white shadow-lab hover:shadow-lab-lg transition-all duration-300 overflow-hidden"
-          >
-            <!-- Image -->
-            <div class="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-stone-100 to-stone-200">
-              {category.image ? (
-                <Image
-                  src={category.image}
-                  alt={category.title}
-                  class="w-full h-full object-cover"
-                  loading="lazy"
-                  width={800}
-                  height={450}
-                />
-              ) : (
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="font-display text-4xl md:text-5xl text-warm-gray-300 opacity-50 group-hover:opacity-70 transition-opacity duration-300">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
+      {count > 0 ? (
+        <>
+          <div class="shelf">
+            {buyable.map((p) => (
+              <a class="pc" href={`/products/${p.slug}`}>
+                <div class="pc-img">
+                  {p.data.image ? (
+                    <Image src={p.data.image} alt={p.data.name} width={600} height={750} sizes="(min-width: 768px) 25vw, 66vw" loading="lazy" />
+                  ) : (
+                    <span class="noimg">画像準備中</span>
+                  )}
+                  <span class="chip">{chipLabel(p.data.saleStatus)}</span>
                 </div>
-              )}
-              {!category.available && (
-                <div class="absolute inset-0 bg-wet-soil/50 flex items-center justify-center z-10">
-                  <span class="font-mono text-sm text-white tracking-widest">Coming Soon</span>
-                </div>
-              )}
+                <h3>{p.data.name}</h3>
+                {p.data.flowerType && <span class="sub">{p.data.flowerType}</span>}
+                {p.data.price && (
+                  <span class="price">¥{p.data.price.toLocaleString()} <small>／ {p.data.unit}</small></span>
+                )}
+              </a>
+            ))}
+            <a class="pc-next" href="/cultivation">
+              <b>これから出る花</b>
+              <span>畑で育っている花と、出荷の見込み</span>
+              <i>出荷予報を見る →</i>
+            </a>
+          </div>
+          <p class="swipe">← 横にめくれます</p>
+        </>
+      ) : (
+        <div class="empty plx">
+          <Image src={dialogueImage} alt="" width={1200} sizes="(min-width: 768px) 1100px, 100vw" loading="lazy" />
+          <div class="empty-txt">
+            <b>いま販売中の花はありません</b>
+            <p>畑で育っている花と、次に出る時期の見込みは、出荷予報のページで見られます。</p>
+            <div class="btns">
+              <a class="btn" href="/cultivation">これから出る花を見る →</a>
+              <a class="btn ol" href={SITE_CONFIG.sns.line} target="_blank" rel="noopener">公式LINEで聞いてみる</a>
             </div>
+          </div>
+        </div>
+      )}
+    </section>
 
-            <!-- Content -->
-            <div class="p-6 md:p-8">
-              <p class="font-mono text-[10px] tracking-widest text-warm-gray-500 mb-2">
-                {category.titleEn}
-              </p>
-              <h3 class="font-serif text-xl md:text-2xl text-wet-soil mb-3 group-hover:text-eolica-green transition-colors duration-300">
-                {category.title}
-              </h3>
-              <p class="font-serif text-sm text-warm-gray-600 leading-relaxed">
-                {category.description}
-              </p>
-
-              <!-- Arrow -->
-              <div class="mt-6 flex items-center gap-2 text-old-copper group-hover:text-eolica-green transition-colors duration-300">
-                <span class="font-mono text-xs tracking-widest">VIEW MORE</span>
-                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </div>
+    <!-- 花の種類から選ぶ -->
+    <section class="sec inner">
+      <div class="sec-h"><h2>花の種類から選ぶ</h2></div>
+      <div class="cats">
+        {tiles.map((t) => (
+          <a class="tile plx" href={t.href}>
+            <Image src={t.image} alt="" width={900} sizes="(min-width: 768px) 600px, 100vw" loading="lazy" />
+            <div class="tile-txt">
+              <small>{t.note}</small>
+              <b>{t.title}</b>
+              <i>→</i>
             </div>
           </a>
         ))}
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Philosophy Section -->
-  <section class="py-20 md:py-28" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="text-center space-y-8">
-        <SectionHeader titleJa="もったいないを、価値に変える" titleEn="OUR PHILOSOPHY" />
-        <div class="space-y-6 text-warm-gray-600 font-serif leading-relaxed">
-          <p>
-            市場規格という基準があります。<br />
-            茎の長さ、太さ、花の大きさ...<br />
-            その基準に満たないものは、<br />
-            たとえ美しくても出荷できません。
-          </p>
-          <p>
-            でも、価値がないわけではありません。<br />
-            むしろ、規格という枠から自由になった花たちには、<br />
-            <span class="text-eolica-green font-medium">新しい楽しみ方</span>があるのです。
-          </p>
+    <!-- ほかのページ -->
+    <section class="sec inner">
+      <div class="sec-h"><h2>ほかのページ</h2></div>
+      <div class="others">
+        {others.map((o) => (
+          <a class="ot" href={o.href}>
+            <div><b>{o.title}</b><span>{o.note}</span></div>
+            <i>→</i>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- これから出る花の帯（販売中があるときだけ） -->
+    {count > 0 && (
+      <section class="band plx">
+        <Image src={dialogueImage} alt="" width={1600} sizes="100vw" loading="lazy" />
+        <div class="band-txt">
+          <small>出荷予報</small>
+          <b>これから出る花</b>
+          <p>ハウスでいま育っている花と、出荷の見込みを公開しています。</p>
+          <div class="btns"><a class="btn" href="/cultivation">出荷予報を見る →</a></div>
+        </div>
+      </section>
+    )}
+
+    <!-- 考え方 -->
+    <section class="philo inner">
+      <h2>もったいないを、価値に変える</h2>
+      <p>市場の規格に満たない花も、美しさは変わりません。規格の外に出た花に、別の楽しみ方を用意しています。</p>
+      <a href="/about">Farm Eolicaについて →</a>
+    </section>
+
+    <!-- お問い合わせ -->
+    <section class="contact">
+      <div class="contact-in">
+        <div>
+          <h2>お問い合わせ・ご注文</h2>
+          <p>花の種類や届く日のご相談も、お気軽にどうぞ。</p>
+        </div>
+        <div class="cbtns">
+          <a class="cbtn main" href={SITE_CONFIG.sns.line} target="_blank" rel="noopener">公式LINEで問い合わせる</a>
+          <a class="cbtn" href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener">Instagram</a>
+          <a class="cbtn" href="/contact">お問い合わせフォーム</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="py-20 md:py-28 bg-eolica-green text-white" data-animate>
-    <div class="max-w-4xl mx-auto px-6 text-center">
-      <p class="font-mono text-xs tracking-widest opacity-80 mb-6">
-        CONTACT
-      </p>
-      <h2 class="font-serif text-2xl md:text-3xl mb-8">
-        お問い合わせ・ご注文
-      </h2>
-      <p class="font-serif text-base opacity-90 mb-10 leading-relaxed">
-        ご不明な点がございましたら、<br class="md:hidden" />
-        お気軽にお問い合わせください。
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a
-          href={SITE_CONFIG.sns.instagram}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-eolica-green transition-all duration-300 font-mono text-xs tracking-widest"
-        >
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
-          INSTAGRAM
-        </a>
-        <a
-          href="/contact"
-          class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-eolica-green transition-all duration-300 font-mono text-xs tracking-widest"
-        >
-          CONTACT
-        </a>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </Layout>
+
+<style>
+  .pl { font-family: theme('fontFamily.serif'); color: #33291F; line-height: 1.85; overflow-x: clip; }
+  .pl a { color: inherit; text-decoration: none; }
+  .inner { padding-left: 20px; padding-right: 20px; }
+
+  /* 奥行きの動き：枠より大きい写真を、スクロールに合わせて script が動かす */
+  .plx { position: relative; overflow: hidden; }
+  .plx > :global(img) {
+    position: absolute; left: 0; width: 100%; top: -15%; height: 130%;
+    object-fit: cover; will-change: transform;
+  }
+  .hero::after, .tile::after, .band::after, .empty::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+
+  .hero { height: 300px; color: #fff; }
+  .hero::after { background: linear-gradient(to top, rgba(22,26,24,.72), rgba(22,26,24,.05) 70%); }
+  .hero-txt { position: absolute; left: 20px; right: 20px; bottom: 22px; z-index: 2; display: grid; gap: 6px; }
+  .hero h1 { font-size: 30px; font-weight: 600; letter-spacing: .04em; color: #fff; line-height: 1.45; margin: 0; }
+  .hero p { font-size: 14px; line-height: 1.75; opacity: .92; margin: 0; }
+
+  .crumb { padding-top: 12px; }
+
+  .sec { padding-top: 28px; padding-bottom: 8px; }
+  .sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .sec-h h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0; line-height: 1.5; }
+  .sec-h small { font-family: theme('fontFamily.mono'); font-size: 12px; color: #B87333; }
+
+  /* 棚 */
+  .shelf {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 66%; gap: 12px;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    margin: 0 -20px; padding: 0 20px 6px; scroll-padding: 20px; scrollbar-width: none;
+  }
+  .shelf::-webkit-scrollbar { display: none; }
+  .pc { scroll-snap-align: start; display: grid; gap: 4px; align-content: start; }
+  .pc-img { position: relative; aspect-ratio: 4 / 5; border-radius: 6px; overflow: hidden; background: #E0DDD7; }
+  .pc-img :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .noimg { position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; color: #7D7B77; }
+  .chip { position: absolute; top: 8px; left: 8px; font-size: 11px; padding: 2px 8px; border-radius: 3px; background: #005243; color: #fff; line-height: 1.7; }
+  .pc h3 { font-size: 16px; font-weight: 600; margin: 6px 0 0; color: #33291F; line-height: 1.5; }
+  .sub { font-size: 12px; color: #7D7B77; }
+  .price { font-family: theme('fontFamily.mono'); font-size: 14px; color: #4A3B32; }
+  .price small { color: #7D7B77; font-size: 12px; }
+  .pc-next {
+    scroll-snap-align: start; border-radius: 6px; background: #005243; color: #fff !important;
+    aspect-ratio: 4 / 5; padding: 18px; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px;
+  }
+  .pc-next b { font-size: 18px; font-weight: 600; }
+  .pc-next span { font-size: 12.5px; opacity: .85; line-height: 1.6; }
+  .pc-next i { font-style: normal; font-family: theme('fontFamily.mono'); font-size: 13px; margin-top: 6px; }
+  .swipe { font-size: 11px; color: #7D7B77; margin: 6px 0 0; }
+
+  /* 0件のとき */
+  .empty { border-radius: 8px; height: 280px; color: #fff; }
+  .empty::after { background: linear-gradient(to top, rgba(0,40,33,.82), rgba(0,40,33,.25)); }
+  .empty-txt { position: absolute; inset: auto 18px 18px 18px; z-index: 2; display: grid; gap: 8px; }
+  .empty-txt b { font-size: 19px; font-weight: 600; line-height: 1.5; }
+  .empty-txt p { font-size: 12.5px; line-height: 1.7; opacity: .92; margin: 0; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .btn { font-size: 13px; padding: 9px 14px; border-radius: 4px; background: #F2F2F0; color: #005243 !important; font-weight: 600; line-height: 1.6; }
+  .btn.ol { background: transparent; color: #fff !important; border: 1px solid rgba(255,255,255,.7); font-weight: 400; }
+
+  /* 花の種類 */
+  .cats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tile { border-radius: 6px; color: #fff; aspect-ratio: 1 / 1.08; display: block; }
+  .tile:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
+  .tile::after { background: linear-gradient(to top, rgba(20,22,20,.7), rgba(20,22,20,0) 62%); }
+  .tile-txt { position: absolute; left: 14px; right: 14px; bottom: 12px; z-index: 2; display: grid; }
+  .tile-txt small { font-size: 11px; opacity: .88; }
+  .tile-txt b { font-size: 18px; font-weight: 600; line-height: 1.5; }
+  .tile:first-child .tile-txt b { font-size: 22px; }
+  .tile-txt i { font-style: normal; font-family: theme('fontFamily.mono'); font-size: 12px; opacity: .9; }
+
+  /* ほかのページ */
+  .others { display: grid; }
+  .ot { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 14px 2px; border-top: 1px solid #E0DDD7; }
+  .ot:last-child { border-bottom: 1px solid #E0DDD7; }
+  .ot b { font-size: 16px; font-weight: 600; display: block; line-height: 1.5; }
+  .ot span { font-size: 12px; color: #7D7B77; }
+  .ot i { font-style: normal; font-family: theme('fontFamily.mono'); color: #B87333; }
+
+  /* これから出る花の帯 */
+  .band { height: 330px; color: #fff; margin-top: 36px; }
+  .band::after { background: linear-gradient(to right, rgba(0,52,43,.78), rgba(0,52,43,.35)); }
+  .band-txt { position: absolute; left: 20px; right: 20px; top: 50%; transform: translateY(-50%); z-index: 2; display: grid; gap: 10px; max-width: 440px; }
+  .band-txt small { font-size: 11.5px; opacity: .85; }
+  .band-txt b { font-size: 24px; font-weight: 600; line-height: 1.45; }
+  .band-txt p { font-size: 13px; line-height: 1.75; opacity: .92; margin: 0; }
+
+  /* 考え方 */
+  .philo { padding-top: 40px; padding-bottom: 36px; display: grid; gap: 10px; }
+  .philo h2 { font-size: 21px; font-weight: 600; color: #005243; margin: 0; line-height: 1.5; }
+  .philo p { font-size: 14.5px; color: #4A3B32; margin: 0; }
+  .philo a { font-size: 13px; color: #B87333; }
+
+  /* お問い合わせ */
+  .contact { background: #005243; color: #fff; padding: 36px 20px; }
+  .contact-in { display: grid; gap: 12px; }
+  .contact h2 { font-size: 20px; font-weight: 600; margin: 0; line-height: 1.5; }
+  .contact p { font-size: 13px; opacity: .88; margin: 0; }
+  .cbtns { display: grid; gap: 8px; margin-top: 4px; }
+  .cbtn { font-size: 14px; padding: 12px 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,.6); text-align: center; color: #fff !important; }
+  .cbtn.main { background: #F2F2F0; color: #005243 !important; border-color: #F2F2F0; font-weight: 700; }
+
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .hero { height: 400px; }
+    .hero-txt { left: max(48px, calc(50% - 552px)); right: auto; bottom: 40px; max-width: 560px; }
+    .hero h1 { font-size: 40px; }
+    .hero p { font-size: 15px; }
+    .sec { padding-top: 48px; }
+    .sec-h h2 { font-size: 24px; }
+    .shelf { grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); overflow: visible; margin: 0; padding: 0; gap: 20px; }
+    .swipe { display: none; }
+    .empty { height: 300px; }
+    .empty-txt { inset: auto 40px 36px 40px; max-width: 520px; }
+    .cats { grid-template-columns: 1.45fr 1fr; grid-template-rows: 240px 240px; gap: 16px; }
+    .tile, .tile:first-child { aspect-ratio: auto; }
+    .tile:first-child { grid-column: auto; grid-row: 1 / 3; }
+    .others { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .ot, .ot:last-child { border: 1px solid #E0DDD7; border-radius: 6px; padding: 16px 18px; background: #FBFBF9; }
+    .band { height: 420px; margin-top: 56px; }
+    .band-txt { left: max(48px, calc(50% - 552px)); }
+    .philo { padding-top: 56px; padding-bottom: 56px; }
+    .philo p { max-width: 40em; }
+    .contact { padding: 48px max(48px, calc(50% - 552px)); }
+    .contact-in { grid-template-columns: 1fr auto; align-items: center; }
+    .cbtns { grid-auto-flow: column; margin: 0; }
+    .cbtn { padding: 12px 22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .plx > :global(img) { transform: none !important; }
+  }
+</style>
+
+<script>
+  // 奥行きの動き：枠の中心が画面中心からどれだけ離れているかで、写真を -11%〜+11% 動かす
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    const frames = Array.from(document.querySelectorAll<HTMLElement>('.pl .plx'));
+    const visible = new Set<HTMLElement>();
+    const update = () => {
+      const vh = window.innerHeight;
+      visible.forEach((el) => {
+        const img = el.querySelector<HTMLElement>(':scope > img');
+        if (!img) return;
+        const r = el.getBoundingClientRect();
+        let p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+        p = Math.max(-1, Math.min(1, p));
+        img.style.transform = `translate3d(0, ${(-p * 11).toFixed(2)}%, 0)`;
+      });
+    };
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        update();
+      });
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        const el = e.target as HTMLElement;
+        if (e.isIntersecting) visible.add(el);
+        else visible.delete(el);
+      });
+      onScroll();
+    });
+    frames.forEach((el) => io.observe(el));
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+  }
+</script>
