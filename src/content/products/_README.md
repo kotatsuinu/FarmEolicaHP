@@ -1,5 +1,16 @@
 # 商品データ管理ガイド
 
+> ## ⚠️ 状態・価格・販売時期は、ここを直接書き換えない（2026-09 から）
+>
+> 商品の **状態（`saleStatus`）・販売時期（`availableSeason`・`availableFrom`・`availableUntil`）・価格まわり・商品名** の正本は、
+> 資料のリポジトリの商品カタログ `farm-eolica-docs/02_business/product_catalog/` です。このフォルダの `index.md` は、そこから写された**写し**です。
+>
+> **手順**: ① カタログの該当ファイルを直す → ② `farm-eolica-openclaw` で `python -m skills.product_catalog.hp_sync` を下見 → ③ 園主の了承 → `--apply` で写す。
+> 詳しくは `farm-eolica-docs/02_business/product_catalog/README.md`。
+>
+> ここだけを直すと、次に反映の道具を使ったときにカタログの値へ**戻ります**（2026-11-13、5商品の「販売終了」がこの形でずれた。記録 → `farm-eolica-docs/03_system/product_catalog/incident_20261113_hp_status_edited_directly.md`）。
+> ここで直接直してよいのは、紹介文・写真・タグ・並び順・公開日などカタログが写さない欄だけです。
+
 ## フォルダ構成
 
 ```
@@ -55,15 +66,13 @@ image: "/images/products/my-flower.jpg"
 
 ### 5. 販売状況を設定
 
-```yaml
-saleStatus: "available"  # 販売中（サイトに表示）
-```
+新商品はカタログに1ファイル足してから、反映の道具で写す（冒頭の⚠️）。`saleStatus` を手で書かない。
 
 ---
 
 ## 販売状況の変更
 
-`index.md` の `saleStatus` を変更するだけ:
+**ここは直接変えない。** カタログの `status` を直して反映の道具で写す（冒頭の⚠️）。値の意味は次のとおり:
 
 | 値 | 意味 | 表示 |
 |----|------|------|
@@ -137,7 +146,7 @@ A: 必須ではないが、推奨。`_`で始まらなければ認識される�
 A: `public/images/products/` に配置。パスは `/images/products/xxx.jpg` 形式で指定。
 
 ### Q: 商品を非表示にしたい
-A: `saleStatus: "discontinued"` にするか、フォルダ名を `_` で始める名前に変更。
+A: カタログの `status` を `discontinued` にして反映の道具で写すか、フォルダ名を `_` で始める名前に変更（フォルダ名の変更はカタログの `hp_slug` も合わせて直す）。
 
 ### Q: 表示順を変えたい
 A: `order` フィールドの数値を変更。小さい数字が先に表示。
@@ -147,4 +156,4 @@ A: **枚数上限なし**（v2.7改修で撤廃、2026-05-08）。詳細ペー�
 
 ---
 
-最終更新: 2026-05-08 (v2.7 ギャラリー枚数上限撤廃)
+最終更新: 2026-11-13（状態・価格・時期はカタログが正本と明記）
