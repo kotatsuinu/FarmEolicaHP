@@ -1,6 +1,6 @@
 ---
 name: "カンパニュラのドライフラワー（ヘッド）"
-description: "釣鐘型の可憐な花をドライ加工。花頭のみを詰め合わせでお届けします。青・桃の2色展開、ミックス・単色指定可能。"
+description: "釣鐘型の可憐な花をドライ加工。花頭のみを詰め合わせでお届けします。青・桃の2色展開、ミックス・単色指定可能。2026年分の販売は終了しました。"
 flowerType: "カンパニュラ"
 varieties:
   - "青"
@@ -9,9 +9,9 @@ varieties:
 category: "dried_flower"
 cultivationNo: "202603"
 availableSeason: "2026年春"
-saleStatus: "available"
+saleStatus: "discontinued"
 datePublished: 2026-04-14
-dateModified: 2026-05-05
+dateModified: 2026-11-13
 
 # 価格（花代+梱包料込、送料別）
 priceTable:

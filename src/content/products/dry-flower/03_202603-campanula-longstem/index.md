@@ -1,6 +1,6 @@
 ---
 name: "カンパニュラのドライフラワー（ロングステム）"
-description: "釣鐘型の花が連なる茎付きドライ。スワッグ・ドライブーケ・花瓶インテリアに。青・桃の2色展開、束単位でお届けします。"
+description: "釣鐘型の花が連なる茎付きドライ。スワッグ・ドライブーケ・花瓶インテリアに。青・桃の2色展開、束単位でお届けします。2026年分の販売は終了しました。"
 flowerType: "カンパニュラ"
 varieties:
   - "青"
@@ -9,9 +9,9 @@ varieties:
 category: "dried_flower"
 cultivationNo: "202603"
 availableSeason: "2026年春"
-saleStatus: "available"
+saleStatus: "discontinued"
 datePublished: 2026-05-05
-dateModified: 2026-05-05
+dateModified: 2026-11-13
 
 # 価格（茎付き本数ベース、花代+梱包料込、送料別）
 # 80サイズ箱で発送するため茎長は30cmで切り揃え
