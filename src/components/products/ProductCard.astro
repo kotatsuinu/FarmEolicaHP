@@ -42,7 +42,7 @@ const endLabel = isMarketProduct ? '出荷終了' : '販売終了';
 // 出荷時期の末尾の年月から「2026年9月 出荷終了」を作る（読み取れなければ添えない）
 const _yr = product.data.availableSeason?.match(/(\d{4})年/);
 const _mo = product.data.availableSeason?.match(/(\d{1,2})月[^月]*$/);
-const endNote = _yr && _mo ? `${_yr[1]}年${_mo[1]}月 ${endLabel}` : undefined;
+const endNote = _yr && _mo ? `${_yr[1]}年${_mo[1]}月まで` : undefined;
 
 // カテゴリラベル
 const categoryLabels: Record<string, string> = {
@@ -91,7 +91,7 @@ const categoryLabels: Record<string, string> = {
     )}
 
     <!-- ステータスバッジ -->
-    {showStatus && (
+    {showStatus && !isDiscontinued && (
       <span class:list={[
         "absolute top-3 right-3 px-3 py-1 text-xs font-mono tracking-wide",
         status.bg,
