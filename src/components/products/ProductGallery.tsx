@@ -153,8 +153,10 @@ export function ProductGalleryHero({
   images,
   productName,
   isDiscontinued = false,
+  endLabel = '販売終了',
+  endNote,
   intervalMs = 4000,
-}: CommonProps & { isDiscontinued?: boolean; intervalMs?: number }) {
+}: CommonProps & { isDiscontinued?: boolean; endLabel?: string; endNote?: string; intervalMs?: number }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -197,9 +199,7 @@ export function ProductGalleryHero({
   return (
     <>
       <div
-        className={`relative aspect-[3/4] overflow-hidden bg-warm-gray-100 shadow-lab-lg ${
-          isDiscontinued ? 'opacity-70' : ''
-        }`}
+        className="relative aspect-[3/4] overflow-hidden bg-warm-gray-100 shadow-lab-lg"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onTouchStart={() => setPaused(true)}
@@ -212,13 +212,23 @@ export function ProductGalleryHero({
             alt={`${productName} ${i + 1}`}
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 cursor-zoom-in ${
               i === index ? 'opacity-100' : 'opacity-0 pointer-events-none'
-            } ${isDiscontinued ? 'grayscale' : ''}`}
+            } ${isDiscontinued ? 'discontinued-photo' : ''}`}
             onClick={() => setLightboxIndex(i)}
             style={noCopyStyle}
             {...preventCopyHandlers}
             loading={i === 0 ? 'eager' : 'lazy'}
           />
         ))}
+
+        {isDiscontinued && (
+          <div className="discontinued-overlay" aria-hidden="true">
+            <div className="discontinued-overlay__stripes" />
+            <div className="discontinued-overlay__ribbon">
+              <span className="discontinued-overlay__label">{endLabel}</span>
+              {endNote && <span className="discontinued-overlay__note">{endNote}</span>}
+            </div>
+          </div>
+        )}
 
         {safeImages.length > 1 && (
           <>
