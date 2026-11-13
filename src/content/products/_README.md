@@ -7,6 +7,7 @@
 >
 > **手順**: ① カタログの該当ファイルを直す → ② `farm-eolica-openclaw` で `python -m skills.product_catalog.hp_sync` を下見 → ③ 園主の了承 → `--apply` で写す。
 > 詳しくは `farm-eolica-docs/02_business/product_catalog/README.md`。
+> 一部の商品だけ写したいときは `--only <カタログの product_id>`（複数可）を付ける。他の商品のファイルは変わらないので、ここを手で直す必要はない。
 >
 > ここだけを直すと、次に反映の道具を使ったときにカタログの値へ**戻ります**（2026-11-13、5商品の「販売終了」がこの形でずれた。記録 → `farm-eolica-docs/03_system/product_catalog/incident_20261113_hp_status_edited_directly.md`）。
 > ここで直接直してよいのは、紹介文・写真・タグ・並び順・公開日などカタログが写さない欄だけです。
