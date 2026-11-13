@@ -25,7 +25,7 @@ const rank = (c: string) => {
   return i === -1 ? categoryOrder.length : i;
 };
 const buyable = (await getCollection('products'))
-  .filter((p) => p.data.saleStatus === 'available' || p.data.saleStatus === 'seasonal' || p.data.saleStatus === 'out_of_stock' /*TMPCHECK*/)
+  .filter((p) => p.data.saleStatus === 'available' || p.data.saleStatus === 'seasonal')
   .sort((a, b) => rank(a.data.category) - rank(b.data.category) || a.slug.localeCompare(b.slug));
 const count = buyable.length;
 
