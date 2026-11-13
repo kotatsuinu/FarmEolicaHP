@@ -2,16 +2,22 @@
 /**
  * 研究成果ページ
  * 自作アプリのショーケース + note記事連携
+ * 外側（題の写真・紹介・見出し・お問い合わせ帯）は商品一覧と同じ作り。
+ * アプリの紹介・技術的アプローチ・関連記事の中身は従来のまま。
  */
 import Layout from '../../layouts/Layout.astro';
 import { SITE_CONFIG } from '../../config/site';
 import { researchApps } from '../../config/research-apps';
-import SectionHeader from '../../components/SectionHeader.astro';
+import technologyImage from '../../assets/images/about/technology.jpg';
 import NoteLinkCard from '../../components/NoteLinkCard.astro';
 import AppShowcaseCard from '../../components/research/AppShowcaseCard.astro';
 import DemoModal from '../../components/research/DemoModal';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
+import PageShell from '../../components/products/catalog/PageShell.astro';
+import PageHero from '../../components/products/catalog/PageHero.astro';
+import PageIntro from '../../components/products/catalog/PageIntro.astro';
+import OtherCategories from '../../components/products/catalog/OtherCategories.astro';
+import ContactBand from '../../components/products/catalog/ContactBand.astro';
 ---
 
 <Layout
@@ -25,86 +31,33 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
     { name: '商品', url: '/products' },
     { name: '研究成果', url: '/products/research' },
   ]} />
-  <!-- Hero Section -->
-  <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-eolica-green via-eolica-green/90 to-wet-soil">
-    <div class="absolute inset-0 bg-noise opacity-5"></div>
-    <div class="relative z-10 text-center px-6 py-32" data-animate>
-      <p class="font-mono text-xs tracking-widest text-white/70 mb-6">
-        RESEARCH & DEVELOPMENT
-      </p>
-      <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 tracking-wide">
-        研究成果
-      </h1>
-      <p class="font-serif text-base md:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-        花農家が自らコードを書き、栽培とテクノロジーの接点を探る。<br class="hidden md:inline" />
-        IoTデータ分析、栽培管理システム、自動化の取り組みを公開しています。
-      </p>
-    </div>
-  </section>
 
-  <!-- Breadcrumb -->
-  <section class="pt-6 pb-2">
-    <div class="max-w-6xl mx-auto px-6">
-      <Breadcrumb items={[
+  <PageShell>
+    <PageHero
+      image={technologyImage}
+      title="研究成果"
+      lead="花農家が自らコードを書き、栽培とテクノロジーの接点を探る。"
+      crumb={[
         { name: 'ホーム', url: '/' },
         { name: '商品', url: '/products' },
         { name: '研究成果' },
-      ]} />
-    </div>
-  </section>
+      ]}
+    />
 
-  <!-- Introduction -->
-  <section class="py-20 md:py-28" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="grid md:grid-cols-[1fr_auto] gap-12 items-start">
-        <div>
-          <p class="font-mono text-[10px] tracking-widest text-warm-gray-400 mb-4">
-            WIND &amp; DATA LAB
-          </p>
-          <h2 class="font-serif text-2xl md:text-3xl text-eolica-green mb-6 tracking-wide">
-            農業 &times; テクノロジー
-          </h2>
-          <div class="space-y-4 font-serif text-sm md:text-base text-warm-gray-500 leading-relaxed">
-            <p>
-              Farm Eolicaでは、日々の栽培業務で感じる課題をテクノロジーで解決する取り組みを続けています。
-            </p>
-            <p>
-              市販のツールでは花卉農家特有のワークフローに合わないことが多く、
-              自らWebアプリケーションを開発し、実際の農作業で検証しています。
-            </p>
-            <p>
-              ここでは、それらの自作アプリのデモと、
-              技術的な取り組みをnote記事と合わせてご紹介します。
-            </p>
-          </div>
-        </div>
-        <!-- Tech Keywords -->
-        <div class="hidden md:block">
-          <div class="space-y-2 text-right">
-            {['IoT Sensors', 'Data Analytics', 'Web Apps', 'Automation', 'AI Assistant'].map((kw) => (
-              <p class="font-mono text-[10px] tracking-widest text-warm-gray-300">{kw}</p>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <PageIntro>
+      <p>日々の栽培で感じる課題を、テクノロジーで解決する取り組みを続けています。IoTデータ分析、栽培管理システム、自動化の取り組みを公開しています。</p>
+      <p>市販のツールでは花卉農家特有のワークフローに合わないことが多く、自らWebアプリケーションを開発し、実際の農作業で検証しています。ここでは、それらの自作アプリのデモと技術的な取り組みを、note記事と合わせてご紹介します。</p>
+    </PageIntro>
 
-  <!-- App Showcase Section -->
-  <section class="py-20 md:py-28 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-6xl mx-auto px-6">
-      <SectionHeader
-        titleJa="自作アプリ"
-        titleEn="APP SHOWCASE"
-        description="実際の栽培業務で使用しているWebアプリケーション。デモ版でお試しいただけます。"
-      />
+    <!-- 自作アプリ -->
+    <section class="sec inner">
+      <h2>自作アプリ</h2>
+      <p class="lead">実際の栽培業務で使用しているWebアプリケーション。デモ版でお試しいただけます。</p>
 
-      <!-- Demo disclaimer -->
-      <div class="mb-10 border border-warm-gray-200 bg-white px-6 py-5 text-center">
-        <p class="font-mono text-[10px] tracking-widest text-warm-gray-400 mb-2">DEMO NOTE</p>
-        <p class="font-serif text-sm text-warm-gray-600 leading-relaxed">
-          デモ版は<strong class="text-wet-soil">サンプルデータ</strong>で動作しています。<br class="hidden md:inline" />
-          デモ生成を自動化している都合上、実際のアプリとは表示やデザインが異なる箇所があります。<br class="hidden md:inline" />
+      <div class="demo-note">
+        <p>
+          デモ版は<b>サンプルデータ</b>で動作しています。
+          デモ生成を自動化している都合上、実際のアプリとは表示やデザインが異なる箇所があります。
           一部レイアウト崩れ等が発生する場合がありますのでご了承ください。
         </p>
       </div>
@@ -114,14 +67,11 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
           <AppShowcaseCard app={app} index={index} />
         ))}
       </div>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- Technology Approach Section -->
-  <section class="py-20 md:py-28" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <SectionHeader titleJa="技術的アプローチ" titleEn="APPROACH" />
+    <!-- 技術的アプローチ -->
+    <section class="sec inner">
+      <h2>技術的アプローチ</h2>
 
       <div class="grid md:grid-cols-3 gap-8">
         <div class="text-center">
@@ -158,17 +108,12 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
           </p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Note Articles Section -->
-  <section class="py-20 md:py-28 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-4xl mx-auto px-6">
-      <SectionHeader
-        titleJa="関連記事"
-        titleEn="NOTE ARTICLES"
-        description="開発の裏話や技術的な詳細はnoteで連載しています。"
-      />
+    <!-- 関連記事 -->
+    <section class="sec inner">
+      <h2>関連記事</h2>
+      <p class="lead">開発の裏話や技術的な詳細はnoteで連載しています。</p>
 
       <div class="grid md:grid-cols-2 gap-6">
         <NoteLinkCard
@@ -184,39 +129,26 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
           url={SITE_CONFIG.noteMagazines.farmerLetter.url}
         />
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CTA Section -->
-  <section class="py-20 md:py-28 bg-eolica-green text-white" data-animate>
-    <div class="max-w-4xl mx-auto px-6 text-center">
-      <p class="font-mono text-xs tracking-widest opacity-70 mb-6">
-        COLLABORATION
-      </p>
-      <h2 class="font-serif text-2xl md:text-3xl mb-6">
-        技術的なお問い合わせ
-      </h2>
-      <p class="font-serif text-base opacity-90 mb-10 leading-relaxed">
-        農業DXに関する取り組みや、技術的なご質問がありましたら<br class="md:hidden" />
-        お気軽にお問い合わせください。
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a
-          href="/contact"
-          class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-eolica-green transition-all duration-300 font-mono text-xs tracking-widest"
-        >
-          CONTACT
-        </a>
-        <a
-          href="/products"
-          class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/40 text-white/80 hover:border-white hover:text-white transition-all duration-300 font-mono text-xs tracking-widest"
-        >
-          ← PRODUCTS
-        </a>
-      </div>
-    </div>
-  </section>
+    <OtherCategories current="research" />
+    <ContactBand heading="技術的なお問い合わせ" text="農業DXに関する取り組みや、技術的なご質問がありましたらお気軽にお問い合わせください。" />
+  </PageShell>
 
   <!-- Demo Modal (React Island) -->
   <DemoModal client:idle />
 </Layout>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .sec { padding-top: 48px; }
+  .sec h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0 0 10px; line-height: 1.5; }
+  .lead { font-size: 14.5px; line-height: 1.85; color: #4A3B32; margin: 0 0 18px; }
+  .demo-note { border: 1px solid #E0DDD7; border-radius: 6px; background: #FBFBF9; padding: 14px 16px; margin-bottom: 24px; }
+  .demo-note p { font-size: 13px; line-height: 1.85; color: #4A3B32; margin: 0; }
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .sec { padding-top: 56px; }
+    .sec h2 { font-size: 24px; }
+  }
+</style>
