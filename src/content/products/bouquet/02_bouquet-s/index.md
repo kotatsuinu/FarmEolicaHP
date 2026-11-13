@@ -4,7 +4,7 @@ description: "その週に咲いた季節の花で組む花束です。花瓶に
 flowerType: "季節の花（おまかせ）"
 category: "bouquet"
 availableSeason: "通年（週1回・金〜土着）"
-saleStatus: "available"
+saleStatus: "out_of_stock"
 price: 2200
 unit: "束"
 season:

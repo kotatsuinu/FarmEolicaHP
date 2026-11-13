@@ -4,7 +4,7 @@ description: "その週に咲いた季節の花で組む、コップにそのま
 flowerType: "季節の花（おまかせ）"
 category: "bouquet"
 availableSeason: "通年（週1回・金〜土着）"
-saleStatus: "available"
+saleStatus: "out_of_stock"
 price: 2300
 unit: "セット"
 season:
