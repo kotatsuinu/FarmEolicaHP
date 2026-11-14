@@ -1,0 +1,39 @@
+---
+/**
+ * ほかの種類への小さなボタン＋「商品一覧へ」。current のカテゴリーは出さない。
+ */
+interface Props {
+  current: string;
+}
+const { current } = Astro.props;
+const all = [
+  { key: 'bouquet', title: '花束・テーブルフラワー', href: '/products/bouquet' },
+  { key: 'imperfect', title: '規格外切り花', href: '/products/imperfect' },
+  { key: 'loss-flower', title: 'ロスフラワー', href: '/products/loss-flower' },
+  { key: 'dry-flower', title: 'ドライフラワー', href: '/products/dry-flower' },
+  { key: 'market', title: '市場出荷品', href: '/products/market' },
+  { key: 'research', title: '研究成果', href: '/products/research' },
+];
+const others = all.filter((c) => c.key !== current);
+---
+
+<section class="sec inner">
+  <h2>ほかの種類を見る</h2>
+  <div class="btns">
+    {others.map((c) => <a class="b" href={c.href}>{c.title}</a>)}
+  </div>
+  <a class="all" href="/products">商品一覧へ →</a>
+</section>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .sec { padding-top: 48px; padding-bottom: 48px; }
+  h2 { font-size: 17px; font-weight: 600; color: #4A3B32; margin: 0 0 12px; line-height: 1.5; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .b { font-size: 13px; padding: 8px 14px; border: 1px solid #D4D0C8; border-radius: 4px; color: #33291F; background: #FBFBF9; line-height: 1.6; }
+  .all { display: inline-block; margin-top: 16px; font-size: 14px; color: #B87333; font-weight: 600; }
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .sec { padding-top: 56px; padding-bottom: 56px; }
+  }
+</style>

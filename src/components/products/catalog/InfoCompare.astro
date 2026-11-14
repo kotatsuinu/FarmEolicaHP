@@ -1,0 +1,37 @@
+---
+/**
+ * 規格外切り花とロスフラワーの違い（比較表）。InfoRow の中に置く。
+ * cols の1つ目が「このページの商品」。
+ */
+interface Props {
+  cols: [string, string];
+  rows: [string, string, string][];
+  linkHref: string;
+  linkText: string;
+}
+const { cols, rows, linkHref, linkText } = Astro.props;
+---
+
+<div class="wrap">
+  <table>
+    <thead>
+      <tr><th></th><th>{cols[0]}</th><th>{cols[1]}</th></tr>
+    </thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr><th scope="row">{r[0]}</th><td>{r[1]}</td><td>{r[2]}</td></tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<p class="after">用途に応じてお選びください。<a href={linkHref}>{linkText}</a></p>
+
+<style>
+  .wrap { overflow-x: auto; margin-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 10px 10px 0; border-bottom: 1px solid #E0DDD7; vertical-align: top; line-height: 1.6; }
+  thead th { font-size: 12.5px; font-weight: 600; color: #005243; }
+  tbody th { font-weight: 600; color: #33291F; white-space: nowrap; }
+  td { color: #4A3B32; }
+  .after { font-size: 13px; margin: 8px 0 0; }
+</style>

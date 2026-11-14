@@ -7,7 +7,7 @@ Farm Eolicaは福島県双葉郡浪江町で花き栽培を行う個人経営の
 ## 主要ページ
 
 - [商品一覧](https://farmeolica.com/products/): ロスフラワー・規格外切り花・市場出荷品の紹介
-- [出荷予報](https://farmeolica.com/cultivation/): 栽培状況と出荷予報ボード
+- [出荷予報](https://farmeolica.com/cultivation/): 栽培状況と出荷予報ボード（準備中。出荷の見込みはお問い合わせください）
 - [農園について](https://farmeolica.com/about/): Farm Eolicaの思想と背景
 - [お問い合わせ](https://farmeolica.com/contact/): 購入・栽培リクエスト・見学のご相談
 - [よくある質問](https://farmeolica.com/faq/): ロスフラワー通販に関するFAQ

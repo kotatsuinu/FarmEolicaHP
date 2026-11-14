@@ -1,0 +1,55 @@
+---
+/**
+ * 題の写真（高さ300px・PC 400px）とパンくず。題と一文は左下。
+ */
+import { Image } from 'astro:assets';
+import Breadcrumb from '../../Breadcrumb.astro';
+
+interface Props {
+  image: ImageMetadata;
+  title: string;
+  lead?: string;
+  crumb: { name: string; url?: string }[];
+  alt?: string;
+}
+const { image, title, lead, crumb, alt = '' } = Astro.props;
+---
+
+<section class="plx hero">
+  <Image
+    src={image}
+    alt={alt}
+    widths={[640, 1280, 1920]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="hero-txt">
+    <h1 class:list={[{ long: title.length > 9 }]}>{title}</h1>
+    {lead && <p>{lead}</p>}
+  </div>
+</section>
+
+<div class="inner crumb">
+  <Breadcrumb items={crumb} />
+</div>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .hero::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(22,26,24,.72), rgba(22,26,24,.05) 70%); }
+  .hero { height: 300px; color: #fff; }
+  .hero-txt { position: absolute; left: 20px; right: 20px; bottom: 22px; z-index: 2; display: grid; gap: 6px; }
+  .hero h1 { font-size: 30px; font-weight: 600; letter-spacing: .04em; color: #fff; line-height: 1.45; margin: 0; }
+  .hero p { font-size: 14px; line-height: 1.75; opacity: .92; margin: 0; }
+  /* 長い題（花束・テーブルフラワー等）がスマホで1文字だけ折り返さないように */
+  @media (max-width: 767px) { .hero h1.long { font-size: 26px; } }
+  .crumb { padding-top: 12px; }
+
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .hero { height: 400px; }
+    .hero-txt { left: max(48px, calc(50% - 552px)); right: auto; bottom: 40px; max-width: 560px; }
+    .hero h1 { font-size: 40px; }
+    .hero p { font-size: 15px; }
+  }
+</style>

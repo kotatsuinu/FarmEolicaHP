@@ -1,0 +1,20 @@
+---
+/**
+ * 送料の中身（InfoRow の中に置く）。内容は ShippingInfo と同じ。
+ */
+const sagawaLink = 'https://www.sagawa-exp.co.jp/send/fare/faretable03.html?_ga=2.73288595.1464715402.1770612007-66129190.1763209062';
+---
+
+<p>発送元：福島県（佐川急便・通常宅配便）</p>
+<h4>送料目安（税込）</h4>
+<ul>
+  <li>東北〜関東・信越：<span class="mono">910円〜</span></li>
+  <li>東海・北陸：<span class="mono">1,040円〜</span></li>
+  <li>関西：<span class="mono">1,180円〜</span></li>
+</ul>
+<p class="note">※夏季（6〜9月）はクール便のご利用をおすすめします（別途料金）</p>
+<p class="note">
+  ※サイズ・地域により異なります。詳細は
+  <a href={sagawaLink} target="_blank" rel="noopener noreferrer">佐川急便料金表（福島県発）</a>
+  をご確認ください。
+</p>

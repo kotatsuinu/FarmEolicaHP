@@ -1,6 +1,6 @@
 ---
 name: "ストックのドライフラワー（ヘッド）"
-description: "甘い香りが残るストックの花頭をドライ加工。5色展開、ミックス・単色指定可能。容量ベースの小・中パックでお届けします。"
+description: "甘い香りが残るストックの花頭をドライ加工。5色展開、ミックス・単色指定可能。容量ベースの小・中パックでお届けします。2026年分の販売は終了しました。"
 flowerType: "ストック"
 varieties:
   - "濃桃"
@@ -12,9 +12,9 @@ varieties:
 category: "dried_flower"
 cultivationNo: "202604"
 availableSeason: "2026年春"
-saleStatus: "available"
+saleStatus: "discontinued"
 datePublished: 2026-04-14
-dateModified: 2026-05-05
+dateModified: 2026-11-13
 
 # 価格（容量ベース、花代+梱包料込、送料別）
 priceTable:

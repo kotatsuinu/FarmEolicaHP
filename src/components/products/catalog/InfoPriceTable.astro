@@ -1,0 +1,45 @@
+---
+/**
+ * サイズ別の価格表（ロスフラワーの「値段」の行）。
+ * 値は src/data/lossFlowerPricing.json から呼び出し側が渡す（ここに直書きしない）。
+ */
+interface PriceItem {
+  size: string;
+  quantity: string;
+  price: number;
+  note?: string;
+}
+interface Props {
+  prices: PriceItem[];
+  note?: string;
+}
+const { prices, note } = Astro.props;
+---
+
+<table>
+  <thead>
+    <tr><th>サイズ</th><th>目安数量</th><th class="r">価格（税込）</th></tr>
+  </thead>
+  <tbody>
+    {prices.map((p) => (
+      <tr>
+        <td>{p.size}</td>
+        <td class="mono">{p.quantity}</td>
+        <td class="r">
+          <span class="mono">¥{p.price.toLocaleString()}</span>
+          {p.note && <small>{p.note}</small>}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+{note && <p class="note">{note}</p>}
+
+<style>
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 6px 0 10px; }
+  th, td { text-align: left; padding: 10px 8px 10px 0; border-bottom: 1px solid #E0DDD7; vertical-align: top; line-height: 1.6; }
+  th { font-size: 12.5px; font-weight: 600; color: #005243; }
+  .r { text-align: right; padding-right: 0; }
+  .mono { font-family: theme('fontFamily.mono'); }
+  td small { display: block; font-size: 11.5px; color: #005243; }
+</style>

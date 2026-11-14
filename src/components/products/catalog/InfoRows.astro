@@ -1,0 +1,27 @@
+---
+/**
+ * 「ご購入の前に」。開け閉めの行（InfoRow）を並べる入れ物。
+ */
+interface Props {
+  heading?: string;
+}
+const { heading = 'ご購入の前に' } = Astro.props;
+---
+
+<section class="sec inner">
+  <h2>{heading}</h2>
+  <div class="rows"><slot /></div>
+</section>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .sec { padding-top: 48px; }
+  h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0 0 8px; line-height: 1.5; }
+  .rows { display: grid; border-bottom: 1px solid #E0DDD7; }
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .sec { padding-top: 56px; }
+    h2 { font-size: 24px; }
+    .rows { max-width: 760px; }
+  }
+</style>

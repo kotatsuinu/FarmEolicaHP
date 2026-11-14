@@ -4,6 +4,7 @@
  * 規格外品・ロスフラワー共通で使用
  * ステータスバッジ表示対応
  */
+import DiscontinuedOverlay from './DiscontinuedOverlay.astro';
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 
@@ -37,6 +38,11 @@ const statusConfig: Record<string, { label: string; bg: string; text: string }> 
 const status = statusConfig[product.data.saleStatus || 'available'];
 const href = linkTo || `/products/${product.slug}`;
 const isDiscontinued = product.data.saleStatus === 'discontinued';
+const endLabel = isMarketProduct ? '出荷終了' : '販売終了';
+// 出荷時期の末尾の年月から「2026年9月 出荷終了」を作る（読み取れなければ添えない）
+const _yr = product.data.availableSeason?.match(/(\d{4})年/);
+const _mo = product.data.availableSeason?.match(/(\d{1,2})月[^月]*$/);
+const endNote = _yr && _mo ? `${_yr[1]}年${_mo[1]}月まで` : undefined;
 
 // カテゴリラベル
 const categoryLabels: Record<string, string> = {
@@ -53,7 +59,7 @@ const categoryLabels: Record<string, string> = {
   class:list={[
     "group block bg-stone-white/95 backdrop-blur-sm shadow-lab transition-all duration-300",
     variant === 'compact' && "p-0",
-    isDiscontinued ? "opacity-70 hover:opacity-80" : "hover:shadow-lab-lg",
+    "hover:shadow-lab-lg",
   ]}
 >
   <!-- 画像部分 -->
@@ -69,7 +75,8 @@ const categoryLabels: Record<string, string> = {
         alt={product.data.name}
         class:list={[
           "w-full h-full object-cover transition-all duration-500",
-          isDiscontinued ? "grayscale group-hover:grayscale-[50%]" : "group-hover:scale-105",
+          "group-hover:scale-105",
+          isDiscontinued && "discontinued-photo",
         ]}
         width={600}
         height={800}
@@ -84,7 +91,7 @@ const categoryLabels: Record<string, string> = {
     )}
 
     <!-- ステータスバッジ -->
-    {showStatus && (
+    {showStatus && !isDiscontinued && (
       <span class:list={[
         "absolute top-3 right-3 px-3 py-1 text-xs font-mono tracking-wide",
         status.bg,
@@ -96,7 +103,7 @@ const categoryLabels: Record<string, string> = {
 
     <!-- 販売終了時のオーバーレイ -->
     {product.data.saleStatus === 'discontinued' && (
-      <div class="absolute inset-0 bg-warm-gray-500/40" />
+      <DiscontinuedOverlay label={endLabel} note={endNote} />
     )}
   </div>
 

@@ -1,0 +1,19 @@
+---
+/**
+ * 短い紹介（2〜3行・左そろえ）。中身は <p> を渡す。
+ */
+---
+
+<section class="intro inner"><slot /></section>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .intro { padding-top: 20px; }
+  .intro :global(p) { font-size: 15px; line-height: 1.9; color: #4A3B32; margin: 0 0 .7em; }
+  .intro :global(a) { color: #B87333; text-decoration: underline; text-underline-offset: 3px; }
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .intro { padding-top: 28px; }
+    .intro :global(p) { font-size: 16px; max-width: 40em; }
+  }
+</style>

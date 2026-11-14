@@ -1,0 +1,50 @@
+---
+/**
+ * 「花の時期になったら出る○○」。在庫切れ・準備中を名前＋値段の文字の一覧で。
+ * 0件なら何も出さない。各行は商品ページへのリンク。
+ */
+import type { ProductEntry } from './split';
+
+interface Props {
+  items: ProductEntry[];
+  noun: string;
+  showPrice?: boolean;
+}
+const { items, noun, showPrice = true } = Astro.props;
+const label = (s: string) => (s === 'preparing' ? '準備中' : '在庫切れ');
+---
+
+{items.length > 0 && (
+  <section class="sec inner">
+    <h2>花の時期になったら出る{noun}</h2>
+    <div class="rows">
+      {items.map((p) => (
+        <a class="row" href={`/products/${p.slug}`}>
+          <span class="nm">{p.data.name}<small>{label(p.data.saleStatus)}</small></span>
+          {showPrice && p.data.price && (
+            <span class="pr">¥{p.data.price.toLocaleString()} <small>／ {p.data.unit}</small></span>
+          )}
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .sec { padding-top: 48px; }
+  h2 { font-size: 19px; font-weight: 600; color: #4A3B32; margin: 0 0 8px; line-height: 1.5; }
+  .rows { display: grid; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 2px; border-top: 1px solid #E0DDD7; }
+  .row:last-child { border-bottom: 1px solid #E0DDD7; }
+  .nm { font-size: 15px; color: #33291F; line-height: 1.6; }
+  .nm small { font-size: 11px; color: #7D7B77; margin-left: 8px; }
+  .pr { font-family: theme('fontFamily.mono'); font-size: 13px; color: #4A3B32; white-space: nowrap; }
+  .pr small { font-size: 11px; color: #7D7B77; }
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .sec { padding-top: 56px; }
+    h2 { font-size: 21px; }
+    .rows { max-width: 640px; }
+  }
+</style>

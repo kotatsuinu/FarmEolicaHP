@@ -1,0 +1,16 @@
+---
+// 販売終了品の写真に重ねる共通表示（斜線＋角の「販売終了」帯）。
+// 親要素は relative であること。スタイルは Layout.astro のグローバルCSS。
+interface Props {
+  label?: string;
+  note?: string;
+}
+const { label = '販売終了', note } = Astro.props;
+---
+<div class="discontinued-overlay" aria-hidden="true">
+  <div class="discontinued-overlay__stripes"></div>
+  <div class="discontinued-overlay__ribbon">
+    <span class="discontinued-overlay__label">{label}</span>
+    {note && <span class="discontinued-overlay__note">{note}</span>}
+  </div>
+</div>
