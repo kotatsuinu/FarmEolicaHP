@@ -2,7 +2,7 @@
 /**
  * トップページ（作り直し・2026-11-15 設計見本どおり）
  * 最初の写真（ヒーロー）は従来のまま。その下は 7 つの欄：
- * はじめに／花を選ぶ／市場・生花店の方へ／農園の読みもの／畑の様子／お問い合わせ。
+ * はじめに／商品／市場・生花店の方へ／農園の読みもの／畑の様子／お問い合わせ。
  * スマホ（〜767px）とパソコン（768px〜）で組み方を変え、md:hidden / hidden md:block で出し分ける。
  */
 import { Image } from 'astro:assets';
@@ -136,10 +136,10 @@ const igTop = instagramImages.slice(0, 9);
           </div>
         </section>
 
-        <!-- 花を選ぶ -->
+        <!-- 商品 -->
         {count > 0 && <ProductShelf items={buyable} heading="いま買える花" />}
         <section class="m-sec m-in">
-          <div class="sh"><h2>花を選ぶ</h2><a class="more" href="/products/">商品・研究成果へ →</a></div>
+          <div class="sh"><h2>商品</h2><a class="more" href="/products/">すべての商品・研究成果へ →</a></div>
           <div class="m-cats">
             {tiles.map((t, i) => (
               <a class:list={['tile', 'plx', { big: i === 0 }]} href={t.href}>
@@ -214,14 +214,14 @@ const igTop = instagramImages.slice(0, 9);
           </div>
         </section>
 
-        <!-- 花を選ぶ -->
+        <!-- 商品 -->
         <section class="d-in d-shop">
           <div class="ph">
             <div class="big plx"><Image src={bouquetImage} alt="" width={1200} sizes="55vw" loading="lazy" /></div>
             <div class="sm"><Image src={atelierImage} alt="" width={500} sizes="20vw" loading="lazy" class="fill" /></div>
           </div>
           <div>
-            <h2 class="eh">花を選ぶ</h2>
+            <h2 class="eh">商品</h2>
             <p class="lead">浪江町の畑で育てた花を、花束や切り花でお届けします。規格の外に出た花にも、別の楽しみ方を用意しています。</p>
             <div class="lk">
               {tiles.map((t) => (
@@ -363,7 +363,7 @@ const igTop = instagramImages.slice(0, 9);
     .d-stack .a { top: 0; left: 0; }
     .d-stack .b { bottom: 0; right: 0; outline: 10px solid #F2F2F0; }
 
-    /* 花を選ぶ */
+    /* 商品 */
     .d-shop { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(36px, 6vw, 72px); align-items: center; padding-top: 150px; }
     .d-shop .ph { position: relative; height: clamp(480px, 54vw, 640px); }
     .d-shop .big { position: absolute; inset: 0 0 70px 0; border-radius: 6px; }
