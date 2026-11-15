@@ -227,7 +227,7 @@ const igTop = instagramImages.slice(0, 9);
               {tiles.map((t) => (
                 <a href={t.href}>
                   <span class="th"><Image src={t.image} alt="" width={200} sizes="76px" loading="lazy" class="fill" /></span>
-                  <span><b>{t.title}</b><small>{t.note}</small></span>
+                  <span class="nm"><b>{t.title.split('・').map((part, i) => (i > 0 ? <>・<wbr />{part}</> : part))}</b><small>{t.note}</small></span>
                   <i>→</i>
                 </a>
               ))}
@@ -372,7 +372,8 @@ const igTop = instagramImages.slice(0, 9);
     .lk { display: grid; border-top: 1px solid #D9D5CE; }
     .lk a { display: grid; grid-template-columns: 76px 1fr auto; gap: 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid #D9D5CE; }
     .lk .th { position: relative; width: 76px; height: 76px; border-radius: 6px; overflow: hidden; }
-    .lk b { display: block; font-size: 18px; font-weight: 600; line-height: 1.5; }
+    .lk b { display: block; font-size: clamp(15px, 1.5vw, 18px); font-weight: 600; line-height: 1.5; word-break: keep-all; }
+    .lk .nm { min-width: 0; }
     .lk small { font-size: 13px; color: #7A6E62; }
     .lk i { font-style: normal; color: #B87333; }
     .all { margin: 18px 0 0; }
