@@ -1,10 +1,18 @@
 ---
+/**
+ * トップページ（作り直し・2026-11-15 設計見本どおり）
+ * 最初の写真（ヒーロー）は従来のまま。その下は 7 つの欄：
+ * はじめに／花を選ぶ／市場・生花店の方へ／農園の読みもの／畑の様子／お問い合わせ。
+ * スマホ（〜767px）とパソコン（768px〜）で組み方を変え、md:hidden / hidden md:block で出し分ける。
+ */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { SITE_CONFIG } from '../config/site';
-import NoteLinkCard from '../components/NoteLinkCard.astro';
-import SectionHeader from '../components/SectionHeader.astro';
+import PageShell from '../components/products/catalog/PageShell.astro';
+import ProductShelf from '../components/products/catalog/ProductShelf.astro';
+import ContactBand from '../components/products/catalog/ContactBand.astro';
 
 import heroImage from '../assets/images/top/hero.jpg';
 import prologue1Image from '../assets/images/top/prologue_1.jpg';
@@ -12,6 +20,9 @@ import prologue2Image from '../assets/images/top/prologue_2.jpg';
 import atelierImage from '../assets/images/top/atelier.jpg';
 import forecastImage from '../assets/images/top/forecast.jpg';
 import dialogueImage from '../assets/images/top/dialogue.jpg';
+import bouquetImage from '../assets/images/products/bouquet-hero.jpg';
+import categoryImperfectImage from '../assets/images/products/category-imperfect.jpg';
+import categoryLossFlowerImage from '../assets/images/products/category-loss-flower.jpg';
 
 const instagramImageModules = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/images/instagram/*.jpg',
@@ -20,10 +31,31 @@ const instagramImageModules = import.meta.glob<{ default: ImageMetadata }>(
 const instagramImages = Object.keys(instagramImageModules)
   .sort((a, b) => a.localeCompare(b))
   .map((path) => instagramImageModules[path].default);
+
+// いま買える花（商品一覧と同じ絞り込み）。0件のときは棚を出さない
+const categoryOrder = ['bouquet', 'imperfect', 'loss_flower', 'dried_flower', 'market'];
+const rank = (c: string) => {
+  const i = categoryOrder.indexOf(c);
+  return i === -1 ? categoryOrder.length : i;
+};
+const buyable = (await getCollection('products'))
+  .filter((p) => p.data.saleStatus === 'available' || p.data.saleStatus === 'seasonal')
+  .sort((a, b) => rank(a.data.category) - rank(b.data.category) || a.slug.localeCompare(b.slug));
+const count = buyable.length;
+
+const tiles = [
+  { title: '花束・テーブルフラワー', note: 'ご自宅に・贈り物に', href: '/products/bouquet', image: bouquetImage },
+  { title: '規格外切り花', note: 'たっぷり使いたい方に', href: '/products/imperfect', image: categoryImperfectImage },
+  { title: 'ロスフラワー', note: 'クラフトの素材に', href: '/products/loss-flower', image: categoryLossFlowerImage },
+];
+
+const notes = [SITE_CONFIG.noteMagazines.farmerLetter, SITE_CONFIG.noteMagazines.agriDX];
+const noteUrl = SITE_CONFIG.noteMagazines.farmerLetter.url;
+const igTop = instagramImages.slice(0, 9);
 ---
 
 <Layout title="Farm Eolica (ファームエオリカ) | Wind & Data Lab - Living with Wind, Evolving with Data" image={heroImage.src}>
-  <!-- Hero Section -->
+  <!-- Hero Section（従来のまま） -->
   <section class="relative h-screen w-full overflow-hidden">
     <!-- Background Image -->
     <div class="absolute inset-0 bg-gradient-to-br from-warm-gray-100 via-stone-white to-warm-gray-200">
@@ -79,424 +111,311 @@ const instagramImages = Object.keys(instagramImageModules)
     </div>
   </section>
 
-  <!-- Prologue Section -->
-  <section class="py-16 md:py-40 bg-stone-white">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center">
-        <!-- Left: Text -->
-        <div>
-          <div class="space-y-6 md:space-y-12 text-left font-serif text-wet-soil tracking-widest leading-relaxed md:leading-loose animate-fade-in-up">
-            <p class="text-lg md:text-xl">
-              Farm Eolicaは、<br class="hidden md:block" />
-              福島県浪江町にある小さな農場です。
-            </p>
+  <PageShell>
+    <div class="top">
 
-            <p class="text-lg md:text-xl">
-              季節の花を育てるのは、<br class="hidden md:block" />
-              わたし一人と、家族の手伝い。
-            </p>
+      <!-- ===== スマホ（〜767px） ===== -->
+      <div class="md:hidden">
 
-            <p class="text-lg md:text-xl">
-              風と土と科学が共存する、自然の中のアトリエ。
-            </p>
-
-            <p class="text-lg md:text-xl">
-              自然の声に耳を傾け、データと共に進化する。
-            </p>
-
-            <p class="text-lg md:text-xl">
-              そんな私たちの「研究成果」を、<br class="hidden md:block" />
-              どうぞご覧ください。
-            </p>
+        <!-- はじめに -->
+        <section class="m-sec m-in">
+          <div class="m-txt">
+            <p>Farm Eolicaは、福島県浪江町にある小さな農場です。</p>
+            <p>季節の花を育てるのは、わたし一人と、家族の手伝い。</p>
+            <p>風と土と科学が共存する、自然の中のアトリエ。自然の声に耳を傾け、データと共に進化する。</p>
+            <p>そんな私たちの「研究成果」を、どうぞご覧ください。</p>
           </div>
-
-          <!-- Signature (右寄せ) -->
-          <div class="flex justify-end pt-6 mt-6 md:pt-12 md:mt-12 !bg-transparent">
-            <img src="/images/top/signature.png" alt="Signature" class="h-24 md:h-32 opacity-70 !bg-transparent mix-blend-multiply" loading="lazy" />
+          <div class="m-about">
+            <a class="more" href="/about">農園について →</a>
+            <img class="sig" src="/images/top/signature.png" alt="署名" loading="lazy" />
           </div>
-
-          <!-- CTA (左寄せ) -->
-          <div class="pt-4 md:pt-8">
-            <a
-              href="/about"
-              class="inline-block px-12 py-4 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
-            >
-              Read Our Story
-            </a>
+          <div class="m-pair">
+            <div><Image src={prologue1Image} alt="" width={600} sizes="50vw" loading="lazy" class="fill" /></div>
+            <div><Image src={prologue2Image} alt="" width={600} sizes="50vw" loading="lazy" class="fill" /></div>
           </div>
-        </div>
+        </section>
 
-        <!-- Right: Images (2枚を重ねる) -->
-        <div class="relative h-[350px] md:h-[600px]">
-          <!-- 画像1: 奥 -->
-          <Image
-            src={prologue1Image}
-            alt="Farm Eolica"
-            class="absolute top-0 left-0 w-4/5 h-3/5 object-cover shadow-lab animate-slide-in-right opacity-0"
-            loading="lazy"
-            width={800}
-            height={600}
-            style="animation-delay: 0.2s;"
+        <!-- 花を選ぶ -->
+        {count > 0 && <ProductShelf items={buyable} heading="いま買える花" />}
+        <section class="m-sec m-in">
+          <div class="sh"><h2>花を選ぶ</h2><a class="more" href="/products/">商品・研究成果へ →</a></div>
+          <div class="m-cats">
+            {tiles.map((t, i) => (
+              <a class:list={['tile', 'plx', { big: i === 0 }]} href={t.href}>
+                <Image src={t.image} alt="" width={900} sizes="100vw" loading="lazy" />
+                <span class="tt"><small>{t.note}</small><b>{t.title}</b></span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <!-- 市場・生花店の方へ -->
+        <section class="m-sec m-in">
+          <div class="sh"><h2>市場・生花店の方へ</h2></div>
+          <div class="m-rows">
+            <a class="row" href="/products/market"><span><b>市場出荷品</b><small>品質の規格と、出している花</small></span><i>→</i></a>
+            <a class="row" href="/cultivation"><span><b>出荷予報</b><small>これから出る花と時期の見込み</small></span><i>→</i></a>
+          </div>
+        </section>
+
+        <!-- 農園の読みもの -->
+        <section class="m-sec m-in">
+          <div class="sh"><h2>農園の読みもの</h2><a class="more" href={noteUrl} target="_blank" rel="noopener">note へ ↗</a></div>
+          <div class="m-notes">
+            {notes.map((n) => (
+              <a class="ncard" href={n.url} target="_blank" rel="noopener">
+                <span class="ph"><img src={n.image} alt="" loading="lazy" /></span>
+                <span><b>{n.title}</b><small>{n.description}</small><em>noteで読む ↗</em></span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <!-- 畑の様子 -->
+        <section class="m-sec m-in">
+          <div class="sh"><h2>畑の様子</h2><a class="more" href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener">Instagram ↗</a></div>
+          <div class="m-ig">
+            {igTop.map((img) => (
+              <div><Image src={img} alt="" widths={[300, 600]} sizes="33vw" format="webp" loading="lazy" decoding="async" class="fill" /></div>
+            ))}
+          </div>
+          <a class="m-btn" href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener">Instagramで見る</a>
+        </section>
+
+        <!-- お問い合わせ -->
+        <div class="m-contact">
+          <ContactBand
+            heading="「こんな花が欲しい」を聞かせてください"
+            text="あなたの声が、次の栽培計画になります。花の種類や届く日のご相談も、お気軽にどうぞ。"
           />
-
-          <!-- 画像2: 手前、少しずらす -->
-          <Image
-            src={prologue2Image}
-            alt="Farm Eolica"
-            class="absolute bottom-0 right-0 w-4/5 h-3/5 object-cover shadow-lab animate-slide-in-right opacity-0"
-            loading="lazy"
-            width={800}
-            height={600}
-            style="animation-delay: 0.4s;"
-          />
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Spacer -->
-  <div class="h-32 md:h-48"></div>
+      <!-- ===== パソコン（768px〜） ===== -->
+      <div class="hidden md:block">
 
-  <!-- Section 01: PRODUCTS (ATELIER) -->
-  <section class="py-20 md:py-28 overflow-hidden" data-animate>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
-        <!-- Left: Image (横長) -->
-        <div class="aspect-[3/2] md:aspect-[16/10] relative" data-animate="image-wind">
-          <div class="w-full h-full bg-warm-gray-200 overflow-hidden shadow-lab">
-            <Image
-              src={atelierImage}
-              alt="Atelier - Products & Works"
-              class="w-full h-full object-cover"
-              loading="lazy"
-              width={800}
-              height={533}
-            />
-          </div>
-          <!-- Coming Soon Badge -->
-          <div class="absolute top-4 right-4 bg-old-copper text-white px-4 py-2 font-mono text-xs tracking-widest uppercase shadow-lg">
-            Coming Soon
-          </div>
-        </div>
-
-        <!-- Right: Text -->
-        <div class="space-y-6">
-          <p class="font-mono text-xs tracking-widest text-warm-gray-500">
-            01 — ATELIER
-          </p>
-          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green">
-            Products & Works
-          </h2>
-          <div class="space-y-4 text-wet-soil leading-relaxed">
-            <p>
-              規格外の花、ドライフラワー、キャンドル。<br />
-              実験室から生まれる、すべての価値をここに。
-            </p>
-          </div>
-          <a
-            href="/products"
-            class="inline-block mt-6 text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
-          >
-            Visit Atelier →
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Spacer -->
-  <div class="h-32 md:h-48"></div>
-
-  <!-- Section 02: CULTIVATION (FORECAST) - Full Width Background -->
-  <section class="relative py-24 md:py-32 overflow-hidden" data-animate>
-    <!-- Background Image with Overlay -->
-    <div class="absolute inset-0 z-0">
-      <Image
-        src={forecastImage}
-        alt="Cultivation Background"
-        class="w-full h-full object-cover"
-        loading="lazy"
-        widths={[640, 1280, 1920]}
-        sizes="100vw"
-      />
-      <!-- Dark Overlay for Text Readability -->
-      <div class="absolute inset-0 bg-wet-soil/85"></div>
-    </div>
-
-    <!-- Coming Soon Badge -->
-    <div class="absolute top-8 right-8 z-20 bg-old-copper text-white px-4 py-2 font-mono text-xs tracking-widest uppercase shadow-lg">
-      Coming Soon
-    </div>
-
-    <!-- Content -->
-    <div class="relative z-10 max-w-5xl mx-auto px-6 lg:px-12">
-      <!-- Section Label -->
-      <div class="mb-12">
-        <p class="font-mono text-xs tracking-widest text-stone-white/70">
-          02 — FORECAST
-        </p>
-      </div>
-
-      <!-- Dashboard Style Content -->
-      <div class="space-y-8">
-        <h2 class="font-serif text-3xl md:text-5xl tracking-wide text-white leading-tight">
-          Shipment Log
-        </h2>
-        <div class="space-y-4 text-stone-white/90 leading-relaxed text-base md:text-lg">
-          <p>
-            市場・生花店様へ。<br />
-            出荷予報のページは準備中です。出荷の見込みはお問い合わせください。
-          </p>
-          <p>
-            温度、湿度、日照時間。<br />
-            データに裏打ちされた栽培で、最高の品質を目指しています。
-          </p>
-        </div>
-
-        <!-- Data Points (Dashboard Style) -->
-        <div class="grid grid-cols-3 gap-6 pt-8 border-t border-stone-white/30">
+        <!-- はじめに -->
+        <section class="d-in d-pro">
           <div>
-            <p class="font-mono text-2xl md:text-3xl text-old-copper font-bold">24/7</p>
-            <p class="font-mono text-xs text-stone-white/70 mt-1">Monitoring</p>
+            <div class="d-txt">
+              <p>Farm Eolicaは、<br />福島県浪江町にある小さな農場です。</p>
+              <p>季節の花を育てるのは、<br />わたし一人と、家族の手伝い。</p>
+              <p>風と土と科学が共存する、自然の中のアトリエ。</p>
+              <p>自然の声に耳を傾け、データと共に進化する。</p>
+              <p>そんな私たちの「研究成果」を、<br />どうぞご覧ください。</p>
+            </div>
+            <img class="d-sig" src="/images/top/signature.png" alt="署名" loading="lazy" />
+            <a class="obtn" href="/about">農園について</a>
+          </div>
+          <div class="d-stack">
+            <div class="a"><Image src={prologue1Image} alt="" width={800} sizes="40vw" loading="lazy" class="fill" /></div>
+            <div class="b"><Image src={prologue2Image} alt="" width={800} sizes="40vw" loading="lazy" class="fill" /></div>
+          </div>
+        </section>
+
+        <!-- 花を選ぶ -->
+        <section class="d-in d-shop">
+          <div class="ph">
+            <div class="big plx"><Image src={bouquetImage} alt="" width={1200} sizes="55vw" loading="lazy" /></div>
+            <div class="sm"><Image src={atelierImage} alt="" width={500} sizes="20vw" loading="lazy" class="fill" /></div>
           </div>
           <div>
-            <p class="font-mono text-2xl md:text-3xl text-old-copper font-bold">IoT</p>
-            <p class="font-mono text-xs text-stone-white/70 mt-1">Sensors</p>
+            <h2 class="eh">花を選ぶ</h2>
+            <p class="lead">浪江町の畑で育てた花を、花束や切り花でお届けします。規格の外に出た花にも、別の楽しみ方を用意しています。</p>
+            <div class="lk">
+              {tiles.map((t) => (
+                <a href={t.href}>
+                  <span class="th"><Image src={t.image} alt="" width={200} sizes="76px" loading="lazy" class="fill" /></span>
+                  <span><b>{t.title}</b><small>{t.note}</small></span>
+                  <i>→</i>
+                </a>
+              ))}
+            </div>
+            <p class="all"><a class="more" href="/products/">商品・研究成果をすべて見る →</a></p>
           </div>
-          <div>
-            <p class="font-mono text-2xl md:text-3xl text-old-copper font-bold">B2B</p>
-            <p class="font-mono text-xs text-stone-white/70 mt-1">Forecast</p>
+        </section>
+        {count > 0 && <ProductShelf items={buyable} heading="いま買える花" airy />}
+
+        <!-- 市場・生花店の方へ -->
+        <section class="d-biz plx">
+          <Image src={forecastImage} alt="" widths={[1280, 1920]} sizes="100vw" loading="lazy" />
+          <div class="c">
+            <div>
+              <h2 class="eh">市場・生花店の方へ</h2>
+              <p>温度・湿度・日照を記録しながら育てています。出荷の見込みと品質の規格は、こちらにまとめています。</p>
+            </div>
+            <div class="rows">
+              <a class="row" href="/products/market"><span><b>市場出荷品</b><small>品質の規格と、出している花</small></span><i>→</i></a>
+              <a class="row" href="/cultivation"><span><b>出荷予報</b><small>これから出る花と時期の見込み</small></span><i>→</i></a>
+            </div>
           </div>
-        </div>
+        </section>
 
-        <a
-          href="/cultivation"
-          class="inline-block mt-8 text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper text-old-copper pb-1 hover:border-stone-white hover:text-stone-white transition-colors duration-300"
-        >
-          Check Forecast →
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Spacer -->
-  <div class="h-32 md:h-48"></div>
-
-  <!-- Section 03: DIALOGUE -->
-  <section class="py-32 md:py-40" data-animate>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-12 gap-12 items-center">
-        <!-- Image (Wide, Landscape) -->
-        <div class="md:col-span-8 order-2 md:order-1 relative" data-animate="image-wind">
-          <div class="aspect-[4/3] bg-warm-gray-200 overflow-hidden">
-            <Image
-              src={dialogueImage}
-              alt="Dialogue with Customers"
-              class="w-full h-full object-cover"
-              loading="lazy"
-              width={800}
-              height={600}
-            />
+        <!-- 農園の読みもの -->
+        <section class="d-in d-reads">
+          <div class="d-sh"><h2 class="eh">農園の読みもの</h2><a class="more" href={noteUrl} target="_blank" rel="noopener">note へ ↗</a></div>
+          <div class="rg">
+            {notes.map((n) => (
+              <a class="rc" href={n.url} target="_blank" rel="noopener">
+                <div class="ph"><img src={n.image} alt="" loading="lazy" /></div>
+                <b>{n.title}</b>
+                <p>{n.description}</p>
+                <em>noteで読む ↗</em>
+              </a>
+            ))}
           </div>
-          <!-- Coming Soon Badge -->
-          <div class="absolute top-4 right-4 bg-old-copper text-white px-4 py-2 font-mono text-xs tracking-widest uppercase shadow-lg">
-            Coming Soon
+        </section>
+
+        <!-- 畑の様子 -->
+        <section class="d-igw">
+          <div class="d-in d-sh"><h2 class="eh">畑の様子</h2><a class="more" href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener">Instagramで見る ↗</a></div>
+          <div class="strip">
+            {igTop.map((img) => (
+              <div><Image src={img} alt="" widths={[300, 600]} sizes="12vw" format="webp" loading="lazy" decoding="async" class="fill" /></div>
+            ))}
           </div>
-        </div>
+        </section>
 
-        <!-- Text (Compact Box) -->
-        <div class="md:col-span-4 order-1 md:order-2 space-y-6">
-          <p class="font-mono text-xs tracking-widest text-warm-gray-500">
-            03 — DIALOGUE
-          </p>
-          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green">
-            Grown<br />with You
-          </h2>
-          <div class="text-wet-soil leading-relaxed">
-            <p>
-              「こんな花が欲しい」<br />
-              「この色をもっと濃く」
-            </p>
-            <p class="mt-4">
-              あなたの声が、<br />
-              次の栽培計画を作ります。
-            </p>
-            <p class="mt-4">
-              農家と消費者が対話しながら育てる、<br />
-              新しい農業のかたち。
-            </p>
+        <!-- お問い合わせ -->
+        <section class="d-ct plx">
+          <Image src={dialogueImage} alt="" widths={[1280, 1920]} sizes="100vw" loading="lazy" />
+          <div class="c">
+            <span class="ey">花と、データと、物語を。</span>
+            <h2>「こんな花が欲しい」を<br />聞かせてください</h2>
+            <p>あなたの声が、次の栽培計画になります。<br />花の種類や届く日のご相談も、お気軽にどうぞ。</p>
+            <div class="cb">
+              <a class="main" href={SITE_CONFIG.sns.line} target="_blank" rel="noopener">公式LINEで問い合わせる</a>
+              <a href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener">Instagram</a>
+              <a href="/contact">お問い合わせフォーム</a>
+            </div>
           </div>
-          <a
-            href="/contact"
-            class="inline-block mt-8 text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper pb-1 hover:border-eolica-green transition-colors duration-300"
-          >
-            Join Request →
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Spacer -->
-  <div class="h-32 md:h-48"></div>
-
-  <!-- Note Magazine Section: Words from the Lab -->
-  <section class="py-20 md:py-28" data-animate>
-    <div class="max-w-4xl mx-auto px-6 lg:px-12">
-      <SectionHeader titleJa="Words from the Lab" titleEn="NOTE" description="農園の日々、農業DXの実践記録をnoteで発信しています。" />
-
-      <!-- Magazine Cards (2 columns) -->
-      <div class="grid md:grid-cols-2 gap-6">
-        <NoteLinkCard
-          url={SITE_CONFIG.noteMagazines.farmerLetter.url}
-          title={SITE_CONFIG.noteMagazines.farmerLetter.title}
-          titleEn={SITE_CONFIG.noteMagazines.farmerLetter.titleEn}
-          description={SITE_CONFIG.noteMagazines.farmerLetter.description}
-          image={SITE_CONFIG.noteMagazines.farmerLetter.image}
-          variant="default"
-        />
-        <NoteLinkCard
-          url={SITE_CONFIG.noteMagazines.agriDX.url}
-          title={SITE_CONFIG.noteMagazines.agriDX.title}
-          titleEn={SITE_CONFIG.noteMagazines.agriDX.titleEn}
-          description={SITE_CONFIG.noteMagazines.agriDX.description}
-          image={SITE_CONFIG.noteMagazines.agriDX.image}
-          variant="default"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- Spacer -->
-  <div class="h-16 md:h-24"></div>
-
-  <!-- Instagram Section: Updates from the Lab -->
-  <section class="py-32 md:py-40 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-4xl mx-auto px-6 lg:px-12">
-      <SectionHeader titleJa="Updates from the Lab" titleEn="INSTAGRAM" description="日々の栽培記録、花の成長、ハウスの様子をInstagramで発信しています。" />
-
-      <!-- Instagram Grid (3x3) - Lab Style -->
-      <div class="grid grid-cols-3 gap-2 md:gap-4 mb-12">
-        {instagramImages.map((img, index) => (
-          <div class="aspect-square bg-warm-gray-200 overflow-hidden">
-            <Image
-              src={img}
-              alt={`Instagram Post ${index + 1}`}
-              widths={[400, 800]}
-              sizes="(max-width: 640px) 50vw, 33vw"
-              format="webp"
-              loading="lazy"
-              decoding="async"
-              class="insta-photo w-full h-full object-cover grayscale hover:grayscale-0 hover:scale-105 transition-all duration-500"
-            />
-          </div>
-        ))}
+        </section>
       </div>
 
-      <!-- Follow Button -->
-      <div class="text-center">
-        <a
-          href={SITE_CONFIG.sns.instagram}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-block px-12 py-4 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
-        >
-          Follow on Instagram
-        </a>
-      </div>
     </div>
-  </section>
-
-  <!-- Closing Section -->
-  <section class="py-40 md:py-52 bg-eolica-green text-white" data-animate>
-    <div class="max-w-4xl mx-auto text-center px-6">
-      <p class="font-mono text-xs tracking-[0.3em] mb-8 opacity-60">
-        — WIND & DATA LABORATORY —
-      </p>
-      <p class="font-serif text-3xl md:text-4xl tracking-wide leading-relaxed">
-        花と、データと、物語を。
-      </p>
-      <p class="mt-8 text-lg opacity-80 font-serif">
-        Farm Eolicaは、新しい農業の可能性を探求しています。
-      </p>
-    </div>
-  </section>
+  </PageShell>
 </Layout>
 
 <style>
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .top { background: #F2F2F0; color: #33291F; }
+  .top :global(.fill) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .more { font-size: 13px; color: #B87333; white-space: nowrap; }
+
+  /* ---------- スマホ ---------- */
+  .m-in { padding-left: 20px; padding-right: 20px; }
+  .m-sec { padding-top: 56px; }
+  .sh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+  .sh h2 { font-size: 21px; font-weight: 600; line-height: 1.5; margin: 0; color: #33291F; }
+
+  .m-txt { display: grid; gap: 14px; font-size: 16px; line-height: 1.85; text-align: left; }
+  .m-txt p { margin: 0; }
+  .m-about { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 14px; }
+  .sig { height: 64px; width: auto; mix-blend-mode: multiply; opacity: .75; object-fit: contain; }
+  .m-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+  .m-pair > div { position: relative; aspect-ratio: 4 / 5; border-radius: 6px; overflow: hidden; }
+
+  .m-cats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tile { border-radius: 6px; aspect-ratio: 1 / 1; color: #fff; display: block; }
+  .tile.big { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+  .tile::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(22,26,24,.72), rgba(22,26,24,0) 65%); }
+  .tile .tt { position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 2; display: grid; }
+  .tile small { font-size: 11px; opacity: .9; }
+  .tile b { font-size: 17px; font-weight: 600; line-height: 1.5; }
+
+  .m-rows { border-top: 1px solid #D9D5CE; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #D9D5CE; }
+  .row b { font-weight: 600; font-size: 16px; display: block; line-height: 1.5; }
+  .row small { font-size: 12px; color: #7A6E62; }
+  .row i { font-style: normal; color: #B87333; }
+
+  .m-notes { display: grid; gap: 10px; }
+  .ncard { display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: center; background: #fff; border-radius: 6px; overflow: hidden; }
+  .ncard .ph { aspect-ratio: 1 / 1; }
+  .ncard .ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .ncard b { display: block; font-size: 15px; font-weight: 600; line-height: 1.5; }
+  .ncard small { display: block; font-size: 12px; color: #7A6E62; line-height: 1.6; padding-right: 10px; }
+  .ncard em { font-style: normal; font-size: 12px; color: #B87333; }
+
+  .m-ig { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; border-radius: 6px; overflow: hidden; }
+  .m-ig > div { position: relative; aspect-ratio: 1 / 1; }
+  .m-btn { display: block; text-align: center; border: 1px solid #B87333; color: #B87333; border-radius: 4px; padding: 11px; font-size: 14px; margin-top: 14px; }
+  .m-contact { margin-top: 56px; }
+
+  /* ---------- パソコン（768px〜） ---------- */
+  @media (min-width: 768px) {
+    .d-in { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .eh { font-size: clamp(30px, 3.4vw, 40px); font-weight: 600; line-height: 1.45; margin: 0; color: #33291F; }
+    .more { font-size: 14px; }
+    .d-sh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 26px; }
+    .d-sh .eh { font-size: clamp(26px, 2.9vw, 34px); }
+
+    /* はじめに */
+    .d-pro { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 72px); align-items: center; padding-top: 130px; }
+    .d-txt { display: grid; gap: clamp(20px, 2.5vw, 30px); font-size: clamp(16px, 1.6vw, 19px); letter-spacing: .12em; line-height: 2.2; text-align: left; }
+    .d-txt p { margin: 0; }
+    .d-sig { height: 84px; width: auto; margin: 28px 0 0 auto; mix-blend-mode: multiply; opacity: .75; object-fit: contain; display: block; }
+    .obtn { display: inline-block; border: 1px solid #B87333; color: #B87333; border-radius: 4px; padding: 13px 40px; font-size: 15px; margin-top: 20px; }
+    .d-stack { position: relative; height: clamp(440px, 49vw, 580px); }
+    .d-stack .a, .d-stack .b { position: absolute; width: 78%; height: 60%; border-radius: 6px; overflow: hidden; }
+    .d-stack .a { top: 0; left: 0; }
+    .d-stack .b { bottom: 0; right: 0; outline: 10px solid #F2F2F0; }
+
+    /* 花を選ぶ */
+    .d-shop { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(36px, 6vw, 72px); align-items: center; padding-top: 150px; }
+    .d-shop .ph { position: relative; height: clamp(480px, 54vw, 640px); }
+    .d-shop .big { position: absolute; inset: 0 0 70px 0; border-radius: 6px; }
+    .d-shop .sm { position: absolute; right: -36px; bottom: 0; width: 42%; aspect-ratio: 1 / 1; border-radius: 6px; overflow: hidden; outline: 10px solid #F2F2F0; }
+    .lead { font-size: 16px; color: #4A3B32; margin: 14px 0 26px; }
+    .lk { display: grid; border-top: 1px solid #D9D5CE; }
+    .lk a { display: grid; grid-template-columns: 76px 1fr auto; gap: 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid #D9D5CE; }
+    .lk .th { position: relative; width: 76px; height: 76px; border-radius: 6px; overflow: hidden; }
+    .lk b { display: block; font-size: 18px; font-weight: 600; line-height: 1.5; }
+    .lk small { font-size: 13px; color: #7A6E62; }
+    .lk i { font-style: normal; color: #B87333; }
+    .all { margin: 18px 0 0; }
+
+    /* 市場・生花店の方へ */
+    .d-biz { margin-top: 150px; color: #fff; }
+    .d-biz::after { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(51,41,31,.84); }
+    .d-biz .c { position: relative; z-index: 2; padding: 110px max(48px, calc(50% - 552px)); display: grid; grid-template-columns: 5fr 6fr; gap: clamp(36px, 6vw, 72px); align-items: center; }
+    .d-biz .eh { color: #fff; }
+    .d-biz p { font-size: 16px; opacity: .88; margin: 14px 0 0; }
+    .d-biz .rows { border-top: 1px solid rgba(255,255,255,.3); }
+    .d-biz .row { padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,.3); }
+    .d-biz .row b { font-size: 22px; }
+    .d-biz .row small { font-size: 14px; color: inherit; opacity: .75; }
+    .d-biz .row i { color: #D9935A; font-size: 20px; }
+
+    /* 読みもの */
+    .d-reads { padding-top: 150px; }
+    .rg { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .rc .ph { aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; }
+    .rc .ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .rc b { display: block; font-size: 21px; font-weight: 600; margin-top: 16px; line-height: 1.5; }
+    .rc p { font-size: 15px; color: #4A3B32; margin: 4px 0 6px; }
+    .rc em { font-style: normal; font-size: 14px; color: #B87333; }
+
+    /* 畑の様子 */
+    .d-igw { padding-top: 150px; }
+    .strip { display: grid; grid-template-columns: repeat(9, 1fr); gap: 4px; }
+    .strip > div { position: relative; aspect-ratio: 1 / 1; }
+
+    /* お問い合わせ */
+    .d-ct { margin-top: 150px; height: 560px; color: #fff; }
+    .d-ct::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to right, rgba(0,52,43,.9), rgba(0,52,43,.55) 55%, rgba(0,52,43,.1)); }
+    .d-ct .c { position: absolute; z-index: 2; left: max(48px, calc(50% - 552px)); top: 0; bottom: 0; width: min(560px, 80%); display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+    .d-ct .ey { font-size: 16px; opacity: .85; }
+    .d-ct h2 { font-size: clamp(28px, 3vw, 36px); font-weight: 600; line-height: 1.5; margin: 0; color: #fff; }
+    .d-ct p { font-size: 16px; opacity: .9; margin: 0; }
+    .d-ct .cb { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+    .d-ct .cb a { font-size: 15px; padding: 13px 22px; border-radius: 4px; border: 1px solid rgba(255,255,255,.7); color: #fff; }
+    .d-ct .cb a.main { background: #F2F2F0; color: #005243; font-weight: 700; border-color: #F2F2F0; }
   }
 
-  /* Prologue: シンプルな下から浮き出るアニメーション */
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 1.2s ease-out forwards;
-  }
-
-  /* 風の演出: ふわっと浮遊するアニメーション */
-  @keyframes wind-float {
-    from {
-      opacity: 0;
-      transform: translateY(60px) scale(0.98);
-      filter: blur(2px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      filter: blur(0);
-    }
-  }
-
-  /* 風の演出: 画像が風で揺らぐように現れる */
-  @keyframes wind-sway {
-    0% {
-      opacity: 0;
-      transform: translateX(-30px) translateY(30px) rotate(-2deg) scale(0.95);
-    }
-    60% {
-      transform: translateX(5px) translateY(-5px) rotate(0.5deg) scale(1.01);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0) translateY(0) rotate(0) scale(1);
-    }
-  }
-
-  .animate-fade-in {
-    animation: fade-in 1.5s ease-out forwards;
-  }
-
-  /* 画像の風アニメーション */
-  [data-animate="image-wind"] {
-    opacity: 0;
-    transition: opacity 1.5s ease-out;
-  }
-
-  [data-animate="image-wind"].animate-in {
-    opacity: 1;
-    animation: wind-sway 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  }
-
-  /* Fallback for images */
-  .insta-photo {
-    background: linear-gradient(135deg, #D5D3CF 0%, #B8B6B2 100%);
+  @media (min-width: 768px) and (max-width: 1000px) {
+    .d-shop .sm { right: -12px; }
+    .d-biz .c { padding-top: 80px; padding-bottom: 80px; }
+    .strip { grid-template-columns: repeat(5, 1fr); }
+    .strip > div:nth-child(n+6) { display: none; }
   }
 </style>
