@@ -1,7 +1,7 @@
 ---
 /**
  * 商品一覧ページ（スマホ第一）
- * 上から：題の写真 → いま買える花 → 花の種類から選ぶ → ほかのページ
+ * 上から：題の写真 → いま買える花 → すべての商品・研究成果
  *         → これから出る花の帯 → 考え方 → お問い合わせ
  * 設計案：2026-11-13 園主了承。題・棚・お問い合わせ帯と奥行きの動きは catalog/ の部品。
  */
@@ -20,6 +20,9 @@ import productsHeroImage from '../../assets/images/products/products-hero.jpg';
 import bouquetImage from '../../assets/images/products/bouquet-hero.jpg';
 import categoryImperfectImage from '../../assets/images/products/category-imperfect.jpg';
 import categoryLossFlowerImage from '../../assets/images/products/category-loss-flower.jpg';
+import dryFlowerImage from '../../assets/images/products/dry-flower-hero.jpg';
+import categoryMarketImage from '../../assets/images/products/category-market.jpg';
+import researchImage from '../../assets/images/about/technology.jpg';
 import dialogueImage from '../../assets/images/top/dialogue.jpg';
 
 // いま買える花（販売中・季節限定）をカテゴリー順＋フォルダ名順に並べる
@@ -37,13 +40,11 @@ const tiles = [
   { title: '花束・テーブルフラワー', note: 'ご自宅に・贈り物に', href: '/products/bouquet', image: bouquetImage },
   { title: '規格外切り花', note: 'たっぷり使いたい方に', href: '/products/imperfect', image: categoryImperfectImage },
   { title: 'ロスフラワー', note: 'クラフトの素材に', href: '/products/loss-flower', image: categoryLossFlowerImage },
+  { title: 'ドライフラワー', note: '花の頭だけ・茎つきの2種類', href: '/products/dry-flower', image: dryFlowerImage, more: true },
+  { title: '市場出荷品', note: 'お花屋さん・市場の方へ', href: '/products/market', image: categoryMarketImage, more: true },
+  { title: '研究成果', note: '畑で作ったアプリと記録', href: '/products/research', image: researchImage, more: true },
 ];
 
-const others = [
-  { title: 'ドライフラワー', note: '花の頭だけ・茎つきの2種類', href: '/products/dry-flower' },
-  { title: '市場出荷品', note: 'お花屋さん・市場の方へ（品質の規格）', href: '/products/market' },
-  { title: '研究成果', note: '畑で作ったアプリと記録', href: '/products/research' },
-];
 ---
 
 <Layout
@@ -61,7 +62,7 @@ const others = [
     <PageHero
       image={productsHeroImage}
       title="商品・研究成果"
-      lead="福島県浪江町の畑で育てた花を、花束や切り花でお届けします。"
+      lead="福島県浪江町の畑で育てた花を、花束や切り花でお届けします。畑で作ったアプリと記録も公開しています。"
       crumb={[{ name: 'ホーム', url: '/' }, { name: '商品・研究成果' }]}
     />
 
@@ -82,31 +83,18 @@ const others = [
       </Fragment>
     </ProductShelf>
 
-    <!-- 花の種類から選ぶ -->
+    <!-- すべての商品・研究成果 -->
     <section class="sec inner">
-      <div class="sec-h"><h2>花の種類から選ぶ</h2></div>
+      <div class="sec-h"><h2>すべての商品・研究成果</h2></div>
       <div class="cats">
         {tiles.map((t) => (
-          <a class="tile plx" href={t.href}>
+          <a class={t.more ? 'tile more plx' : 'tile plx'} href={t.href}>
             <Image src={t.image} alt="" width={900} sizes="(min-width: 768px) 600px, 100vw" loading="lazy" />
             <div class="tile-txt">
               <small>{t.note}</small>
               <b>{t.title}</b>
               <i>→</i>
             </div>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <!-- ほかのページ -->
-    <section class="sec inner">
-      <div class="sec-h"><h2>ほかのページ</h2></div>
-      <div class="others">
-        {others.map((o) => (
-          <a class="ot" href={o.href}>
-            <div><b>{o.title}</b><span>{o.note}</span></div>
-            <i>→</i>
           </a>
         ))}
       </div>
@@ -167,13 +155,16 @@ const others = [
   .tile:first-child .tile-txt b { font-size: 22px; }
   .tile-txt i { font-style: normal; font-family: theme('fontFamily.mono'); font-size: 12px; opacity: .9; }
 
-  /* ほかのページ */
-  .others { display: grid; }
-  .ot { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 14px 2px; border-top: 1px solid #E0DDD7; }
-  .ot:last-child { border-bottom: 1px solid #E0DDD7; }
-  .ot b { font-size: 16px; font-weight: 600; display: block; line-height: 1.5; }
-  .ot span { font-size: 12px; color: #7D7B77; }
-  .ot i { font-style: normal; font-family: theme('fontFamily.mono'); color: #B87333; }
+  /* 下の3つ（ドライフラワー・市場出荷品・研究成果）：スマホは写真なしの文字の行 */
+  .tile.more { grid-column: 1 / -1; aspect-ratio: auto; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 14px 2px; border-radius: 0; border-top: 1px solid #E0DDD7; color: #4A3B32; }
+  .tile.more:nth-child(4) { margin-top: 4px; }
+  .tile.more + .tile.more { margin-top: -10px; }
+  .tile.more:last-child { border-bottom: 1px solid #E0DDD7; }
+  .tile.more::after, .tile.more > img { display: none; }
+  .tile.more .tile-txt { position: static; display: grid; }
+  .tile.more .tile-txt small { order: 2; font-size: 12px; color: #7D7B77; opacity: 1; }
+  .tile.more .tile-txt b { order: 1; font-size: 16px; color: #4A3B32; }
+  .tile.more .tile-txt i { position: absolute; right: 2px; top: 50%; transform: translateY(-50%); color: #B87333; opacity: 1; }
 
   /* これから出る花の帯 */
   .band { height: 330px; color: #fff; margin-top: 36px; }
@@ -195,11 +186,17 @@ const others = [
     .sec-h h2 { font-size: 24px; }
     .empty { height: 300px; }
     .empty-txt { inset: auto 40px 36px 40px; max-width: 520px; }
-    .cats { grid-template-columns: 1.45fr 1fr; grid-template-rows: 240px 240px; gap: 16px; }
+    .cats { grid-template-columns: repeat(12, 1fr); grid-template-rows: 240px 240px 200px; gap: 16px; }
     .tile, .tile:first-child { aspect-ratio: auto; }
-    .tile:first-child { grid-column: auto; grid-row: 1 / 3; }
-    .others { grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .ot, .ot:last-child { border: 1px solid #E0DDD7; border-radius: 6px; padding: 16px 18px; background: #FBFBF9; }
+    .tile:first-child { grid-column: 1 / 8; grid-row: 1 / 3; }
+    .tile:nth-child(2), .tile:nth-child(3) { grid-column: 8 / 13; }
+    .tile.more, .tile.more + .tile.more, .tile.more:nth-child(4), .tile.more:last-child { grid-column: span 4; display: block; margin-top: 0; padding: 0; border: 0; border-radius: 6px; color: #fff; }
+    .tile.more::after { display: block; }
+    .tile.more > img { display: block; }
+    .tile.more .tile-txt { position: absolute; }
+    .tile.more .tile-txt small { order: 0; color: inherit; opacity: .88; font-size: 11px; }
+    .tile.more .tile-txt b { color: inherit; font-size: 18px; }
+    .tile.more .tile-txt i { position: static; transform: none; color: inherit; opacity: .9; }
     .band { height: 420px; margin-top: 56px; }
     .band-txt { left: max(48px, calc(50% - 552px)); }
     .philo { padding-top: 56px; padding-bottom: 56px; }
