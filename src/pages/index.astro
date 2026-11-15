@@ -122,7 +122,8 @@ const igTop = instagramImages.slice(0, 9);
           <div class="m-txt">
             <p>Farm Eolicaは、福島県浪江町にある小さな農場です。</p>
             <p>季節の花を育てるのは、わたし一人と、家族の手伝い。</p>
-            <p>風と土と科学が共存する、自然の中のアトリエ。自然の声に耳を傾け、データと共に進化する。</p>
+            <p>風と土と科学が共存する、自然の中のアトリエ。</p>
+            <p>自然の声に耳を傾け、データと共に進化する。</p>
             <p>そんな私たちの「研究成果」を、どうぞご覧ください。</p>
           </div>
           <div class="m-about">
@@ -297,6 +298,8 @@ const igTop = instagramImages.slice(0, 9);
 </Layout>
 
 <style>
+  /* お問い合わせ帯の見出しが「く／ださい」のように語の途中で折り返さないように（トップだけ） */
+  .m-contact :global(h2) { text-wrap: balance; }
   .top { background: #F2F2F0; color: #33291F; }
   .top :global(.fill) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
   .more { font-size: 13px; color: #B87333; white-space: nowrap; }
