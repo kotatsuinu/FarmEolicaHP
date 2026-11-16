@@ -74,6 +74,7 @@ export const worksSystems: WorksSystemCategory[] = [
       { key: 'mkt-podcast', title: '音声配信（Podcast）の自動化', description: 'stand.fmの配信から、文字起こしとnote記事の下書きまでを自動で作る。ライブ中のコメント読み上げや、AIと対話しながらの配信は開発中。' },
       { key: 'mkt-ai-video', title: 'AI動画制作パイプライン', description: '原稿からナレーション付きのプレゼン動画を作り、撮影素材からSNS動画を半自動で仕上げる。演出込みの高品質動画も指示だけで作れるよう、試験運用中。' },
       { key: 'mkt-manuscript-review', title: 'スマホ原稿レビューアプリ', description: 'スマホでnote原稿を読み、段落をタップしてコメントを残すと、AIが読んで原稿を直す。外出先でも推敲が進む。' },
+      { key: 'mkt-official-line', title: '公式LINEの窓口', description: 'お客さんがLINEで送った問い合わせに、AIが返信の下書きを作り、園主がSlackで確かめてから返す。メニューや商品カードは商品カタログから自動で作る。' },
     ],
   },
   {

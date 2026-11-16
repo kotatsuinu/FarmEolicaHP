@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-28",
+  "lastUpdated": "2026-11-16",
   "items": {
     "agri-eolica-system": {
       "status": "running",
@@ -9,7 +9,10 @@
     },
     "agri-cultivation-manager": {
       "status": "running",
-      "noteUrls": []
+      "noteUrls": [
+        "https://note.com/farm_eolica/n/n2d6405fb21a2",
+        "https://note.com/farm_eolica/n/nd405add56ac4"
+      ]
     },
     "agri-soil-fertilizer": {
       "status": "running",
@@ -37,6 +40,7 @@
         "https://note.com/farm_eolica/n/n40774c92226d",
         "https://note.com/farm_eolica/n/neef73f307b81",
         "https://note.com/farm_eolica/n/n7b6c72694988",
+        "https://note.com/farm_eolica/n/n8b6a289a1eca",
         "https://note.com/farm_eolica/n/n43911aea4b62",
         "https://note.com/farm_eolica/n/nb2130f15dbdd"
       ]
@@ -129,6 +133,10 @@
     },
     "mkt-manuscript-review": {
       "status": "running",
+      "noteUrls": []
+    },
+    "mkt-official-line": {
+      "status": "developing",
       "noteUrls": []
     },
     "edu-teaching-materials": {
