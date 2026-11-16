@@ -319,6 +319,23 @@ const canonical = `${siteUrl}/works/records/`;
 .wfooter-legal a{font-family:var(--mn);font-size:0.75rem;letter-spacing:.12em;color:var(--inkm);transition:color .2s}
 .wfooter-legal a:hover{color:var(--a)}
 .wfooter-copy{font-family:var(--mn);font-size:0.75rem;letter-spacing:.18em;color:var(--inkm)}
+
+/* ── Responsive ── */
+@media (max-width:1024px){
+  .contact-panel{grid-template-columns:1fr;gap:36px;padding:60px 48px}
+}
+@media (max-width:768px){
+  .cap-hero{padding:56px 24px 48px}
+  .cap-nav-inner{padding:0 12px}
+  .ws{padding:56px 24px 72px}
+  .sh{margin-bottom:36px}
+  .sh-top{flex-wrap:wrap;gap:12px}
+  .cap-grid{grid-template-columns:1fr}
+  .cap-card{padding:22px 20px}
+  .contact-section{padding-bottom:72px}
+  .contact-panel{padding:44px 24px}
+  .wfooter{padding:20px 24px 32px;flex-direction:column;align-items:flex-start;gap:14px}
+}
 </style>
 
 
