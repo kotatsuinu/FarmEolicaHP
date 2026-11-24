@@ -17,6 +17,8 @@ interface Props {
   emptyText?: string;
   emptyHref?: string;
   emptyCta?: string;
+  /** 0件の文言の後ろに出荷予報の一文を足すか。独自の文言とリンクを渡す棚は false にする */
+  forecastTail?: boolean;
   airy?: boolean;
 }
 const {
@@ -28,13 +30,16 @@ const {
   emptyText = 'いまは受付を休んでいます。',
   emptyHref,
   emptyCta,
+  forecastTail = true,
   airy = false,
 } = Astro.props;
 
 // 出荷予報の公開前は、準備中の言い方にして問い合わせへ案内する（切り替えは FORECAST_PUBLISHED）
-const emptyTail = FORECAST_PUBLISHED
-  ? '次に咲く花は出荷予報でご覧いただけます。'
-  : '出荷予報のページは準備中です。いま出せる花や時期は、お問い合わせください。';
+const emptyTail = !forecastTail
+  ? ''
+  : FORECAST_PUBLISHED
+    ? '次に咲く花は出荷予報でご覧いただけます。'
+    : '出荷予報のページは準備中です。いま出せる花や時期は、お問い合わせください。';
 const href = emptyHref ?? (FORECAST_PUBLISHED ? '/cultivation' : '/contact');
 const cta = emptyCta ?? (FORECAST_PUBLISHED ? '出荷予報を見る →' : 'お問い合わせ →');
 const count = items.length;
