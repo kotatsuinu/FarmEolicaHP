@@ -137,6 +137,13 @@ export const MEMBERSHIP_PUBLISHED: boolean =
     : false;
 
 /**
+ * 出荷予報ページ（/cultivation）を公開したか。
+ * false の間は、出荷予報へ誘う文言を「準備中」の言い方にし、問い合わせへ案内する。
+ * 出荷予報 第一段の本番公開日に true にする（正本: farm-eolica-docs/03_system/growth_diary/roadmap.md 園主の決定2）。
+ */
+export const FORECAST_PUBLISHED = false;
+
+/**
  * 花信風メンバーシップの申込み用 Stripe Payment Link。
  *
  * `MEMBERSHIP_PUBLISHED` が true なら本番Link（`paymentLink.live`）、false なら

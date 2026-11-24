@@ -9,7 +9,7 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import { SITE_CONFIG } from '../config/site';
+import { SITE_CONFIG, FORECAST_PUBLISHED } from '../config/site';
 import PageShell from '../components/products/catalog/PageShell.astro';
 import ProductShelf from '../components/products/catalog/ProductShelf.astro';
 import ContactBand from '../components/products/catalog/ContactBand.astro';
@@ -22,7 +22,7 @@ import forecastImage from '../assets/images/top/forecast.jpg';
 import dialogueImage from '../assets/images/top/dialogue.jpg';
 import bouquetImage from '../assets/images/products/bouquet-hero.jpg';
 import categoryImperfectImage from '../assets/images/products/category-imperfect.jpg';
-import categoryLossFlowerImage from '../assets/images/products/category-loss-flower.jpg';
+import dryFlowerImage from '../assets/images/products/dry-flower-hero.jpg';
 
 const instagramImageModules = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/images/instagram/*.jpg',
@@ -46,7 +46,7 @@ const count = buyable.length;
 const tiles = [
   { title: '花束・テーブルフラワー', note: 'ご自宅に・贈り物に', href: '/products/bouquet', image: bouquetImage },
   { title: '規格外切り花', note: 'たっぷり使いたい方に', href: '/products/imperfect', image: categoryImperfectImage },
-  { title: 'ロスフラワー', note: 'クラフトの素材に', href: '/products/loss-flower', image: categoryLossFlowerImage },
+  { title: 'ドライフラワー', note: '花の頭だけ・茎つきの2種類', href: '/products/dry-flower', image: dryFlowerImage },
 ];
 
 const notes = [SITE_CONFIG.noteMagazines.farmerLetter, SITE_CONFIG.noteMagazines.agriDX];
@@ -155,7 +155,7 @@ const igTop = instagramImages.slice(0, 9);
           <div class="sh"><h2>市場・生花店の方へ</h2></div>
           <div class="m-rows">
             <a class="row" href="/products/market"><span><b>市場出荷品</b><small>品質の規格と、出している花</small></span><i>→</i></a>
-            <a class="row" href="/cultivation"><span><b>出荷予報</b><small>これから出る花と時期の見込み</small></span><i>→</i></a>
+            <a class="row" href="/cultivation"><span><b>出荷予報</b><small>{FORECAST_PUBLISHED ? 'これから出る花と時期の見込み' : '準備中。いま出せる花はお問い合わせください'}</small></span><i>→</i></a>
           </div>
         </section>
 
@@ -243,11 +243,15 @@ const igTop = instagramImages.slice(0, 9);
           <div class="c">
             <div>
               <h2 class="eh">市場・生花店の方へ</h2>
-              <p>温度・湿度・日照を記録しながら育てています。出荷の見込みと品質の規格は、こちらにまとめています。</p>
+              {FORECAST_PUBLISHED ? (
+                <p>温度・湿度・日照を記録しながら育てています。出荷の見込みと品質の規格は、こちらにまとめています。</p>
+              ) : (
+                <p>温度・湿度・日照を記録しながら育てています。品質の規格は、こちらにまとめています。出荷予報は準備中です。</p>
+              )}
             </div>
             <div class="rows">
               <a class="row" href="/products/market"><span><b>市場出荷品</b><small>品質の規格と、出している花</small></span><i>→</i></a>
-              <a class="row" href="/cultivation"><span><b>出荷予報</b><small>これから出る花と時期の見込み</small></span><i>→</i></a>
+              <a class="row" href="/cultivation"><span><b>出荷予報</b><small>{FORECAST_PUBLISHED ? 'これから出る花と時期の見込み' : '準備中。いま出せる花はお問い合わせください'}</small></span><i>→</i></a>
             </div>
           </div>
         </section>

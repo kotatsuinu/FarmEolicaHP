@@ -2,22 +2,24 @@
 
 > 福島県浪江町の花き農園。データ駆動型の栽培管理で、トルコギキョウ・スプレー菊等を生産する個人経営の花農家。
 
-Farm Eolicaは福島県双葉郡浪江町で花き栽培を行う個人経営の農園です。IoTセンサーによる環境モニタリングやBigQueryによる市場データ分析など、データ駆動型の栽培管理を実践しています。市場出荷を主力としつつ、ロスフラワーや規格外切り花の直接販売にも取り組み、花の廃棄削減と価値創造を目指しています。
+Farm Eolicaは福島県双葉郡浪江町で花き栽培を行う個人経営の農園です。IoTセンサーによる環境モニタリングやBigQueryによる市場データ分析など、データ駆動型の栽培管理を実践しています。市場出荷を主力としつつ、花束・テーブルフラワーやドライフラワーなどの直接販売にも取り組んでいます（販売は在庫のあるときのみで、受付を休んでいる期間があります）。市場の規格に満たない花も活かし、花の廃棄削減と価値創造を目指しています。
 
 ## 主要ページ
 
-- [商品一覧](https://farmeolica.com/products/): ロスフラワー・規格外切り花・市場出荷品の紹介
+- [商品一覧](https://farmeolica.com/products/): 花束・テーブルフラワー・規格外切り花・ドライフラワー・市場出荷品の紹介
 - [出荷予報](https://farmeolica.com/cultivation/): 栽培状況と出荷予報ボード（準備中。出荷の見込みはお問い合わせください）
 - [農園について](https://farmeolica.com/about/): Farm Eolicaの思想と背景
 - [お問い合わせ](https://farmeolica.com/contact/): 購入・栽培リクエスト・見学のご相談
-- [よくある質問](https://farmeolica.com/faq/): ロスフラワー通販に関するFAQ
-- [ロスフラワーとは](https://farmeolica.com/loss-flower/): 農家直送の花材（規格外・ロスフラワー）通販の解説ピラーページ
+- [よくある質問](https://farmeolica.com/faq/): ロスフラワー（市場出荷時に出る規格外の花）の購入・花材としての使い方に関するFAQ。ロスフラワーの販売は現在休止中
+- [ロスフラワーとは](https://farmeolica.com/loss-flower/): ロスフラワー（規格外の花）の解説ページ。販売は現在休止中
 
 ## 商品カテゴリ
 
-- [ロスフラワー](https://farmeolica.com/products/loss-flower/): 市場出荷時に切り落とされる花頭の詰め合わせ。クラフト・ドライフラワー制作向け
+- [花束・テーブルフラワー](https://farmeolica.com/products/bouquet/): 畑の花で作る花束とテーブルフラワー。ご自宅用・贈り物向け
 - [規格外切り花](https://farmeolica.com/products/imperfect/): 市場規格に満たない茎付き切り花。自宅観賞・アレンジメント向け
+- [ドライフラワー](https://farmeolica.com/products/dry-flower/): 花の頭だけ・茎つきの2種類
 - [市場出荷品](https://farmeolica.com/products/market/): JAふくしま未来経由で出荷する高品質切り花の品質情報
+- [ロスフラワー](https://farmeolica.com/products/loss-flower/): 市場出荷時に切り落とされる花頭の詰め合わせ。販売は現在休止中
 
 ## 取扱品目
 

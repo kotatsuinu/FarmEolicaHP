@@ -6,6 +6,7 @@
  */
 import { Image } from 'astro:assets';
 import type { ProductEntry } from './split';
+import { FORECAST_PUBLISHED } from '../../../config/site';
 
 interface Props {
   items: ProductEntry[];
@@ -24,12 +25,18 @@ const {
   showPrice = true,
   chipLabel,
   description,
-  emptyText = 'いまは受付を休んでいます。次に咲く花は出荷予報でご覧いただけます。',
-  emptyHref = '/cultivation',
-  emptyCta = '出荷予報を見る →',
+  emptyText = 'いまは受付を休んでいます。',
+  emptyHref,
+  emptyCta,
   airy = false,
 } = Astro.props;
 
+// 出荷予報の公開前は、準備中の言い方にして問い合わせへ案内する（切り替えは FORECAST_PUBLISHED）
+const emptyTail = FORECAST_PUBLISHED
+  ? '次に咲く花は出荷予報でご覧いただけます。'
+  : '出荷予報のページは準備中です。いま出せる花や時期は、お問い合わせください。';
+const href = emptyHref ?? (FORECAST_PUBLISHED ? '/cultivation' : '/contact');
+const cta = emptyCta ?? (FORECAST_PUBLISHED ? '出荷予報を見る →' : 'お問い合わせ →');
 const count = items.length;
 const chip = (s: string) => chipLabel ?? (s === 'seasonal' ? '季節限定' : '販売中');
 ---
@@ -61,11 +68,19 @@ const chip = (s: string) => chipLabel ?? (s === 'seasonal' ? '季節限定' : '�
             )}
           </a>
         ))}
-        <a class="pc-next" href="/cultivation">
-          <b>これから出る花</b>
-          <span>畑で育っている花と、出荷の見込み</span>
-          <i>出荷予報を見る →</i>
-        </a>
+        {FORECAST_PUBLISHED ? (
+          <a class="pc-next" href="/cultivation">
+            <b>これから出る花</b>
+            <span>畑で育っている花と、出荷の見込み</span>
+            <i>出荷予報を見る →</i>
+          </a>
+        ) : (
+          <a class="pc-next" href="/contact">
+            <b>これから出る花</b>
+            <span>出荷予報は準備中です。いま出せる花や時期は、お問い合わせください</span>
+            <i>お問い合わせ →</i>
+          </a>
+        )}
       </div>
       <p class="swipe">← 横にめくれます</p>
     </>
@@ -73,8 +88,8 @@ const chip = (s: string) => chipLabel ?? (s === 'seasonal' ? '季節限定' : '�
     <slot name="empty" />
   ) : (
     <div class="gate">
-      <p>{emptyText}</p>
-      <a href={emptyHref}>{emptyCta}</a>
+      <p>{emptyText}{emptyTail}</p>
+      <a href={href}>{cta}</a>
     </div>
   )}
 </section>

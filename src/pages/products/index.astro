@@ -8,7 +8,7 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { SITE_CONFIG } from '../../config/site';
+import { SITE_CONFIG, FORECAST_PUBLISHED } from '../../config/site';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 import PageShell from '../../components/products/catalog/PageShell.astro';
@@ -39,17 +39,17 @@ const count = buyable.length;
 const tiles = [
   { title: '花束・テーブルフラワー', note: 'ご自宅に・贈り物に', href: '/products/bouquet', image: bouquetImage },
   { title: '規格外切り花', note: 'たっぷり使いたい方に', href: '/products/imperfect', image: categoryImperfectImage },
-  { title: 'ロスフラワー', note: 'クラフトの素材に', href: '/products/loss-flower', image: categoryLossFlowerImage },
-  { title: 'ドライフラワー', note: '花の頭だけ・茎つきの2種類', href: '/products/dry-flower', image: dryFlowerImage, more: true },
+  { title: 'ドライフラワー', note: '花の頭だけ・茎つきの2種類', href: '/products/dry-flower', image: dryFlowerImage },
   { title: '市場出荷品', note: 'お花屋さん・市場の方へ', href: '/products/market', image: categoryMarketImage, more: true },
   { title: '研究成果', note: '畑で作ったアプリと記録', href: '/products/research', image: researchImage, more: true },
+  { title: 'ロスフラワー', note: 'クラフトの素材に（販売は休止中）', href: '/products/loss-flower', image: categoryLossFlowerImage, more: true },
 ];
 
 ---
 
 <Layout
   title="商品・研究成果 | Farm Eolica (ファームエオリカ)"
-  description="Farm Eolicaの商品一覧。福島県浪江町の畑で育てた花を、花束・規格外切り花・ロスフラワーなどでお届けします。"
+  description="Farm Eolicaの商品一覧。福島県浪江町の畑で育てた花を、花束・規格外切り花・ドライフラワーなどでお届けします。"
   image={productsHeroImage.src}
   ogType="website"
 >
@@ -73,9 +73,17 @@ const tiles = [
           <Image src={dialogueImage} alt="" width={1200} sizes="(min-width: 768px) 1100px, 100vw" loading="lazy" />
           <div class="empty-txt">
             <b>いま販売中の花はありません</b>
-            <p>畑で育っている花と、次に出る時期の見込みは、出荷予報のページで見られます。</p>
+            {FORECAST_PUBLISHED ? (
+              <p>畑で育っている花と、次に出る時期の見込みは、出荷予報のページで見られます。</p>
+            ) : (
+              <p>出荷予報のページは準備中です。いま出せる花や時期は、お問い合わせください。</p>
+            )}
             <div class="btns">
-              <a class="btn" href="/cultivation">これから出る花を見る →</a>
+              {FORECAST_PUBLISHED ? (
+                <a class="btn" href="/cultivation">これから出る花を見る →</a>
+              ) : (
+                <a class="btn" href="/contact">お問い合わせ →</a>
+              )}
               <a class="btn ol" href={SITE_CONFIG.sns.line} target="_blank" rel="noopener">公式LINEで聞いてみる</a>
             </div>
           </div>
@@ -107,8 +115,18 @@ const tiles = [
         <div class="band-txt">
           <small>出荷予報</small>
           <b>これから出る花</b>
-          <p>ハウスでいま育っている花と、出荷の見込みを公開しています。</p>
-          <div class="btns"><a class="btn" href="/cultivation">出荷予報を見る →</a></div>
+          {FORECAST_PUBLISHED ? (
+            <p>ハウスでいま育っている花と、出荷の見込みを公開しています。</p>
+          ) : (
+            <p>出荷予報のページは準備中です。いま出せる花や時期は、お問い合わせください。</p>
+          )}
+          <div class="btns">
+            {FORECAST_PUBLISHED ? (
+              <a class="btn" href="/cultivation">出荷予報を見る →</a>
+            ) : (
+              <a class="btn" href="/contact">お問い合わせ →</a>
+            )}
+          </div>
         </div>
       </section>
     )}
