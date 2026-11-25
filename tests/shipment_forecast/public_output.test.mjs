@@ -137,7 +137,7 @@ describe('P 公開してはいけない項目が混ざらない', () => {
       expect(scanFixtureText(fs.readFileSync(path.join(FIXTURE_DIR, f), 'utf8')), f).toEqual([]);
     }
     // 陽性の確かめ：実在しうる番号を1つ混ぜた版・各種の目印で赤になる
-    expect(scanFixtureText(sfText(1).replace('209901', '202609'))).toContain('real_looking_no:202609');
+    expect(scanFixtureText(sfText(1).replace('209901', '203011'))).toContain('real_looking_no:203011');
     expect(scanFixtureText('{"cultivation_no": "209901"}')).toEqual([]);
     expect(scanFixtureText('{"uid": "abcdefghijklmnopqrstuvwxyz12"}')).toContain('user_id_like:abcdefghijklmnopqrstuvwxyz12');
     for (const w of ['private_key', 'BEGIN PRIVATE KEY', 'client_email', 'iam.gserviceaccount.com']) {
