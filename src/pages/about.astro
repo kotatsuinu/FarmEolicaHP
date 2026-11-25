@@ -1,10 +1,16 @@
 ---
-import { Image } from 'astro:assets';
+/**
+ * 農園についてページ（商品ページと同じ型：スマホ第一・影なし・英語の小見出しなし）
+ */
 import Layout from '../layouts/Layout.astro';
 import { SITE_CONFIG } from '../config/site';
 import NoteLinkCard from '../components/NoteLinkCard.astro';
-import SectionHeader from '../components/SectionHeader.astro';
 import PersonSchema from '../components/seo/PersonSchema.astro';
+import PageShell from '../components/products/catalog/PageShell.astro';
+import ContactBand from '../components/products/catalog/ContactBand.astro';
+import AboutHero from '../components/about/AboutHero.astro';
+import AboutStory from '../components/about/AboutStory.astro';
+import AboutProfile from '../components/about/AboutProfile.astro';
 
 import heroImage from '../assets/images/about/hero.jpg';
 import originImage from '../assets/images/about/origin.jpg';
@@ -12,353 +18,74 @@ import identityImage from '../assets/images/about/identity.jpg';
 import technologyImage from '../assets/images/about/technology.jpg';
 import locationImage from '../assets/images/about/location.jpg';
 import philosophyImage from '../assets/images/about/philosophy.jpg';
+
+const profileRows: [string, string][] = [
+  ['屋号', 'Farm Eolica（ファーム・エオリカ）'],
+  ['園主', '関口 卓磨（Sekiguchi Takuma）'],
+  ['所在地', '福島県双葉郡浪江町立野地区'],
+  ['事業内容', 'トルコギキョウ、スプレーマム、ストック等の切り花生産・販売'],
+  ['開業', '2024年'],
+];
 ---
 
-<Layout title="About | Farm Eolica (ファームエオリカ)" description="風を読み、土を耕し、未来を咲かせる。Farm Eolicaの思想と背景。" image={heroImage.src}>
+<Layout title="農園について | Farm Eolica（ファームエオリカ）" description="風を読み、土を耕し、未来を咲かせる。Farm Eolicaの思想と背景。" image={heroImage.src}>
 
 <PersonSchema />
 
-  <!-- Hero Section -->
-  <section class="relative h-[70vh] md:h-screen w-full overflow-hidden">
-    <!-- Background Image -->
-    <div class="absolute inset-0 bg-warm-gray-200">
-      <Image
-        src={heroImage}
-        alt="Farm Eolica"
-        class="w-full h-full object-cover"
-        widths={[640, 1280, 1920]}
-        sizes="100vw"
-        loading="eager"
-        fetchpriority="high"
+<PageShell>
+  <AboutHero
+    image={heroImage}
+    alt="Farm Eolica のハウスの中"
+    titleLines={['風を読み、土を耕し、', '未来を咲かせる。']}
+    lead="浪江町で花を育てる、Farm Eolica のこと。"
+    crumb={[
+      { name: 'ホーム', url: '/' },
+      { name: '農園について' },
+    ]}
+  />
+
+  <AboutStory image={originImage} alt="風とともに生きる農園" label="名前の由来" heading={['「風」とともに生きる農園']}>
+    <p>「Farm Eolica(ファーム・エオリカ)」という名前は、ギリシャ神話に登場する風の神「アイオロス(Aeolus)」に由来しています。</p>
+    <p>私たちの農園がある福島県浪江町は、海と山に囲まれ、常に心地よい風が吹き抜ける場所です。時に厳しく、時に優しく吹くこの土地の「風」を受け入れ、味方にし、自然と共生しながら美しい花を育てたい。そんな願いを込めて名付けました。</p>
+  </AboutStory>
+
+  <AboutStory image={identityImage} alt="言葉を紡ぐ手から、命を育む手へ" label="園主のこと" heading={['言葉を紡ぐ手から、', '命を育む手へ']} reverse>
+    <p>園主は元々、タウン情報誌の編集者として働いていました。地域の魅力や人の想いを「言葉」で伝える仕事から、自らの手で価値を生み出す「農業」の世界へ。</p>
+    <p>異業種から参入したからこそ、既存の枠にとらわれない視点を大切にしています。一輪の花が持つ美しさだけでなく、それがお客様の手に渡るまでのストーリーも大切に紡いでいきます。</p>
+    <div class="card">
+      <NoteLinkCard
+        url={SITE_CONFIG.noteMagazines.newFarmerJourney.url}
+        title="新規就農のリアルを綴ったnote"
+        variant="subtle"
       />
-      <!-- Overlay -->
-      <div class="absolute inset-0 bg-eolica-green/40"></div>
     </div>
+  </AboutStory>
 
-    <!-- Hero Content -->
-    <div class="relative h-full flex items-center justify-center">
-      <div class="text-center text-white px-6 max-w-4xl">
-        <p class="font-mono text-xs tracking-[0.3em] mb-4 opacity-80 uppercase">
-          About Farm Eolica
-        </p>
-        <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl tracking-wide leading-tight">
-          風を読み、土を耕し、<br class="hidden md:inline">未来を咲かせる。
-        </h1>
-      </div>
-    </div>
+  <AboutStory image={technologyImage} alt="データが支え、感性が仕上げる" label="育て方" heading={['データが支え、', '感性が仕上げる']}>
+    <p>Farm Eolicaでは、温度・湿度・日射量などの環境データをリアルタイムで収集・分析する「スマート農業」を、独自開発(※)で実践しています。</p>
+    <p>植物の声なき声(データ)にも耳を傾け、最適な環境を整えること。そうして生まれた余裕を、一輪一輪の花と向き合う「人の目」と「人の手」に注ぐこと。</p>
+    <p>昔ながらの職人仕事に、テクノロジーのエッセンスを加えて。この両輪で、高品質な花づくりを目指しています。</p>
+    <p class="note">※農研機構「通い農業支援システム」をベースに独自改良を加えて運用</p>
+  </AboutStory>
 
-    <!-- Scroll Indicator -->
-    <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2">
-      <div class="font-mono text-xs text-white opacity-60 flex flex-col items-center gap-2">
-        <span>SCROLL</span>
-        <svg
-          class="w-5 h-5 animate-bounce"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          ></path>
-        </svg>
-      </div>
-    </div>
-  </section>
+  <AboutStory image={locationImage} alt="浪江の地から、新しい色を" label="場所" heading={['浪江の地から、', '新しい色を']} reverse>
+    <p>震災からの復興が進む浪江町。一度は更地になったこの場所だからこそ、描ける未来があります。</p>
+    <p>彩りのなかった土地に、ハウスを建て、苗を植え、花が咲く。その景色そのものが、復興の歩みです。私はこの地で、先人たちの想いや取り組みを大切にしつつ、新しい価値と風景を創り出していきたいと思っています。</p>
+  </AboutStory>
 
-  <!-- Section 1: Origin (Left Image, Right Text) -->
-  <section class="py-20 md:py-32 bg-stone-white" data-animate>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <!-- Left: Image -->
-        <div class="order-2 md:order-1" data-animate>
-          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm bg-warm-gray-200">
-            <Image
-              src={originImage}
-              alt="Origin - 風とともに生きる農園"
-              class="w-full h-full object-cover"
-              loading="lazy"
-              width={800}
-              height={600}
-            />
-          </div>
-        </div>
+  <AboutStory image={philosophyImage} alt="より良いものを、届け続ける農園であること" label="これから" heading={['より良いものを、', '届け続ける農園であること']}>
+    <p>風は、いつも同じようには吹かない。</p>
+    <p>追い風の年もあれば、向かい風に押し戻される年もある。それでも倒れず、風を受けて立ち続けること。</p>
+    <p>去年より少しだけ良い花を育て、少しだけ良い届け方を重ねて、また次の季節へ。</p>
+    <p><strong>より良いものを、届け続ける農園であること。</strong><br />その先に、まだ見ぬ景色がきっとある。</p>
+  </AboutStory>
 
-        <!-- Right: Text -->
-        <div class="order-1 md:order-2 space-y-6" data-animate>
-          <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
-            ORIGIN
-          </p>
-          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green leading-tight">
-            「風」とともに生きる農園
-          </h2>
-          <div class="font-serif text-wet-soil leading-relaxed space-y-4">
-            <p>
-              「Farm Eolica(ファーム・エオリカ)」という名前は、ギリシャ神話に登場する風の神「アイオロス(Aeolus)」に由来しています。
-            </p>
-            <p>
-              私たちの農園がある福島県浪江町は、海と山に囲まれ、常に心地よい風が吹き抜ける場所です。時に厳しく、時に優しく吹くこの土地の「風」を受け入れ、味方にし、自然と共生しながら美しい花を育てたい。そんな願いを込めて名付けました。
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <AboutProfile rows={profileRows} />
 
-  <!-- Section 2: Identity (Right Image, Left Text) -->
-  <section class="py-20 md:py-32 bg-white" data-animate>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <!-- Left: Text -->
-        <div class="space-y-6" data-animate>
-          <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
-            IDENTITY
-          </p>
-          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green leading-tight">
-            言葉を紡ぐ手から、<br class="hidden md:inline">命を育む手へ
-          </h2>
-          <div class="font-serif text-wet-soil leading-relaxed space-y-4">
-            <p>
-              園主は元々、タウン情報誌の編集者として働いていました。地域の魅力や人の想いを「言葉」で伝える仕事から、自らの手で価値を生み出す「農業」の世界へ。
-            </p>
-            <p>
-              異業種から参入したからこそ、既存の枠にとらわれない視点を大切にしています。一輪の花が持つ美しさだけでなく、それがお客様の手に渡るまでのストーリーも大切に紡いでいきます。
-            </p>
-            <div class="pt-4">
-              <NoteLinkCard
-                url={SITE_CONFIG.noteMagazines.newFarmerJourney.url}
-                title="新規就農のリアルを綴ったnote"
-                variant="subtle"
-              />
-            </div>
-          </div>
-        </div>
+  <ContactBand
+    heading="ご注文・ご相談はこちらから"
+    text="より良いものを届け続けるために。Farm Eolica の物語は、これからも続きます。"
+  />
+</PageShell>
 
-        <!-- Right: Image -->
-        <div data-animate>
-          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm bg-warm-gray-200">
-            <Image
-              src={identityImage}
-              alt="Identity - 言葉を紡ぐ手から、命を育む手へ"
-              class="w-full h-full object-cover"
-              loading="lazy"
-              width={800}
-              height={600}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 3: Technology (Left Image, Right Text) -->
-  <section class="py-20 md:py-32 bg-stone-white" data-animate>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <!-- Left: Image -->
-        <div class="order-2 md:order-1" data-animate>
-          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm bg-warm-gray-200">
-            <Image
-              src={technologyImage}
-              alt="Technology - データが支え、感性が仕上げる"
-              class="w-full h-full object-cover"
-              loading="lazy"
-              width={800}
-              height={600}
-            />
-          </div>
-        </div>
-
-        <!-- Right: Text -->
-        <div class="order-1 md:order-2 space-y-6" data-animate>
-          <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
-            TECHNOLOGY
-          </p>
-          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green leading-tight">
-            データが支え、<br class="hidden md:inline">感性が仕上げる
-          </h2>
-          <div class="font-serif text-wet-soil leading-relaxed space-y-4">
-            <p>
-              Farm Eolicaでは、温度・湿度・日射量などの環境データをリアルタイムで収集・分析する「スマート農業」を、独自開発(※)で実践しています。
-            </p>
-            <p>
-              植物の声なき声(データ)にも耳を傾け、最適な環境を整えること。そうして生まれた余裕を、一輪一輪の花と向き合う「人の目」と「人の手」に注ぐこと。
-            </p>
-            <p>
-              昔ながらの職人仕事に、テクノロジーのエッセンスを加えて。この両輪で、高品質な花づくりを目指しています。
-            </p>
-            <p>
-              ※農研機構「通い農業支援システム」をベースに独自改良を加えて運用
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 4: Location (Right Image, Left Text) -->
-  <section class="py-20 md:py-32 bg-white" data-animate>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <!-- Left: Text -->
-        <div class="space-y-6" data-animate>
-          <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
-            LOCATION
-          </p>
-          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green leading-tight">
-            浪江の地から、<br class="hidden md:inline">新しい色を
-          </h2>
-          <div class="font-serif text-wet-soil leading-relaxed space-y-4">
-            <p>
-              震災からの復興が進む浪江町。一度は更地になったこの場所だからこそ、描ける未来があります。
-            </p>
-            <p>
-              彩りのなかった土地に、ハウスを建て、苗を植え、花が咲く。その景色そのものが、復興の歩みです。私はこの地で、先人たちの想いや取り組みを大切にしつつ、新しい価値と風景を創り出していきたいと思っています。
-            </p>
-          </div>
-        </div>
-
-        <!-- Right: Image -->
-        <div data-animate>
-          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm bg-warm-gray-200">
-            <Image
-              src={locationImage}
-              alt="Location - 浪江の地から、新しい色を"
-              class="w-full h-full object-cover"
-              loading="lazy"
-              width={800}
-              height={600}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 5: Philosophy (Left Image, Right Text) -->
-  <section class="py-20 md:py-32 bg-stone-white" data-animate>
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <!-- Left: Image -->
-        <div class="order-2 md:order-1" data-animate>
-          <div class="aspect-[4/3] overflow-hidden shadow-lg rounded-sm bg-warm-gray-200">
-            <Image
-              src={philosophyImage}
-              alt="Philosophy - より良いものを、届け続ける農園であること"
-              class="w-full h-full object-cover"
-              loading="lazy"
-              width={800}
-              height={600}
-            />
-          </div>
-        </div>
-
-        <!-- Right: Text -->
-        <div class="order-1 md:order-2 space-y-6" data-animate>
-          <p class="font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
-            PHILOSOPHY
-          </p>
-          <h2 class="font-serif text-3xl md:text-4xl tracking-wide text-eolica-green leading-tight">
-            より良いものを、<br class="hidden md:inline">届け続ける農園であること
-          </h2>
-          <div class="font-serif text-wet-soil leading-relaxed space-y-4">
-            <p>
-              風は、いつも同じようには吹かない。
-            </p>
-            <p>
-              追い風の年もあれば、向かい風に押し戻される年もある。それでも倒れず、風を受けて立ち続けること。
-            </p>
-            <p>
-              去年より少しだけ良い花を育て、少しだけ良い届け方を重ねて、また次の季節へ。
-            </p>
-            <p>
-              <strong>より良いものを、届け続ける農園であること。</strong><br>
-              その先に、まだ見ぬ景色がきっとある。
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 6: Profile -->
-  <section id="person-takuma" class="py-20 md:py-32 bg-warm-gray-50/50" data-animate>
-    <div class="max-w-4xl mx-auto px-6 lg:px-12">
-      <SectionHeader titleJa="農園概要" titleEn="PROFILE" />
-
-      <!-- Profile Table -->
-      <div class="bg-white shadow-lg rounded-sm overflow-hidden">
-        <table class="w-full">
-          <tbody class="divide-y divide-warm-gray-200">
-            <tr class="hover:bg-warm-gray-50/50 transition-colors duration-200">
-              <th class="px-6 py-5 text-left font-mono text-xs tracking-widest text-warm-gray-500 uppercase w-1/3 md:w-1/4">
-                屋号
-              </th>
-              <td class="px-6 py-5 font-serif text-wet-soil">
-                Farm Eolica（ファーム・エオリカ）
-              </td>
-            </tr>
-            <tr class="hover:bg-warm-gray-50/50 transition-colors duration-200">
-              <th class="px-6 py-5 text-left font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
-                園主
-              </th>
-              <td class="px-6 py-5 font-serif text-wet-soil">
-                関口 卓磨（Sekiguchi Takuma）
-              </td>
-            </tr>
-            <tr class="hover:bg-warm-gray-50/50 transition-colors duration-200">
-              <th class="px-6 py-5 text-left font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
-                所在地
-              </th>
-              <td class="px-6 py-5 font-serif text-wet-soil">
-                福島県双葉郡浪江町立野地区
-              </td>
-            </tr>
-            <tr class="hover:bg-warm-gray-50/50 transition-colors duration-200">
-              <th class="px-6 py-5 text-left font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
-                事業内容
-              </th>
-              <td class="px-6 py-5 font-serif text-wet-soil">
-                トルコギキョウ、スプレーマム、ストック等の切り花生産・販売
-              </td>
-            </tr>
-            <tr class="hover:bg-warm-gray-50/50 transition-colors duration-200">
-              <th class="px-6 py-5 text-left font-mono text-xs tracking-widest text-warm-gray-500 uppercase">
-                開業
-              </th>
-              <td class="px-6 py-5 font-serif text-wet-soil">
-                2024年
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- Closing Section -->
-  <section class="py-32 md:py-40 bg-eolica-green text-white" data-animate>
-    <div class="max-w-4xl mx-auto text-center px-6">
-      <p class="font-mono text-xs tracking-[0.3em] mb-8 opacity-60 uppercase">
-        — WIND &amp; DATA LABORATORY —
-      </p>
-      <p class="font-serif text-3xl md:text-4xl tracking-wide leading-relaxed">
-        風を読み、土を耕し、未来を咲かせる。
-      </p>
-      <p class="mt-8 text-lg opacity-80 font-serif">
-        より良いものを届け続けるために——Farm Eolicaの物語は、これからも続きます。
-      </p>
-      <div class="mt-12">
-        <a
-          href="/contact"
-          class="inline-block px-12 py-4 text-xs tracking-widest uppercase font-mono border-2 border-white text-white hover:bg-white hover:text-eolica-green transition-all duration-300"
-        >
-          Contact Us
-        </a>
-      </div>
-    </div>
-  </section>
 </Layout>
-

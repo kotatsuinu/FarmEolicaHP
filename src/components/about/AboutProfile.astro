@@ -1,0 +1,37 @@
+---
+/**
+ * 農園概要。影なし・行の上下に細い罫線だけ。
+ */
+interface Props {
+  rows: [string, string][];
+}
+const { rows } = Astro.props;
+---
+
+<section id="person-takuma" class="profile">
+  <h2>農園概要</h2>
+  <table>
+    <tbody>
+      {rows.map(([k, v]) => (
+        <tr><th scope="row">{k}</th><td>{v}</td></tr>
+      ))}
+    </tbody>
+  </table>
+</section>
+
+<style>
+  .profile { padding: 56px 20px; border-top: 1px solid #E0DDD7; margin-top: 56px; }
+  h2 { font-size: 21px; font-weight: 600; color: #33291F; margin: 0 0 16px; text-align: left; line-height: 1.55; }
+  table { width: 100%; border-collapse: collapse; }
+  tr { border-top: 1px solid #E0DDD7; border-bottom: 1px solid #E0DDD7; }
+  th { width: 28%; text-align: left; vertical-align: top; font-size: 13px; font-weight: 400; color: #7D7B77; padding: 15px 12px 15px 2px; }
+  td { font-size: 15px; line-height: 1.8; color: #4A3B32; padding: 15px 2px; }
+
+  @media (min-width: 768px) {
+    .profile { padding: 56px max(48px, calc(50% - 552px)); }
+    h2 { font-size: 24px; }
+    table { max-width: 760px; }
+    th { width: 22%; }
+    td { font-size: 16px; }
+  }
+</style>
