@@ -2,6 +2,7 @@
 // 検査器は関数にして、壊れた手書きの表に対して「見つける」ことを先に確かめる（陽性コントロール）。
 import { describe, test, expect } from 'vitest';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -42,7 +43,6 @@ export function checkPhotoMap(map, publicDir) {
 }
 
 describe('検査器そのもの（壊れた表を見つけられる）', () => {
-  const tmp = path.join(ROOT, 'tests', 'shipment_forecast_page', 'helpers');
   test('PC-1 0件・instagram・forecast 外・実在しないファイル・alt なしを、それぞれ見つける', () => {
     expect(checkPhotoMap({ crops: {} }, PUBLIC_DIR)).toContain('zero_entries');
     const bad = checkPhotoMap(
@@ -62,8 +62,8 @@ describe('検査器そのもの（壊れた表を見つけられる）', () => {
     expect(bad.some((b) => b.startsWith('alt_empty@crop:え'))).toBe(true);
   });
   test('PC-2 正しい表（実在のファイルを指す）は問題0件', () => {
-    // この検査の陰性側。tests の下の実在ファイルを forecast 配下に見立てた一時の公開フォルダで確かめる
-    const fakePublic = fs.mkdtempSync(path.join(fs.realpathSync(require_tmp()), 'sfp-pub-'));
+    // この検査の陰性側。一時の公開フォルダに forecast 配下のファイルを置いて確かめる
+    const fakePublic = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp-pub-'));
     fs.mkdirSync(path.join(fakePublic, 'images', 'forecast'), { recursive: true });
     fs.writeFileSync(path.join(fakePublic, 'images', 'forecast', 'ok.jpg'), 'x');
     try {
@@ -76,13 +76,8 @@ describe('検査器そのもの（壊れた表を見つけられる）', () => {
     } finally {
       fs.rmSync(fakePublic, { recursive: true, force: true });
     }
-    void tmp;
   });
 });
-
-function require_tmp() {
-  return process.env.TEMP || process.env.TMPDIR || '/tmp';
-}
 
 describe('実物の対応表', () => {
   test('V14-0 対応表のファイルがある', () => {
