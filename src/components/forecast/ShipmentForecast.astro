@@ -39,9 +39,17 @@ const NOTE = '植えた本数の目安です。出荷できる本数や、品質
 
   {
     view.state === 'empty' && (
-      <p class="text-center text-wet-soil font-serif leading-relaxed mb-12">
-        いま載せられる品目はありません。出荷の見込みはお問い合わせください
-      </p>
+      <div class="text-center mb-12">
+        <p class="text-wet-soil font-serif leading-relaxed mb-6">
+          いま載せられる品目はありません。出荷の見込みはお問い合わせください
+        </p>
+        <a
+          href="/contact"
+          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+        >
+          お問い合わせはこちら
+        </a>
+      </div>
     )
   }
 
