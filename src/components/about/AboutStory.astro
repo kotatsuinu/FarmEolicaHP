@@ -1,0 +1,53 @@
+---
+/**
+ * 農園についての「話」1つ分。写真（奥行きの動きは PageShell の .plx）＋札＋見出し＋本文（slot）。
+ * スマホは写真が先、PCは左右2段（reverse で写真を右）。
+ */
+import { Image } from 'astro:assets';
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  label: string;
+  heading: string[];
+  reverse?: boolean;
+}
+const { image, alt, label, heading, reverse = false } = Astro.props;
+---
+
+<section class:list={['story', { reverse }]}>
+  <div class="story-in">
+    <div class="plx photo">
+      <Image src={image} alt={alt} widths={[640, 960, 1280]} sizes="(min-width: 768px) 540px, 100vw" loading="lazy" />
+    </div>
+    <div class="txt">
+      <p class="label">{label}</p>
+      <h2>{heading.map((l) => <span class="hl">{l}</span>)}</h2>
+      <div class="body"><slot /></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story { padding: 56px 20px 0; }
+  .story + .story { margin-top: 56px; border-top: 1px solid #E0DDD7; padding-top: 56px; }
+  .story-in { display: grid; gap: 24px; }
+  .photo { aspect-ratio: 4 / 3; border-radius: 6px; background: #E0DDD7; }
+  .label { font-size: 13px; color: #B87333; margin: 0 0 8px; letter-spacing: .08em; line-height: 1.5; }
+  h2 { font-size: 21px; font-weight: 600; color: #33291F; line-height: 1.55; margin: 0 0 14px; }
+  .hl { display: block; }
+  .body { font-size: 15px; line-height: 1.9; color: #4A3B32; }
+  .body :global(p) { margin: 0 0 14px; }
+  .body :global(p:last-child) { margin-bottom: 0; }
+  .body :global(.note) { font-size: 12.5px; color: #7D7B77; line-height: 1.8; }
+  .body :global(.card) { padding-top: 6px; }
+
+  @media (min-width: 768px) {
+    .story { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .story-in { grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .reverse .photo { order: 2; }
+    .reverse .txt { order: 1; }
+    h2 { font-size: 24px; }
+    .body { font-size: 16px; }
+  }
+</style>
