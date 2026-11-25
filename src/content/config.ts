@@ -1,48 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 
 /**
- * 栽培記録コレクション (B2B出荷予報ボード用)
- * 市場関係者向けの出荷予報情報を管理
- */
-const cultivationCollection = defineCollection({
-  type: 'content',
-  schema: ({ image }) => z.object({
-    // 基本情報
-    title: z.string(),                    // タイトル（例: "カーネーション（ピンク系）"）
-    date: z.date(),                       // 記録日
-    flowerType: z.string().optional(),    // 花卉種類（例: "カーネーション"）
-    variety: z.string().optional(),       // 品種名（例: "ノラ"）
-
-    // 出荷予報情報 (B2B向け)
-    status: z.enum([
-      'excellent',     // 🟢 順調
-      'good',          // 🟡 やや遅延
-      'delay',         // 🟠 遅延
-      'trouble'        // 🔴 大幅遅延・問題発生
-    ]).optional(),
-    shippingPeriod: z.string().optional(),           // 出荷予定時期（例: "2025-03下旬"）
-    expectedQuantity: z.number().optional(),         // 予想出荷本数
-
-    // 生育データ
-    currentHeight: z.number().optional(), // 現在の草丈（cm）
-    growthStage: z.string().optional(),   // 生育ステージ（例: "蕾形成期"）
-    defects: z.array(z.string()).optional(), // 欠点情報（例: ["葉先枯れ若干あり"]）
-    environmentData: z.object({
-      temperature: z.number().optional(),
-      humidity: z.number().optional(),
-      lightHours: z.number().optional(),
-    }).optional(),
-
-    // メディア
-    images: z.array(z.string()).optional(),  // 定点観測写真 - 文字列パス配列
-
-    // その他
-    tags: z.array(z.string()).optional(),
-    archived: z.boolean().default(false), // アーカイブフラグ
-  }),
-});
-
-/**
  * 商品情報コレクション
  * 販売する花卉の情報
  *
@@ -183,6 +141,5 @@ const productsCollection = defineCollection({
 });
 
 export const collections = {
-  cultivation: cultivationCollection,
   products: productsCollection,
 };

@@ -1,8 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ShipmentForecast from '../components/forecast/ShipmentForecast.astro';
+import { buildForecastView, type PhotoMap } from '../lib/shipmentForecast/view';
+import { loadForecastFile, resolveForecastSettings } from '../lib/shipmentForecast/load';
+import photos from '../data/shipment_forecast_photos.json';
+
+// 公開の目印に関係なく毎回読む（壊れたファイルはここでビルドを落とす）。ファイルが無いときだけ null
+const { published, dataFile } = resolveForecastSettings(process.env);
+const forecast = loadForecastFile(dataFile);
+const view = buildForecastView({ forecast, photos: photos as PhotoMap });
 ---
 
 <Layout title="Shipment Forecast | Farm Eolica (ファームエオリカ)" description="Farm Eolicaの出荷予報ページは現在準備中です。">
+  {forecast && <meta slot="head" name="forecast-generated-at" content={forecast.generated_at} />}
+  {published ? (
+    <ShipmentForecast view={view} />
+  ) : (
+    <Fragment>
   <div class="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center">
     <div data-animate>
       <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">
@@ -34,4 +48,6 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
   </div>
+</Fragment>
+  )}
 </Layout>

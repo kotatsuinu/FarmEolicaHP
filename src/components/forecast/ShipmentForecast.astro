@@ -1,10 +1,114 @@
 ---
-// 出荷予報の表示部品（段2）。いまは入れ物（何も描かない）。
+// 出荷予報の表示部品（段2）。3つの状態（missing／empty／present）を描く。
 import type { ForecastView } from '../../lib/shipmentForecast/view';
 
 interface Props {
   view: ForecastView;
 }
 
-const { view: _view } = Astro.props;
+const { view } = Astro.props;
+const NOTE = '植えた本数の目安です。出荷できる本数や、品質をお約束する本数ではありません';
 ---
+
+<div data-forecast-state={view.state} class="max-w-3xl mx-auto px-6 py-24 md:py-32">
+  {
+    view.state === 'missing' && (
+      <div class="min-h-[50vh] flex flex-col items-center justify-center text-center">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-6">SHIPMENT FORECAST</p>
+        <h1 class="font-serif text-3xl md:text-4xl text-eolica-green tracking-wide mb-6">出荷予報を準備しています</h1>
+        <p class="text-warm-gray-500 font-serif leading-relaxed">
+          出荷のご相談は、
+          <a href="/contact" class="text-old-copper hover:underline">
+            お問い合わせページ
+          </a>
+          からご連絡ください。
+        </p>
+      </div>
+    )
+  }
+
+  {
+    view.state !== 'missing' && (
+      <header class="text-center mb-14">
+        <p class="font-mono text-xs tracking-widest text-warm-gray-500 mb-4">SHIPMENT FORECAST</p>
+        <h1 class="font-serif text-3xl md:text-4xl text-eolica-green tracking-wide mb-4">出荷予報</h1>
+        <p class="font-mono text-sm text-wet-soil tracking-widest">{view.asOf}</p>
+      </header>
+    )
+  }
+
+  {
+    view.state === 'empty' && (
+      <p class="text-center text-wet-soil font-serif leading-relaxed mb-12">
+        いま載せられる品目はありません。出荷の見込みはお問い合わせください
+      </p>
+    )
+  }
+
+  {
+    view.state === 'present' &&
+      view.sections.map((section) => (
+        <section data-section={section.key} class="mb-14">
+          <h2 class="font-serif text-xl text-eolica-green tracking-wide border-b border-warm-gray-200 pb-2 mb-6">
+            {section.title}
+          </h2>
+          <div class="space-y-10">
+            {section.items.map((item) => (
+              <article data-crop class="bg-white border border-warm-gray-200 overflow-hidden">
+                {item.photo && (
+                  <div class="relative aspect-[16/9] bg-warm-gray-100">
+                    <img
+                      src={item.photo.src}
+                      alt={item.photo.alt}
+                      loading="lazy"
+                      class="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <span class="absolute bottom-0 right-0 bg-black/55 text-white text-xs font-mono px-3 py-1">
+                      過去の栽培のイメージです
+                    </span>
+                  </div>
+                )}
+                <div class="p-5 md:p-6">
+                  <h3 class="font-serif text-lg text-wet-soil mb-4">{item.crop}</h3>
+                  <ul class="divide-y divide-warm-gray-100">
+                    {item.rows.map((row) => (
+                      <li data-row class="py-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+                        {row.variety && <span class="font-serif text-wet-soil">{row.variety}</span>}
+                        <span class="font-mono text-sm text-warm-gray-500">{row.months}</span>
+                        <span class="text-xs font-mono border border-eolica-green text-eolica-green px-2 py-0.5">
+                          {row.statusLabel}
+                        </span>
+                        {row.countLabel && <span class="font-mono text-sm text-wet-soil">{row.countLabel}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                  <div class="mt-5">
+                    <a
+                      href={item.contactHref}
+                      class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+                    >
+                      この品目を問い合わせる
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))
+  }
+
+  {
+    view.state === 'present' && (
+      <div class="text-center border-t border-warm-gray-200 pt-8">
+        <p class="text-sm text-warm-gray-500 font-serif leading-relaxed mb-6">{NOTE}</p>
+        <a
+          href="/contact"
+          class="text-xs font-mono border-b border-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
+        >
+          お問い合わせはこちら
+        </a>
+      </div>
+    )
+  }
+</div>
