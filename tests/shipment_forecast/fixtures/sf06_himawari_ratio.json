@@ -1,0 +1,40 @@
+{
+  "snapshot_version": 1,
+  "generated_at": "2026-11-17T04:00:00+09:00",
+  "generated_for_date": "2026-11-17",
+  "generator": { "function": "buildCultivationSnapshot", "revision": "rev-fixture-01" },
+  "sources": {
+    "cultivations": { "ok": true, "read": 20 },
+    "cultivation_stages": { "ok": true, "read": 30 },
+    "cultivation_varieties": { "ok": true, "read": 40 },
+    "planting_records": { "ok": true, "read": 5 },
+    "polyculture_varieties": { "ok": true, "read": 6 }
+  },
+  "main": {
+    "cultivations": [
+      {
+        "cultivation_no": "209906",
+        "flower_type": "ヒマワリ",
+        "status": "active",
+        "status_source": "stored",
+        "start_date": "2026-11-01",
+        "actual_planting_date": null,
+        "harvest_start": "2027-02-01",
+        "harvest_end": "2027-03-15",
+        "planned_count_total": 1600,
+        "variety_counts_usable": true,
+        "varieties": [
+          { "variety_id": "v-f6-lemon", "variety_name": "レモン", "planned_count": 400, "bed_numbers": null, "current_stage": null, "current_stage_effective": null },
+          { "variety_id": "v-f6-yellow", "variety_name": "イエロー", "planned_count": 800, "bed_numbers": null, "current_stage": null, "current_stage_effective": null },
+          { "variety_id": "v-f6-orange", "variety_name": "オレンジ", "planned_count": 400, "bed_numbers": null, "current_stage": null, "current_stage_effective": null }
+        ],
+        "current_stage": { "cultivation": null, "representative": null },
+        "location": "LOC-F6",
+        "bed_numbers": "BED-F6"
+      }
+    ],
+    "name_unresolved_count": 0
+  },
+  "other": { "plantings": [] },
+  "weekly_tasks": { "range": { "from": "2026-11-10", "to": "2026-11-24" }, "tasks": [] }
+}

@@ -1,0 +1,46 @@
+{
+  "snapshot_version": 1,
+  "generated_at": "2026-11-17T04:00:00+09:00",
+  "generated_for_date": "2026-11-17",
+  "generator": { "function": "buildCultivationSnapshot", "revision": "rev-fixture-01" },
+  "sources": {
+    "cultivations": { "ok": true, "read": 20 },
+    "cultivation_stages": { "ok": true, "read": 30 },
+    "cultivation_varieties": { "ok": true, "read": 40 },
+    "planting_records": { "ok": true, "read": 5 },
+    "polyculture_varieties": { "ok": true, "read": 6 }
+  },
+  "main": {
+    "cultivations": [
+      {
+        "cultivation_no": "209902",
+        "flower_type": "カンパニュラ",
+        "status": "harvesting",
+        "status_source": "stored",
+        "start_date": "2026-06-10",
+        "actual_planting_date": "2026-07-01",
+        "harvest_start": "2026-10-25",
+        "harvest_end": "2026-12-05",
+        "planned_count_total": 1830,
+        "variety_counts_usable": false,
+        "varieties": [
+          { "variety_id": "v-f2-blue", "variety_name": "ブルー", "planned_count": null, "bed_numbers": null,
+            "current_stage": null,
+            "current_stage_effective": { "stage_name": "開花・採花", "start_date": "2026-10-20", "stage_id": "stg-f2", "source": "cultivation" } },
+          { "variety_id": "v-f2-white", "variety_name": "ホワイト", "planned_count": null, "bed_numbers": null,
+            "current_stage": null,
+            "current_stage_effective": { "stage_name": "開花・採花", "start_date": "2026-10-20", "stage_id": "stg-f2", "source": "cultivation" } }
+        ],
+        "current_stage": {
+          "cultivation": { "stage_name": "開花・採花", "start_date": "2026-10-20", "stage_id": "stg-f2" },
+          "representative": { "stage_name": "開花・採花", "start_date": "2026-10-20", "stage_id": "stg-f2" }
+        },
+        "location": "LOC-F2",
+        "bed_numbers": "BED-F2"
+      }
+    ],
+    "name_unresolved_count": 0
+  },
+  "other": { "plantings": [] },
+  "weekly_tasks": { "range": { "from": "2026-11-10", "to": "2026-11-24" }, "tasks": [] }
+}

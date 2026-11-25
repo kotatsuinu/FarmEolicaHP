@@ -1,0 +1,52 @@
+{
+  "snapshot_version": 1,
+  "generated_at": "2026-11-17T04:00:00+09:00",
+  "generated_for_date": "2026-11-17",
+  "generator": { "function": "buildCultivationSnapshot", "revision": "rev-fixture-01" },
+  "sources": {
+    "cultivations": { "ok": true, "read": 20 },
+    "cultivation_stages": { "ok": true, "read": 30 },
+    "cultivation_varieties": { "ok": true, "read": 40 },
+    "planting_records": { "ok": true, "read": 5 },
+    "polyculture_varieties": { "ok": true, "read": 6 }
+  },
+  "main": {
+    "cultivations": [
+      {
+        "cultivation_no": "209911",
+        "flower_type": "カンパニュラ",
+        "status": "active",
+        "status_source": "stored",
+        "start_date": "2026-09-01",
+        "actual_planting_date": null,
+        "harvest_start": "2026-12-01",
+        "harvest_end": "2027-01-10",
+        "planned_count_total": 1200,
+        "variety_counts_usable": false,
+        "varieties": [],
+        "current_stage": { "cultivation": null, "representative": null },
+        "location": "LOC-F8A",
+        "bed_numbers": "BED-F8A"
+      },
+      {
+        "cultivation_no": "209912",
+        "flower_type": "カンパニュラ",
+        "status": "active",
+        "status_source": "stored",
+        "start_date": "2026-10-01",
+        "actual_planting_date": null,
+        "harvest_start": "2027-01-10",
+        "harvest_end": "2027-02-20",
+        "planned_count_total": null,
+        "variety_counts_usable": false,
+        "varieties": [],
+        "current_stage": { "cultivation": null, "representative": null },
+        "location": "LOC-F8B",
+        "bed_numbers": "BED-F8B"
+      }
+    ],
+    "name_unresolved_count": 0
+  },
+  "other": { "plantings": [] },
+  "weekly_tasks": { "range": { "from": "2026-11-10", "to": "2026-11-24" }, "tasks": [] }
+}

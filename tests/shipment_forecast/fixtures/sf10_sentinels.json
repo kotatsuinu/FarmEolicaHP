@@ -1,0 +1,78 @@
+{
+  "snapshot_version": 1,
+  "generated_at": "2026-11-17T04:00:00+09:00",
+  "generated_for_date": "2026-11-17",
+  "generator": { "function": "FN-MARK-01", "revision": "REV-MARK-01" },
+  "sources": {
+    "cultivations": { "ok": true, "read": 3141 },
+    "cultivation_stages": { "ok": true, "read": 5926 },
+    "cultivation_varieties": { "ok": true, "read": 5358 },
+    "planting_records": { "ok": true, "read": 9793 },
+    "polyculture_varieties": { "ok": true, "read": 2384 }
+  },
+  "main": {
+    "cultivations": [
+      {
+        "cultivation_no": "209920",
+        "flower_type": "キンギョソウ",
+        "status": "active",
+        "status_source": "SRC-MARK-01",
+        "start_date": "2098-07-07",
+        "actual_planting_date": "2098-08-08",
+        "harvest_start": "2027-02-10",
+        "harvest_end": "2027-03-31",
+        "planned_count_total": 2590,
+        "variety_counts_usable": true,
+        "varieties": [
+          { "variety_id": "VID-MARK-01", "variety_name": "ホワイト", "planned_count": 1213, "bed_numbers": "VBED-MARK-01",
+            "current_stage": { "stage_name": "STAGE-MARK-V1", "start_date": "2098-01-01", "stage_id": "STGID-MARK-V1" },
+            "current_stage_effective": { "stage_name": "STAGE-MARK-V1", "start_date": "2098-01-01", "stage_id": "STGID-MARK-V1", "source": "SRC-MARK-02" } },
+          { "variety_id": "VID-MARK-02", "variety_name": "ピンク", "planned_count": 1377, "bed_numbers": "VBED-MARK-02",
+            "current_stage": null,
+            "current_stage_effective": { "stage_name": "STAGE-MARK-C2", "start_date": "2098-02-12", "stage_id": "STGID-MARK-C2", "source": "SRC-MARK-03" } }
+        ],
+        "current_stage": {
+          "cultivation": { "stage_name": "STAGE-MARK-C1", "start_date": "2098-02-02", "stage_id": "STGID-MARK-C1" },
+          "representative": { "stage_name": "STAGE-MARK-R1", "start_date": "2098-03-03", "stage_id": "STGID-MARK-R1" }
+        },
+        "location": "LOC-MARK-01",
+        "bed_numbers": "BED-MARK-01"
+      },
+      {
+        "cultivation_no": "209921",
+        "flower_type": "キンギョソウ",
+        "status": "active",
+        "status_source": "SRC-MARK-04",
+        "start_date": "2098-09-09",
+        "actual_planting_date": null,
+        "harvest_start": "2027-03-05",
+        "harvest_end": "2027-04-20",
+        "planned_count_total": 1827,
+        "variety_counts_usable": false,
+        "varieties": [
+          { "variety_id": "VID-MARK-03", "variety_name": "イエロー", "planned_count": null, "bed_numbers": "VBED-MARK-03", "current_stage": null, "current_stage_effective": null }
+        ],
+        "current_stage": { "cultivation": null, "representative": null },
+        "location": "LOC-MARK-02",
+        "bed_numbers": "BED-MARK-02"
+      }
+    ],
+    "name_unresolved_count": 7331
+  },
+  "other": {
+    "plantings": [
+      { "record_id": "REC-MARK-01", "variety_name": "OVAR-MARK-01", "area": "AREA-MARK-01", "status": "OSTAT-MARK-01",
+        "planting_date": "2098-04-04", "planned_date": "2098-05-05", "category": "CAT-MARK-01", "next_task": "NEXT-MARK-01" },
+      { "record_id": "REC-MARK-02", "variety_name": "OVAR-MARK-02", "area": "AREA-MARK-02", "status": "OSTAT-MARK-02",
+        "planting_date": null, "planned_date": "2098-05-06", "category": "CAT-MARK-02", "next_task": "NEXT-MARK-02" }
+    ]
+  },
+  "weekly_tasks": {
+    "range": { "from": "2098-06-06", "to": "2098-06-13" },
+    "tasks": [
+      { "task": "TASK-MARK-01", "variety_name": "TVAR-MARK-01", "area": "TAREA-MARK-01", "phase": "PHASE-MARK-01",
+        "due_date": "2098-06-07", "is_override": false, "is_milestone": true, "task_id": "TID-MARK-01",
+        "occurrence_key": "OCC-MARK-01", "category": "TCAT-MARK-01" }
+    ]
+  }
+}

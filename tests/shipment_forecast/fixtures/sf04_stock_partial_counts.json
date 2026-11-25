@@ -1,0 +1,59 @@
+{
+  "snapshot_version": 1,
+  "generated_at": "2026-11-17T04:00:00+09:00",
+  "generated_for_date": "2026-11-17",
+  "generator": { "function": "buildCultivationSnapshot", "revision": "rev-fixture-01" },
+  "sources": {
+    "cultivations": { "ok": true, "read": 20 },
+    "cultivation_stages": { "ok": true, "read": 30 },
+    "cultivation_varieties": { "ok": true, "read": 40 },
+    "planting_records": { "ok": true, "read": 5 },
+    "polyculture_varieties": { "ok": true, "read": 6 }
+  },
+  "main": {
+    "cultivations": [
+      {
+        "cultivation_no": "209904",
+        "flower_type": "ストック",
+        "status": "active",
+        "status_source": "stored",
+        "start_date": "2026-10-05",
+        "actual_planting_date": null,
+        "harvest_start": "2027-03-10",
+        "harvest_end": "2027-04-10",
+        "planned_count_total": 4000,
+        "variety_counts_usable": true,
+        "varieties": [
+          { "variety_id": "v-f4-white", "variety_name": "ホワイト", "planned_count": 1600, "bed_numbers": null, "current_stage": null, "current_stage_effective": null },
+          { "variety_id": "v-f4-pink", "variety_name": "ピンク", "planned_count": null, "bed_numbers": null, "current_stage": null, "current_stage_effective": null },
+          { "variety_id": "v-f4-yellow", "variety_name": "イエロー", "planned_count": 1600, "bed_numbers": null, "current_stage": null, "current_stage_effective": null },
+          { "variety_id": "v-f4-blue", "variety_name": "ブルー", "planned_count": null, "bed_numbers": null, "current_stage": null, "current_stage_effective": null }
+        ],
+        "current_stage": { "cultivation": null, "representative": null },
+        "location": "LOC-F4",
+        "bed_numbers": "BED-F4"
+      },
+      {
+        "cultivation_no": "209914",
+        "flower_type": "ストック",
+        "status": "completed",
+        "status_source": "stored",
+        "start_date": "2026-03-01",
+        "actual_planting_date": null,
+        "harvest_start": "2026-06-01",
+        "harvest_end": "2026-08-31",
+        "planned_count_total": 900,
+        "variety_counts_usable": true,
+        "varieties": [
+          { "variety_id": "v-f4b-white", "variety_name": "ホワイト", "planned_count": 900, "bed_numbers": null, "current_stage": null, "current_stage_effective": null }
+        ],
+        "current_stage": { "cultivation": null, "representative": null },
+        "location": "LOC-F4B",
+        "bed_numbers": "BED-F4B"
+      }
+    ],
+    "name_unresolved_count": 0
+  },
+  "other": { "plantings": [] },
+  "weekly_tasks": { "range": { "from": "2026-11-10", "to": "2026-11-24" }, "tasks": [] }
+}
