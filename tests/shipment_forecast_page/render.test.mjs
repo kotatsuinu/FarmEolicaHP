@@ -121,7 +121,7 @@ describe('品目・行の描き方', () => {
       ]),
     );
     // data-row ごとの中身（開始タグの終わりから次の data-row の直前まで）をタグを外した文字にする
-    const parts = html.split(/data-row(?=[\s=>/])/).slice(1);
+    const parts = html.split(/\bdata-row(?=[\s=>/])/).slice(1);
     expect(parts).toHaveLength(4);
     const texts = parts.map((seg) =>
       seg
@@ -136,7 +136,7 @@ describe('品目・行の描き方', () => {
     expect(rest(texts[1], ['1月から', '生育中', 'あ'])).toBe('');
     expect(rest(texts[2], ['2月から', '生育中', '約1千本'])).toBe('');
     // 最後の行の後ろには区分の外の文字（注意書き・問い合わせ）が続くので、行の頭だけ確かめる
-    expect(texts[3].startsWith('い') || texts[3].includes('い')).toBe(true);
+    expect(texts[3]).toContain('い');
   });
 
   test('V4-2 全部の行で品種・本数なしでも、月と状態の札は出る', async () => {
@@ -222,7 +222,6 @@ describe('品目・行の描き方', () => {
     expect(html).not.toContain('A&B "q"');
     expect(html).not.toMatch(/alt="a" onerror="x"/);
     // 写真は実際に描かれ、説明の引用符はエスケープされている
-    expect(countAttr(html, '<img'.slice(1))).toBeGreaterThanOrEqual(0);
     expect(count(html, '<img')).toBe(1);
     expect(html).toContain('alt="a&quot; onerror=&quot;x"');
   });

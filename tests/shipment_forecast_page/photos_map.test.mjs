@@ -21,8 +21,15 @@ function checkEntry(entry, where, publicDir) {
   if (!src.startsWith(ALLOWED_PREFIX)) bad.push(`outside_forecast_dir:${src}@${where}`);
   if (src.includes('/images/instagram/')) bad.push(`instagram:${src}@${where}`);
   if (src.includes('..')) bad.push(`dotdot:${src}@${where}`);
+  // 大文字小文字まで一致で確かめる（Windows の existsSync は区別しないが、本番の Linux は区別して無言の404になる）
   const onDisk = path.join(publicDir, src.replace(/^\//, ''));
-  if (!fs.existsSync(onDisk) || !fs.statSync(onDisk).isFile()) bad.push(`missing_file:${src}@${where}`);
+  let exact = false;
+  try {
+    exact = fs.readdirSync(path.dirname(onDisk)).includes(path.basename(onDisk)) && fs.statSync(onDisk).isFile();
+  } catch {
+    exact = false;
+  }
+  if (!exact) bad.push(`missing_file:${src}@${where}`);
   return bad;
 }
 export function checkPhotoMap(map, publicDir) {
@@ -61,6 +68,20 @@ describe('検査器そのもの（壊れた表を見つけられる）', () => {
     expect(bad.some((b) => b.startsWith('outside_forecast_dir:/images/top/a.jpg'))).toBe(true);
     expect(bad.some((b) => b.startsWith('alt_empty@crop:え'))).toBe(true);
   });
+  test('PC-3 大文字小文字だけ違う指し先は「実在しない」とみなす（実ファイル stock.jpg・表は Stock.jpg）', () => {
+    const fakePublic = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp-pub-'));
+    fs.mkdirSync(path.join(fakePublic, 'images', 'forecast'), { recursive: true });
+    fs.writeFileSync(path.join(fakePublic, 'images', 'forecast', 'stock.jpg'), 'x');
+    try {
+      const wrongCase = checkPhotoMap({ crops: { ストック: { src: '/images/forecast/Stock.jpg', alt: 'a' } } }, fakePublic);
+      expect(wrongCase.some((b) => b.startsWith('missing_file:/images/forecast/Stock.jpg'))).toBe(true);
+      const rightCase = checkPhotoMap({ crops: { ストック: { src: '/images/forecast/stock.jpg', alt: 'a' } } }, fakePublic);
+      expect(rightCase).toEqual([]);
+    } finally {
+      fs.rmSync(fakePublic, { recursive: true, force: true });
+    }
+  });
+
   test('PC-2 正しい表（実在のファイルを指す）は問題0件', () => {
     // この検査の陰性側。一時の公開フォルダに forecast 配下のファイルを置いて確かめる
     const fakePublic = fs.mkdtempSync(path.join(os.tmpdir(), 'sfp-pub-'));

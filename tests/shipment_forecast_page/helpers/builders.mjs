@@ -30,7 +30,7 @@ export const NO_PHOTOS = { crops: {} };
 
 // 属性として数える（data-row-index・CSS の [data-row] など別の書き方に当たらない）
 export function countAttr(html, name) {
-  return [...html.matchAll(new RegExp(`\b${name}(?=[\s=>/])`, 'g'))].length;
+  return [...html.matchAll(new RegExp(String.raw`\b${name}(?=[\s=>/])`, 'g'))].length;
 }
 // 目印（文字列）が html に何個出ているか
 export function findMarkers(text, markers) {
