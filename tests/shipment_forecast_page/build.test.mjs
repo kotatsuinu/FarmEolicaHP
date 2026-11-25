@@ -182,7 +182,8 @@ describe('本物のビルド（順に1つずつ）', () => {
     const r = build({ FORECAST_PREVIEW: 'true', FORECAST_DATA_FILE: file });
     expect(r.status, r.output.slice(-2000)).toBe(0);
     const html = page(r.outDir);
-    // 空振りにしない：同じビルドでページに品目が出ている
+    // 空振りにしない：同じビルドで表示部品が品目を描いている（品目名だけだとサイト共通部分の同じ文字に当たりうる）
+    expect(count(html, 'data-crop')).toBeGreaterThanOrEqual(forecast.items.length);
     for (const it of forecast.items) expect(html).toContain(it.crop);
     const strMarkers = Object.values(NON_PUBLIC).filter((v) => typeof v === 'string').map(String);
     expect(scanDir(r.outDir, strMarkers)).toEqual([]);
@@ -203,7 +204,11 @@ describe('本物のビルド（順に1つずつ）', () => {
     expect(html).toContain('Coming Soon');
     expect(html).toContain('現在準備中です');
     expect(html).not.toContain('data-forecast-state');
-    for (const it of forecast.items) expect(html).not.toContain(it.crop);
+    // 品目名の文字そのものはサイトの共通部分（案内・フッター）にも出うるので、表示部品の目印で見る
+    expect(html).not.toContain('data-crop');
+    expect(html).not.toContain('data-row');
+    expect(html).not.toContain('朝の時点');
+    expect(forecast.items.length).toBeGreaterThan(3);
     expect(metaOf(html)).toBe(forecast.generated_at);
   });
 });
