@@ -223,7 +223,8 @@ describe('品目・行の描き方', () => {
     expect(html).not.toMatch(/alt="a" onerror="x"/);
     // 写真は実際に描かれ、説明の引用符はエスケープされている
     expect(count(html, '<img')).toBe(1);
-    expect(html).toContain('alt="a&quot; onerror=&quot;x"');
+    // 引用符の書き方は `&quot;` でも `&#34;`（Astro の出し方）でも安全さは同じなので、どちらも認める（親の直し・2026-11-25）
+    expect(html).toMatch(/alt="a(&quot;|&#34;) onerror=(&quot;|&#34;)x"/);
   });
 
   test('N-1 表示用の形に無い項目（最上位・区分・品目・行・写真の各階層）は出さない：目印が0件', async () => {
