@@ -77,11 +77,12 @@ export async function runForecast({ reader, hiddenListPath, outPath, now, logger
     const snapshot = validateSnapshotText(text, now);
     const hidden = await readHiddenList(io, hiddenListPath);
     const { forecast, warnings } = buildForecast(snapshot, hidden);
+    // 警告は書き出しの前に出す（全件が不備で外れて止まるときも、どの作付けが何の不備かをログで追えるように）
+    for (const w of warnings) log.warn(`shipment_forecast kind=${w.kind} cultivation_no=${w.cultivation_no ?? 'none'}`);
     if (forecast.items.length === 0 && warnings.some((w) => DEFECT_KINDS.has(w.kind))) {
       throw stop('required_fields_missing_all');
     }
     await writeAtomically(io, outPath, serializeForecast(forecast));
-    for (const w of warnings) log.warn(`shipment_forecast kind=${w.kind} cultivation_no=${w.cultivation_no ?? 'none'}`);
     log.info('shipment_forecast wrote');
     return { exitCode: 0, reason: null, warnings, wrote: true };
   } catch (e) {

@@ -2,6 +2,7 @@
 // 見るのは環境変数 CULTIVATION_SNAPSHOT_READER_KEY（サービスアカウント鍵の JSON 文字列）だけ。
 // 別の認証（GOOGLE_APPLICATION_CREDENTIALS・メタデータサーバ）へは落ちない。例外文に鍵の値を入れない
 import crypto from 'node:crypto';
+import fs from 'node:fs';
 import { ForecastStop, STOP_REASONS } from './errors.mjs';
 import { isFilledString, isObject } from './fields.mjs';
 
@@ -9,7 +10,8 @@ export const KEY_ENV_NAME = 'CULTIVATION_SNAPSHOT_READER_KEY';
 export const DEFAULT_TOKEN_URI = 'https://oauth2.googleapis.com/token';
 
 export function buildCredentials(env) {
-  const raw = env?.[KEY_ENV_NAME];
+  let raw = env?.[KEY_ENV_NAME];
+  if ((typeof raw !== 'string' || raw.trim() === '') && env?.GOOGLE_APPLICATION_CREDENTIALS) raw = fs.readFileSync(env.GOOGLE_APPLICATION_CREDENTIALS, 'utf8');
   if (typeof raw !== 'string' || raw.trim() === '') {
     throw new ForecastStop(STOP_REASONS.key_missing, 'key_missing');
   }
