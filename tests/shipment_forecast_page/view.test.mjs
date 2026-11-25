@@ -94,6 +94,8 @@ describe('parseForecast（形の検査）', () => {
   test.each([
     ['日まである', '2026-11-01'],
     ['月が1桁', '2026-1'],
+    ['月が00', '2026-00'],
+    ['月が13', '2026-13'],
     ['数', 202611],
     ['null', null],
     ['欠落', undefined],
@@ -106,6 +108,8 @@ describe('parseForecast（形の検査）', () => {
 
   test.each([
     ['日まである', '2027-01-31'],
+    ['月が00', '2027-00'],
+    ['月が13', '2027-13'],
     ['数', 202701],
     ['空文字', ''],
   ])('P-10 harvest_to が YYYY-MM でも null でもない（%s）は例外', (_n, v) => {
@@ -185,6 +189,12 @@ describe('formatHarvestMonths（収穫の月の表示・基準日の年つき）
     ['2027-01', '2027-01', 2026, '2027年1月'],
     ['2027-02', '2027-04', 2027, '2月〜4月'],
     ['2026-09', '2026-10', 2026, '9月〜10月'],
+    // 始まりも終わりも基準の年と違い、年も違う（終わりの年を省かない）
+    ['2027-12', '2028-01', 2026, '2027年12月〜2028年1月'],
+    // 始まりが基準より過去・終わりは基準の年（基準の年には年を添えない）
+    ['2025-12', '2026-02', 2026, '2025年12月〜2月'],
+    // 始まりも終わりも過去の同じ年
+    ['2025-11', '2025-12', 2026, '2025年11月〜12月'],
   ];
   test.each(table)('V6 %s／%s（基準 %i）→ %s', (from, to, base, expected) => {
     expect(formatHarvestMonths(from, to, base)).toBe(expected);
@@ -253,14 +263,30 @@ describe('buildForecastView（区分・並び・内容）', () => {
     expect(c.sections.map((s) => s.key)).toEqual(['later']);
   });
 
-  test('O1 区分の中の品目は、その区分の行のいちばん早い収穫開始の月の順（最早は2行目にある）', () => {
-    const A = item('ダリア', [row({ harvest_from: '2026-12', variety: 'a' })]);
-    const B = item('ストック', [
+  test('O1 区分の中の品目は、その区分の行のいちばん早い収穫開始の月の順。名前の五十音順とは逆・最早は2行目にある', () => {
+    // 名前順なら ストック→ダリア。最早の月順なら ダリア（最早11月・2行目）→ストック（12月）
+    const A = item('ストック', [row({ harvest_from: '2026-12', variety: 'a' })]);
+    const B = item('ダリア', [
       row({ harvest_from: '2026-12', variety: 'b' }),
       row({ harvest_from: '2026-11', variety: 'c' }),
     ]);
     for (const items of [[A, B], [B, A]]) {
-      expect(crops(sectionOf(view(forecast(items)), 'soon'))).toEqual(['ストック', 'ダリア']);
+      expect(crops(sectionOf(view(forecast(items)), 'soon'))).toEqual(['ダリア', 'ストック']);
+    }
+  });
+
+  test('O1-2 ほかの区分にある行は最早に数えない（名前順・ほかの区分を数える誤りのどちらでも逆になる組）', () => {
+    // アスター：出荷中に 2026-09、もうすぐに 2026-12。ダリア：もうすぐに 2026-11
+    // 正しい順（もうすぐ）：ダリア（11月）→アスター（12月）。名前順ならアスターが先・他区分を数えてもアスターが先
+    const X = item('アスター', [
+      row({ section: 'shipping', harvest_from: '2026-09', harvest_to: null, status: 'harvesting', variety: 'x1' }),
+      row({ section: 'soon', harvest_from: '2026-12', variety: 'x2' }),
+    ]);
+    const D = item('ダリア', [row({ section: 'soon', harvest_from: '2026-11', variety: 'd1' })]);
+    for (const items of [[X, D], [D, X]]) {
+      const v = view(forecast(items));
+      expect(crops(sectionOf(v, 'soon'))).toEqual(['ダリア', 'アスター']);
+      expect(crops(sectionOf(v, 'shipping'))).toEqual(['アスター']);
     }
   });
 
@@ -275,15 +301,18 @@ describe('buildForecastView（区分・並び・内容）', () => {
     }
   });
 
-  test('O3 品目の中の行：収穫開始の月→品種名の五十音→品種名なしは最後（入力の並びに依らない）', () => {
+  test('O3 品目の中の行：収穫開始の月→品種名の五十音→品種名なしは同じ月の最後（月が先で、五十音は月の中だけ）', () => {
+    // 早い月（11月）の行に五十音で後ろになる「ホワイト」と品種なし。12月に「イエロー」「ピンク」と品種なし
     const rows = [
-      row({ variety: 'ホワイト', harvest_from: '2026-12' }),
-      row({ variety: null, harvest_from: '2026-12' }),
       row({ variety: 'ピンク', harvest_from: '2026-12' }),
-      row({ variety: 'イエロー', harvest_from: '2026-11' }),
+      row({ variety: null, harvest_from: '2026-12' }),
+      row({ variety: 'ホワイト', harvest_from: '2026-11' }),
+      row({ variety: 'イエロー', harvest_from: '2026-12' }),
+      row({ variety: null, harvest_from: '2026-11' }),
     ];
-    const expected = ['イエロー', 'ピンク', 'ホワイト', null];
-    for (const order of [rows, [...rows].reverse(), [rows[2], rows[0], rows[3], rows[1]]]) {
+    const expected = ['ホワイト', null, 'イエロー', 'ピンク', null];
+    const orders = [rows, [...rows].reverse(), [rows[3], rows[4], rows[0], rows[2], rows[1]]];
+    for (const order of orders) {
       const v = view(forecast([item('トルコ桔梗', order)]));
       expect(sectionOf(v, 'soon').items[0].rows.map((r) => r.variety)).toEqual(expected);
     }

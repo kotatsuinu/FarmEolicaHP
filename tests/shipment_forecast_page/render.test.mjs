@@ -2,6 +2,7 @@
 // 入力は「表示用の形」を手で書いたもの（view.ts を通さない＝部品だけを確かめる）。
 import { describe, test, expect, afterAll } from 'vitest';
 import { renderComponent, closeAstro } from './helpers/astro_container.mjs';
+import { countAttr, LEAK } from './helpers/builders.mjs';
 
 const COMPONENT = '/src/components/forecast/ShipmentForecast.astro';
 afterAll(closeAstro);
@@ -20,10 +21,11 @@ const vSection = (key, items) => ({ key, title: { shipping: '出荷中', soon: '
 const present = (sections) => ({ state: 'present', asOf: ASOF, generatedAt: GEN, sections });
 
 describe('Container API の土台', () => {
+  // 最初の1件で開発用サーバを起動して部品を読み込む。重い処理の順番待ちで遅れても誤報にしない
   test('R-0 健全性：入れ物の部品を Container で描ける（例外にならず文字列が返る）', async () => {
     const html = await render({ state: 'missing' });
     expect(typeof html).toBe('string');
-  });
+  }, 120000);
 });
 
 describe('3つの状態（V1）', () => {
@@ -31,7 +33,7 @@ describe('3つの状態（V1）', () => {
     const html = await render({ state: 'missing' });
     expect(html).toContain('data-forecast-state="missing"');
     expect(html).toContain('出荷予報を準備しています');
-    expect(html).not.toContain('data-section');
+    expect(countAttr(html, 'data-section')).toBe(0);
     expect(html).not.toContain(NOTE);
     expect(html).not.toContain('朝の時点');
   });
@@ -42,7 +44,7 @@ describe('3つの状態（V1）', () => {
     expect(html).toMatch(/<h[12][^>]*>[^<]*出荷予報/);
     expect(html).toContain(ASOF);
     expect(html).toContain(EMPTY_TEXT);
-    expect(html).not.toContain('data-section');
+    expect(countAttr(html, 'data-section')).toBe(0);
     expect(html).not.toContain(NOTE);
     expect(html).not.toContain('出荷予報を準備しています');
   });
@@ -99,10 +101,42 @@ describe('品目・行の描き方', () => {
     );
     expect(html).not.toMatch(/null|undefined|NaN/);
     expect(html).not.toMatch(/>\s*約\s*</);
-    expect(count(html, 'data-row')).toBe(2);
+    expect(countAttr(html, 'data-row')).toBe(2);
     expect(html).toContain('約1千本');
     expect(count(html, '約1千本')).toBe(1);
     expect(html).toContain('12月〜2027年1月');
+  });
+
+  test('V4-3 品種なし・本数なしの行の中身は「月＋状態の札」だけ（空の見出しや欄が残らない）', async () => {
+    const html = await render(
+      present([
+        vSection('soon', [
+          vItem('ストック', [
+            vRow({ variety: null, countLabel: null }),
+            vRow({ variety: 'あ', countLabel: null, months: '1月から' }),
+            vRow({ variety: null, countLabel: '約1千本', months: '2月から' }),
+            vRow({ variety: 'い', countLabel: '約2千本', months: '3月から' }),
+          ]),
+        ]),
+      ]),
+    );
+    // data-row ごとの中身（開始タグの終わりから次の data-row の直前まで）をタグを外した文字にする
+    const parts = html.split(/data-row(?=[\s=>/])/).slice(1);
+    expect(parts).toHaveLength(4);
+    const texts = parts.map((seg) =>
+      seg
+        .slice(seg.indexOf('>') + 1)
+        .replace(/<[^>]*$/, '')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim(),
+    );
+    const rest = (text, known) => known.reduce((t, k) => t.replace(k, ''), text).replace(/\s+/g, '').trim();
+    expect(rest(texts[0], ['12月〜2027年1月', '生育中'])).toBe('');
+    expect(rest(texts[1], ['1月から', '生育中', 'あ'])).toBe('');
+    expect(rest(texts[2], ['2月から', '生育中', '約1千本'])).toBe('');
+    // 最後の行の後ろには区分の外の文字（注意書き・問い合わせ）が続くので、行の頭だけ確かめる
+    expect(texts[3].startsWith('い') || texts[3].includes('い')).toBe(true);
   });
 
   test('V4-2 全部の行で品種・本数なしでも、月と状態の札は出る', async () => {
@@ -125,8 +159,8 @@ describe('品目・行の描き方', () => {
       ]),
     );
     for (const l of labels) expect(count(html, l)).toBe(1);
-    expect(count(html, 'data-crop')).toBe(2);
-    expect(count(html, 'data-row')).toBe(4);
+    expect(countAttr(html, 'data-crop')).toBe(2);
+    expect(countAttr(html, 'data-row')).toBe(4);
   });
 
   test('V11 「この品目を問い合わせる」が品目ごとに1つで、どれも href が /contact（品目名を付けない）', async () => {
@@ -187,13 +221,33 @@ describe('品目・行の描き方', () => {
     expect(html).toContain('A&amp;B');
     expect(html).not.toContain('A&B "q"');
     expect(html).not.toMatch(/alt="a" onerror="x"/);
+    // 写真は実際に描かれ、説明の引用符はエスケープされている
+    expect(countAttr(html, '<img'.slice(1))).toBeGreaterThanOrEqual(0);
+    expect(count(html, '<img')).toBe(1);
+    expect(html).toContain('alt="a&quot; onerror=&quot;x"');
   });
 
-  test('N-1 表示用の形に無い項目（生の入力）は出さない：渡した余計な値が画面に出ない', async () => {
-    const html = await render(
-      present([vSection('soon', [vItem('ストック', [{ ...vRow(), cultivation_no: 'LEAK-1', memo: 'LEAK-2' }])])]),
-    );
-    expect(html).not.toContain('LEAK-1');
-    expect(html).not.toContain('LEAK-2');
+  test('N-1 表示用の形に無い項目（最上位・区分・品目・行・写真の各階層）は出さない：目印が0件', async () => {
+    const mk = (n) => ({ ...vRow(), cultivation_no: LEAK.strings[0], planned_count: LEAK.numbers[0], stage_name: LEAK.strings[2], memo: n });
+    const view = {
+      ...present([
+        {
+          ...vSection('soon', [
+            {
+              ...vItem('ストック', [mk(LEAK.strings[4])], { photo: { src: '/images/forecast/a.jpg', alt: 'a', bed: LEAK.strings[5] } }),
+              user_id: LEAK.strings[6],
+              note: LEAK.strings[3],
+            },
+          ]),
+          section_memo: LEAK.strings[1],
+        },
+      ]),
+      owner: LEAK.strings[6],
+      raw_count: LEAK.numbers[1],
+    };
+    const html = await render(view);
+    expect(html).toContain('data-crop');
+    for (const m of LEAK.strings) expect(html, m).not.toContain(m);
+    for (const n of LEAK.numbers) expect(html.match(new RegExp(`(?<![0-9.])${n}(?![0-9])`)), String(n)).toBeNull();
   });
 });

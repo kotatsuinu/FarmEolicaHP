@@ -27,3 +27,17 @@ export function deepFreeze(o) {
   return o;
 }
 export const NO_PHOTOS = { crops: {} };
+
+// 属性として数える（data-row-index・CSS の [data-row] など別の書き方に当たらない）
+export function countAttr(html, name) {
+  return [...html.matchAll(new RegExp(`\b${name}(?=[\s=>/])`, 'g'))].length;
+}
+// 目印（文字列）が html に何個出ているか
+export function findMarkers(text, markers) {
+  return markers.filter((m) => text.includes(m));
+}
+// 公開してはいけない目印入りの「知らない項目」（手書き・合成値。作付け番号の形・生の本数・段階名・メモ）
+export const LEAK = {
+  strings: ['209930', '209931', 'STAGE-LEAK-A1', 'STAGE-LEAK-B1', 'MEMO-LEAK-C1', 'BED-LEAK-D1', 'USER-LEAK-E1'],
+  numbers: [7713, 8821],
+};
