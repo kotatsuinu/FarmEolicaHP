@@ -4,7 +4,7 @@ import { afterAll, describe, expect } from 'vitest';
 import { canon } from './helpers/builders.mjs';
 import { sf, prevPublishedText, sfText } from './helpers/fixtures.mjs';
 import { cleanupTmp, realIo, runCase } from './helpers/harness.mjs';
-import { NOW_OK, STOP_CASES, STOP_CASE_COUNT } from './helpers/stop_cases.mjs';
+import { CASE_OPT_KEYS, NOW_OK, STOP_CASES, STOP_CASE_COUNT, STOP_GROUP_COUNTS } from './helpers/stop_cases.mjs';
 import { tzTest } from './helpers/tz.mjs';
 
 afterAll(cleanupTmp);
@@ -12,26 +12,34 @@ afterAll(cleanupTmp);
 const PREV = prevPublishedText();
 
 describe('GK 前の日の公開ファイル', () => {
-  tzTest('GK1 止まる理由のすべて（48入力）で、前の日の公開ファイルがバイト同一・一時ファイルが残らない。確かめた件数＝用意した件数', async () => {
+  tzTest('GK1 止まる理由のすべて（78入力）で、前の日の公開ファイルがバイト同一・一時ファイルが残らない・ログと戻り値に目印なし。確かめた件数＝用意した件数', async () => {
     expect(JSON.parse(PREV).items.length).toBeGreaterThanOrEqual(1); // 空のファイルでは「前のまま」を区別できない
+    expect(STOP_CASE_COUNT).toBe(78); // 手で数えた件数（GA 3・GV 51・GF 16・GX 3・GU 1・H6 3・D6 1）
     expect(STOP_CASES).toHaveLength(STOP_CASE_COUNT); // 手で数えた件数と一覧の件数が一致（一覧の消し忘れ・足し忘れに気づく）
+    for (const [group, n] of Object.entries(STOP_GROUP_COUNTS)) {
+      expect(STOP_CASES.filter((x) => x.id.startsWith(group)), group).toHaveLength(n);
+    }
+    expect(Object.values(STOP_GROUP_COUNTS).reduce((a, b) => a + b, 0)).toBe(STOP_CASE_COUNT);
     let checked = 0;
     for (const c of STOP_CASES) {
       const o = { snapshotText: c.snapshotText ?? sfText(1), now: c.now, prior: PREV };
-      for (const k of ['readerOpts', 'hidden', 'hiddenAbsent', 'io']) if (c[k] !== undefined) o[k] = c[k];
+      for (const k of CASE_OPT_KEYS) if (c[k] !== undefined) o[k] = c[k];
       const out = await runCase(o);
       expect(out.result, c.id).toMatchObject({ exitCode: 1, reason: c.reason });
       expect(out.outText, c.id).toBe(PREV);
       expect(out.outFiles, c.id).toEqual(['shipment_forecast.json']);
+      expect(`${out.logText}\n${JSON.stringify(out.result)}`, c.id).not.toMatch(/MARK/); // 読んだ値・例外の本文の目印がログ・戻り値に出ない
       checked += 1;
     }
     expect(checked).toBe(STOP_CASE_COUNT); // 対象0件・途中で抜けて緑にしない
   });
 
   tzTest('GK2 公開ファイルがまだ無いとき（初回・develop）に止まったら、ファイルを作らない（空のファイルも）', async () => {
-    for (const c of STOP_CASES.filter((x) => ['GA2', 'GF4', 'GV7', 'D6'].includes(x.id))) {
+    const targets = STOP_CASES.filter((x) => ['GA2', 'GF4', 'GV7', 'D6'].includes(x.id));
+    expect(targets).toHaveLength(4); // id の書き換えで対象0件になって緑にならない
+    for (const c of targets) {
       const o = { snapshotText: c.snapshotText ?? sfText(1), now: c.now };
-      for (const k of ['readerOpts', 'io']) if (c[k] !== undefined) o[k] = c[k];
+      for (const k of CASE_OPT_KEYS) if (c[k] !== undefined) o[k] = c[k];
       const out = await runCase(o);
       expect(out.result, c.id).toMatchObject({ exitCode: 1, reason: c.reason });
       expect(out.outText, c.id).toBeNull();
@@ -45,12 +53,13 @@ describe('GK 前の日の公開ファイル', () => {
     expect(mid.result).toMatchObject({ exitCode: 1, reason: 'write_failed' });
     expect(mid.outText).toBe(PREV);
     expect(mid.outFiles).toEqual(['shipment_forecast.json']);
+    expect(`${mid.logText}\n${JSON.stringify(mid.result)}`).not.toMatch(/MARK/); // 例外文の目印（EXC-MARK-D6）が出ない
     const renameFails = { ...realIo, rename: async () => { throw new Error('rename failed EXC-MARK-GK3'); } };
     const late = await runCase({ snapshotText: sfText(1), now: NOW_OK, prior: PREV, io: renameFails });
     expect(late.result).toMatchObject({ exitCode: 1, reason: 'write_failed' });
     expect(late.outText).toBe(PREV);
     expect(late.outFiles).toEqual(['shipment_forecast.json']);
-    expect(`${late.logText}${JSON.stringify(late.result)}`).not.toMatch(/MARK/);
+    expect(`${late.logText}\n${JSON.stringify(late.result)}`).not.toMatch(/MARK/);
   });
 
   tzTest('GK4 写しが前の日と同じなら、公開ファイルも前の日とバイト同一（コミットが起きない元）', async () => {

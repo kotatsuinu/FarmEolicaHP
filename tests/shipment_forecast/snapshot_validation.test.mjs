@@ -3,12 +3,12 @@
 import { afterAll, describe, expect, test } from 'vitest';
 import { validateSnapshotText } from '../../scripts/shipment_forecast/snapshot.mjs';
 import { runForecast } from '../../scripts/shipment_forecast/run.mjs';
-import { canon } from './helpers/builders.mjs';
+import { canon, cult, snap } from './helpers/builders.mjs';
 import { BASE_EXPECTED, LOG_MARKERS } from './helpers/expected.mjs';
 import { findMarkers, makeFakeReader, makeLogger } from './helpers/fakes.mjs';
-import { prevPublishedText, sf, sfText } from './helpers/fixtures.mjs';
+import { combine, prevPublishedText, sf, sfText } from './helpers/fixtures.mjs';
 import { cleanupTmp, makeTmpDir, runCase } from './helpers/harness.mjs';
-import { NOW_OK, STOP_CASES, TRUNCATED_TEXT } from './helpers/stop_cases.mjs';
+import { CASE_OPT_KEYS, NOW_OK, STOP_CASES, STOP_GROUP_COUNTS, TRUNCATED_TEXT } from './helpers/stop_cases.mjs';
 import { tzTest, withTz } from './helpers/tz.mjs';
 import path from 'node:path';
 
@@ -19,7 +19,7 @@ const PREV = prevPublishedText();
 
 function opts(c) {
   const o = { snapshotText: c.snapshotText ?? sfText(1), now: c.now, prior: PREV };
-  for (const k of ['readerOpts', 'hidden', 'hiddenAbsent', 'io']) if (c[k] !== undefined) o[k] = c[k];
+  for (const k of CASE_OPT_KEYS) if (c[k] !== undefined) o[k] = c[k];
   return o;
 }
 // 止まる道の共通の確かめ
@@ -61,6 +61,13 @@ describe('GV 写しの形と版', () => {
   tzTest('GV1 版 1 は使う（陽性の土台）：SF1 が期待どおりの行になる', async () => {
     const out = await expectUsed(sfText(1), NOW_OK);
     expect(canon(JSON.parse(out.outText))).toEqual(canon(SF1_EXPECTED));
+  });
+
+  test('GV-件数 止まる入力 GV は51件（SF1土台30＋SF10土台20＋目印つきの版1）。一覧の id の書き換えでテストが0件登録になって緑になるのを防ぐ', () => {
+    const gv = STOP_CASES.filter((x) => x.id.startsWith('GV'));
+    expect(gv).toHaveLength(STOP_GROUP_COUNTS.GV);
+    expect(STOP_GROUP_COUNTS.GV).toBe(51);
+    expect(gv.filter((x) => x.id.endsWith('-SF10'))).toHaveLength(20);
   });
 
   for (const c of STOP_CASES.filter((x) => x.id.startsWith('GV'))) {
@@ -113,6 +120,13 @@ describe('GF 古さ（写しを作った日時 2026-11-17T04:00:00+09:00＝2026-
     await expectUsed(sfText(1), NOW_OK, { readerOpts: { updated: '2026-01-01T00:00:00.000Z' } });
   });
 
+  test('GF-件数 止まる入力 GF は16件（SF1土台11＋SF10土台5）', () => {
+    const gf = STOP_CASES.filter((x) => x.id.startsWith('GF'));
+    expect(gf).toHaveLength(STOP_GROUP_COUNTS.GF);
+    expect(STOP_GROUP_COUNTS.GF).toBe(16);
+    expect(gf.filter((x) => x.id.endsWith('-SF10'))).toHaveLength(5);
+  });
+
   for (const c of STOP_CASES.filter((x) => x.id.startsWith('GF'))) {
     tzTest(`${c.id} 止まる（理由＝${c.reason}）`, async () => {
       await expectStopped(c);
@@ -138,5 +152,50 @@ describe('GF 古さ（写しを作った日時 2026-11-17T04:00:00+09:00＝2026-
     }
     expect(results.UTC).toEqual(results['Asia/Tokyo']);
     expect(results.UTC.map((r) => r.exitCode)).toEqual([0, 1, 1]);
+  });
+});
+
+const EMPTY_1113 = ['{', '  "generated_at": "2026-11-13T04:00:00+09:00",', '  "items": []', '}', ''].join(String.fromCharCode(10));
+const EMPTY_1117 = ['{', '  "generated_at": "2026-11-17T04:00:00+09:00",', '  "items": []', '}', ''].join(String.fromCharCode(10));
+const NOW_1113 = '2026-11-12T19:30:00Z'; // snap() の写し（2026-11-13T04:00:00+09:00）の30分後
+
+describe('GX 書き出す行が0件のとき：不備で外れた作付けがあれば止まり、なければ正常な空（冬）', () => {
+  test('GX-件数 止まる入力 GX は3件', () => {
+    expect(STOP_CASES.filter((x) => x.id.startsWith('GX'))).toHaveLength(STOP_GROUP_COUNTS.GX);
+    expect(STOP_GROUP_COUNTS.GX).toBe(3);
+  });
+
+  for (const c of STOP_CASES.filter((x) => x.id.startsWith('GX'))) {
+    tzTest(`${c.id} 止まる（理由＝${c.reason}）。前の公開ファイルは変わらず、読んだ値の目印がログに出ない`, async () => {
+      await expectStopped(c);
+    });
+  }
+
+  tzTest('GX4 不備が0件で0行は正常（境目の相方）：全部を載せない一覧で隠したら、終了コード0・items が空の公開ファイル', async () => {
+    const hidden = '[{"cultivation_no": "209901", "reason": "テスト"}, {"cultivation_no": "209903", "reason": "テスト"}]';
+    const out = await runCase({ snapshot: combine(sf(1), sf(3)), now: NOW_OK, hidden, prior: PREV });
+    expect(out.result).toMatchObject({ exitCode: 0, reason: null });
+    expect(out.outText).toBe(EMPTY_1117);
+  });
+
+  tzTest('GX5 不備が0件で0行は正常：全作付けが「収穫の終わりが先月・収穫中でない」で外れても、警告なしの空（外れるが不備ではない）', async () => {
+    const s = snap([cult({ harvest_start: '2026-09-01', harvest_end: '2026-10-31', flower_type: 'ダリア' }), cult({ harvest_start: '2026-09-01', harvest_end: '2026-10-31', flower_type: 'ヒマワリ' })]);
+    const out = await runCase({ snapshot: s, now: NOW_1113, prior: PREV });
+    expect(out.result).toMatchObject({ exitCode: 0, reason: null });
+    expect(out.result.warnings).toEqual([]);
+    expect(out.outText).toBe(EMPTY_1113);
+    // 相方：終わりが今月の初日なら載る（空の出力が何でも通っていないことの確かめ）
+    const keep = snap([cult({ harvest_start: '2026-09-01', harvest_end: '2026-11-01', flower_type: 'ダリア' })]);
+    const kept = await runCase({ snapshot: keep, now: NOW_1113 });
+    expect(JSON.parse(kept.outText).items.map((i) => i.crop)).toEqual(['ダリア']);
+  });
+
+  tzTest('GX6 不備で1件外れても、他に載る行が1件以上あれば正常（止まらない）：収穫開始の読めない作付けが1件＋載る作付け', async () => {
+    const s = snap([cult({ flower_type: 'ダリア' }), cult({ flower_type: 'ヒマワリ', harvest_start: '2026/12/10 MARK-HS' })]);
+    const out = await runCase({ snapshot: s, now: NOW_1113 });
+    expect(out.result).toMatchObject({ exitCode: 0, reason: null });
+    expect(JSON.parse(out.outText).items.map((i) => i.crop)).toEqual(['ダリア']);
+    expect(out.result.warnings.map((w) => w.kind)).toEqual(['harvest_start_unreadable']);
+    expect(`${out.logText}\n${JSON.stringify(out.result)}`).not.toMatch(/MARK/);
   });
 });

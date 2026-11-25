@@ -35,6 +35,7 @@ export async function runEntry(opts) {
       mode: opts.mode ?? 'ok',
       publicPem: testKey().publicKey.export({ type: 'spki', format: 'pem' }),
       clientEmail: testKey().clientEmail,
+      tokenUri: testKey().tokenUri,
       logFile,
       throwMessage: opts.throwMessage ?? '',
     }),

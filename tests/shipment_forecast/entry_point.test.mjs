@@ -16,6 +16,9 @@ const PREV = prevPublishedText();
 const TZS = ['UTC', 'Asia/Tokyo'];
 const T = 90000;
 const DATA_FILES = ['shipment_forecast.json', 'shipment_forecast_hidden.json'];
+// 約束の行の形（設計・記録 ①）。止まったら標準エラーにこの1行を出し、終了コードは1ちょうど
+const errorLine = (reason) => new RegExp(`^::error::shipment_forecast stopped reason=${reason}$`, 'm');
+const WARNING_LINE = /^::warning::shipment_forecast kind=[a-z_]+ cultivation_no=\S+$/;
 
 describe('入口（スクリプトの起動）', () => {
   for (const tz of TZS) {
@@ -30,14 +33,16 @@ describe('入口（スクリプトの起動）', () => {
       expect(r.fetchLog.find((e) => e.kind === 'token').ok).toBe(true); // 署名つきの申し込みが正しく作れている
     }, T);
 
-    test(`GF4-入口 36時間を1秒でも過ぎたら止まる：終了コード≠0・理由＝snapshot_stale・前の公開ファイルは変わらない・ログに鍵や写しの中身なし [TZ=${tz}]`, async () => {
-      const r = await runEntry({ tz, now: '2026-11-18T07:00:01Z', snapshotText: sfText(1), prior: PREV });
-      expect(r.code).not.toBe(0);
-      expect(r.output).toContain('reason=snapshot_stale');
+    test(`GF4-入口 36時間を1秒でも過ぎたら止まる：終了コード1・標準エラーに約束の行・前の公開ファイルは変わらない・ログに鍵や写しの中身（SF10 の目印）なし [TZ=${tz}]`, async () => {
+      // 写しは SF10（場所・本数・ID などの目印入り）。目印が出力に1つも出ないことを確かめる
+      const r = await runEntry({ tz, now: '2026-11-18T07:00:01Z', snapshotText: sfText(10), prior: PREV });
+      expect(r.code).toBe(1);
+      expect(r.stderr).toMatch(errorLine('snapshot_stale'));
       expect(r.outText).toBe(PREV);
       expect(r.dataFiles).toEqual(DATA_FILES);
       expect(STACK_LINE.test(r.output)).toBe(false);
       expect(r.output).not.toMatch(/MARK/);
+      expect(findMarkers(r.output, LOG_MARKERS.map(String))).toEqual([]);
     }, T);
   }
 
@@ -46,8 +51,8 @@ describe('入口（スクリプトの起動）', () => {
     const otherKey = path.join(dir, 'other_credentials.json');
     fs.writeFileSync(otherKey, testKey().json);
     const r = await runEntry({ now: '2026-11-16T19:30:00Z', snapshotText: sfText(1), prior: PREV, keyJson: null, extraEnv: { GOOGLE_APPLICATION_CREDENTIALS: otherKey } });
-    expect(r.code).not.toBe(0);
-    expect(r.output).toContain('reason=key_missing');
+    expect(r.code).toBe(1);
+    expect(r.stderr).toMatch(errorLine('key_missing'));
     expect(r.fetchLog).toEqual([]); // トークンもメタデータサーバも保管庫も呼ばれない
     expect(r.outText).toBe(PREV);
     expect(STACK_LINE.test(r.output)).toBe(false);
@@ -55,8 +60,8 @@ describe('入口（スクリプトの起動）', () => {
 
   test('GA6-入口 壊れた鍵でも中身を出さずに止まる：理由＝key_unreadable・出力に鍵の内容（目印）なし・問い合わせ0件', async () => {
     const r = await runEntry({ now: '2026-11-16T19:30:00Z', snapshotText: sfText(1), prior: PREV, keyJson: '{"client_email": "KEYMARK-bad@example.test", "private_key": ' });
-    expect(r.code).not.toBe(0);
-    expect(r.output).toContain('reason=key_unreadable');
+    expect(r.code).toBe(1);
+    expect(r.stderr).toMatch(errorLine('key_unreadable'));
     expect(r.output).not.toContain('KEYMARK');
     expect(r.fetchLog).toEqual([]);
     expect(r.outText).toBe(PREV);
@@ -64,8 +69,8 @@ describe('入口（スクリプトの起動）', () => {
 
   test('GA4-入口 通信が例外になったら止まる（理由＝fetch_failed）。例外の本文（目印）も経過の表示もログに出ない・前の公開ファイルは変わらない', async () => {
     const r = await runEntry({ now: '2026-11-16T19:30:00Z', snapshotText: sfText(1), prior: PREV, mode: 'throw', throwMessage: 'EXC-MARK-ENTRY LOC-MARK-01' });
-    expect(r.code).not.toBe(0);
-    expect(r.output).toContain('reason=fetch_failed');
+    expect(r.code).toBe(1);
+    expect(r.stderr).toMatch(errorLine('fetch_failed'));
     expect(r.output).not.toMatch(/MARK/);
     expect(STACK_LINE.test(r.output)).toBe(false);
     expect(r.outText).toBe(PREV);
@@ -74,8 +79,8 @@ describe('入口（スクリプトの起動）', () => {
   test('GA3-入口 権限なし（403）・見つからない（404）はそれぞれ別の理由で止まる', async () => {
     for (const [mode, reason] of [['status:403', 'snapshot_forbidden'], ['status:404', 'snapshot_not_found']]) {
       const r = await runEntry({ now: '2026-11-16T19:30:00Z', snapshotText: sfText(1), prior: PREV, mode });
-      expect(r.code, mode).not.toBe(0);
-      expect(r.output, mode).toContain(`reason=${reason}`);
+      expect(r.code, mode).toBe(1);
+      expect(r.stderr, mode).toMatch(errorLine(reason));
       expect(r.outText, mode).toBe(PREV);
     }
   }, T);
@@ -87,7 +92,7 @@ describe('入口（スクリプトの起動）', () => {
     expect(r.output).not.toContain('KEYMARK');
     const warnings = r.output.split('\n').filter((l) => l.includes('::warning::'));
     expect(warnings.length).toBeGreaterThan(0); // SF4・SF5・SF7・SF9 などの警告が出ている
-    for (const l of warnings) expect(l).toMatch(/kind=\w+/);
+    for (const l of warnings) expect(l.trim()).toMatch(WARNING_LINE);
     expect(STACK_LINE.test(r.output)).toBe(false);
   }, T);
 });

@@ -156,6 +156,44 @@ describe('X 決定性', () => {
     expect(b.outText).toBe(a.outText);
   });
 
+  tzTest('X3 書き出した全文が手書きの文字列と一致する（キーの並びは設計 §6.2＝generated_at→items、crop→rows、variety→harvest_from→harvest_to→status→section→count_label。null は null、インデント2・LF・末尾改行1つ）', () => {
+    // 基準日 2026-11-13。ピンクは本数なし・ホワイトは400本。収穫開始 12 月＝翌月＝もうすぐ。段階なし＝生育中
+    const c = cult({
+      flower_type: 'ダリア',
+      harvest_start: '2026-12-05',
+      harvest_end: '2027-01-10',
+      planned_count_total: 400,
+      varieties: [variety('ホワイト', 400), variety('ピンク', null)],
+    });
+    const rowLines = (v, label, last) => [
+      '        {',
+      `          "variety": ${v},`,
+      '          "harvest_from": "2026-12",',
+      '          "harvest_to": "2027-01",',
+      '          "status": "growing",',
+      '          "section": "soon",',
+      `          "count_label": ${label}`,
+      last ? '        }' : '        },',
+    ];
+    const expected = [
+      '{',
+      '  "generated_at": "2026-11-13T04:00:00+09:00",',
+      '  "items": [',
+      '    {',
+      '      "crop": "ダリア",',
+      '      "rows": [',
+      ...rowLines('"ピンク"', 'null', false),
+      ...rowLines('"ホワイト"', '"約400本"', true),
+      '      ]',
+      '    }',
+      '  ]',
+      '}',
+      '',
+    ].join(String.fromCharCode(10));
+    const text = serializeForecast(buildForecast(snap([c]), []).forecast);
+    expect(text).toBe(expected);
+  });
+
   tzTest('X2 冬の0件は正常：全部 planned の写しは items が空配列で終了コード0（GV7＝作付けが0件で止まるのとは別）', async () => {
     const s = snap(
       [cult({ status: 'planned', flower_type: 'ダリア' }), cult({ status: 'planned', flower_type: 'ヒマワリ' }), cult({ status: 'planned', flower_type: 'ストック' })],

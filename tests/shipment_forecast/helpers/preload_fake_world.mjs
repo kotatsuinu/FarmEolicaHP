@@ -1,9 +1,10 @@
 // 入口（scripts/fetch_shipment_forecast.mjs）を本物のまま起動するときの「偽の世界」。node --import で先に読み込む。
 // ・時計を固定する（new Date()・Date.now() が設定の日時になる）
 // ・fetch を差し替える：トークンの申し込み（署名つき）と、決め打ちの保管庫・パスの GET にだけ答える。それ以外は「無い」。呼び出しは全部ログに残す
-// 設定は環境変数 FAKE_WORLD_CONFIG のファイル（JSON）：{ nowIso, snapshotFile, mode, publicPem, clientEmail, logFile, throwMessage }
+// 設定は環境変数 FAKE_WORLD_CONFIG のファイル（JSON）：{ nowIso, snapshotFile, mode, publicPem, clientEmail, tokenUri, logFile, throwMessage }
 import crypto from 'node:crypto';
 import fs from 'node:fs';
+import { singleObjectUrlProblem, verifyTokenRequest } from './testkey.mjs';
 
 const cfg = JSON.parse(fs.readFileSync(process.env.FAKE_WORLD_CONFIG, 'utf8'));
 
@@ -24,16 +25,6 @@ const BUCKET = 'fe-cultivation-snapshot';
 const OBJECT = 'cultivation_snapshot/latest.json';
 const log = (entry) => fs.appendFileSync(cfg.logFile, `${JSON.stringify(entry)}\n`);
 
-function verifyAssertion(assertion) {
-  const parts = String(assertion).split('.');
-  if (parts.length !== 3) return false;
-  const publicKey = crypto.createPublicKey(cfg.publicPem);
-  const ok = crypto.verify('RSA-SHA256', Buffer.from(`${parts[0]}.${parts[1]}`), publicKey, Buffer.from(parts[2], 'base64url'));
-  if (!ok) return false;
-  const claims = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'));
-  return claims.iss === cfg.clientEmail;
-}
-
 // 保管庫への URL を (bucket, object) に分ける。object が無ければ一覧の呼び出し
 function parseStorageUrl(u) {
   const segs = u.pathname.split('/').filter(Boolean);
@@ -53,16 +44,7 @@ globalThis.fetch = async (input, init = {}) => {
   const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
 
   if (url.hostname === 'oauth2.googleapis.com') {
-    const raw = typeof init.body === 'string' ? init.body : String(init.body ?? '');
-    let assertion = new URLSearchParams(raw).get('assertion');
-    if (!assertion) {
-      try {
-        assertion = JSON.parse(raw).assertion;
-      } catch {
-        assertion = null;
-      }
-    }
-    const ok = method === 'POST' && verifyAssertion(assertion);
+    const ok = verifyTokenRequest({ method, body: init.body, publicKey: crypto.createPublicKey(cfg.publicPem), clientEmail: cfg.clientEmail, tokenUri: cfg.tokenUri });
     log({ kind: 'token', method, ok });
     return ok ? json(200, { access_token: 'fake-access-token', expires_in: 3600, token_type: 'Bearer' }) : json(401, { error: 'invalid_grant' });
   }
@@ -77,6 +59,8 @@ globalThis.fetch = async (input, init = {}) => {
     if (bucket !== BUCKET || object !== OBJECT) return json(404, { error: 'not found' });
     if (method !== 'GET') return json(405, { error: 'method not allowed' });
     if (headers.get('authorization') !== 'Bearer fake-access-token') return json(401, { error: 'unauthorized' });
+    // JSON API で alt=media が無いと、本物は中身ではなくメタデータの JSON を返す
+    if (singleObjectUrlProblem(url.href, BUCKET, OBJECT) === 'no_alt_media') return json(200, { kind: 'storage#object', name: OBJECT });
     if (cfg.mode === 'throw') throw new TypeError(`fetch failed ${cfg.throwMessage}`);
     if (String(cfg.mode).startsWith('status:')) return json(Number(String(cfg.mode).slice(7)), { error: 'forced' });
     return new Response(fs.readFileSync(cfg.snapshotFile, 'utf8'), { status: 200, headers: { 'content-type': 'application/json' } });

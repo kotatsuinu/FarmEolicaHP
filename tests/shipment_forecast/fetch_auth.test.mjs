@@ -1,19 +1,21 @@
 // 出荷予報 段1：写しの取得と鍵（追補 §6.1 GA。設計書 §2.1・§2.3 の1〜3・§9）
 // 偽の読み出し口は決め打ちの保管庫とパスにだけ答える。鍵の組み立ては偽の読み出し口に載せず単独で試す
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { afterAll, afterEach, describe, expect, test, vi } from 'vitest';
 import { buildCredentials } from '../../scripts/shipment_forecast/credentials.mjs';
 import { createStorageReader } from '../../scripts/shipment_forecast/storage_reader.mjs';
 import { STOP_REASONS } from '../../scripts/shipment_forecast/errors.mjs';
+import { STACK_LINE } from './helpers/fakes.mjs';
 import { canon } from './helpers/builders.mjs';
 import { BASE_EXPECTED } from './helpers/expected.mjs';
 import { FIXED_BUCKET, FIXED_PATH, makeFakeReader } from './helpers/fakes.mjs';
 import { ALL_REASONS } from './helpers/reasons.mjs';
 import { ROOT, baseSnapshot, prevPublishedText, sfText } from './helpers/fixtures.mjs';
 import { cleanupTmp, makeTmpDir, runCase } from './helpers/harness.mjs';
-import { NOW_OK, STOP_CASES } from './helpers/stop_cases.mjs';
-import { testKey } from './helpers/testkey.mjs';
+import { NOW_OK, STOP_CASES, STOP_GROUP_COUNTS } from './helpers/stop_cases.mjs';
+import { JWT_BEARER, signJwt, singleObjectUrlProblem, testKey, verifyTokenRequest } from './helpers/testkey.mjs';
 import { tzTest } from './helpers/tz.mjs';
 
 afterAll(cleanupTmp);
@@ -51,6 +53,11 @@ describe('GA 写しの取得', () => {
     expect(canon(JSON.parse(out.outText))).toEqual(canon(BASE_EXPECTED));
   });
 
+  test('GA-件数 止まる入力 GA2〜GA4 は3件（一覧の id の書き換えで0件になり、テストが登録されないまま緑になるのを防ぐ）', () => {
+    expect(STOP_CASES.filter((x) => x.id.startsWith('GA'))).toHaveLength(STOP_GROUP_COUNTS.GA);
+    expect(STOP_GROUP_COUNTS.GA).toBe(3);
+  });
+
   for (const c of STOP_CASES.filter((x) => x.id.startsWith('GA'))) {
     tzTest(`${c.id} 止まる（理由＝${c.reason}）。前の公開ファイルは変わらず、例外の本文（目印）はログに出ない`, async () => {
       const out = await runCase({ snapshotText: sfText(1), now: c.now, prior: PREV, readerOpts: c.readerOpts });
@@ -70,12 +77,30 @@ describe('GA 写しの取得', () => {
   });
 });
 
+describe('GU 部品の不具合（読み出し口が約束を破る）', () => {
+  tzTest('GU1 読み出し口が null を返しても、throw せず止まる（理由＝想定外）。前の公開ファイルは変わらず、例外の本文・スタックが出ない', async () => {
+    const c = STOP_CASES.find((x) => x.id === 'GU1');
+    expect(STOP_CASES.filter((x) => x.id.startsWith('GU'))).toHaveLength(STOP_GROUP_COUNTS.GU);
+    const out = await runCase({ snapshotText: sfText(1), now: c.now, prior: PREV, reader: c.reader }); // throw したらここで赤
+    expect(out.result).toMatchObject({ exitCode: 1, reason: 'unexpected_error' });
+    expect(out.outText).toBe(PREV);
+    expect(out.outFiles).toEqual(['shipment_forecast.json']);
+    const everything = `${out.logText}\n${JSON.stringify(out.result)}`;
+    expect(everything).not.toMatch(/MARK/);
+    expect(everything).not.toMatch(/Cannot read propert/);
+    expect(STACK_LINE.test(everything)).toBe(false);
+  });
+});
+
 describe('GA 読み出し口（保管庫の1ファイルを GET するだけ）', () => {
   const calls = [];
   function fakeFetch(storageResponse) {
     return async (url, init = {}) => {
       calls.push({ url: String(url), method: init.method ?? 'GET', headers: init.headers ?? {} });
       if (String(url) === testKey().tokenUri) {
+        const ok = verifyTokenRequest({ method: init.method, body: init.body, publicKey: testKey().publicKey, clientEmail: testKey().clientEmail, tokenUri: testKey().tokenUri });
+        calls[calls.length - 1].tokenOk = ok;
+        if (!ok) return new Response(JSON.stringify({ error: 'invalid_grant' }), { status: 401 });
         return new Response(JSON.stringify({ access_token: 'fake-access-token', expires_in: 3600, token_type: 'Bearer' }), {
           status: 200,
           headers: { 'content-type': 'application/json' },
@@ -96,9 +121,60 @@ describe('GA 読み出し口（保管庫の1ファイルを GET するだけ）'
     expect(storageCalls()).toHaveLength(1);
     const c = storageCalls()[0];
     expect(c.method).toBe('GET');
-    expect(c.url).toContain('fe-cultivation-snapshot');
-    expect(decodeURIComponent(c.url)).toContain('cultivation_snapshot/latest.json');
-    expect(JSON.stringify(c.headers)).toContain('Bearer fake-access-token');
+    // 1ファイル取得の形（JSON API なら /o/<エンコード済みパス>＋alt=media、XML API なら /<bucket>/<path>）。一覧・メタデータだけの URL は赤
+    expect(singleObjectUrlProblem(c.url, FIXED_BUCKET, FIXED_PATH), c.url).toBeNull();
+    expect(new Headers(c.headers).get('authorization')).toBe('Bearer fake-access-token'); // Headers オブジェクトでも普通のオブジェクトでも読める
+    // トークンの申し込みが正しく作れている（署名・iss・aud・scope・exp・grant_type）
+    const tokenCalls = calls.filter((x) => x.url === testKey().tokenUri);
+    expect(tokenCalls).toHaveLength(1);
+    expect(tokenCalls[0].method).toBe('POST');
+    expect(tokenCalls[0].tokenOk).toBe(true);
+  });
+
+  test('GA8c 1ファイル取得の URL の検査器が効く（陽性・陰性の確かめ）', () => {
+    const B = FIXED_BUCKET;
+    const P = FIXED_PATH;
+    const enc = encodeURIComponent(P);
+    for (const ok of [
+      `https://storage.googleapis.com/storage/v1/b/${B}/o/${enc}?alt=media`,
+      `https://storage.googleapis.com/download/storage/v1/b/${B}/o/${enc}?alt=media`,
+      `https://storage.googleapis.com/${B}/${P}`,
+      `https://storage.googleapis.com/${B}/${enc}`,
+    ]) expect(singleObjectUrlProblem(ok, B, P), ok).toBeNull();
+    for (const [bad, why] of [
+      [`https://storage.googleapis.com/storage/v1/b/${B}/o?prefix=${enc}`, 'list'],
+      [`https://storage.googleapis.com/storage/v1/b/${B}/o/?prefix=cultivation_snapshot`, 'list'],
+      [`https://storage.googleapis.com/storage/v1/b/${B}/o/${enc}`, 'no_alt_media'],
+      [`https://storage.googleapis.com/storage/v1/b/${B}/o/${encodeURIComponent('cultivation_snapshot/other.json')}?alt=media`, 'path'],
+      [`https://storage.googleapis.com/storage/v1/b/other-bucket/o/${enc}?alt=media`, 'bucket'],
+      [`https://storage.googleapis.com/${B}`, 'shape'],
+      [`https://storage.googleapis.com/${B}/cultivation_snapshot/`, 'shape'],
+    ]) expect(singleObjectUrlProblem(bad, B, P), bad).toBe(why);
+  });
+
+  test('GA8d トークン申し込みの検査器が効く：正しいものだけ通し、aud・scope・exp・grant_type・署名・alg の誤りは全部落とす', () => {
+    const k = testKey();
+    const now = 1_800_000_000;
+    const goodClaims = { iss: k.clientEmail, scope: 'https://www.googleapis.com/auth/devstorage.read_only', aud: k.tokenUri, iat: now, exp: now + 3600 };
+    const make = ({ claims = {}, header = {}, grant = JWT_BEARER, method = 'POST', pem = k.privatePem } = {}) => {
+      const assertion = signJwt({ privateKeyPem: pem, header, claims: { ...goodClaims, ...claims } });
+      const body = new URLSearchParams({ grant_type: grant, assertion }).toString();
+      return verifyTokenRequest({ method, body, publicKey: k.publicKey, clientEmail: k.clientEmail, tokenUri: k.tokenUri });
+    };
+    expect(make()).toBe(true);
+    expect(make({ claims: { aud: 'https://example.test/token' } })).toBe(false);
+    expect(make({ claims: { scope: 'https://www.googleapis.com/auth/devstorage.read_write' } })).toBe(false);
+    expect(make({ claims: { scope: 'https://www.googleapis.com/auth/devstorage.read_only https://www.googleapis.com/auth/devstorage.full_control' } })).toBe(false);
+    expect(make({ claims: { scope: undefined } })).toBe(false);
+    expect(make({ claims: { exp: now } })).toBe(false);
+    expect(make({ claims: { exp: now - 1 } })).toBe(false);
+    expect(make({ claims: { iss: 'other@example.test' } })).toBe(false);
+    expect(make({ grant: 'client_credentials' })).toBe(false);
+    expect(make({ method: 'GET' })).toBe(false);
+    expect(make({ header: { alg: 'none' } })).toBe(false);
+    // 別の鍵で署名したもの
+    const other = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 }).privateKey.export({ type: 'pkcs8', format: 'pem' });
+    expect(make({ pem: other })).toBe(false);
   });
 
   test('GA8b 404・403・500 は状態として返し、通信の例外はそのまま投げる（呼び出し側が理由を決める）', async () => {

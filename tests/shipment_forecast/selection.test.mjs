@@ -153,7 +153,12 @@ describe('S 載せる／外す', () => {
 
 describe('GC 作付け1件だけの不備は、その作付けだけ外す', () => {
   const baseCultivations = () => [sf(1).main.cultivations[0], sf(3).main.cultivations[0]];
-  const baseline = () => canon(buildForecast(snap(baseCultivations(), { generated_at: '2026-11-17T04:00:00+09:00', generated_for_date: '2026-11-17' }), []).forecast);
+  // 基準：SF1（5行）＋SF3（3行）＝手で数えた8行。基準が空（全部外す実装）でも一致してしまわないよう、行数を先に確かめる
+  const baseline = () => {
+    const b = canon(buildForecast(snap(baseCultivations(), { generated_at: '2026-11-17T04:00:00+09:00', generated_for_date: '2026-11-17' }), []).forecast);
+    expect(b.items.flatMap((i) => i.rows)).toHaveLength(8);
+    return b;
+  };
   const over17 = { generated_at: '2026-11-17T04:00:00+09:00', generated_for_date: '2026-11-17' };
 
   tzTest('GC1 作付け番号が欠落／null／空文字の作付けは載せない側に倒して警告。他は変わらない', () => {
