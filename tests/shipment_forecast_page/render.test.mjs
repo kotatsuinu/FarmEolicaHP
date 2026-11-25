@@ -1,8 +1,10 @@
 // 段2 表示部品（ShipmentForecast.astro）を Astro の Container API で描いて確かめる。
 // 入力は「表示用の形」を手で書いたもの（view.ts を通さない＝部品だけを確かめる）。
-import { describe, test, expect } from 'vitest';
-import { experimental_AstroContainer as AstroContainer } from 'astro/container';
-import ShipmentForecast from '../../src/components/forecast/ShipmentForecast.astro';
+import { describe, test, expect, afterAll } from 'vitest';
+import { renderComponent, closeAstro } from './helpers/astro_container.mjs';
+
+const COMPONENT = '/src/components/forecast/ShipmentForecast.astro';
+afterAll(closeAstro);
 
 const GEN = '2026-11-13T04:30:00+09:00';
 const ASOF = '11月13日 朝の時点';
@@ -10,10 +12,7 @@ const NOTE = '植えた本数の目安です。出荷できる本数や、品質
 const EMPTY_TEXT = 'いま載せられる品目はありません。出荷の見込みはお問い合わせください';
 const PHOTO_NOTE = '過去の栽培のイメージです';
 
-async function render(view) {
-  const container = await AstroContainer.create();
-  return container.renderToString(ShipmentForecast, { props: { view } });
-}
+const render = (view) => renderComponent(COMPONENT, { view });
 const count = (html, needle) => html.split(needle).length - 1;
 const vRow = (over = {}) => ({ variety: 'テスト品種', months: '12月〜2027年1月', statusLabel: '生育中', countLabel: '約1千本', ...over });
 const vItem = (crop, rows, over = {}) => ({ crop, photo: null, contactHref: '/contact', rows, ...over });

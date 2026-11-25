@@ -14,7 +14,14 @@ export default defineConfig({
           environment: 'node',
         },
       },
-      'vitest.page.config.mjs',
+      {
+        test: {
+          name: 'page',
+          include: ['tests/shipment_forecast_page/**/*.test.mjs'],
+          exclude: ['tests/shipment_forecast_page/build.test.mjs', '**/node_modules/**'],
+          environment: 'node',
+        },
+      },
       {
         test: {
           name: 'page-build',
