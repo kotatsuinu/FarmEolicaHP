@@ -1,0 +1,53 @@
+name: Shipment Forecast Sync
+
+# 毎朝、栽培データの写しから出荷予報を作り、src/data/shipment_forecast.json を更新して main に反映する
+
+on:
+  # 毎日 JST 4:30 (UTC 19:30) に実行
+  schedule:
+    - cron: '30 19 * * *'
+
+  # 手動実行も可能
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# 同時に2つ走らせない（実行中のものは止めず、後のものを待たせる）
+concurrency:
+  group: shipment-forecast-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-shipment-forecast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          check-latest: true
+
+      - name: Fetch shipment forecast
+        env:
+          CULTIVATION_SNAPSHOT_READER_KEY: ${{ secrets.CULTIVATION_SNAPSHOT_READER_KEY }}
+        run: node scripts/fetch_shipment_forecast.mjs
+
+      - name: Commit and push changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add src/data/shipment_forecast.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m 'Update shipment forecast'
+            git push origin main
+          fi
