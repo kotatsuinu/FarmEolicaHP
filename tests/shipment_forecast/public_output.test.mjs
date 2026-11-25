@@ -170,7 +170,7 @@ describe('GP 写しにだけある項目が出ない', () => {
   });
 
   test('GP2 検査器が効く：目印を1つずつ混ぜた偽の出力を全部検出する', () => {
-    const baseText = serializeForecast(BASE_EXPECTED);
+    const baseText = JSON.stringify(BASE_EXPECTED, null, 2); // 検査器だけの確かめ（実装の書き出しを使わない）
     for (const m of Object.values(NON_PUBLIC).map(String)) {
       expect(checkP3(`${baseText}${m}`, [m]), m).toEqual([`marker:${m}`]);
     }
