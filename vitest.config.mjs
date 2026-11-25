@@ -1,10 +1,30 @@
-// テストの設定（出荷予報の書き出し部品から使い始めた。2026-11-25）
-// テストは tests/ の下に *.test.mjs で置く。実行は `npm test`（重い処理の札の対象）
+// テストの設定。3つの層に分ける（2026-11-25）。
+//  scripts    : 出荷予報の書き出し部品（段1）。速い
+//  page       : 出荷予報の画面の部品（段2）。速い（Astro の Container API）
+//  page-build : 本物のビルドを回す層（段2）。遅い・重い。`npm run test:build` で単独に流す
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    include: ['tests/**/*.test.mjs'],
-    environment: 'node',
+    projects: [
+      {
+        test: {
+          name: 'scripts',
+          include: ['tests/shipment_forecast/**/*.test.mjs'],
+          environment: 'node',
+        },
+      },
+      'vitest.page.config.mjs',
+      {
+        test: {
+          name: 'page-build',
+          include: ['tests/shipment_forecast_page/build.test.mjs'],
+          environment: 'node',
+          fileParallelism: false,
+          testTimeout: 600000,
+          hookTimeout: 600000,
+        },
+      },
+    ],
   },
 });

@@ -9,7 +9,8 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "vitest run"
+    "test": "vitest run --project scripts --project page",
+    "test:build": "vitest run --project page-build"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.0",
