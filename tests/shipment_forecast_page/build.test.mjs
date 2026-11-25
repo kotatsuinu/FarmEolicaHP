@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { buildForecast, serializeForecast } from '../../scripts/shipment_forecast/forecast.mjs';
 import { baseSnapshot, allSnapshot } from '../shipment_forecast/helpers/fixtures.mjs';
 import { NON_PUBLIC } from '../shipment_forecast/helpers/expected.mjs';
+import { countAttr, LEAK } from './helpers/builders.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const ASTRO = path.join(ROOT, 'node_modules', 'astro', 'astro.js');
@@ -138,12 +139,12 @@ describe('本物のビルド（順に1つずつ）', () => {
       for (const row of it.rows) if (row.variety) expect(html, `品種 ${row.variety}`).toContain(row.variety);
     }
     const totalRows = forecast.items.reduce((n, it) => n + it.rows.length, 0);
-    expect(count(html, 'data-row')).toBe(totalRows);
+    expect(countAttr(html, 'data-row')).toBe(totalRows);
     expect(count(html, 'この品目を問い合わせる')).toBe(
       // 区分に分かれる品目は区分の数だけ出る。最低でも品目の数
-      count(html, 'data-crop'),
+      countAttr(html, 'data-crop'),
     );
-    expect(count(html, 'data-crop')).toBeGreaterThanOrEqual(forecast.items.length);
+    expect(countAttr(html, 'data-crop')).toBeGreaterThanOrEqual(forecast.items.length);
     expect(count(html, '植えた本数の目安です。出荷できる本数や、品質をお約束する本数ではありません')).toBe(1);
     expect(metaOf(html)).toBe(forecast.generated_at);
     expect(html).toMatch(/\d{1,2}月\d{1,2}日 朝の時点/);
@@ -171,8 +172,12 @@ describe('本物のビルド（順に1つずつ）', () => {
   test.each(broken)('V17 壊れたファイル（%s）：ビルドが失敗し、出力に shipment_forecast の例外文が出る', (name, text) => {
     const file = writeData(`forecast_broken_${seq}.json`, text);
     const r = build({ FORECAST_PREVIEW: 'true', FORECAST_DATA_FILE: file });
+    // 時間切れ・強制終了（status が null）で緑にしない：数の終了コードで、0 でないこと
+    expect(r.status, `終了コードが数でない（時間切れ・強制終了）: ${name}`).toEqual(expect.any(Number));
     expect(r.status, `壊れたファイルでビルドが成功してしまった: ${name}`).not.toBe(0);
+    // load.ts の例外の文（shipment_forecast）が出ていて、既定の場所の読み込み失敗など無関係な失敗ではない
     expect(r.output).toMatch(NAMED_RE);
+    expect(r.output).not.toMatch(/Could not resolve|Failed to resolve import|Cannot find module/);
   });
 
   test('V23 目印入りの写し（段1 で書き出し）：成果物の全ファイルに目印0件・ページには品目が出る・載せない一覧が出力に無い', () => {
@@ -183,7 +188,7 @@ describe('本物のビルド（順に1つずつ）', () => {
     expect(r.status, r.output.slice(-2000)).toBe(0);
     const html = page(r.outDir);
     // 空振りにしない：同じビルドで表示部品が品目を描いている（品目名だけだとサイト共通部分の同じ文字に当たりうる）
-    expect(count(html, 'data-crop')).toBeGreaterThanOrEqual(forecast.items.length);
+    expect(countAttr(html, 'data-crop')).toBeGreaterThanOrEqual(forecast.items.length);
     for (const it of forecast.items) expect(html).toContain(it.crop);
     const strMarkers = Object.values(NON_PUBLIC).filter((v) => typeof v === 'string').map(String);
     expect(scanDir(r.outDir, strMarkers)).toEqual([]);
@@ -193,6 +198,52 @@ describe('本物のビルド（順に1つずつ）', () => {
     }
     expect(listFiles(r.outDir).filter((f) => f.includes('shipment_forecast_hidden'))).toEqual([]);
     expect(listFiles(r.outDir).filter((f) => /shipment_forecast(?!_photos)/.test(path.basename(f)))).toEqual([]);
+  });
+
+  test('V23-b 知らない項目（最上位・品目・行）に目印を足した手書きの公開ファイル：成果物の全ファイルに目印0件・同じビルドで品目が出ている', () => {
+    const { forecast } = realExport(baseSnapshot());
+    expect(forecast.items.length).toBeGreaterThan(3);
+    const dirty = structuredClone(forecast);
+    dirty.owner_note = LEAK.strings[6];
+    dirty.raw_total = LEAK.numbers[1];
+    dirty.items.forEach((it, i) => {
+      it.cultivation_no = LEAK.strings[i % 2];
+      it.memo = LEAK.strings[4];
+      it.rows.forEach((r) => {
+        r.planned_count = LEAK.numbers[0];
+        r.stage_name = LEAK.strings[2 + (i % 2)];
+        r.bed_numbers = LEAK.strings[5];
+      });
+    });
+    const file = writeData('forecast_dirty.json', JSON.stringify(dirty, null, 2));
+    // 入力に目印が入っていることを先に確かめる（入っていなければ「0件」が空振りになる）
+    const input = fs.readFileSync(file, 'utf8');
+    for (const m of LEAK.strings) expect(input, m).toContain(m);
+    const r = build({ FORECAST_PREVIEW: 'true', FORECAST_DATA_FILE: file });
+    expect(r.status, r.output.slice(-2000)).toBe(0);
+    const html = page(r.outDir);
+    // 同じビルドで品目と行が実際に出ている
+    expect(countAttr(html, 'data-crop')).toBeGreaterThanOrEqual(forecast.items.length);
+    expect(countAttr(html, 'data-row')).toBe(forecast.items.reduce((n, it) => n + it.rows.length, 0));
+    for (const it of forecast.items) expect(html).toContain(it.crop);
+    expect(scanDir(r.outDir, LEAK.strings)).toEqual([]);
+    for (const n of LEAK.numbers) {
+      expect(html.match(new RegExp('(?<![0-9.])' + n + '(?![0-9])')), String(n)).toBeNull();
+    }
+    expect(metaOf(html)).toBe(forecast.generated_at);
+  });
+
+  test('V26 環境変数なし・既定のファイルも無い（今の develop の形）：成功。今の「現在準備中です」・meta なし', () => {
+    const defaultFile = path.join(ROOT, 'src', 'data', 'shipment_forecast.json');
+    expect(fs.existsSync(defaultFile), '既定の場所にファイルがある（develop の形でない）').toBe(false);
+    const r = build({});
+    expect(r.status, r.output.slice(-2000)).toBe(0);
+    const html = page(r.outDir);
+    expect(html).toContain('Coming Soon');
+    expect(html).toContain('現在準備中です');
+    expect(html).not.toContain('data-forecast-state');
+    expect(countAttr(html, 'data-crop')).toBe(0);
+    expect(metaOf(html)).toBeNull();
   });
 
   test('V25 FORECAST_PREVIEW なし＋ファイルあり：今の「現在準備中です」のまま・品目名は出ない・meta はある', () => {
@@ -205,8 +256,8 @@ describe('本物のビルド（順に1つずつ）', () => {
     expect(html).toContain('現在準備中です');
     expect(html).not.toContain('data-forecast-state');
     // 品目名の文字そのものはサイトの共通部分（案内・フッター）にも出うるので、表示部品の目印で見る
-    expect(html).not.toContain('data-crop');
-    expect(html).not.toContain('data-row');
+    expect(countAttr(html, 'data-crop')).toBe(0);
+    expect(countAttr(html, 'data-row')).toBe(0);
     expect(html).not.toContain('朝の時点');
     expect(forecast.items.length).toBeGreaterThan(3);
     expect(metaOf(html)).toBe(forecast.generated_at);
