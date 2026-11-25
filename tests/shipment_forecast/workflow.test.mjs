@@ -14,6 +14,7 @@ import {
   checkPush,
   checkReadOnly,
   checkSecrets,
+  checkStepOrder,
   checkTriggers,
   readPartFiles,
   readWorkflowText,
@@ -76,6 +77,38 @@ describe('陽性コントロール：道具が約束違反を見逃さない（�
     expect(checkNoDiffBranch(GOOD)).toEqual([]);
     expect(checkSecrets(GOOD)).toEqual([]);
     expect(checkPush(GOOD)).toEqual([]);
+    expect(checkStepOrder(GOOD)).toEqual([]);
+  });
+
+  test('点検で足した穴：run の || 全面禁止・git の前置き選択肢・順序・shell・run: >・SECRETS 大文字・--staged と引用符は緑', () => {
+    const addRun = (line) => mutate('          git config user.name', `          ${line}\n          git config user.name`);
+    // 1. run の中の || は何でも赤（|| : も当たる）
+    expect(checkFailureNotSwallowed(mutate('git push origin main', 'git push origin main || echo failed')).length).toBeGreaterThan(0);
+    expect(checkFailureNotSwallowed(mutate('run: node scripts/fetch_shipment_forecast.mjs', 'run: node scripts/fetch_shipment_forecast.mjs || :')).length).toBeGreaterThan(0);
+    // 2. git -c / -C は赤（push --force を隠せる）
+    expect(checkPush(mutate('git push origin main', 'git -c x=y push --force origin main')).length).toBeGreaterThan(0);
+    expect(checkPush(addRun('git -C . reset --hard')).length).toBeGreaterThan(0);
+    expect(checkGitAdd(mutate('git add src/data/shipment_forecast.json', 'git -c x=y add -A')).length).toBeGreaterThan(0);
+    // 3. 順序
+    const diffFirst = GOOD.replace('          git add src/data/shipment_forecast.json\n', '').replace('          if git diff --cached --quiet; then', '          if git diff --cached --quiet; then').replace("          git config user.name 'github-actions[bot]'\n", "          git config user.name 'github-actions[bot]'\n          git diff --cached --quiet\n          git add src/data/shipment_forecast.json\n");
+    expect(checkStepOrder(diffFirst).length).toBeGreaterThan(0);
+    const commitBeforeDiff = mutate("          git add src/data/shipment_forecast.json\n", "          git add src/data/shipment_forecast.json\n          git commit -m 'early'\n");
+    expect(checkStepOrder(commitBeforeDiff).length).toBeGreaterThan(0);
+    const addBeforePart = mutate('        run: node scripts/fetch_shipment_forecast.mjs', '        run: |\n          git add src/data/shipment_forecast.json\n          node scripts/fetch_shipment_forecast.mjs');
+    expect(checkStepOrder(addBeforePart).length).toBeGreaterThan(0);
+    // 4. shell:
+    expect(checkFailureNotSwallowed(mutate('        run: node scripts/fetch_shipment_forecast.mjs', '        shell: bash {0}\n        run: node scripts/fetch_shipment_forecast.mjs')).length).toBeGreaterThan(0);
+    // 5. SECRETS（大文字小文字を区別しない）
+    expect(checkSecrets(addRun('echo ${{ SECRETS.OTHER }}')).length).toBeGreaterThan(0);
+    // 6. run: >
+    expect(checkFailureNotSwallowed(mutate('run: node scripts/fetch_shipment_forecast.mjs', 'run: >\n          node scripts/fetch_shipment_forecast.mjs')).length).toBeGreaterThan(0);
+    // 7. --staged は正しい形（緑）
+    const staged = mutate('git diff --cached --quiet', 'git diff --staged --quiet');
+    expect(checkNoDiffBranch(staged)).toEqual([]);
+    expect(checkStepOrder(staged)).toEqual([]);
+    // 8. git add の引数の引用符は外して比べる（緑）・別のファイルは引用符付きでも赤
+    expect(checkGitAdd(mutate('git add src/data/shipment_forecast.json', 'git add "src/data/shipment_forecast.json"'))).toEqual([]);
+    expect(checkGitAdd(mutate('git add src/data/shipment_forecast.json', "git add 'src/data/other.json'")).length).toBeGreaterThan(0);
   });
 
   test('A1 道具：cron 違い・cron 2つ・push 起動・pull_request 起動・手動なしを検出', () => {
@@ -186,6 +219,14 @@ describe('A13 の道具の陽性コントロール', () => {
     expect(bad("const S3 = 'https://www.googleapis.com/auth/cloud-platform';").length).toBeGreaterThan(0);
     expect(bad("const S4 = 'https://www.googleapis.com/auth/datastore';").length).toBeGreaterThan(0);
     expect(bad("const S5 = 'devstorage.full_control';").length).toBeGreaterThan(0);
+    // 点検で足した書き込み系（通信を扱うファイルだけ）・メソッド指定は大文字小文字を区別しない
+    expect(bad("fetch(u, { method: 'put' });").length).toBeGreaterThan(0);
+    expect(bad("fetch(u, { method: 'Delete' });").length).toBeGreaterThan(0);
+    for (const call of ['await b.commit();', 'await f.upload(x);', 'fs.createWriteStream(p);', 'await f.setMetadata(m);', 'await f.makePublic();', 'await f.copy(d);', 'await f.move(d);']) {
+      expect(bad(call).length, call).toBeGreaterThan(0);
+    }
+    // 入口でない run.mjs のローカルの書き出しは対象外
+    expect(checkReadOnly({ ...PART_OK, 'scripts/shipment_forecast/run.mjs': "fs.writeFileSync(p, t); fs.renameSync(a, b); list.update(x);" })).toEqual([]);
   });
 
   test('読み出し（alt=media）が0件なら緑にならない・scope の指定が無くても緑にならない', () => {
@@ -222,6 +263,7 @@ describe('実物のワークフロー（まだ無ければ赤になるのが正�
 
   test('A5 差分が無いときはコミットも push もせず正常に終わる形', () => {
     expect(checkNoDiffBranch(readWorkflowText())).toEqual([]);
+    expect(checkStepOrder(readWorkflowText())).toEqual([]); // 部品 → git add → 差分確認 → commit・push の順
   });
 
   test('A6 secrets は部品の env の鍵1行だけ・ログに出す書き方（set -x・printenv・echo 等）が無い・コミット文言は固定', () => {

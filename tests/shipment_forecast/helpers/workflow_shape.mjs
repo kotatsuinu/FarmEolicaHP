@@ -103,6 +103,11 @@ function withLinesOfStep(step) {
   return [];
 }
 
+// git の前置きの選択肢（git -c ... / git -C ...）は禁止。検査をすり抜けるため
+function gitOptionViolations(runLines) {
+  return runLines.filter((l) => /\bgit\s+-/.test(l)).map((l) => `git の前置きの選択肢がある: ${l}`);
+}
+
 const allRunLines = (steps) => steps.flatMap(runLinesOfStep);
 const partStepsOf = (steps) => steps.filter((s) => runLinesOfStep(s).some((l) => l.includes('fetch_shipment_forecast')));
 
@@ -168,10 +173,13 @@ export function checkFailureNotSwallowed(text) {
   }
   const run = allRunLines(steps);
   for (const l of run) {
-    if (/\|\|\s*(true|:)\b/.test(l) || /;\s*true\b/.test(l)) v.push(`失敗を無視する書き方: ${l}`);
+    if (/\|\|/.test(l)) v.push(`run の中に || がある: ${l}`);
+    if (/;\s*true\b/.test(l)) v.push(`失敗を無視する書き方: ${l}`);
     if (/\bset\s+\+e\b/.test(l)) v.push(`set +e: ${l}`);
     if (/\bexit\s+0\b/.test(l)) v.push(`exit 0: ${l}`);
   }
+  if (lines.some((l) => /^\s*(?:- )?shell\s*:/.test(l))) v.push('shell: の指定がある（-e が外れうる）');
+  if (lines.some((l) => /^\s*(?:- )?run\s*:\s*>/.test(l))) v.push('run: > （折り返し）がある。run は1行か | だけ');
   const parts = partStepsOf(steps);
   if (parts.length !== 1) v.push(`部品を呼ぶステップが ${parts.length} 個（1個のはず）`);
   else {
@@ -184,9 +192,11 @@ export function checkFailureNotSwallowed(text) {
 // ---- A4：git add は1回・1ファイルだけ ----
 export function checkGitAdd(text) {
   const v = [];
-  const adds = gitCalls(allRunLines(splitSteps(cleanLines(text))), 'add');
+  const run = allRunLines(splitSteps(cleanLines(text)));
+  v.push(...gitOptionViolations(run));
+  const adds = gitCalls(run, 'add');
   if (adds.length !== 1) v.push(`git add が ${adds.length} 回（1回のはず）`);
-  for (const a of adds) if (a !== OUTPUT_FILE) v.push(`git add の引数が ${OUTPUT_FILE} だけでない: ${a}`);
+  for (const a of adds.map((x) => x.replace(/['"]/g, ''))) if (a !== OUTPUT_FILE) v.push(`git add の引数が ${OUTPUT_FILE} だけでない: ${a}`);
   return v;
 }
 
@@ -194,9 +204,9 @@ export function checkGitAdd(text) {
 export function checkNoDiffBranch(text) {
   const v = [];
   const run = allRunLines(splitSteps(cleanLines(text)));
-  const iDiff = run.findIndex((l) => /git diff --cached --quiet/.test(l));
+  const iDiff = run.findIndex((l) => /git diff --(cached|staged) --quiet/.test(l));
   if (iDiff < 0) return ['git diff --cached --quiet が無い'];
-  const negated = /!\s*git diff --cached --quiet/.test(run[iDiff]);
+  const negated = /!\s*git diff --(cached|staged) --quiet/.test(run[iDiff]);
   const iElse = run.findIndex((l, i) => i > iDiff && /^else\b/.test(l));
   const iFi = run.findIndex((l, i) => i > iDiff && /^fi\b/.test(l));
   if (iFi < 0) return ['if の閉じ（fi）が無い'];
@@ -216,6 +226,27 @@ export function checkNoDiffBranch(text) {
   return v;
 }
 
+// ---- A5 補：順序（部品 → git add → 差分確認 → commit・push）----
+export function checkStepOrder(text) {
+  const v = [];
+  const steps = splitSteps(cleanLines(text));
+  const flat = [];
+  steps.forEach((s, si) => runLinesOfStep(s).forEach((l) => flat.push({ si, l })));
+  const partIdx = steps.findIndex((s) => runLinesOfStep(s).some((l) => l.includes('fetch_shipment_forecast')));
+  const iAdd = flat.findIndex((x) => /\bgit\s+add\b/.test(x.l));
+  const iDiff = flat.findIndex((x) => /git diff --(cached|staged) --quiet/.test(x.l));
+  if (partIdx < 0) v.push('部品のステップが無い');
+  if (iAdd < 0) v.push('git add が無い');
+  if (iDiff < 0) v.push('差分の確認が無い');
+  if (v.length) return v;
+  if (flat[iAdd].si <= partIdx) v.push('git add が部品のステップより後のステップにない');
+  if (iAdd > iDiff) v.push('差分の確認が git add より前にある');
+  flat.forEach((x, i) => {
+    if (/\bgit\s+(commit|push)\b/.test(x.l) && i < iDiff) v.push(`差分の確認より前に commit・push がある: ${x.l}`);
+  });
+  return v;
+}
+
 // ---- A6：秘密を出さない ----
 export function checkSecrets(text) {
   const v = [];
@@ -227,12 +258,12 @@ export function checkSecrets(text) {
   if (parts.length !== 1) v.push(`部品を呼ぶステップが ${parts.length} 個`);
   else if (envLinesOfStep(parts[0]).filter((l) => okLine.test(l)).length !== 1) v.push('部品のステップの env に鍵の1行が無い');
   // secrets の出現は、その1行だけ
-  const secretLines = lines.filter((l) => /\bsecrets\b/.test(l));
+  const secretLines = lines.filter((l) => /\bsecrets\b/i.test(l));
   if (secretLines.length !== 1) v.push(`secrets が ${secretLines.length} か所に出る（1か所のはず）: ${secretLines.map((l) => l.trim()).join(' | ')}`);
   for (const l of secretLines) if (!okLine.test(l.trim())) v.push(`許していない secrets の参照: ${l.trim()}`);
   const run = allRunLines(steps);
   for (const l of run) {
-    if (/\bsecrets\b/.test(l)) v.push(`run の中に secrets: ${l}`);
+    if (/\bsecrets\b/i.test(l)) v.push(`run の中に secrets: ${l}`);
     if (/\bset\s+-[a-z]*x/.test(l)) v.push(`set -x: ${l}`);
     if (/\bprintenv\b/.test(l)) v.push(`printenv: ${l}`);
     if (/(^|[;&|]\s*)env\s*($|[;&|])/.test(l)) v.push(`env 単独のコマンド: ${l}`);
@@ -254,6 +285,7 @@ export function checkSecrets(text) {
 export function checkPush(text) {
   const v = [];
   const run = allRunLines(splitSteps(cleanLines(text)));
+  v.push(...gitOptionViolations(run));
   const pushes = gitCalls(run, 'push');
   if (pushes.length < 1) v.push('git push が無い');
   for (const p of pushes) if (!/^origin (main|HEAD:main)$/.test(p)) v.push(`許していない push: git push ${p}`);
@@ -278,13 +310,15 @@ export function checkReadOnly(files, { ioFiles = ['storage_reader.mjs', 'credent
   for (const [name, raw] of Object.entries(files)) {
     const src = stripComments(raw);
     for (const m of src.matchAll(/\b(PUT|PATCH|DELETE)\b/g)) v.push(`${name}: ${m[1]} のメソッド`);
+    for (const m of src.matchAll(/method\s*:\s*['"`](put|patch|delete)['"`]/gi)) v.push(`${name}: メソッド指定 ${m[1]}`);
     if (/\/upload\//.test(src)) v.push(`${name}: /upload/ の URL`);
     if (/uploadType/.test(src)) v.push(`${name}: uploadType`);
     if (/firestore/i.test(src)) v.push(`${name}: firestore`);
     if (ioFiles.some((f) => name.includes(f))) {
-      for (const m of src.matchAll(/\.(save|delete|set|update)\(/g)) v.push(`${name}: .${m[1]}( の呼び出し`);
+      for (const m of src.matchAll(/\.(save|delete|set|update|commit|upload|copy|move)\(|createWriteStream|setMetadata|makePublic/g)) v.push(`${name}: 書き込み系の呼び出し ${m[0]}`);
     }
-    for (const m of src.matchAll(/\bPOST\b/g)) {
+    for (const l of src.split('\n')) {
+      if (!/\bPOST\b/.test(l) && !/method\s*:\s*['"`]post['"`]/i.test(l)) continue;
       posts++;
       if (!name.includes('storage_reader.mjs')) v.push(`${name}: POST が鍵の引き換え口以外にある`);
     }
