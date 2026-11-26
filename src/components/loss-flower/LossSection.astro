@@ -1,0 +1,44 @@
+---
+/**
+ * ロスフラワー解説ページの1欄。スマホは札が上・本文が下、PCは左に札・右に本文。
+ */
+interface Props {
+  heading: string;
+}
+const { heading } = Astro.props;
+---
+
+<section class="sec">
+  <div class="sec-in">
+    <h2>{heading}</h2>
+    <div class="body"><slot /></div>
+  </div>
+</section>
+
+<style>
+  .sec { padding: 48px 20px 0; }
+  .sec-in { display: grid; gap: 14px; }
+  h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0; line-height: 1.5; }
+  .body { font-size: 15px; line-height: 1.9; color: #4A3B32; min-width: 0; }
+  .body :global(p) { margin: 0 0 14px; }
+  .body :global(p:last-child) { margin-bottom: 0; }
+  .body :global(.photo) { margin: 18px 0 0; border-radius: 6px; overflow: hidden; background: #E0DDD7; }
+  .body :global(.photo img) { display: block; width: 100%; height: auto; }
+  .body :global(a.go) { color: #B87333; text-decoration: underline; text-underline-offset: 3px; font-size: 14px; }
+  .body :global(.uses) { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid #E0DDD7; }
+  .body :global(.uses li) { margin: 0; padding: 12px 2px; border-top: 1px solid #E0DDD7; }
+  .body :global(.uses b) { font-weight: 600; color: #33291F; }
+  .body :global(.cmp-wrap) { overflow-x: auto; }
+  .body :global(table) { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .body :global(th), .body :global(td) { text-align: left; padding: 10px 10px 10px 0; border-bottom: 1px solid #E0DDD7; vertical-align: top; line-height: 1.6; }
+  .body :global(thead th) { font-size: 12.5px; font-weight: 600; color: #005243; }
+  .body :global(tbody th) { font-weight: 600; color: #33291F; white-space: nowrap; }
+  .body :global(td) { color: #4A3B32; }
+
+  @media (min-width: 768px) {
+    .sec { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); padding-top: 56px; }
+    .sec-in { grid-template-columns: 280px 1fr; gap: 56px; }
+    h2 { font-size: 24px; }
+    .body { font-size: 16px; max-width: 700px; }
+  }
+</style>

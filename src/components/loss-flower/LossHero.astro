@@ -1,0 +1,46 @@
+---
+/**
+ * ロスフラワー解説ページのヒーロー。h1 の文字列は「ロスフラワーとは｜農家直送の花材を通販でまとめ買い」のまま、
+ * 見た目だけ小さい一文（上）と大きい題（下）に分ける。
+ */
+import { Image } from 'astro:assets';
+import Breadcrumb from '../Breadcrumb.astro';
+
+interface Props {
+  image: ImageMetadata;
+  alt?: string;
+  crumb: { name: string; url?: string }[];
+}
+const { image, alt = '', crumb } = Astro.props;
+---
+
+<section class="plx hero">
+  <Image src={image} alt={alt} widths={[640, 1280, 1920]} sizes="100vw" loading="eager" fetchpriority="high" />
+  <div class="hero-txt">
+    <h1><span class="main">ロスフラワーとは</span><span class="sep">｜</span><span class="sub">農家直送の花材を通販でまとめ買い</span></h1>
+  </div>
+</section>
+
+<div class="inner crumb">
+  <Breadcrumb items={crumb} />
+</div>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .hero::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(22,26,24,.72), rgba(22,26,24,.05) 70%); }
+  .hero { height: 300px; color: #fff; }
+  .hero-txt { position: absolute; left: 20px; right: 20px; bottom: 22px; z-index: 2; }
+  h1 { display: flex; flex-direction: column; margin: 0; color: #fff; }
+  .main { order: 2; font-size: 30px; font-weight: 600; letter-spacing: .04em; line-height: 1.45; }
+  .sub { order: 1; font-size: 13px; line-height: 1.75; opacity: .92; letter-spacing: .04em; }
+  .sep { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .crumb { padding-top: 12px; }
+
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .hero { height: 400px; }
+    .hero-txt { left: max(48px, calc(50% - 552px)); right: auto; bottom: 40px; max-width: 640px; }
+    .main { font-size: 40px; }
+    .sub { font-size: 15px; }
+  }
+</style>
