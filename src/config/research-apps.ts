@@ -1,5 +1,5 @@
 /**
- * 研究成果ページ — アプリショーケースデータ
+ * 農園の仕組みづくりページ — アプリショーケースデータ
  * デモURLはCloudflare Pagesデプロイ後に設定
  */
 
@@ -8,6 +8,8 @@ export interface ResearchApp {
   title: string;
   titleEn: string;
   description: string;
+  /** 農園の仕組みづくりページで使う短い説明（1〜2行） */
+  summary: string;
   features: string[];
   techStack: string[];
   demoUrl: string | null;
@@ -18,6 +20,7 @@ export interface ResearchApp {
 export const researchApps: ResearchApp[] = [
   {
     id: 'cultivation-manager',
+    summary: '作業記録・生育管理・出荷予測を一元管理するWebアプリ。',
     title: '栽培管理システム',
     titleEn: 'CULTIVATION MANAGER',
     description:
@@ -36,6 +39,7 @@ export const researchApps: ResearchApp[] = [
   },
   {
     id: 'polyculture-board',
+    summary: '多品目混植の作付け計画・管理ログを見える化するボード。',
     title: '混植ボード',
     titleEn: 'POLYCULTURE BOARD',
     description:
@@ -53,6 +57,7 @@ export const researchApps: ResearchApp[] = [
   },
   {
     id: 'analytics-dashboard',
+    summary: '栽培・出荷・売上のデータをまとめて分析する画面。',
     title: '経営分析ダッシュボード',
     titleEn: 'ANALYTICS DASHBOARD',
     description:

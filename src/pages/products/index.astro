@@ -1,7 +1,7 @@
 ---
 /**
  * 商品一覧ページ（スマホ第一）
- * 上から：題の写真 → いま買える花 → すべての商品・研究成果
+ * 上から：題の写真 → いま買える花 → すべての商品・仕組みづくり
  *         → これから出る花の帯 → 考え方 → お問い合わせ
  * 設計案：2026-11-13 園主了承。題・棚・お問い合わせ帯と奥行きの動きは catalog/ の部品。
  */
@@ -41,29 +41,29 @@ const tiles = [
   { title: '規格外切り花', note: 'たっぷり使いたい方に', href: '/products/imperfect', image: categoryImperfectImage },
   { title: 'ドライフラワー', note: '花の頭だけ・茎つきの2種類', href: '/products/dry-flower', image: dryFlowerImage },
   { title: '市場出荷品', note: 'お花屋さん・市場の方へ', href: '/products/market', image: categoryMarketImage, more: true },
-  { title: '研究成果', note: '畑で作ったアプリと記録', href: '/products/research', image: researchImage, more: true },
+  { title: '農園の仕組みづくり', note: '畑で作ったアプリと記録', href: '/products/research', image: researchImage, more: true },
   { title: 'ロスフラワー', note: 'クラフトの素材に（販売は休止中）', href: '/products/loss-flower', image: categoryLossFlowerImage, more: true },
 ];
 
 ---
 
 <Layout
-  title="商品・研究成果 | Farm Eolica (ファームエオリカ)"
+  title="商品・仕組みづくり | Farm Eolica (ファームエオリカ)"
   description="Farm Eolicaの商品一覧。福島県浪江町の畑で育てた花を、花束・規格外切り花・ドライフラワーなどでお届けします。"
   image={productsHeroImage.src}
   ogType="website"
 >
   <BreadcrumbSchema items={[
     { name: 'ホーム', url: '/' },
-    { name: '商品・研究成果', url: '/products' },
+    { name: '商品・仕組みづくり', url: '/products' },
   ]} />
 
   <PageShell>
     <PageHero
       image={productsHeroImage}
-      title="商品・研究成果"
+      title="商品・仕組みづくり"
       lead="福島県浪江町の畑で育てた花を、花束や切り花でお届けします。畑で作ったアプリと記録も公開しています。"
-      crumb={[{ name: 'ホーム', url: '/' }, { name: '商品・研究成果' }]}
+      crumb={[{ name: 'ホーム', url: '/' }, { name: '商品・仕組みづくり' }]}
     />
 
     <!-- いま買える花 -->
@@ -91,9 +91,9 @@ const tiles = [
       </Fragment>
     </ProductShelf>
 
-    <!-- すべての商品・研究成果 -->
+    <!-- すべての商品・仕組みづくり -->
     <section class="sec inner">
-      <div class="sec-h"><h2>すべての商品・研究成果</h2></div>
+      <div class="sec-h"><h2>すべての商品・仕組みづくり</h2></div>
       <div class="cats">
         {tiles.map((t) => (
           <a class={t.more ? 'tile more plx' : 'tile plx'} href={t.href}>
@@ -173,7 +173,7 @@ const tiles = [
   .tile:first-child .tile-txt b { font-size: 22px; }
   .tile-txt i { font-style: normal; font-family: theme('fontFamily.mono'); font-size: 12px; opacity: .9; }
 
-  /* 下の3つ（ドライフラワー・市場出荷品・研究成果）：スマホは写真なしの文字の行 */
+  /* 下の3つ（ドライフラワー・市場出荷品・農園の仕組みづくり）：スマホは写真なしの文字の行 */
   .tile.more { grid-column: 1 / -1; aspect-ratio: auto; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 14px 2px; border-radius: 0; border-top: 1px solid #E0DDD7; color: #4A3B32; }
   .tile.more:nth-child(4) { margin-top: 4px; }
   .tile.more + .tile.more { margin-top: -10px; }

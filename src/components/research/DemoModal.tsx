@@ -33,7 +33,7 @@ export default function DemoModal() {
       const trigger = (e.target as HTMLElement).closest('[data-demo-trigger]');
       if (!trigger) return;
       const demoUrl = trigger.getAttribute('data-demo-url');
-      const demoTitle = trigger.getAttribute('data-demo-title') || 'Demo';
+      const demoTitle = trigger.getAttribute('data-demo-title') || 'デモ';
       if (demoUrl) open(demoUrl, demoTitle);
     };
     document.addEventListener('click', handler);
@@ -62,7 +62,7 @@ export default function DemoModal() {
         {/* Header Bar */}
         <div class="flex items-center justify-between px-4 md:px-6 py-3 bg-stone-white border-b border-warm-gray-200 shrink-0">
           <div class="flex items-center gap-3">
-            <span class="font-mono text-[10px] tracking-widest text-warm-gray-400">DEMO</span>
+            <span class="font-mono text-[10px] tracking-widest text-warm-gray-400">デモ</span>
             <span class="font-serif text-sm text-wet-soil">{title}</span>
           </div>
           <div class="flex items-center gap-4">
@@ -76,13 +76,13 @@ export default function DemoModal() {
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
-              NEW TAB
+              新しいタブで開く
             </a>
             {/* Close */}
             <button
               onClick={close}
               class="flex items-center justify-center w-8 h-8 text-warm-gray-400 hover:text-wet-soil transition-colors duration-200"
-              aria-label="Close demo"
+              aria-label="デモを閉じる"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -97,14 +97,14 @@ export default function DemoModal() {
             <div class="absolute inset-0 flex items-center justify-center bg-stone-white">
               <div class="text-center">
                 <div class="w-8 h-8 border-2 border-eolica-green/30 border-t-eolica-green rounded-full animate-spin mx-auto mb-4" />
-                <p class="font-mono text-xs tracking-widest text-warm-gray-400">LOADING</p>
+                <p class="font-mono text-xs tracking-widest text-warm-gray-400">読み込み中</p>
               </div>
             </div>
           )}
           <iframe
             src={url}
             class="w-full h-full border-0"
-            title={`${title} Demo`}
+            title={`${title}のデモ`}
             onLoad={() => setIsLoading(false)}
             sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
           />
@@ -113,7 +113,7 @@ export default function DemoModal() {
         {/* Demo Notice */}
         <div class="px-4 py-2 bg-amber-50 border-t border-amber-200 text-center shrink-0">
           <p class="font-mono text-[10px] tracking-wide text-amber-700">
-            This is a demo with sample data — no real backend connection
+            これはサンプルデータで動くデモです。実際のデータにはつながっていません。
           </p>
         </div>
       </div>
