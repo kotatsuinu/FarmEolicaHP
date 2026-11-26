@@ -70,7 +70,8 @@ const methods = [
 <style>
   .inner { padding-left: 20px; padding-right: 20px; }
   .form-wrap { padding-top: 32px; }
-  .form-wrap > :global(*) { max-width: 760px; }
+  /* フォームは astro-island（既定は横並びの要素）に包まれるため、block にしてから幅を抑える */
+  .form-wrap > :global(astro-island) { display: block; max-width: 760px; }
   .others { padding-top: 56px; padding-bottom: 80px; }
   h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0 0 8px; line-height: 1.5; }
   .rows { display: grid; border-bottom: 1px solid #E0DDD7; }
