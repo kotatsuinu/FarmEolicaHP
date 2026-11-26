@@ -1,0 +1,31 @@
+---
+/**
+ * 文字だけの小さな見出し。パンくず・題・説明文。お問い合わせ・よくある質問で共通。
+ * 左端の余白は loss-flower ページ（LossHero）と同じ。
+ */
+import Breadcrumb from './Breadcrumb.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+---
+
+<header class="ph inner">
+  <Breadcrumb items={[{ name: 'ホーム', url: '/' }, { name: title }]} />
+  <h1>{title}</h1>
+  {description && <p>{description}</p>}
+</header>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .ph { padding-top: 128px; }
+  h1 { font-size: 28px; font-weight: 600; color: #33291F; line-height: 1.45; margin: 20px 0 12px; letter-spacing: .04em; }
+  p { font-size: 15px; color: #4A3B32; line-height: 1.85; margin: 0; max-width: 760px; }
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    h1 { font-size: 36px; }
+    p { font-size: 16px; }
+  }
+</style>

@@ -208,7 +208,7 @@ export default function ContactForm() {
   // Success state
   if (status === 'success') {
     return (
-      <div className="bg-stone-white/95 backdrop-blur-sm shadow-lab p-8">
+      <div>
         <div className="bg-eolica-green/10 border border-eolica-green/30 p-6 text-center">
           <svg
             className="w-12 h-12 mx-auto mb-4 text-eolica-green"
@@ -231,9 +231,9 @@ export default function ContactForm() {
           </p>
           <button
             onClick={handleReset}
-            className="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
+            className="inline-block px-8 py-3 text-sm font-serif border border-old-copper rounded text-old-copper hover:bg-old-copper hover:text-white transition-colors duration-300"
           >
-            New Inquiry
+            続けて問い合わせる
           </button>
         </div>
       </div>
@@ -242,11 +242,11 @@ export default function ContactForm() {
 
   const inputClass =
     'w-full bg-white border px-4 py-3 rounded-none font-serif text-base text-dark-slate focus:outline-none focus:border-eolica-green transition-colors';
-  const labelClass = 'block font-mono text-xs text-warm-gray-500 tracking-wide mb-2';
+  const labelClass = 'block font-serif text-sm text-[#33291F] mb-2';
   const errorClass = 'text-xs text-red-600 mt-1 font-serif';
 
   return (
-    <div className="bg-stone-white/95 backdrop-blur-sm shadow-lab p-8">
+    <div>
       {/* Error banner */}
       {status === 'error' && (
         <div className="bg-red-50 border border-red-200 p-4 mb-6">
@@ -412,7 +412,7 @@ export default function ContactForm() {
                       )}
                       {estimateInfo.totalEstimate !== undefined && (
                         <div className="flex justify-between gap-4 pt-1 mt-1 border-t border-warm-gray-200 items-baseline">
-                          <dt className="font-mono tracking-widest text-warm-gray-500">TOTAL</dt>
+                          <dt className="font-mono tracking-widest text-warm-gray-500">合計</dt>
                           <dd className="text-right font-mono text-eolica-green text-base">
                             {formatYen(estimateInfo.totalEstimate)}
                             <span className="text-[10px] text-warm-gray-400 ml-1">(税込・送料込)</span>
@@ -487,14 +487,14 @@ export default function ContactForm() {
         </div>
 
         {/* Submit */}
-        <div className="text-center">
+        <div>
           <button
             type="submit"
             disabled={status === 'submitting'}
-            className={`inline-block w-full sm:w-auto px-12 py-3 text-base tracking-widest uppercase font-mono border-2 border-old-copper transition-all duration-300 ${
+            className={`inline-block w-full sm:w-auto px-12 py-3 text-base font-serif rounded bg-eolica-green text-white transition-opacity duration-300 ${
               status === 'submitting'
-                ? 'opacity-70 cursor-not-allowed text-old-copper'
-                : 'text-old-copper hover:bg-old-copper hover:text-white'
+                ? 'opacity-70 cursor-not-allowed'
+                : 'hover:opacity-90'
             }`}
           >
             {status === 'submitting' ? (
@@ -519,10 +519,10 @@ export default function ContactForm() {
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
-                Sending...
+                送信中…
               </span>
             ) : (
-              'Send Message →'
+              '送信する'
             )}
           </button>
         </div>

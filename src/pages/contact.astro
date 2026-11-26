@@ -1,128 +1,97 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { SITE_CONFIG } from '../config/site';
-import SectionHeader from '../components/SectionHeader.astro';
+import PlainHero from '../components/PlainHero.astro';
+import PageShell from '../components/products/catalog/PageShell.astro';
 import ContactForm from '../components/ContactForm';
+
+const methods = [
+  {
+    name: 'LINE公式アカウント',
+    text: '新商品のお知らせや、栽培へのご要望など、お気軽にご連絡ください。',
+    sub: `ID: ${SITE_CONFIG.contact.lineId}`,
+    label: '友だち追加する',
+    href: SITE_CONFIG.sns.line,
+    external: true,
+  },
+  {
+    name: 'Instagram DM',
+    text: '日々の栽培記録や商品情報を発信しています。DMでのお問い合わせもお気軽にどうぞ。',
+    sub: '',
+    label: 'Instagramを開く',
+    href: SITE_CONFIG.sns.instagram,
+    external: true,
+  },
+  {
+    name: 'メール',
+    text: 'メールでのお問い合わせも承っております。お気軽にご連絡ください。',
+    sub: SITE_CONFIG.contact.email,
+    label: 'メールを送る',
+    href: `mailto:${SITE_CONFIG.contact.email}`,
+    external: false,
+  },
+];
 ---
 
 <Layout title="Contact | Farm Eolica (ファームエオリカ)">
-  <div class="pt-32 pb-24 min-h-screen">
-    <div class="max-w-4xl mx-auto px-6 lg:px-12">
-      <div data-animate>
-        <SectionHeader titleJa="お問い合わせ" titleEn="CONTACT" description="ご質問・ご要望がございましたら、以下のフォームよりお気軽にお問い合わせください。" />
-      </div>
+  <PageShell>
+    <PlainHero title="お問い合わせ" description="ご質問・ご要望がございましたら、以下のフォームよりお気軽にお問い合わせください。" />
 
-      <!-- Contact Form -->
-      <div data-animate>
-        <ContactForm client:load />
-      </div>
-
-      <!-- Divider -->
-      <div class="my-16 border-t border-warm-gray-200" data-animate></div>
-
-      <!-- Other Contact Methods -->
-      <div data-animate>
-        <h3 class="font-mono text-xs tracking-widest text-warm-gray-500 text-center mb-8">
-          OTHER CONTACT METHODS <span class="font-serif">ーその他の連絡方法ー</span>
-        </h3>
-      </div>
-
-      <div class="space-y-8" data-animate>
-        <!-- Instagram DM -->
-        <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab hover:shadow-lab-lg transition-shadow duration-300">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h2 class="font-serif text-2xl text-wet-soil mb-2">Instagram DM</h2>
-              <p class="text-warm-gray-600 text-sm">
-                日々の栽培記録や商品情報を発信しています。DMでのお問い合わせもお気軽にどうぞ。
-              </p>
-            </div>
-            <div>
-              <a
-                href={SITE_CONFIG.sns.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
-              >
-                Open Instagram →
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- LINE Official Account -->
-        <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab hover:shadow-lab-lg transition-shadow duration-300">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h2 class="font-serif text-2xl text-wet-soil mb-2">LINE公式アカウント</h2>
-              <p class="text-warm-gray-600 text-sm mb-2">
-                新商品のお知らせや、栽培へのご要望など、お気軽にご連絡ください。
-              </p>
-              <p class="font-mono text-xs text-warm-gray-500">
-                ID: {SITE_CONFIG.contact.lineId}
-              </p>
-            </div>
-            <div>
-              <a
-                href={SITE_CONFIG.sns.line}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
-              >
-                Add Friend →
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Email -->
-        <div class="bg-stone-white/95 backdrop-blur-sm p-8 shadow-lab hover:shadow-lab-lg transition-shadow duration-300">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h2 class="font-serif text-2xl text-wet-soil mb-2">Email</h2>
-              <p class="text-warm-gray-600 text-sm mb-2">
-                メールでのお問い合わせも承っております。お気軽にご連絡ください。
-              </p>
-              <p class="font-mono text-sm text-wet-soil">
-                {SITE_CONFIG.contact.email}
-              </p>
-            </div>
-            <div>
-              <a
-                href={`mailto:${SITE_CONFIG.contact.email}`}
-                class="inline-block px-8 py-3 text-xs tracking-widest uppercase font-mono border-2 border-old-copper text-old-copper hover:bg-old-copper hover:text-white transition-all duration-300"
-              >
-                Send Email →
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Note -->
-      <div class="mt-12 text-center" data-animate>
-        <p class="text-warm-gray-600 text-sm font-serif mb-8">
-          その他、noteでも記事を発信しています。農園の想いや日々の取り組みをご覧ください。
-        </p>
-        <a
-          href={SITE_CONFIG.sns.note}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-block text-xs tracking-widest uppercase font-mono border-b-2 border-old-copper text-old-copper pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
-        >
-          Visit Note →
-        </a>
-      </div>
-
-      <!-- Back to Home -->
-      <div class="mt-16 text-center" data-animate>
-        <a
-          href="/"
-          class="inline-block text-xs tracking-widest uppercase font-mono border-b border-warm-gray-400 pb-1 hover:border-eolica-green hover:text-eolica-green transition-colors duration-300"
-        >
-          ← Back to Home
-        </a>
-      </div>
+    <div class="inner form-wrap">
+      <ContactForm client:load />
     </div>
-  </div>
+
+    <section class="inner others">
+      <h2>ほかの連絡方法</h2>
+      <div class="rows">
+        {methods.map((m) => (
+          <div class="row">
+            <div class="row-txt">
+              <h3>{m.name}</h3>
+              <p>{m.text}</p>
+              {m.sub && <p class="sub">{m.sub}</p>}
+            </div>
+            <a
+              class="btn"
+              href={m.href}
+              target={m.external ? '_blank' : undefined}
+              rel={m.external ? 'noopener noreferrer' : undefined}
+            >{m.label}</a>
+          </div>
+        ))}
+      </div>
+
+      <p class="note">その他、noteでも記事を発信しています。農園の想いや日々の取り組みをご覧ください。</p>
+      <a class="tlink" href={SITE_CONFIG.sns.note} target="_blank" rel="noopener noreferrer">noteの記事を読む →</a>
+    </section>
+  </PageShell>
 </Layout>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .form-wrap { padding-top: 32px; }
+  .form-wrap > :global(*) { max-width: 760px; }
+  .others { padding-top: 56px; padding-bottom: 80px; }
+  h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0 0 8px; line-height: 1.5; }
+  .rows { display: grid; border-bottom: 1px solid #E0DDD7; }
+  .row { border-top: 1px solid #E0DDD7; padding: 18px 2px; display: grid; gap: 14px; }
+  h3 { font-size: 16px; font-weight: 600; color: #33291F; margin: 0 0 4px; line-height: 1.5; }
+  .row-txt p { font-size: 14.5px; color: #4A3B32; line-height: 1.85; margin: 0; }
+  .row-txt p.sub { font-size: 12.5px; color: #7D7B77; margin-top: 2px; }
+  .btn {
+    justify-self: start; font-size: 14px; padding: 9px 20px; border: 1px solid #B87333;
+    border-radius: 4px; color: #B87333; text-align: center; transition: background .2s, color .2s;
+  }
+  .btn:hover { background: #B87333; color: #fff; }
+  .note { font-size: 14.5px; color: #4A3B32; line-height: 1.85; margin: 36px 0 8px; }
+  .tlink { font-size: 14.5px; color: #B87333; text-decoration: underline; text-underline-offset: 3px; }
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .others { padding-top: 64px; }
+    h2 { font-size: 24px; }
+    .rows { max-width: 760px; }
+    .row { grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
+    .note, .tlink { max-width: 760px; }
+    .tlink { display: inline-block; }
+  }
+</style>
