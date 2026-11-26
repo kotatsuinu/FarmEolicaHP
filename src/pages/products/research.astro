@@ -8,7 +8,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { SITE_CONFIG } from '../../config/site';
 import { researchApps } from '../../config/research-apps';
-import { shownCategories, runningCount, developingCount, lastUpdated } from '../../data/works';
+import { shownCategories, runningCount, totalCount, lastUpdated } from '../../data/works';
 import technologyImage from '../../assets/images/about/technology.jpg';
 import DemoModal from '../../components/research/DemoModal';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
@@ -20,7 +20,8 @@ import OtherCategories from '../../components/products/catalog/OtherCategories.a
 import ContactBand from '../../components/products/catalog/ContactBand.astro';
 
 // 数え方は Works の実績一覧（/works/records/）と同じ：運用中＋開発中。構想中は数えない。
-const builtCount = runningCount + developingCount;
+// Works の実績一覧（/works/records/）と同じ「全件」の数え方にそろえる
+const builtCount = totalCount;
 const agriItems = shownCategories.find((c) => c.id === 'agri')?.items ?? [];
 const [ly, lm] = lastUpdated.split('-');
 const asOf = `${ly}年${Number(lm)}月時点`;
