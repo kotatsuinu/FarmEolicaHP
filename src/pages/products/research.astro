@@ -177,7 +177,7 @@ const notes = [SITE_CONFIG.noteMagazines.agriDX, SITE_CONFIG.noteMagazines.farme
         <b>同じような仕組みづくりを、お手伝いしています</b>
         <p>農家さんや地域の事業者さんと一緒に、Web・業務の自動化・AI活用の仕組みを作っています。</p>
         <div class="works-btns">
-          <a class="wbtn" href="/works/records/">Farm Eolica Works の実績を見る（{builtCount}件）</a>
+          <a class="wbtn" href="/works/records/">Farm Eolica Works の実績を見る<span class="nowrap">（{builtCount}件）</span></a>
           <a class="wbtn" href="/works/contact">仕組みづくりを相談する</a>
         </div>
       </div>
@@ -241,6 +241,7 @@ const notes = [SITE_CONFIG.noteMagazines.agriDX, SITE_CONFIG.noteMagazines.farme
   .works-box p { font-size: 14px; line-height: 1.85; color: #4A3B32; margin: 6px 0 14px; }
   .works-btns { display: grid; gap: 8px; }
   .wbtn { font-size: 14px; padding: 11px 14px; border: 1px solid #1A2744; border-radius: 4px; color: #1A2744; text-align: center; line-height: 1.5; }
+  .wbtn .nowrap { white-space: nowrap; }
 
   @media (min-width: 768px) {
     .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
