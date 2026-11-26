@@ -5,13 +5,15 @@
 interface Props {
   title: string;
   open?: boolean;
+  /** 名前の横に出す小さな札（省略可。例：運用中） */
+  status?: string;
 }
-const { title, open = false } = Astro.props;
+const { title, open = false, status } = Astro.props;
 ---
 
 <details class="ir" open={open}>
   <summary>
-    <span>{title}</span>
+    <span>{title}{status && <em class="st">{status}</em>}</span>
     <i aria-hidden="true"></i>
   </summary>
   <div class="ir-body"><slot /></div>
@@ -24,6 +26,7 @@ const { title, open = false } = Astro.props;
     padding: 15px 2px; cursor: pointer; list-style: none;
     font-size: 16px; font-weight: 600; color: #33291F; line-height: 1.5;
   }
+  .st { font-style: normal; font-size: 11px; font-weight: 400; margin-left: 8px; padding: 1px 6px; border: 1px solid #005243; border-radius: 3px; color: #005243; white-space: nowrap; vertical-align: 1px; }
   summary::-webkit-details-marker { display: none; }
   summary i {
     flex: none; width: 8px; height: 8px; margin-right: 4px;

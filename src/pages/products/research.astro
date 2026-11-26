@@ -1,141 +1,192 @@
 ---
 /**
- * 研究成果ページ
- * 自作アプリのショーケース + note記事連携
- * 外側（題の写真・紹介・見出し・お問い合わせ帯）は商品一覧と同じ作り。
- * アプリの紹介・技術的アプローチ・関連記事の中身は従来のまま。
+ * 農園の仕組みづくりページ（旧・研究成果）
+ * 上から：題の写真 → 紹介 → 3つの数字 → 園主の1日と、仕組み → 触って試せるアプリ
+ *        → 営農の仕組み → AIとの開発の進め方 → 開発の記録 → Works への入口 → ほかの種類 → お問い合わせ帯
+ * 数字と営農の仕組みの一覧は src/data/works.ts から数える（手で書かない）。
  */
 import Layout from '../../layouts/Layout.astro';
 import { SITE_CONFIG } from '../../config/site';
 import { researchApps } from '../../config/research-apps';
+import { shownCategories, runningCount, developingCount, lastUpdated } from '../../data/works';
 import technologyImage from '../../assets/images/about/technology.jpg';
-import NoteLinkCard from '../../components/NoteLinkCard.astro';
-import AppShowcaseCard from '../../components/research/AppShowcaseCard.astro';
 import DemoModal from '../../components/research/DemoModal';
 import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
 import PageShell from '../../components/products/catalog/PageShell.astro';
 import PageHero from '../../components/products/catalog/PageHero.astro';
 import PageIntro from '../../components/products/catalog/PageIntro.astro';
+import InfoRow from '../../components/products/catalog/InfoRow.astro';
 import OtherCategories from '../../components/products/catalog/OtherCategories.astro';
 import ContactBand from '../../components/products/catalog/ContactBand.astro';
+
+// 数え方は Works の実績一覧（/works/records/）と同じ：運用中＋開発中。構想中は数えない。
+const builtCount = runningCount + developingCount;
+const agriItems = shownCategories.find((c) => c.id === 'agri')?.items ?? [];
+const [ly, lm] = lastUpdated.split('-');
+const asOf = `${ly}年${Number(lm)}月時点`;
+
+const dayRows = [
+  { when: '朝', title: '今日やることと、昨日の売上が届く', body: 'Slack に今日の目標と、直売所の売上の確定（9:30）が届きます。見に行かなくても、知らせのほうから来ます。', tags: ['定期レポートの自動配信', '直売所売上の速報'] },
+  { when: 'ハウス', title: '温度と窓は、スマホで見守る', body: '温度・換気・遮光カーテンを一画面で確かめ、自動で開け閉めします。一部のハウスは水やりも自動です。', tags: ['ハウス環境制御', '灌水の自動制御'] },
+  { when: '作業中', title: '手を止めずに、声で記録', body: 'スマホに話すだけで、AIが作業の中身・使った資材・どの畝かを読み取り、栽培の記録に残します。', tags: ['音声→栽培記録', '栽培管理アプリ'] },
+  { when: '計画', title: '何を・いつ植えるかを数字で決める', body: '市場の価格・原価・土の分析から、作付けの計画と売上の見込みを立てます。', tags: ['作付計画と売上予測', '市場価格の収集', '土壌分析', '施肥設計'] },
+  { when: '夕方〜夜', title: 'お客さまへの返事と発信', body: '問い合わせへの返信やSNSの投稿はAIが下書きし、園主が確かめてボタン1つで送ります。直売所の夕方の速報（21:00）も届きます。', tags: ['問い合わせ対応', 'Instagram 自動投稿'] },
+  { when: '週・月', title: '帳簿と記録のまとめ', body: '領収書はスキャンするだけで帳簿に。週の記録から note の下書きも作ります。', tags: ['帳簿付けの自動化', '週次の発信'] },
+];
+
+const processRows = [
+  { when: '任せる', title: 'AIと人のタスクボード', body: 'AIと園主のあいだの仕事の受け渡しを1画面で見て、AIの作業を回し続けます。' },
+  { when: '相談する', title: '戦略のAI会議', body: '戦略家・批判役・市場の分析役など、役割の違うAIが並んで意見を出します。' },
+  { when: '記録する', title: '作った仕組みの名簿', body: '作ったものを1冊の名簿で管理し、このページと Works の実績一覧を自動で新しくします。' },
+];
+
+const notes = [SITE_CONFIG.noteMagazines.agriDX, SITE_CONFIG.noteMagazines.farmerLetter];
 ---
 
 <Layout
-  title="研究成果 | Farm Eolica (ファームエオリカ)"
-  description="Farm Eolicaの研究成果。IoT栽培管理システム、混植ボードなど、農業DXの自作アプリと技術的な取り組みをご紹介します。"
+  title="農園の仕組みづくり | Farm Eolica (ファームエオリカ)"
+  description="Farm Eolicaの農園の仕組みづくり。1人で営む花農家が、AIと一緒に作ってきた栽培管理・環境制御・記録などの仕組みと、触って試せるデモアプリをご紹介します。"
   image="/images/top/hero.jpg"
   ogType="website"
 >
   <BreadcrumbSchema items={[
     { name: 'ホーム', url: '/' },
-    { name: '商品・研究成果', url: '/products' },
-    { name: '研究成果', url: '/products/research' },
+    { name: '商品・仕組みづくり', url: '/products' },
+    { name: '農園の仕組みづくり', url: '/products/research' },
   ]} />
 
   <PageShell>
     <PageHero
       image={technologyImage}
-      title="研究成果"
-      lead="花農家が自らコードを書き、栽培とテクノロジーの接点を探る。"
+      title="農園の仕組みづくり"
+      lead="1人で営む花農家が、AIと一緒に、毎日の作業を楽にする仕組みを作っています。"
       crumb={[
         { name: 'ホーム', url: '/' },
-        { name: '商品・研究成果', url: '/products' },
-        { name: '研究成果' },
+        { name: '商品・仕組みづくり', url: '/products' },
+        { name: '農園の仕組みづくり' },
       ]}
     />
 
     <PageIntro>
-      <p>日々の栽培で感じる課題を、テクノロジーで解決する取り組みを続けています。IoTデータ分析、栽培管理システム、自動化の取り組みを公開しています。</p>
-      <p>市販のツールでは花卉農家特有のワークフローに合わないことが多く、自らWebアプリケーションを開発し、実際の農作業で検証しています。ここでは、それらの自作アプリのデモと技術的な取り組みを、note記事と合わせてご紹介します。</p>
+      <p>日々の栽培や経営で手間のかかる作業を、AIを使った仕組みに置き換える活動を続けています。記録・環境の見守り・計画づくり・発信まで、少しずつ作っては実際の農作業で使っています。</p>
+      <p>市販のツールでは花卉農家の仕事に合わないことが多く、自分で作っています。ここでは、農園で動いている仕組みと、サンプルのデータで触って試せるアプリをご紹介します。</p>
     </PageIntro>
 
-    <!-- 自作アプリ -->
+    <!-- 3つの数字 -->
+    <section class="inner stats-sec">
+      <dl class="stats">
+        <div><dt>作った仕組み</dt><dd>{builtCount}</dd></div>
+        <div><dt>いま動いている</dt><dd>{runningCount}</dd></div>
+        <div><dt>営農の仕組み</dt><dd>{agriItems.length}</dd></div>
+      </dl>
+      <p class="stats-note">システム台帳から自動で数えています（{asOf}）</p>
+    </section>
+
+    <!-- 園主の1日と、仕組み -->
     <section class="sec inner">
-      <h2>自作アプリ</h2>
-      <p class="lead">実際の栽培業務で使用しているWebアプリケーション。デモ版でお試しいただけます。</p>
-
-      <div class="demo-note">
-        <p>
-          デモ版は<b>サンプルデータ</b>で動作しています。
-          デモ生成を自動化している都合上、実際のアプリとは表示やデザインが異なる箇所があります。
-          一部レイアウト崩れ等が発生する場合がありますのでご了承ください。
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-8">
-        {researchApps.map((app, index) => (
-          <AppShowcaseCard app={app} index={index} />
+      <h2>園主の1日と、仕組み</h2>
+      <p class="lead">朝から夜まで、どの場面でどの仕組みが働いているかをご紹介します。</p>
+      <div class="flow">
+        {dayRows.map((r) => (
+          <div class="frow">
+            <span class="when">{r.when}</span>
+            <div class="fmain">
+              <b>{r.title}</b>
+              <p>{r.body}</p>
+            </div>
+            <div class="tags">{r.tags.map((t) => <span class="tag">{t}</span>)}</div>
+          </div>
         ))}
       </div>
     </section>
 
-    <!-- 技術的アプローチ -->
+    <!-- 触って試せるアプリ -->
     <section class="sec inner">
-      <h2>技術的アプローチ</h2>
-
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="text-center">
-          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center border border-eolica-green/20">
-            <svg class="w-6 h-6 text-eolica-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-            </svg>
+      <h2>触って試せるアプリ</h2>
+      <p class="lead">実際に使っているアプリを、サンプルのデータでお試しいただけます。</p>
+      <div class="apps">
+        {researchApps.map((app) => (
+          <div class="app">
+            <div class="app-main">
+              <b>{app.title}</b>
+              <p>{app.summary}</p>
+            </div>
+            <div class="app-btns">
+              {app.demoUrl && (
+                <button type="button" class="btn fill" data-demo-trigger data-demo-url={app.demoUrl} data-demo-title={app.title}>デモを試す</button>
+              )}
+              {app.noteUrl && (
+                <a class="btn line" href={app.noteUrl} target="_blank" rel="noopener noreferrer">noteで読む</a>
+              )}
+            </div>
           </div>
-          <h3 class="font-serif text-lg text-wet-soil mb-2">IoT連携</h3>
-          <p class="font-serif text-xs text-warm-gray-500 leading-relaxed">
-            Raspberry Pi + センサーで温湿度・日射量を常時計測。データはBigQueryに蓄積し分析に活用。
-          </p>
-        </div>
-        <div class="text-center">
-          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center border border-eolica-green/20">
-            <svg class="w-6 h-6 text-eolica-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-            </svg>
-          </div>
-          <h3 class="font-serif text-lg text-wet-soil mb-2">自前開発</h3>
-          <p class="font-serif text-xs text-warm-gray-500 leading-relaxed">
-            Astro + Preactで軽量なSPAを構築。Firebaseで認証・データ管理を行い、農家自身が運用可能な設計。
-          </p>
-        </div>
-        <div class="text-center">
-          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center border border-eolica-green/20">
-            <svg class="w-6 h-6 text-eolica-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <h3 class="font-serif text-lg text-wet-soil mb-2">AI活用</h3>
-          <p class="font-serif text-xs text-warm-gray-500 leading-relaxed">
-            Slack上のAIアシスタントが栽培データを分析し、朝ブリーフィングや市況速報を自動配信。
-          </p>
-        </div>
+        ))}
       </div>
     </section>
 
-    <!-- 関連記事 -->
+    <!-- 営農の仕組み -->
     <section class="sec inner">
-      <h2>関連記事</h2>
-      <p class="lead">開発の裏話や技術的な詳細はnoteで連載しています。</p>
+      <h2>営農の仕組み</h2>
+      <p class="lead">畑とハウスで動いている{agriItems.length}つの仕組み。名前を押すと説明が開きます。</p>
+      <div class="agri">
+        {agriItems.map((item) => (
+          <InfoRow title={item.title} status={item.status === 'running' ? '運用中' : '開発中'}>
+            <p>{item.description}</p>
+            {item.noteUrls.length > 0 && (
+              <p><a href={item.noteUrls[0]} target="_blank" rel="noopener noreferrer">noteで読む →</a></p>
+            )}
+          </InfoRow>
+        ))}
+      </div>
+    </section>
 
-      <div class="grid md:grid-cols-2 gap-6">
-        <NoteLinkCard
-          title={SITE_CONFIG.noteMagazines.agriDX.title}
-          titleEn={SITE_CONFIG.noteMagazines.agriDX.titleEn}
-          description={SITE_CONFIG.noteMagazines.agriDX.description}
-          url={SITE_CONFIG.noteMagazines.agriDX.url}
-        />
-        <NoteLinkCard
-          title={SITE_CONFIG.noteMagazines.farmerLetter.title}
-          titleEn={SITE_CONFIG.noteMagazines.farmerLetter.titleEn}
-          description={SITE_CONFIG.noteMagazines.farmerLetter.description}
-          url={SITE_CONFIG.noteMagazines.farmerLetter.url}
-        />
+    <!-- AIとの開発の進め方 -->
+    <section class="sec inner">
+      <h2>AIとの開発の進め方</h2>
+      <div class="flow">
+        {processRows.map((r) => (
+          <div class="frow plain">
+            <span class="when">{r.when}</span>
+            <div class="fmain">
+              <b>{r.title}</b>
+              <p>{r.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- 開発の記録 -->
+    <section class="sec inner">
+      <h2>開発の記録</h2>
+      <p class="lead">開発の裏話や技術的な詳細は note で連載しています。</p>
+      <div class="notes">
+        {notes.map((n) => (
+          <a class="nrow" href={n.url} target="_blank" rel="noopener noreferrer">
+            <span><b>{n.title}</b><small>{n.description}</small></span>
+            <i aria-hidden="true">→</i>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Works への入口 -->
+    <section class="sec inner">
+      <div class="works-box">
+        <b>同じような仕組みづくりを、お手伝いしています</b>
+        <p>農家さんや地域の事業者さんと一緒に、Web・業務の自動化・AI活用の仕組みを作っています。</p>
+        <div class="works-btns">
+          <a class="wbtn" href="/works/records/">Farm Eolica Works の実績を見る（{builtCount}件）</a>
+          <a class="wbtn" href="/works/contact">仕組みづくりを相談する</a>
+        </div>
       </div>
     </section>
 
     <OtherCategories current="research" />
-    <ContactBand heading="技術的なお問い合わせ" text="農業DXに関する取り組みや、技術的なご質問がありましたらお気軽にお問い合わせください。" />
+    <ContactBand heading="視察・取材・技術のお問い合わせ" text="農業DXに関する取り組みや、技術的なご質問がありましたらお気軽にお問い合わせください。" />
   </PageShell>
 
-  <!-- Demo Modal (React Island) -->
+  <!-- デモの窓（クリックで開く） -->
   <DemoModal client:idle />
 </Layout>
 
@@ -144,11 +195,66 @@ import ContactBand from '../../components/products/catalog/ContactBand.astro';
   .sec { padding-top: 48px; }
   .sec h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0 0 10px; line-height: 1.5; }
   .lead { font-size: 14.5px; line-height: 1.85; color: #4A3B32; margin: 0 0 18px; }
-  .demo-note { border: 1px solid #E0DDD7; border-radius: 6px; background: #FBFBF9; padding: 14px 16px; margin-bottom: 24px; }
-  .demo-note p { font-size: 13px; line-height: 1.85; color: #4A3B32; margin: 0; }
+
+  /* 3つの数字 */
+  .stats-sec { padding-top: 32px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; border-top: 1px solid #E0DDD7; border-bottom: 1px solid #E0DDD7; }
+  .stats > div { display: flex; flex-direction: column-reverse; align-items: center; gap: 4px; padding: 16px 4px; text-align: center; }
+  .stats > div + div { border-left: 1px solid #E0DDD7; }
+  .stats dt { font-size: 11.5px; color: #7D7B77; line-height: 1.5; }
+  .stats dd { margin: 0; font-size: 30px; font-weight: 600; color: #005243; line-height: 1.2; }
+  .stats-note { font-size: 11.5px; color: #7D7B77; margin: 8px 0 0; }
+
+  /* 1日の流れ・開発の進め方（行） */
+  .flow { border-bottom: 1px solid #E0DDD7; }
+  .frow { display: grid; grid-template-columns: 52px 1fr; column-gap: 12px; padding: 16px 0; border-top: 1px solid #E0DDD7; }
+  .when { font-size: 12px; font-weight: 700; color: #B87333; line-height: 1.7; }
+  .fmain b { display: block; font-size: 15.5px; font-weight: 600; color: #33291F; line-height: 1.6; }
+  .fmain p { font-size: 14px; line-height: 1.85; color: #4A3B32; margin: 4px 0 0; }
+  .tags { grid-column: 2; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag { font-size: 11.5px; line-height: 1.5; padding: 2px 8px; border: 1px solid #005243; border-radius: 3px; color: #005243; }
+
+  /* 触って試せるアプリ */
+  .apps { border-bottom: 1px solid #E0DDD7; }
+  .app { padding: 16px 0; border-top: 1px solid #E0DDD7; display: grid; gap: 12px; }
+  .app-main b { display: block; font-size: 15.5px; font-weight: 600; color: #33291F; line-height: 1.6; }
+  .app-main p { font-size: 14px; line-height: 1.85; color: #4A3B32; margin: 2px 0 0; }
+  .app-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn { font-size: 14px; padding: 10px 18px; border-radius: 4px; border: 1px solid #005243; line-height: 1.5; cursor: pointer; text-align: center; }
+  .btn.fill { background: #005243; color: #fff; }
+  .btn.line { background: transparent; color: #005243; }
+
+  /* 営農の仕組み（開け閉めの行） */
+  .agri { display: grid; border-bottom: 1px solid #E0DDD7; }
+
+  /* 開発の記録 */
+  .notes { border-bottom: 1px solid #E0DDD7; }
+  .nrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 2px; border-top: 1px solid #E0DDD7; color: #33291F; }
+  .nrow b { display: block; font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .nrow small { display: block; font-size: 12.5px; color: #7D7B77; line-height: 1.7; }
+  .nrow i { font-style: normal; color: #B87333; flex: none; }
+
+  /* Works への入口 */
+  .works-box { background: #fff; border: 1px solid #E0DDD7; border-radius: 6px; padding: 20px 18px; }
+  .works-box b { display: block; font-size: 16px; font-weight: 700; color: #33291F; line-height: 1.6; }
+  .works-box p { font-size: 14px; line-height: 1.85; color: #4A3B32; margin: 6px 0 14px; }
+  .works-btns { display: grid; gap: 8px; }
+  .wbtn { font-size: 14px; padding: 11px 14px; border: 1px solid #1A2744; border-radius: 4px; color: #1A2744; text-align: center; line-height: 1.5; }
+
   @media (min-width: 768px) {
     .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
     .sec { padding-top: 56px; }
     .sec h2 { font-size: 24px; }
+    .stats-sec { padding-top: 40px; }
+    .stats dd { font-size: 40px; }
+    .stats dt { font-size: 13px; }
+    .frow { grid-template-columns: 80px minmax(0, 1fr) minmax(0, 260px); column-gap: 24px; padding: 18px 0; }
+    .frow.plain { grid-template-columns: 80px minmax(0, 1fr); }
+    .tags { grid-column: 3; margin-top: 0; align-content: flex-start; }
+    .app { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 24px; }
+    .agri { grid-template-columns: 1fr 1fr; column-gap: 40px; }
+    .works-box { padding: 28px 32px; }
+    .works-btns { grid-auto-flow: column; justify-content: start; }
+    .wbtn { padding: 12px 22px; }
   }
 </style>
