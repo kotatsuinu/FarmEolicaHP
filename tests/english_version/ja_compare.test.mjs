@@ -123,6 +123,54 @@ describe('突き合わせの道具（T-4 の検出力）', () => {
     expect(run().problems).toEqual(['写しにあるのに無いファイル: logo.svg']);
   });
 
+  test('C-14 許7：_astro/ の下に増えたファイル（英語ページだけが読む部品）は数えない。_astro/ の外に増えたページは赤', () => {
+    write(cur, '_astro/en-only.XXXX.js', 'x');
+    write(cur, '_astro/hero.YYYY_Z1abc.webp', 'x');
+    const r = run();
+    expect(r.problems).toEqual([]);
+    expect(r.stats.enOnlyAssets).toBe(2);
+    write(cur, 'products/new-page/index.html', 'x');
+    expect(run().problems).toEqual(['写しに無いファイルが増えた: products/new-page/index.html']);
+  });
+
+  test('C-15 許7 があっても、写しにあった _astro/ のファイルの中身が変われば赤', () => {
+    write(cur, '_astro/en-only.XXXX.js', 'x');
+    write(cur, '_astro/about.AAAA.css', `${CSS}.q{x:1}`);
+    expect(run().problems).toEqual(['中身が変わった: _astro/about.AAAA.css']);
+  });
+
+  describe('C-16 許6：サイトマップの英語の行（ちょうどの個数だけ外して、残りは1文字まで同じ）', () => {
+    const SM = '<urlset><url><loc>https://farmeolica.com/</loc></url><url><loc>https://farmeolica.com/about/</loc></url></urlset>';
+    const EN1 = '<url><loc>https://farmeolica.com/en/</loc></url>';
+    const EN2 = '<url><loc>https://farmeolica.com/en/about/</loc></url>';
+    const incs = [
+      { name: 'サイトマップの英語の行', text: EN1, count: 1 },
+      { name: 'サイトマップの英語の行', text: EN2, count: 1 },
+    ];
+    const runSm = () =>
+      compareJa({ baseDir: base, curDir: cur, layoutCid: CID, allowedFor: () => [], allowedForFile: (r) => (r === 'sitemap-0.xml' ? incs : []) });
+    beforeEach(() => write(base, 'sitemap-0.xml', SM));
+
+    test('英語の行がちょうど1本ずつ足されただけなら緑', () => {
+      write(cur, 'sitemap-0.xml', SM.replace('</urlset>', `${EN1}${EN2}</urlset>`));
+      expect(runSm().problems).toEqual([]);
+    });
+    test('英語の行が足りない・2本ある・日本語の行が消えた・英語でない行が増えたは赤', () => {
+      write(cur, 'sitemap-0.xml', SM.replace('</urlset>', `${EN1}</urlset>`));
+      expect(runSm().problems.join('\n')).toContain('1 個のはずが 0 個');
+      write(cur, 'sitemap-0.xml', SM.replace('</urlset>', `${EN1}${EN2}${EN2}</urlset>`));
+      expect(runSm().problems.join('\n')).toContain('1 個のはずが 2 個');
+      write(cur, 'sitemap-0.xml', `${SM.replace('<url><loc>https://farmeolica.com/about/</loc></url>', '')}`.replace('</urlset>', `${EN1}${EN2}</urlset>`));
+      expect(runSm().problems.join('\n')).toContain('許す差の外で変わった');
+      write(cur, 'sitemap-0.xml', SM.replace('</urlset>', `${EN1}${EN2}<url><loc>https://farmeolica.com/x/</loc></url></urlset>`));
+      expect(runSm().problems.join('\n')).toContain('許す差の外で変わった');
+    });
+    test('許す増分を名指ししていないファイルは今までどおり中身まで同じでないと赤', () => {
+      write(cur, 'sitemap-0.xml', SM.replace('</urlset>', `${EN1}${EN2}</urlset>`));
+      expect(run().problems).toEqual(['中身が変わった: sitemap-0.xml']);
+    });
+  });
+
   test('C-13 cssOnlyAdded：同じ・足しただけは true、消えた・入れ替わったは false', () => {
     expect(cssOnlyAdded(CSS, CSS)).toBe(true);
     expect(cssOnlyAdded(CSS, `${CSS}.q{x:1}`)).toBe(true);
