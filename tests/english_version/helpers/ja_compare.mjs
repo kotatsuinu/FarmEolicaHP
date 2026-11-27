@@ -76,10 +76,11 @@ const count = (s, t) => (t === '' ? 0 : s.split(t).length - 1);
  * @param {string} o.baseDir 段0の写し
  * @param {string} o.curDir いまの組み立て結果
  * @param {(relHtmlPath:string)=>{name:string,text:string,count:number}[]} o.allowedFor 1ページに許す増分
+ * @param {(relPath:string)=>{name:string,text:string,count:number}[]} [o.allowedForFile] HTML 以外のファイルに許す増分（許6。既定は無し＝中身まで同じ）
  * @param {string} o.layoutCid 枠の印
  * @returns {{problems:string[], stats:object}}
  */
-export function compareJa({ baseDir, curDir, allowedFor, layoutCid }) {
+export function compareJa({ baseDir, curDir, allowedFor, allowedForFile = () => [], layoutCid }) {
   const problems = [];
   const base = listFiles(baseDir);
   const cur = listFiles(curDir, { skipEn: true });
@@ -103,7 +104,15 @@ export function compareJa({ baseDir, curDir, allowedFor, layoutCid }) {
   }
   const renamedNew = new Set(renames.values());
   for (const r of onlyBase) if (!renames.has(r)) problems.push(`写しにあるのに無いファイル: ${r}`);
-  for (const r of onlyCur) if (!renamedNew.has(r)) problems.push(`写しに無いファイルが増えた: ${r}`);
+  // 許7（段2）：英語ページだけが読む部品（_astro/ の下に増えたファイル）。
+  //   写しにあったファイルは中身まで、日本語ページの HTML は1文字まで突き合わせるので、日本語側から新しいファイルは読めない。
+  //   _astro/ の外に増えたファイル（新しいページなど）は今までどおり赤
+  let enOnlyAssets = 0;
+  for (const r of onlyCur) {
+    if (renamedNew.has(r)) continue;
+    if (r.startsWith('_astro/')) enOnlyAssets++;
+    else problems.push(`写しに無いファイルが増えた: ${r}`);
+  }
 
   let htmlCompared = 0;
   let chunkMoves = 0;
@@ -112,7 +121,27 @@ export function compareJa({ baseDir, curDir, allowedFor, layoutCid }) {
     const bBuf = fs.readFileSync(path.join(baseDir, r));
     const cBuf = fs.readFileSync(path.join(curDir, r));
     if (!r.endsWith('.html')) {
-      if (!bBuf.equals(cBuf)) problems.push(`中身が変わった: ${r}`);
+      // 許6（段2）：サイトマップのように、HTML でなくても許す増分を名指ししたファイルは、増分をちょうどの個数だけ外して比べる
+      const incs = allowedForFile(r);
+      if (incs.length === 0) {
+        if (!bBuf.equals(cBuf)) problems.push(`中身が変わった: ${r}`);
+        continue;
+      }
+      let c = cBuf.toString('utf8');
+      let ok = true;
+      for (const inc of incs) {
+        const n = count(c, inc.text);
+        if (n !== inc.count) {
+          problems.push(`${r}: 許す差「${inc.name}」が ${inc.count} 個のはずが ${n} 個（${inc.text}）`);
+          ok = false;
+          continue;
+        }
+        c = c.split(inc.text).join('');
+      }
+      if (ok && c !== bBuf.toString('utf8')) {
+        const d = firstDiff(bBuf.toString('utf8'), c);
+        problems.push(`${r}: 許す差の外で変わった（${d.at}文字目）\n  写し: ${JSON.stringify(d.base)}\n  いま: ${JSON.stringify(d.cur)}`);
+      }
       continue;
     }
     htmlCompared++;
@@ -142,5 +171,5 @@ export function compareJa({ baseDir, curDir, allowedFor, layoutCid }) {
       problems.push(`${r}: 許す差の外で変わった（${d.at}文字目）\n  写し: ${JSON.stringify(d.base)}\n  いま: ${JSON.stringify(d.cur)}`);
     }
   }
-  return { problems, stats: { base: base.length, cur: cur.length, htmlCompared, renames: renames.size, chunkMoves } };
+  return { problems, stats: { base: base.length, cur: cur.length, htmlCompared, renames: renames.size, chunkMoves, enOnlyAssets } };
 }
