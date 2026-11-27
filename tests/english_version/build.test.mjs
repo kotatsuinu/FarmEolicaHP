@@ -24,7 +24,19 @@ import {
   frameOf,
   isProductDetail,
   pathOf,
+  EN_PAGES,
+  EN_MUST_NOT_EXIST,
+  SWITCHERS_EN,
+  JAPANESE_MARK,
+  DOMESTIC_ONLY,
+  DOMESTIC_ONLY_PAGES,
+  OVERSEAS_PROMISE,
+  EN_MIN_LETTERS_IN_MAIN,
+  japaneseOfEn,
+  sitemapEnEntries,
 } from './helpers/expected.mjs';
+import { JA_ALLOWED_WORDS, JA_ALLOWED_MAX } from './helpers/ja_allowlist.mjs';
+import { japaneseFindings, readableText, mainText, anchorsOf, internalPathOf, resolveInDist } from './helpers/en_checks.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const ASTRO = path.join(ROOT, 'node_modules', 'astro', 'astro.js');
@@ -85,6 +97,8 @@ describe('T-4 日本語ページの出力が直す前と同じ（許す差だけ
         const p = pathOf(rel);
         return p ? allowedIncrementsFor(p) : [];
       },
+      // 許6（段2）：英語ページ12枚の分だけサイトマップに行が足される。段3で T-9 の形に置き換える
+      allowedForFile: (rel) => (rel === 'sitemap-0.xml' ? sitemapEnEntries() : []),
     });
     expect(stats.htmlCompared).toBe(BASELINE_PAGE_COUNT); // 比べたページが0件・欠けで緑にしない
     expect(problems, problems.slice(0, 15).join('\n')).toEqual([]);
