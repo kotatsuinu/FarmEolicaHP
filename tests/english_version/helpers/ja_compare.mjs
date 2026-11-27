@@ -44,9 +44,10 @@ function normalizeLayoutChunkMove(baseHtml, curHtml, layoutCid) {
   const re = /<style>([\s\S]*?)<\/style>/g;
   const bs = [...baseHtml.matchAll(re)].map((m) => m[1]);
   const cs = [...curHtml.matchAll(re)].map((m) => m[1]);
-  if (bs.length !== cs.length) return { html: curHtml, moved: 0 };
+  if (bs.length !== cs.length) return { html: curHtml, moved: 0, regrouped: 0 };
   let i = 0;
   let moved = 0;
+  let regrouped = 0;
   const html = curHtml.replace(re, (whole, body) => {
     const b = bs[i++];
     if (body === b) return whole;
@@ -55,12 +56,20 @@ function normalizeLayoutChunkMove(baseHtml, curHtml, layoutCid) {
     const bl = bc.filter((c) => c.includes(layoutCid));
     const cl = cc.filter((c) => c.includes(layoutCid));
     if (bl.length !== 1 || cl.length !== 1 || bl[0] !== cl[0]) return whole;
-    const rest = (arr) => arr.filter((c) => !c.includes(layoutCid)).join('\n');
-    if (rest(bc) !== rest(cc)) return whole;
-    moved++;
-    return `<style>${b}</style>`;
+    const rest = (arr, sep) => arr.filter((c) => !c.includes(layoutCid)).join(sep);
+    if (rest(bc, '\n') === rest(cc, '\n')) {
+      moved++;
+      return `<style>${b}</style>`;
+    }
+    // 許8（段2・実測）：ページが増えると組み立ての道具が規則の束ね方を変え、枠以外の塊の区切りの改行だけが増減する。
+    //   規則の中身と並びは1文字も変えない（改行を除いてつなげた文字列が写しと同じときだけ許す）
+    if (rest(bc, '') === rest(cc, '')) {
+      regrouped++;
+      return `<style>${b}</style>`;
+    }
+    return whole;
   });
-  return { html, moved };
+  return { html, moved, regrouped };
 }
 
 function firstDiff(a, b) {
@@ -116,6 +125,7 @@ export function compareJa({ baseDir, curDir, allowedFor, allowedForFile = () => 
 
   let htmlCompared = 0;
   let chunkMoves = 0;
+  let chunkRegroups = 0;
   for (const r of base) {
     if (!curSet.has(r)) continue;
     const bBuf = fs.readFileSync(path.join(baseDir, r));
@@ -166,6 +176,7 @@ export function compareJa({ baseDir, curDir, allowedFor, allowedForFile = () => 
     const norm = normalizeLayoutChunkMove(b, c, layoutCid);
     c = norm.html;
     chunkMoves += norm.moved;
+    chunkRegroups += norm.regrouped;
     if (c !== b) {
       const d = firstDiff(b, c);
       problems.push(`${r}: 許す差の外で変わった（${d.at}文字目）\n  写し: ${JSON.stringify(d.base)}\n  いま: ${JSON.stringify(d.cur)}`);

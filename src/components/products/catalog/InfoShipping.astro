@@ -7,6 +7,7 @@ interface Props {
   lang?: 'ja' | 'en';
 }
 const { lang = 'ja' } = Astro.props;
+const NL = '\n'; // 日本語の出力を変えないため、注記の中の改行を直す前と同じに再現する
 const sagawaLink = 'https://www.sagawa-exp.co.jp/send/fare/faretable03.html?_ga=2.73288595.1464715402.1770612007-66129190.1763209062';
 const t = {
   ja: {
@@ -27,9 +28,9 @@ const t = {
     r2: 'Tokai, Hokuriku: ', p2: 'from ¥1,040',
     r3: 'Kansai: ', p3: 'from ¥1,180',
     cool: 'Note: In summer (June to September) we recommend chilled delivery (extra charge).',
-    n2a: 'Note: Rates vary by package size and region. For details, see the',
+    n2a: 'Note: Rates vary by package size and region.',
     link: 'Sagawa Express rate table, from Fukushima (Japanese)',
-    n2b: '.',
+    n2b: '',
   },
 }[lang];
 ---
@@ -42,8 +43,4 @@ const t = {
   <li>{t.r3}<span class="mono">{t.p3}</span></li>
 </ul>
 <p class="note">{t.cool}</p>
-<p class="note">
-  {t.n2a}
-  <a href={sagawaLink} target="_blank" rel="noopener noreferrer">{t.link}</a>
-  {t.n2b}
-</p>{lang === 'en' && <p class="note">We ship within Japan only.</p>}
+<p class="note">{NL}{t.n2a}{NL}<a href={sagawaLink} target="_blank" rel="noopener noreferrer">{t.link}</a>{NL}{t.n2b}{NL}</p>{lang === 'en' && <p class="note">We ship within Japan only.</p>}
