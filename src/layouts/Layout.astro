@@ -3,6 +3,7 @@ import { SITE_CONFIG, MEMBERSHIP_PUBLISHED, FORECAST_PUBLISHED } from '../config
 import StructuredData from '../components/seo/StructuredData.astro';
 import LangSwitch from '../components/LangSwitch.astro';
 import { getAlternate } from '../config/i18n-pairs';
+import { NAV, FOOTER, SHIPMENT_PENDING, MENU_LABEL, DEFAULT_DESCRIPTION } from '../config/nav';
 import defaultOgImage from '../assets/images/top/hero.jpg';
 
 interface Props {
@@ -15,8 +16,10 @@ interface Props {
   alternatePath?: string | null;
 }
 
-const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販売', image, ogType = 'website', noindex = false, lang = 'ja', alternatePath } = Astro.props;
+const { title, description: descriptionProp, image, ogType = 'website', noindex = false, lang = 'ja', alternatePath } = Astro.props;
 
+const description = descriptionProp ?? DEFAULT_DESCRIPTION[lang];
+const NL = '\n'; // 日本語の出力を変えないため、リンク文字の前後の改行を再現する
 const ga4Id = SITE_CONFIG.seo.ga4Id;
 const gscVerification = SITE_CONFIG.seo.gscVerification;
 const siteUrl = Astro.site?.origin ?? 'https://farmeolica.com';
@@ -157,68 +160,50 @@ const ogImage = image
           <!-- Desktop Navigation Menu (hidden on mobile) -->
           <ul class="hidden md:flex gap-6 lg:gap-10 font-mono text-wet-soil">
             <li>
-              <a href="/cultivation" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
-                <span class="text-xs tracking-widest uppercase">SHIPMENT</span>
-                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">出荷予報{!FORECAST_PUBLISHED && '（準備中）'}</span>
+              <a href={NAV.shipment.href[lang]} class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
+                <span class="text-xs tracking-widest uppercase">{NAV.shipment.label}</span>
+                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">{NAV.shipment.sub[lang]}{!FORECAST_PUBLISHED && SHIPMENT_PENDING[lang]}</span>
               </a>
             </li>
             <!-- Products with Dropdown -->
             <li class="relative group/dropdown">
-              <a href="/products" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
-                <span class="text-xs tracking-widest uppercase">PRODUCTS</span>
-                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">商品・仕組みづくり</span>
+              <a href={NAV.products.href[lang]} class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
+                <span class="text-xs tracking-widest uppercase">{NAV.products.label}</span>
+                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">{NAV.products.sub[lang]}</span>
               </a>
               <!-- Dropdown Menu -->
               <div class="nav-dropdown absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-300 z-[55]">
                 <div class="bg-stone-white/95 backdrop-blur-sm shadow-lab-lg py-3 min-w-[160px] border border-warm-gray-100">
-                  <a href="/products" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
-                    商品紹介
-                  </a>
-                  <a href="/products/bouquet" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
-                    花束・テーブルフラワー
-                  </a>
-                  <a href="/products/market" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
-                    市場出荷品
-                  </a>
-                  <a href="/products/imperfect" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
-                    規格外
-                  </a>
-                  <a href="/products/loss-flower" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
-                    ロスフラワー
-                  </a>
-                  <a href="/products/dry-flower" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
-                    ドライフラワー
-                  </a>
-                  <a href="/products/research" class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">
-                    農園の仕組みづくり
-                  </a>
+                  {NAV.products.children.map((c) => (
+                    <a href={c.href[lang]} class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">{NL}{c.label[lang]}{NL}</a>{' '}
+                  ))}
                 </div>
               </div>
             </li>
             <li>
-              <a href="/about" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
-                <span class="text-xs tracking-widest uppercase">ABOUT</span>
-                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">農園について</span>
+              <a href={NAV.about.href[lang]} class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
+                <span class="text-xs tracking-widest uppercase">{NAV.about.label}</span>
+                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">{NAV.about.sub[lang]}</span>
               </a>
             </li>
-            {MEMBERSHIP_PUBLISHED && (
+            {MEMBERSHIP_PUBLISHED && lang === 'ja' && (
               <li>
-                <a href={SITE_CONFIG.membership.applyPath} class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
-                  <span class="text-xs tracking-widest uppercase">KASHINFU</span>
-                  <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">花信風（応援会費）</span>
+                <a href={NAV.membership.href[lang]} class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
+                  <span class="text-xs tracking-widest uppercase">{NAV.membership.label}</span>
+                  <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">{NAV.membership.sub[lang]}</span>
                 </a>
               </li>
             )}
             <li>
-              <a href="/faq" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
-                <span class="text-xs tracking-widest uppercase">FAQ</span>
-                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">よくある質問</span>
+              <a href={NAV.faq.href[lang]} class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
+                <span class="text-xs tracking-widest uppercase">{NAV.faq.label}</span>
+                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">{NAV.faq.sub[lang]}</span>
               </a>
             </li>
             <li>
-              <a href="/contact" class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
-                <span class="text-xs tracking-widest uppercase">CONTACT</span>
-                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">お問い合わせ</span>
+              <a href={NAV.contact.href[lang]} class="flex flex-col items-center gap-0.5 hover:text-old-copper transition-colors duration-300 group whitespace-nowrap">
+                <span class="text-xs tracking-widest uppercase">{NAV.contact.label}</span>
+                <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">{NAV.contact.sub[lang]}</span>
               </a>
             </li>
             <LangSwitch lang={lang} variant="desktop" />

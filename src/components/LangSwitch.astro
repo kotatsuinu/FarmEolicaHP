@@ -18,15 +18,7 @@ const wrapClass = isMobile
 const isLi = variant === 'desktop' || variant === 'mobile';
 ---
 {isLi ? (
-  <li data-lang-switch={variant} class={wrapClass}>
-    {lang === 'ja' ? <span aria-current="true">日本語</span> : <a href={target} hreflang="ja" lang="ja" class={linkClass}>日本語</a>}
-    <span aria-hidden="true" class="opacity-60">/</span>
-    {lang === 'ja' ? <a href={target} hreflang="en" lang="en" class={linkClass}>English</a> : <span aria-current="true">English</span>}
-  </li>
+  <li data-lang-switch={variant} class={wrapClass}>{' '}{lang === 'ja' ? <span aria-current="true">日本語</span> : <a href={target} hreflang="ja" lang="ja" class={linkClass}>日本語</a>}{' '}<span aria-hidden="true" class="opacity-60">/</span>{' '}{lang === 'ja' ? <a href={target} hreflang="en" lang="en" class={linkClass}>English</a> : <span aria-current="true">English</span>}{' '}</li>
 ) : (
-  <span data-lang-switch={variant} class={wrapClass}>
-    {lang === 'ja' ? <span aria-current="true">日本語</span> : <a href={target} hreflang="ja" lang="ja" class={linkClass}>日本語</a>}
-    <span aria-hidden="true" class="opacity-60">/</span>
-    {lang === 'ja' ? <a href={target} hreflang="en" lang="en" class={linkClass}>English</a> : <span aria-current="true">English</span>}
-  </span>
+  <span data-lang-switch={variant} class={wrapClass}>{' '}{lang === 'ja' ? <span aria-current="true">日本語</span> : <a href={target} hreflang="ja" lang="ja" class={linkClass}>日本語</a>}{' '}<span aria-hidden="true" class="opacity-60">/</span>{' '}{lang === 'ja' ? <a href={target} hreflang="en" lang="en" class={linkClass}>English</a> : <span aria-current="true">English</span>}{' '}</span>
 )}
