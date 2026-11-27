@@ -182,5 +182,5 @@ export function compareJa({ baseDir, curDir, allowedFor, allowedForFile = () => 
       problems.push(`${r}: 許す差の外で変わった（${d.at}文字目）\n  写し: ${JSON.stringify(d.base)}\n  いま: ${JSON.stringify(d.cur)}`);
     }
   }
-  return { problems, stats: { base: base.length, cur: cur.length, htmlCompared, renames: renames.size, chunkMoves, enOnlyAssets } };
+  return { problems, stats: { base: base.length, cur: cur.length, htmlCompared, renames: renames.size, chunkMoves, chunkRegroups, enOnlyAssets } };
 }

@@ -123,6 +123,23 @@ describe('突き合わせの道具（T-4 の検出力）', () => {
     expect(run().problems).toEqual(['写しにあるのに無いファイル: logo.svg']);
   });
 
+  test('C-17 許8：枠が動き、ほかの塊の区切りの改行だけが増えたのは緑。規則が1つ変わる・枠以外の塊の並びが変わるのは赤', () => {
+    // 写しは「a と b が1つの塊」。いまは「枠が先頭へ動き、a と b が2つの塊に分かれた」（段2で実測した形）
+    const B = `<style>[${CID}][data-animate]{opacity:0}\n.a[data-astro-cid-aaaa]{color:red}.b[data-astro-cid-bbbb]{color:blue}</style>`;
+    write(base, 'about/index.html', PAGE.replace(STYLE, B));
+    const ok = `<style>.a[data-astro-cid-aaaa]{color:red}\n[${CID}][data-animate]{opacity:0}\n.b[data-astro-cid-bbbb]{color:blue}</style>`;
+    write(cur, 'about/index.html', PAGE.replace(STYLE, ok));
+    const r = run();
+    expect(r.problems).toEqual([]);
+    expect(r.stats.chunkRegroups).toBe(1);
+    const changed = ok.replace('color:blue', 'color:navy');
+    write(cur, 'about/index.html', PAGE.replace(STYLE, changed));
+    expect(run().problems[0]).toContain('許す差の外で変わった');
+    const swapped = `<style>.b[data-astro-cid-bbbb]{color:blue}\n[${CID}][data-animate]{opacity:0}\n.a[data-astro-cid-aaaa]{color:red}</style>`;
+    write(cur, 'about/index.html', PAGE.replace(STYLE, swapped));
+    expect(run().problems[0]).toContain('許す差の外で変わった');
+  });
+
   test('C-14 許7：_astro/ の下に増えたファイル（英語ページだけが読む部品）は数えない。_astro/ の外に増えたページは赤', () => {
     write(cur, '_astro/en-only.XXXX.js', 'x');
     write(cur, '_astro/hero.YYYY_Z1abc.webp', 'x');

@@ -44,6 +44,7 @@ const shownTitle = isEn && hasJa(title) ? (EN_TITLE[title] ?? title) : title;
 const shownDesc = isEn && description && hasJa(description) ? (EN_DESC[description] ?? description) : description;
 const subtleTitle = isEn ? `${shownTitle} (Japanese)` : title;
 const readLabel = isEn ? 'Read the article (Japanese)' : '記事を読む';
+const NL = '\n'; // 日本語の出力を変えないため、「記事を読む」の前後の改行を直す前と同じに再現する
 const readOn = isEn ? 'READ ON NOTE (JAPANESE)' : 'READ ON NOTE';
 ---
 
@@ -71,9 +72,7 @@ const readOn = isEn ? 'READ ON NOTE (JAPANESE)' : 'READ ON NOTE';
             {shownDesc}
           </p>
         )}
-        <span class="inline-flex items-center gap-1 mt-3 font-mono text-xs text-old-copper group-hover:text-eolica-green transition-colors duration-300">
-          {readLabel}
-          <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <span class="inline-flex items-center gap-1 mt-3 font-mono text-xs text-old-copper group-hover:text-eolica-green transition-colors duration-300">{NL}{readLabel}{NL}<svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
         </span>
