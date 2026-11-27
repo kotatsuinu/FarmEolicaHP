@@ -8,8 +8,10 @@ interface Props {
   rows: [string, string, string][];
   linkHref: string;
   linkText: string;
+  lang?: 'ja' | 'en';
 }
-const { cols, rows, linkHref, linkText } = Astro.props;
+const { cols, rows, linkHref, linkText, lang = 'ja' } = Astro.props;
+const afterText = lang === 'en' ? 'Choose whichever suits your needs. ' : '用途に応じてお選びください。';
 ---
 
 <div class="wrap">
@@ -24,7 +26,7 @@ const { cols, rows, linkHref, linkText } = Astro.props;
     </tbody>
   </table>
 </div>
-<p class="after">用途に応じてお選びください。<a href={linkHref}>{linkText}</a></p>
+<p class="after">{afterText}<a href={linkHref}>{linkText}</a></p>
 
 <style>
   .wrap { overflow-x: auto; margin-bottom: 8px; }

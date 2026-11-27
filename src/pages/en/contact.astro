@@ -1,0 +1,106 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { SITE_CONFIG } from '../../config/site';
+import PlainHero from '../../components/PlainHero.astro';
+import PageShell from '../../components/products/catalog/PageShell.astro';
+
+// Order: form -> email -> Instagram -> LINE (last, small)
+const methods = [
+  {
+    name: 'Email',
+    text: 'You can also write to us by email.',
+    sub: SITE_CONFIG.contact.email,
+    label: 'Send an email',
+    href: `mailto:${SITE_CONFIG.contact.email}`,
+    external: false,
+    small: false,
+  },
+  {
+    name: 'Instagram DM',
+    text: 'We post our daily growing records and product information. Feel free to send a DM.',
+    sub: '',
+    label: 'Open Instagram',
+    href: SITE_CONFIG.sns.instagram,
+    external: true,
+    small: false,
+  },
+  {
+    name: 'LINE',
+    text: 'LINE is mainly used by customers in Japan.',
+    sub: `ID: ${SITE_CONFIG.contact.lineId}`,
+    label: 'Add on LINE',
+    href: SITE_CONFIG.sns.line,
+    external: true,
+    small: true,
+  },
+];
+---
+
+<Layout lang="en" title="Contact | Farm Eolica" description="Contact Farm Eolica about farm visits, press, research or site visits, and purchases within Japan.">
+  <PageShell>
+    <PlainHero lang="en" title="Contact" description="For questions or requests, please use the form below, or reach us by email or Instagram." />
+
+    <div class="inner form-wrap">
+      <h2>Contact form</h2>
+      <p class="intro">Please choose one of four types: farm visits, press / research / site visits, purchases within Japan, or other. We ship within Japan only.</p>
+      {/* 段3：<ContactForm lang="en" client:load /> */}
+    </div>
+
+    <section class="inner others">
+      <h2>Other ways to reach us</h2>
+      <div class="rows">
+        {methods.map((m) => (
+          <div class:list={['row', { small: m.small }]}>
+            <div class="row-txt">
+              <h3>{m.name}</h3>
+              <p>{m.text}</p>
+              {m.sub && <p class="sub">{m.sub}</p>}
+            </div>
+            <a
+              class="btn"
+              href={m.href}
+              target={m.external ? '_blank' : undefined}
+              rel={m.external ? 'noopener noreferrer' : undefined}
+            >{m.label}</a>
+          </div>
+        ))}
+      </div>
+
+      <p class="note">We also publish articles on note, in Japanese. They cover the thinking behind the farm and our daily work.</p>
+      <a class="tlink" href={SITE_CONFIG.sns.note} target="_blank" rel="noopener noreferrer">Read our articles on note (Japanese) →</a>
+    </section>
+  </PageShell>
+</Layout>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .form-wrap { padding-top: 32px; }
+  .form-wrap > :global(astro-island) { display: block; max-width: 760px; }
+  .intro { font-size: 14.5px; color: #4A3B32; line-height: 1.85; margin: 0; max-width: 760px; }
+  .others { padding-top: 56px; padding-bottom: 80px; }
+  h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0 0 8px; line-height: 1.5; }
+  .rows { display: grid; border-bottom: 1px solid #E0DDD7; }
+  .row { border-top: 1px solid #E0DDD7; padding: 18px 2px; display: grid; gap: 14px; }
+  h3 { font-size: 16px; font-weight: 600; color: #33291F; margin: 0 0 4px; line-height: 1.5; }
+  .row-txt p { font-size: 14.5px; color: #4A3B32; line-height: 1.85; margin: 0; }
+  .row-txt p.sub { font-size: 12.5px; color: #7D7B77; margin-top: 2px; }
+  .row.small h3 { font-size: 14px; }
+  .row.small .row-txt p { font-size: 12.5px; }
+  .row.small .btn { font-size: 12.5px; padding: 6px 14px; }
+  .btn {
+    justify-self: start; font-size: 14px; padding: 9px 20px; border: 1px solid #B87333;
+    border-radius: 4px; color: #B87333; text-align: center; transition: background .2s, color .2s;
+  }
+  .btn:hover { background: #B87333; color: #fff; }
+  .note { font-size: 14.5px; color: #4A3B32; line-height: 1.85; margin: 36px 0 8px; }
+  .tlink { font-size: 14.5px; color: #B87333; text-decoration: underline; text-underline-offset: 3px; }
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .others { padding-top: 64px; }
+    h2 { font-size: 24px; }
+    .rows { max-width: 760px; }
+    .row { grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
+    .note, .tlink { max-width: 760px; }
+    .tlink { display: inline-block; }
+  }
+</style>

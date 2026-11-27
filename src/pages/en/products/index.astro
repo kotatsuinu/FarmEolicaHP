@@ -1,0 +1,176 @@
+---
+/**
+ * Products page (English). Same layout as /products/.
+ * Stage 3: the shelf of products on sale comes back once the English name dictionary is in.
+ */
+import { Image } from 'astro:assets';
+import Layout from '../../../layouts/Layout.astro';
+import { FORECAST_PUBLISHED } from '../../../config/site';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
+import PageShell from '../../../components/products/catalog/PageShell.astro';
+import PageHero from '../../../components/products/catalog/PageHero.astro';
+import ContactBand from '../../../components/products/catalog/ContactBand.astro';
+
+import productsHeroImage from '../../../assets/images/products/products-hero.jpg';
+import bouquetImage from '../../../assets/images/products/bouquet-hero.jpg';
+import categoryImperfectImage from '../../../assets/images/products/category-imperfect.jpg';
+import categoryLossFlowerImage from '../../../assets/images/products/category-loss-flower.jpg';
+import dryFlowerImage from '../../../assets/images/products/dry-flower-hero.jpg';
+import categoryMarketImage from '../../../assets/images/products/category-market.jpg';
+import researchImage from '../../../assets/images/about/technology.jpg';
+import dialogueImage from '../../../assets/images/top/dialogue.jpg';
+
+const tiles = [
+  { title: 'Bouquets & table flowers', note: 'For your home, or as a gift', href: '/en/products/bouquet/', image: bouquetImage },
+  { title: 'Imperfect cut flowers', note: 'For those who want plenty of flowers', href: '/en/products/imperfect/', image: categoryImperfectImage },
+  { title: 'Dried flowers', note: 'Two types: heads only, or with stems', href: '/en/products/dry-flower/', image: dryFlowerImage },
+  { title: 'Wholesale market', note: 'For florists and market buyers', href: '/en/products/market/', image: categoryMarketImage, more: true },
+  { title: 'Farm systems', note: 'Apps and records made in the field', href: '/en/products/research/', image: researchImage, more: true },
+  { title: 'Loss Flower', note: 'Craft material (sales paused)', href: '/en/products/loss-flower/', image: categoryLossFlowerImage, more: true },
+];
+---
+
+<Layout
+  lang="en"
+  title="Products & systems | Farm Eolica"
+  description="Farm Eolica products. Flowers grown in the fields of Namie, Fukushima, delivered as bouquets, imperfect cut flowers, dried flowers and more."
+  image={productsHeroImage.src}
+  ogType="website"
+>
+  <BreadcrumbSchema items={[
+    { name: 'Home', url: '/en/' },
+    { name: 'Products & systems', url: '/en/products/' },
+  ]} />
+
+  <PageShell>
+    <PageHero
+      image={productsHeroImage}
+      title="Products & systems"
+      lead="We deliver flowers grown in the fields of Namie, Fukushima, as bouquets and cut flowers. We also share the apps and records we made in the field."
+      crumb={[{ name: 'Home', url: '/en/' }, { name: 'Products & systems' }]}
+    />
+
+    {/* 段3：商品の棚（英語名の辞書が入ってから）。「いま買える花」の棚と、販売中がないときの案内 */}
+
+    {/* All products & systems */}
+    <section class="sec inner">
+      <div class="sec-h"><h2>All products & systems</h2></div>
+      <div class="cats">
+        {tiles.map((t) => (
+          <a class={t.more ? 'tile more plx' : 'tile plx'} href={t.href}>
+            <Image src={t.image} alt="" width={900} sizes="(min-width: 768px) 600px, 100vw" loading="lazy" />
+            <div class="tile-txt">
+              <small>{t.note}</small>
+              <b>{t.title}</b>
+              <i>→</i>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {/* Shipment forecast band */}
+    <section class="band plx">
+      <Image src={dialogueImage} alt="" width={1600} sizes="100vw" loading="lazy" />
+      <div class="band-txt">
+        <small>Shipment forecast</small>
+        <b>Flowers coming soon</b>
+        {FORECAST_PUBLISHED ? (
+          <p>We publish the flowers now growing in our greenhouses and when we expect to ship them. The forecast page is in Japanese.</p>
+        ) : (
+          <p>The shipment forecast page is being prepared. Please contact us about the flowers we can send now and the timing.</p>
+        )}
+        <div class="btns">
+          {FORECAST_PUBLISHED ? (
+            <a class="btn" href="/cultivation">See the shipment forecast (Japanese) →</a>
+          ) : (
+            <a class="btn" href="/en/contact/">Contact →</a>
+          )}
+        </div>
+      </div>
+    </section>
+
+    {/* Our thinking */}
+    <section class="philo inner">
+      <h2>Turning waste into value</h2>
+      <p>Flowers that fall short of the market standard are just as beautiful. We offer other ways to enjoy the flowers that fall outside the standard.</p>
+      <a href="/en/about/">About Farm Eolica →</a>
+    </section>
+
+    <ContactBand lang="en" />
+  </PageShell>
+</Layout>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+
+  .tile::after, .band::after, .empty::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+
+  .sec { padding-top: 28px; padding-bottom: 8px; }
+  .sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .sec-h h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0; line-height: 1.5; }
+
+  .empty { border-radius: 8px; height: 280px; color: #fff; }
+  .empty::after { background: linear-gradient(to top, rgba(0,40,33,.82), rgba(0,40,33,.25)); }
+  .empty-txt { position: absolute; inset: auto 18px 18px 18px; z-index: 2; display: grid; gap: 8px; }
+  .empty-txt b { font-size: 19px; font-weight: 600; line-height: 1.5; }
+  .empty-txt p { font-size: 12.5px; line-height: 1.7; opacity: .92; margin: 0; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .btn { font-size: 13px; padding: 9px 14px; border-radius: 4px; background: #F2F2F0; color: #005243 !important; font-weight: 600; line-height: 1.6; }
+  .btn.ol { background: transparent; color: #fff !important; border: 1px solid rgba(255,255,255,.7); font-weight: 400; }
+
+  .cats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tile { border-radius: 6px; color: #fff; aspect-ratio: 1 / 1.08; display: block; }
+  .tile:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
+  .tile::after { background: linear-gradient(to top, rgba(20,22,20,.7), rgba(20,22,20,0) 62%); }
+  .tile-txt { position: absolute; left: 14px; right: 14px; bottom: 12px; z-index: 2; display: grid; }
+  .tile-txt small { font-size: 11px; opacity: .88; }
+  .tile-txt b { font-size: 18px; font-weight: 600; line-height: 1.5; }
+  .tile:first-child .tile-txt b { font-size: 22px; }
+  .tile-txt i { font-style: normal; font-family: theme('fontFamily.mono'); font-size: 12px; opacity: .9; }
+
+  .tile.more { grid-column: 1 / -1; aspect-ratio: auto; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 14px 2px; border-radius: 0; border-top: 1px solid #E0DDD7; color: #4A3B32; }
+  .tile.more:nth-child(4) { margin-top: 4px; }
+  .tile.more + .tile.more { margin-top: -10px; }
+  .tile.more:last-child { border-bottom: 1px solid #E0DDD7; }
+  .tile.more::after, .tile.more > img { display: none; }
+  .tile.more .tile-txt { position: static; display: grid; }
+  .tile.more .tile-txt small { order: 2; font-size: 12px; color: #7D7B77; opacity: 1; }
+  .tile.more .tile-txt b { order: 1; font-size: 16px; color: #4A3B32; }
+  .tile.more .tile-txt i { position: absolute; right: 2px; top: 50%; transform: translateY(-50%); color: #B87333; opacity: 1; }
+
+  .band { height: 330px; color: #fff; margin-top: 36px; }
+  .band::after { background: linear-gradient(to right, rgba(0,52,43,.78), rgba(0,52,43,.35)); }
+  .band-txt { position: absolute; left: 20px; right: 20px; top: 50%; transform: translateY(-50%); z-index: 2; display: grid; gap: 10px; max-width: 440px; }
+  .band-txt small { font-size: 11.5px; opacity: .85; }
+  .band-txt b { font-size: 24px; font-weight: 600; line-height: 1.45; }
+  .band-txt p { font-size: 13px; line-height: 1.75; opacity: .92; margin: 0; }
+
+  .philo { padding-top: 40px; padding-bottom: 36px; display: grid; gap: 10px; }
+  .philo h2 { font-size: 21px; font-weight: 600; color: #005243; margin: 0; line-height: 1.5; }
+  .philo p { font-size: 14.5px; color: #4A3B32; margin: 0; }
+  .philo a { font-size: 13px; color: #B87333; }
+
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .sec { padding-top: 48px; }
+    .sec-h h2 { font-size: 24px; }
+    .empty { height: 300px; }
+    .empty-txt { inset: auto 40px 36px 40px; max-width: 520px; }
+    .cats { grid-template-columns: repeat(12, 1fr); grid-template-rows: 240px 240px 200px; gap: 16px; }
+    .tile, .tile:first-child { aspect-ratio: auto; }
+    .tile:first-child { grid-column: 1 / 8; grid-row: 1 / 3; }
+    .tile:nth-child(2), .tile:nth-child(3) { grid-column: 8 / 13; }
+    .tile.more, .tile.more + .tile.more, .tile.more:nth-child(4), .tile.more:last-child { grid-column: span 4; display: block; margin-top: 0; padding: 0; border: 0; border-radius: 6px; color: #fff; }
+    .tile.more::after { display: block; }
+    .tile.more > img { display: block; }
+    .tile.more .tile-txt { position: absolute; }
+    .tile.more .tile-txt small { order: 0; color: inherit; opacity: .88; font-size: 11px; }
+    .tile.more .tile-txt b { color: inherit; font-size: 18px; }
+    .tile.more .tile-txt i { position: static; transform: none; color: inherit; opacity: .9; }
+    .band { height: 420px; margin-top: 56px; }
+    .band-txt { left: max(48px, calc(50% - 552px)); }
+    .philo { padding-top: 56px; padding-bottom: 56px; }
+    .philo p { max-width: 40em; }
+  }
+</style>

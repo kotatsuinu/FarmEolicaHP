@@ -17,6 +17,7 @@ interface Props {
   image: string;
   section?: string;
   publisherId: string;
+  lang?: 'ja' | 'en';
 }
 
 const {
@@ -28,9 +29,13 @@ const {
   image,
   section,
   publisherId,
+  lang = 'ja',
 } = Astro.props;
 
-const authorId = `${SITE_CONFIG.person.url}#person-takuma`;
+// 英語ページの著者は /en/about/ の Person（PersonSchema lang="en"）を参照する
+const authorId = lang === 'en'
+  ? 'https://farmeolica.com/en/about/#person-takuma'
+  : `${SITE_CONFIG.person.url}#person-takuma`;
 
 const schema = {
   "@context": "https://schema.org",
@@ -40,6 +45,7 @@ const schema = {
   "url": url,
   "mainEntityOfPage": url,
   "datePublished": datePublished,
+  ...(lang === 'en' && { "inLanguage": "en" }),
   ...(dateModified && { "dateModified": dateModified }),
   "image": image,
   ...(section && { "articleSection": section }),

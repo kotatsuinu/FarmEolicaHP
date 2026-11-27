@@ -1,0 +1,249 @@
+---
+/**
+ * Farm systems page (English) — /en/products/research/
+ * Same order as the Japanese page. Counts come from src/data/works.ts.
+ * Stage 3 items (marked in comments): demo modal and demo buttons, the list of farm-operation systems, the "as of" date.
+ */
+import Layout from '../../../layouts/Layout.astro';
+import { SITE_CONFIG } from '../../../config/site';
+import { shownCategories, runningCount, totalCount } from '../../../data/works';
+import technologyImage from '../../../assets/images/about/technology.jpg';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
+import PageShell from '../../../components/products/catalog/PageShell.astro';
+import PageHero from '../../../components/products/catalog/PageHero.astro';
+import PageIntro from '../../../components/products/catalog/PageIntro.astro';
+import OtherCategories from '../../../components/products/catalog/OtherCategories.astro';
+import ContactBand from '../../../components/products/catalog/ContactBand.astro';
+
+const builtCount = totalCount;
+const agriItems = shownCategories.find((c) => c.id === 'agri')?.items ?? [];
+
+const dayRows = [
+  { when: 'Morning', title: "Today's goals and yesterday's sales arrive on their own", body: 'Slack brings today\'s goals and the confirmed sales from the farm stand (9:30). There is nothing to go and check; the updates come to us.', tags: ['Automatic scheduled reports', 'Quick farm-stand sales report'] },
+  { when: 'Greenhouse', title: 'Temperature and vents, watched from a phone', body: 'Temperature, ventilation and shade curtains are checked on one screen and opened and closed automatically. Some greenhouses also water automatically.', tags: ['Greenhouse climate control', 'Automatic irrigation'] },
+  { when: 'In the field', title: 'Record by voice, without stopping work', body: 'Just talk to the phone. AI picks out the task, the materials used and which bed it was, and saves it to the growing record.', tags: ['Voice to growing record', 'Growing management app'] },
+  { when: 'Planning', title: 'Decide what to plant and when, with numbers', body: 'From market prices, costs and soil analysis, we plan what to plant and estimate sales.', tags: ['Planting plan and sales forecast', 'Market price collection', 'Soil analysis', 'Fertilizer design'] },
+  { when: 'Evening', title: 'Replies to customers, and posting', body: 'AI drafts replies to inquiries and social media posts; the farm owner checks them and sends with one button. The evening quick report from the farm stand (21:00) also arrives.', tags: ['Inquiry handling', 'Instagram auto-posting'] },
+  { when: 'Weekly / monthly', title: 'Bookkeeping and records, summarized', body: "Receipts go into the books just by scanning them. A note draft is also made from the week's records.", tags: ['Automated bookkeeping', 'Weekly posts'] },
+];
+
+const processRows = [
+  { when: 'Delegate', title: 'A task board for AI and people', body: "One screen shows the hand-offs of work between the AI and the farm owner, so the AI's work keeps moving." },
+  { when: 'Consult', title: 'An AI strategy meeting', body: 'AIs with different roles, such as a strategist, a critic and a market analyst, give their views side by side.' },
+  { when: 'Record', title: 'A register of what we have built', body: 'Everything we build is kept in one register, which updates this page and the Works record list automatically.' },
+];
+
+// English versions of the demo apps (same order and ids as src/config/research-apps.ts)
+const apps = [
+  { id: 'cultivation-manager', title: 'Growing management system', summary: 'A web app that keeps work records, growth management and shipment forecasts in one place.', noteUrl: 'https://note.com/farm_eolica/m/mbcb8d61660c8' },
+  { id: 'polyculture-board', title: 'Polyculture board', summary: 'A board that shows planting plans and management logs for mixed planting of many crops.', noteUrl: undefined },
+  { id: 'analytics-dashboard', title: 'Farm analytics dashboard', summary: 'A screen that analyzes growing, shipment and sales data together.', noteUrl: undefined },
+];
+
+const notes = [
+  { url: SITE_CONFIG.noteMagazines.agriDX.url, title: 'Agri-DX Practice Series (Japanese)', description: 'Records of efforts to advance farming with IoT and data.' },
+  { url: SITE_CONFIG.noteMagazines.farmerLetter.url, title: "Farmer's Letter (Japanese)", description: 'A farm letter on daily life on the farm and the seasons.' },
+];
+---
+
+<Layout
+  lang="en"
+  title="Farm systems | Farm Eolica"
+  description="Farm systems at Farm Eolica. A one-person flower farm shares the growing management, climate control and record-keeping systems it has built with AI, along with demo apps you can try."
+  image="/images/top/hero.jpg"
+  ogType="website"
+>
+  <BreadcrumbSchema items={[
+    { name: 'Home', url: '/en/' },
+    { name: 'Products & systems', url: '/en/products/' },
+    { name: 'Farm systems', url: '/en/products/research/' },
+  ]} />
+
+  <PageShell>
+    <PageHero
+      image={technologyImage}
+      title="Farm systems"
+      lead="A one-person flower farm is building, with AI, systems that make daily work easier."
+      crumb={[
+        { name: 'Home', url: '/en/' },
+        { name: 'Products & systems', url: '/en/products/' },
+        { name: 'Farm systems' },
+      ]}
+    />
+
+    <PageIntro>
+      <p>We keep replacing time-consuming growing and business tasks with systems that use AI. From record-keeping and climate monitoring to planning and posting, we build them little by little and use them in real farm work.</p>
+      <p>Off-the-shelf tools often do not fit flower farming, so we build our own. Here we introduce the systems running on the farm and apps you can try with sample data.</p>
+    </PageIntro>
+
+    {/* Three numbers */}
+    <section class="inner stats-sec">
+      <dl class="stats">
+        <div><dt>Systems built</dt><dd>{builtCount}</dd></div>
+        <div><dt>Running now</dt><dd>{runningCount}</dd></div>
+        <div><dt>Farm operation systems</dt><dd>{agriItems.length}</dd></div>
+      </dl>
+      {/* 段3：lastUpdated から作る「○年○月時点」の日付 */}
+      <p class="stats-note">Counted automatically from our system register.</p>
+    </section>
+
+    {/* The farm owner's day, and the systems */}
+    <section class="sec inner">
+      <h2>The farm owner's day, and the systems</h2>
+      <p class="lead">From morning to night, here is which system works at which moment.</p>
+      <div class="flow">
+        {dayRows.map((r) => (
+          <div class="frow">
+            <span class="when">{r.when}</span>
+            <div class="fmain">
+              <b>{r.title}</b>
+              <p>{r.body}</p>
+            </div>
+            <div class="tags">{r.tags.map((t) => <span class="tag">{t}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* Apps you can try */}
+    <section class="sec inner">
+      <h2>Apps you can try</h2>
+      <p class="lead">You can try the apps we actually use, with sample data.</p>
+      <div class="apps">
+        {apps.map((app) => (
+          <div class="app">
+            <div class="app-main">
+              <b>{app.title}</b>
+              <p>{app.summary}</p>
+            </div>
+            <div class="app-btns">
+              {/* 段3：「デモを試す」ボタン（DemoModal を開く） */}
+              {app.noteUrl && (
+                <a class="btn line" href={app.noteUrl} target="_blank" rel="noopener noreferrer">Read on note (Japanese)</a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* 段3：「営農の仕組み」の節（Works のデータから日本語の一覧を並べる所） */}
+
+    {/* How we develop with AI */}
+    <section class="sec inner">
+      <h2>How we develop with AI</h2>
+      <div class="flow">
+        {processRows.map((r) => (
+          <div class="frow plain">
+            <span class="when">{r.when}</span>
+            <div class="fmain">
+              <b>{r.title}</b>
+              <p>{r.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* Development records */}
+    <section class="sec inner">
+      <h2>Development records</h2>
+      <p class="lead">Behind-the-scenes stories and technical details are serialized on note (in Japanese).</p>
+      <div class="notes">
+        {notes.map((n) => (
+          <a class="nrow" href={n.url} target="_blank" rel="noopener noreferrer">
+            <span><b>{n.title}</b><small>{n.description}</small></span>
+            <i aria-hidden="true">→</i>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {/* Entrance to Works */}
+    <section class="sec inner">
+      <div class="works-box">
+        <b>We help others build similar systems</b>
+        <p>Together with farmers and local businesses, we build web, business-automation and AI systems.</p>
+        <div class="works-btns">
+          <a class="wbtn" href="/works/records/">See Farm Eolica Works records (Japanese)<span class="nowrap"> ({builtCount} systems)</span></a>
+          <a class="wbtn" href="/works/contact">Discuss building a system (Japanese)</a>
+        </div>
+      </div>
+    </section>
+
+    <OtherCategories current="research" lang="en" />
+    <ContactBand lang="en" heading="Site visits, interviews and technical questions" text="If you have questions about our farm DX work or the technology, please get in touch." />
+  </PageShell>
+
+  {/* 段3：デモの窓（DemoModal・React の部品） */}
+</Layout>
+
+<style>
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .sec { padding-top: 48px; }
+  .sec h2 { font-size: 21px; font-weight: 600; color: #4A3B32; margin: 0 0 10px; line-height: 1.5; }
+  .lead { font-size: 14.5px; line-height: 1.85; color: #4A3B32; margin: 0 0 18px; }
+
+  /* 3つの数字 */
+  .stats-sec { padding-top: 32px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; border-top: 1px solid #E0DDD7; border-bottom: 1px solid #E0DDD7; }
+  .stats > div { display: flex; flex-direction: column-reverse; align-items: center; gap: 4px; padding: 16px 4px; text-align: center; }
+  .stats > div + div { border-left: 1px solid #E0DDD7; }
+  .stats dt { font-size: 11.5px; color: #7D7B77; line-height: 1.5; }
+  .stats dd { margin: 0; font-size: 30px; font-weight: 600; color: #005243; line-height: 1.2; }
+  .stats-note { font-size: 11.5px; color: #7D7B77; margin: 8px 0 0; }
+
+  /* 1日の流れ・開発の進め方（行） */
+  .flow { border-bottom: 1px solid #E0DDD7; }
+  .frow { display: grid; grid-template-columns: 52px 1fr; column-gap: 12px; padding: 16px 0; border-top: 1px solid #E0DDD7; }
+  .when { font-size: 12px; font-weight: 700; color: #B87333; line-height: 1.7; }
+  .fmain b { display: block; font-size: 15.5px; font-weight: 600; color: #33291F; line-height: 1.6; }
+  .fmain p { font-size: 14px; line-height: 1.85; color: #4A3B32; margin: 4px 0 0; }
+  .tags { grid-column: 2; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag { font-size: 11.5px; line-height: 1.5; padding: 2px 8px; border: 1px solid #005243; border-radius: 3px; color: #005243; }
+
+  /* 触って試せるアプリ */
+  .apps { border-bottom: 1px solid #E0DDD7; }
+  .app { padding: 16px 0; border-top: 1px solid #E0DDD7; display: grid; gap: 12px; }
+  .app-main b { display: block; font-size: 15.5px; font-weight: 600; color: #33291F; line-height: 1.6; }
+  .app-main p { font-size: 14px; line-height: 1.85; color: #4A3B32; margin: 2px 0 0; }
+  .app-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn { font-size: 14px; padding: 10px 18px; border-radius: 4px; border: 1px solid #005243; line-height: 1.5; cursor: pointer; text-align: center; }
+  .btn.fill { background: #005243; color: #fff; }
+  .btn.line { background: transparent; color: #005243; }
+
+  /* 営農の仕組み（開け閉めの行） */
+  .agri { display: grid; border-bottom: 1px solid #E0DDD7; }
+
+  /* 開発の記録 */
+  .notes { border-bottom: 1px solid #E0DDD7; }
+  .nrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 2px; border-top: 1px solid #E0DDD7; color: #33291F; }
+  .nrow b { display: block; font-size: 15.5px; font-weight: 600; line-height: 1.6; }
+  .nrow small { display: block; font-size: 12.5px; color: #7D7B77; line-height: 1.7; }
+  .nrow i { font-style: normal; color: #B87333; flex: none; }
+
+  /* Works への入口 */
+  .works-box { background: #fff; border: 1px solid #E0DDD7; border-radius: 6px; padding: 20px 18px; }
+  .works-box b { display: block; font-size: 16px; font-weight: 700; color: #33291F; line-height: 1.6; }
+  .works-box p { font-size: 14px; line-height: 1.85; color: #4A3B32; margin: 6px 0 14px; }
+  .works-btns { display: grid; gap: 8px; }
+  .wbtn { font-size: 14px; padding: 11px 14px; border: 1px solid #1A2744; border-radius: 4px; color: #1A2744; text-align: center; line-height: 1.5; }
+  .wbtn .nowrap { white-space: nowrap; }
+
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .sec { padding-top: 56px; }
+    .sec h2 { font-size: 24px; }
+    .stats-sec { padding-top: 40px; }
+    .stats dd { font-size: 40px; }
+    .stats dt { font-size: 13px; }
+    .frow { grid-template-columns: 80px minmax(0, 1fr) minmax(0, 260px); column-gap: 24px; padding: 18px 0; }
+    .frow.plain { grid-template-columns: 80px minmax(0, 1fr); }
+    .tags { grid-column: 3; margin-top: 0; align-content: flex-start; }
+    .app { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 24px; }
+    .agri { grid-template-columns: 1fr 1fr; column-gap: 40px; }
+    .works-box { padding: 28px 32px; }
+    .works-btns { grid-auto-flow: column; justify-content: start; }
+    .wbtn { padding: 12px 22px; }
+  }
+</style>

@@ -4,8 +4,10 @@
  */
 interface Props {
   heading?: string;
+  lang?: 'ja' | 'en';
 }
-const { heading = 'ご購入の前に' } = Astro.props;
+const { lang = 'ja' } = Astro.props;
+const { heading = lang === 'en' ? 'Before you buy' : 'ご購入の前に' } = Astro.props;
 ---
 
 <section class="sec inner">

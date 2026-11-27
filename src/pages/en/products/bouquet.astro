@@ -1,0 +1,99 @@
+---
+/**
+ * Bouquets & table flowers page (English). Same layout as /products/bouquet/.
+ * Stage 3: shelf, later list, past strip, price list and per-product shipping list.
+ */
+import Layout from '../../../layouts/Layout.astro';
+import bouquetHeroImage from '../../../assets/images/products/bouquet-hero.jpg';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
+import PageShell from '../../../components/products/catalog/PageShell.astro';
+import PageHero from '../../../components/products/catalog/PageHero.astro';
+import PageIntro from '../../../components/products/catalog/PageIntro.astro';
+import InfoRows from '../../../components/products/catalog/InfoRows.astro';
+import InfoRow from '../../../components/products/catalog/InfoRow.astro';
+import InfoCare from '../../../components/products/catalog/InfoCare.astro';
+import InfoNotice from '../../../components/products/catalog/InfoNotice.astro';
+import InfoBuy from '../../../components/products/catalog/InfoBuy.astro';
+import OtherCategories from '../../../components/products/catalog/OtherCategories.astro';
+import ContactBand from '../../../components/products/catalog/ContactBand.astro';
+
+const noticeItems = [
+  {
+    title: 'Product characteristics',
+    items: [
+      'Because one person grows the seasonal flowers, we may not be able to accept an order at some times of year or in some quantities',
+      'Because we use natural flowers, the color and how far the blooms have opened may differ slightly from the photos',
+      'Seasonal changes: the flowers we use change with the time of year',
+    ]
+  },
+  {
+    title: 'Packing & delivery',
+    items: [
+      'Water retention: stems are packed moist with water',
+      'Dedicated packaging: bouquets and arrangements are packed carefully to keep their shape',
+      'Carrier: Sagawa Express (standard parcel delivery)',
+      'Shipping fees depend on the box size',
+    ]
+  },
+  {
+    title: 'After it arrives',
+    text: 'When it arrives, trim the stems right away and put the flowers in water. Changing the water every 2 to 3 days helps them last longer.'
+  }
+];
+
+const crumb = [
+  { name: 'Home', url: '/en/' },
+  { name: 'Products & systems', url: '/en/products/' },
+  { name: 'Bouquets & table flowers' },
+];
+---
+
+<Layout
+  lang="en"
+  title="Bouquets & table flowers | Farm Eolica"
+  description="Seasonal flowers grown in our Fukushima fields, arranged ready to display and delivered to your home. Farm Eolica bouquets and table flowers."
+  image="/images/top/hero.jpg"
+  ogType="website"
+>
+  <BreadcrumbSchema items={[
+    { name: 'Home', url: '/en/' },
+    { name: 'Products & systems', url: '/en/products/' },
+    { name: 'Bouquets & table flowers', url: '/en/products/bouquet/' },
+  ]} />
+
+  <PageShell>
+    <PageHero
+      image={bouquetHeroImage}
+      alt="Bouquets & table flowers"
+      title="Bouquets & table flowers"
+      lead="Seasonal flowers grown in our Fukushima fields, ready to display, delivered to your home."
+      crumb={crumb}
+    />
+
+    <PageIntro>
+      <p>We are a small flower farm in Namie, on the Hamadori coast of Fukushima. We arrange the same flowers we send to the market, using what bloomed that week, and send them to you.</p>
+      <p>Arranged so you can enjoy them right away, to bring flowers into your life at home.</p>
+    </PageIntro>
+
+    {/* 段3：商品の棚（英語名の辞書が入ってから）。「いま買える花束」の棚・これから出る花・これまでの花 */}
+
+    <InfoRows heading="Before you buy" lang="en">
+      <InfoRow title="Price" open>
+        <p>Bouquet and table flower prices <b>vary by product</b>.</p>
+        <p>The combination changes with the season and the flowers available, so the price is shown for each product.</p>
+        {/* 段3：商品の値段の一覧 */}
+        <p class="note">Note: All prices shown include tax.</p>
+      </InfoRow>
+      <InfoRow title="Shipping">
+        <p>Shipping fees vary by product (based on 80/100 size boxes).</p>
+        {/* 段3：商品ごとの送料への案内 */}
+      </InfoRow>
+      <InfoRow title="After it arrives"><InfoCare lang="en" /></InfoRow>
+      <InfoRow title="Please note"><InfoNotice items={noticeItems} /></InfoRow>
+      <InfoRow title="Payment & how to order"><InfoBuy lang="en" /></InfoRow>
+    </InfoRows>
+
+    <OtherCategories current="bouquet" lang="en" />
+    <ContactBand lang="en" />
+  </PageShell>
+</Layout>

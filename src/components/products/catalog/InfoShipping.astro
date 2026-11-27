@@ -1,20 +1,49 @@
 ---
 /**
  * 送料の中身（InfoRow の中に置く）。内容は ShippingInfo と同じ。
+ * lang='en' のときは英語（英語ページ用）。既定 'ja' の出力は従来と同一。
  */
+interface Props {
+  lang?: 'ja' | 'en';
+}
+const { lang = 'ja' } = Astro.props;
 const sagawaLink = 'https://www.sagawa-exp.co.jp/send/fare/faretable03.html?_ga=2.73288595.1464715402.1770612007-66129190.1763209062';
+const t = {
+  ja: {
+    from: '発送元：福島県（佐川急便・通常宅配便）',
+    heading: '送料目安（税込）',
+    r1: '東北〜関東・信越：', p1: '910円〜',
+    r2: '東海・北陸：', p2: '1,040円〜',
+    r3: '関西：', p3: '1,180円〜',
+    cool: '※夏季（6〜9月）はクール便のご利用をおすすめします（別途料金）',
+    n2a: '※サイズ・地域により異なります。詳細は',
+    link: '佐川急便料金表（福島県発）',
+    n2b: 'をご確認ください。',
+  },
+  en: {
+    from: 'Shipped from Fukushima Prefecture (Sagawa Express, standard parcel service)',
+    heading: 'Estimated shipping (tax included)',
+    r1: 'Tohoku, Kanto, Shin’etsu: ', p1: 'from ¥910',
+    r2: 'Tokai, Hokuriku: ', p2: 'from ¥1,040',
+    r3: 'Kansai: ', p3: 'from ¥1,180',
+    cool: 'Note: In summer (June to September) we recommend chilled delivery (extra charge).',
+    n2a: 'Note: Rates vary by package size and region. For details, see the',
+    link: 'Sagawa Express rate table, from Fukushima (Japanese)',
+    n2b: '.',
+  },
+}[lang];
 ---
 
-<p>発送元：福島県（佐川急便・通常宅配便）</p>
-<h4>送料目安（税込）</h4>
+<p>{t.from}</p>
+<h4>{t.heading}</h4>
 <ul>
-  <li>東北〜関東・信越：<span class="mono">910円〜</span></li>
-  <li>東海・北陸：<span class="mono">1,040円〜</span></li>
-  <li>関西：<span class="mono">1,180円〜</span></li>
+  <li>{t.r1}<span class="mono">{t.p1}</span></li>
+  <li>{t.r2}<span class="mono">{t.p2}</span></li>
+  <li>{t.r3}<span class="mono">{t.p3}</span></li>
 </ul>
-<p class="note">※夏季（6〜9月）はクール便のご利用をおすすめします（別途料金）</p>
+<p class="note">{t.cool}</p>
 <p class="note">
-  ※サイズ・地域により異なります。詳細は
-  <a href={sagawaLink} target="_blank" rel="noopener noreferrer">佐川急便料金表（福島県発）</a>
-  をご確認ください。
-</p>
+  {t.n2a}
+  <a href={sagawaLink} target="_blank" rel="noopener noreferrer">{t.link}</a>
+  {t.n2b}
+</p>{lang === 'en' && <p class="note">We ship within Japan only.</p>}

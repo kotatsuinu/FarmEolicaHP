@@ -1,0 +1,111 @@
+---
+/**
+ * Imperfect cut flowers page (English). Same layout as /products/imperfect/.
+ * Stage 3: shelf, later list, past strip.
+ */
+import Layout from '../../../layouts/Layout.astro';
+import imperfectHeroImage from '../../../assets/images/products/imperfect-hero.jpg';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
+import PageShell from '../../../components/products/catalog/PageShell.astro';
+import PageHero from '../../../components/products/catalog/PageHero.astro';
+import PageIntro from '../../../components/products/catalog/PageIntro.astro';
+import InfoRows from '../../../components/products/catalog/InfoRows.astro';
+import InfoRow from '../../../components/products/catalog/InfoRow.astro';
+import InfoShipping from '../../../components/products/catalog/InfoShipping.astro';
+import InfoCompare from '../../../components/products/catalog/InfoCompare.astro';
+import InfoCare from '../../../components/products/catalog/InfoCare.astro';
+import InfoNotice from '../../../components/products/catalog/InfoNotice.astro';
+import InfoBuy from '../../../components/products/catalog/InfoBuy.astro';
+import OtherCategories from '../../../components/products/catalog/OtherCategories.astro';
+import ContactBand from '../../../components/products/catalog/ContactBand.astro';
+
+const noticeItems = [
+  {
+    title: 'Product characteristics',
+    items: [
+      'Because these are imperfect flowers, they are not as uniform as market flowers',
+      'Supply is limited, so we may not be able to accept an order',
+      'Seasonal changes: the varieties we offer change with the time of year',
+      'Natural variation: includes bends, uneven color and mixed sizes',
+    ]
+  },
+  {
+    title: 'Packing & delivery',
+    items: [
+      'Water retention: stems are packed moist with water',
+      'Dedicated packaging: bouquets are protected with flower sleeves',
+      'Carrier: Sagawa Express (standard parcel delivery)',
+    ]
+  },
+  {
+    title: 'After it arrives',
+    text: 'When it arrives, trim the stems right away and put the flowers in water. Changing the water every 2 to 3 days helps them last longer.'
+  }
+];
+
+const compareRows: [string, string, string][] = [
+  ['Form', 'With stems (cut flowers)', 'Flower heads only'],
+  ['Use', 'Arranged in a vase for display', 'Crafts and dried flowers'],
+  ['Price', 'Varies by flower variety', 'Flat price'],
+];
+---
+
+<Layout
+  lang="en"
+  title="Imperfect cut flowers | Farm Eolica"
+  description="A flower is just as beautiful when it misses the market standard. Farm Eolica sends imperfect cut flowers direct from the farm."
+  image={imperfectHeroImage.src}
+  ogType="website"
+>
+  <BreadcrumbSchema items={[
+    { name: 'Home', url: '/en/' },
+    { name: 'Products & systems', url: '/en/products/' },
+    { name: 'Imperfect cut flowers', url: '/en/products/imperfect/' },
+  ]} />
+
+  <PageShell>
+    <PageHero
+      image={imperfectHeroImage}
+      alt="Imperfect cut flowers"
+      title="Imperfect cut flowers"
+      lead="Flowers in full bloom need no standard."
+      crumb={[
+        { name: 'Home', url: '/en/' },
+        { name: 'Products & systems', url: '/en/products/' },
+        { name: 'Imperfect cut flowers' },
+      ]}
+    />
+
+    <PageIntro>
+      <p>We are a small flower farm in Namie, on the Hamadori coast of Fukushima. Some flowers cannot go to market for reasons like stems that are a little short, or a shape or color that differs slightly from the standard. We call these imperfect flowers.</p>
+      <p>Their beauty is the same as market flowers. We send seasonal imperfect cut flowers directly to your home.</p>
+    </PageIntro>
+
+    {/* 段3：商品の棚（英語名の辞書が入ってから）。「いま買える花」の棚・これから出る花・これまでの花 */}
+
+    <InfoRows heading="Before you buy" lang="en">
+      <InfoRow title="Price" open>
+        <p>Imperfect cut flower prices <b>vary by flower variety and time of year</b>.</p>
+        <p>Even for the same flower, the reason and the amount that fall outside the standard change with the season and shipping, so we set a fair price each time.</p>
+        <p class="note">Note: The exact price is shown with each product.<br />Note: All prices shown include tax and exclude shipping.</p>
+      </InfoRow>
+      <InfoRow title="Shipping"><InfoShipping lang="en" /></InfoRow>
+      <InfoRow title="Difference from Loss Flower">
+        <p>Loss Flower: flowers that are fine to use but cannot go to market as standard stock. We sell them as flower heads only.</p>
+        <InfoCompare
+          lang="en"
+          cols={['Imperfect cut flowers', 'Loss Flower']}
+          rows={compareRows}
+          linkHref="/en/products/loss-flower/"
+          linkText="See Loss Flower →"
+        />
+      </InfoRow>
+      <InfoRow title="After it arrives"><InfoCare lang="en" /></InfoRow>
+      <InfoRow title="Please note"><InfoNotice items={noticeItems} /></InfoRow>
+      <InfoRow title="Payment & how to order"><InfoBuy lang="en" /></InfoRow>
+    </InfoRows>
+
+    <OtherCategories current="imperfect" lang="en" />
+    <ContactBand lang="en" />
+  </PageShell>
+</Layout>

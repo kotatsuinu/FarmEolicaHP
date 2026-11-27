@@ -1,0 +1,64 @@
+---
+/**
+ * Wholesale market page (English). Same layout as /products/market/.
+ * Stage 3: shelf, later list, past strip.
+ */
+import Layout from '../../../layouts/Layout.astro';
+import marketHeroImage from '../../../assets/images/products/market-hero.jpg';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
+import PageShell from '../../../components/products/catalog/PageShell.astro';
+import PageHero from '../../../components/products/catalog/PageHero.astro';
+import PageIntro from '../../../components/products/catalog/PageIntro.astro';
+import InfoRows from '../../../components/products/catalog/InfoRows.astro';
+import InfoRow from '../../../components/products/catalog/InfoRow.astro';
+import OtherCategories from '../../../components/products/catalog/OtherCategories.astro';
+import ContactBand from '../../../components/products/catalog/ContactBand.astro';
+---
+
+<Layout
+  lang="en"
+  title="Wholesale market | Farm Eolica"
+  description="Farm Eolica states honestly, by its own standard, the quality of the flowers it ships to the wholesale market."
+  image={marketHeroImage.src}
+  ogType="website"
+>
+  <BreadcrumbSchema items={[
+    { name: 'Home', url: '/en/' },
+    { name: 'Products & systems', url: '/en/products/' },
+    { name: 'Wholesale market', url: '/en/products/market/' },
+  ]} />
+
+  <PageShell>
+    <PageHero
+      image={marketHeroImage}
+      alt="Wholesale market"
+      title="Wholesale market"
+      lead="Quality, told honestly. Our own standard for the flowers we ship."
+      crumb={[
+        { name: 'Home', url: '/en/' },
+        { name: 'Products & systems', url: '/en/products/' },
+        { name: 'Wholesale market' },
+      ]}
+    />
+
+    <PageIntro>
+      <p>Flowers shipped to the wholesale market are graded Shu (top), Yu (excellent) and Ryo (good), but even within the same Shu grade, quality changes from one planting to the next. Farm Eolica sets its own quality standard and shows the quality of its flowers honestly, with photos.</p>
+      <p>The gap between what you expect and what you get is the most wasteful thing. So we show you first.</p>
+    </PageIntro>
+
+    {/* 段3：商品の棚（英語名の辞書が入ってから）。「いま市場に出している花」の棚（札は Wholesale）・これから出る花・これまでの花 */}
+
+    <InfoRows heading="About our own quality standard" lang="en">
+      <InfoRow title="Three principles" open>
+        <ol>
+          <li><b>Defined for each planting</b>: we look at how the harvest is distributed and set the best quality grades for that planting each time.</li>
+          <li><b>Shown with photos</b>: we show the features of each grade with representative photos and concrete criteria. We focus on the quality of the flower, not its length.</li>
+          <li><b>Honest information</b>: we share the good points and the problems, to prevent mismatches with buyers.</li>
+        </ol>
+      </InfoRow>
+    </InfoRows>
+
+    <OtherCategories current="market" lang="en" />
+    <ContactBand lang="en" heading="Inquiries about trading" text="Questions about our wholesale market flowers and trading inquiries are welcome. We ship within Japan only." />
+  </PageShell>
+</Layout>

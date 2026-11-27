@@ -1,0 +1,131 @@
+---
+/**
+ * Loss Flower page (English). Same layout as /products/loss-flower/.
+ * Stage 3: shelf, later list, past strip and the flat price table.
+ */
+import Layout from '../../../layouts/Layout.astro';
+import lossFlowerHeroImage from '../../../assets/images/products/loss-flower-hero.jpg';
+import { SITE_CONFIG } from '../../../config/site';
+import NoteLinkCard from '../../../components/NoteLinkCard.astro';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
+import PageShell from '../../../components/products/catalog/PageShell.astro';
+import PageHero from '../../../components/products/catalog/PageHero.astro';
+import PageIntro from '../../../components/products/catalog/PageIntro.astro';
+import InfoRows from '../../../components/products/catalog/InfoRows.astro';
+import InfoRow from '../../../components/products/catalog/InfoRow.astro';
+import InfoShipping from '../../../components/products/catalog/InfoShipping.astro';
+import InfoCompare from '../../../components/products/catalog/InfoCompare.astro';
+import InfoNotice from '../../../components/products/catalog/InfoNotice.astro';
+import InfoBuy from '../../../components/products/catalog/InfoBuy.astro';
+import OtherCategories from '../../../components/products/catalog/OtherCategories.astro';
+import ContactBand from '../../../components/products/catalog/ContactBand.astro';
+
+const noticeItems = [
+  {
+    title: 'Product characteristics',
+    items: [
+      'Because these are imperfect flowers, we cannot guarantee quantity or quality',
+      'Supply is limited, so we may not be able to accept an order',
+      'Includes bends, uneven color and mixed sizes',
+    ]
+  },
+  {
+    title: 'We recommend reserving ahead',
+    text: 'We do not produce Loss Flower on purpose. We cannot promise when it will occur or whether we can prepare it. If you know when and for what you need it, tell us early, including your requests, and we will sort and prepare it as far as we can.'
+  },
+  {
+    title: 'Packing',
+    text: 'We wrap the flowers in wet paper towels and non-woven cloth and put them in a breathable sleeve.'
+  }
+];
+
+const compareRows: [string, string, string][] = [
+  ['Form', 'Flower heads only', 'With stems (cut flowers)'],
+  ['Use', 'Crafts and dried flowers', 'Arranged in a vase for display'],
+  ['Price', 'Flat price', 'Varies by flower variety'],
+];
+---
+
+<Layout
+  lang="en"
+  title="Loss Flower | Farm Eolica"
+  description="Giving discarded flowers a new life. Farm Eolica sends Loss Flower for crafts and dried flowers."
+  image={lossFlowerHeroImage.src}
+  ogType="website"
+>
+  <BreadcrumbSchema items={[
+    { name: 'Home', url: '/en/' },
+    { name: 'Products & systems', url: '/en/products/' },
+    { name: 'Loss Flower', url: '/en/products/loss-flower/' },
+  ]} />
+
+  <PageShell>
+    <PageHero
+      image={lossFlowerHeroImage}
+      alt="Loss Flower"
+      title="Loss Flower"
+      lead="Giving discarded flowers a new life."
+      crumb={[
+        { name: 'Home', url: '/en/' },
+        { name: 'Products & systems', url: '/en/products/' },
+        { name: 'Loss Flower' },
+      ]}
+    />
+
+    <PageIntro>
+      <p>We are a small flower farm in Namie, on the Hamadori coast of Fukushima. We send "Loss Flower", the imperfect and surplus cut flowers that come from training and pinching work, directly from the farm to craft makers and people who enjoy handmade crafts. They are flowers that are fine to use but cannot go to market as standard stock.</p>
+      <p><a href="/en/loss-flower/">What is Loss Flower? (details, use as craft material, FAQ) →</a></p>
+    </PageIntro>
+
+    {/* 段3：商品の棚（英語名の辞書が入ってから）。「いまお届けできる花」の棚・これから出る花・これまでの花 */}
+
+    <InfoRows heading="Before you buy" lang="en">
+      <InfoRow title="Price" open>
+        <p>Every flower has the same price (shipping not included).</p>
+        {/* 段3：一律価格の表 */}
+      </InfoRow>
+      <InfoRow title="Shipping"><InfoShipping lang="en" /></InfoRow>
+      <InfoRow title="Uses">
+        <ul>
+          <li><b>Dried flowers</b>: ideal as material.</li>
+          <li><b>Resin casting</b>: for making accessories.</li>
+          <li><b>Photo props</b>: for photography.</li>
+        </ul>
+        <p>We hope you will use them differently from cut flowers and bring out the beauty each flower has.</p>
+        <p><a href="/en/loss-flower/">See how to use them as craft material →</a></p>
+      </InfoRow>
+      <InfoRow title="Difference from imperfect cut flowers">
+        <InfoCompare
+          lang="en"
+          cols={['Loss Flower', 'Imperfect cut flowers']}
+          rows={compareRows}
+          linkHref="/en/products/imperfect/"
+          linkText="See imperfect cut flowers →"
+        />
+      </InfoRow>
+      <InfoRow title="Please note"><InfoNotice items={noticeItems} /></InfoRow>
+      <InfoRow title="Payment & how to order"><InfoBuy lang="en" /></InfoRow>
+    </InfoRows>
+
+    <section class="note-card">
+      <NoteLinkCard
+        lang="en"
+        url={SITE_CONFIG.noteArticles.lossFlowerStory}
+        title="A farmer talks about Loss Flower (Japanese)"
+        description="A note article on why Loss Flower comes about, and the farmer's thoughts. The article is in Japanese."
+        variant="featured"
+      />
+    </section>
+
+    <OtherCategories current="loss-flower" lang="en" />
+    <ContactBand lang="en" />
+  </PageShell>
+</Layout>
+
+<style>
+  .note-card { padding: 28px 20px 0; }
+  @media (min-width: 768px) {
+    .note-card { padding: 36px max(48px, calc(50% - 552px)) 0; }
+    .note-card > :global(a) { max-width: 760px; }
+  }
+</style>

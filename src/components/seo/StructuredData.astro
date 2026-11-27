@@ -5,6 +5,12 @@
  */
 import { SITE_CONFIG } from '../../config/site';
 
+interface Props {
+  lang?: 'ja' | 'en';
+}
+const { lang = 'ja' } = Astro.props;
+const isEn = lang === 'en';
+
 const { business, sns, contact } = SITE_CONFIG;
 
 const schema = {
@@ -13,7 +19,9 @@ const schema = {
   "@id": `${business.url}/#organization`,
   "name": business.name,
   "alternateName": business.nameJa,
-  "description": business.description,
+  "description": isEn
+    ? 'A flower farm in Namie, Fukushima, Japan. Grows lisianthus, spray chrysanthemums and other flowers with data-driven growing.'
+    : business.description,
   "url": business.url,
   "logo": `${business.url}${business.logo}`,
   "image": `${business.url}/images/top/hero.jpg`,
@@ -21,8 +29,8 @@ const schema = {
   "address": {
     "@type": "PostalAddress",
     "postalCode": business.address.postalCode,
-    "addressRegion": business.address.region,
-    "addressLocality": business.address.locality,
+    "addressRegion": isEn ? 'Fukushima' : business.address.region,
+    "addressLocality": isEn ? 'Namie, Futaba District' : business.address.locality,
     "addressCountry": "JP",
   },
   "geo": {
@@ -34,7 +42,7 @@ const schema = {
     "@type": "ContactPoint",
     "email": contact.email,
     "contactType": "customer service",
-    "availableLanguage": "Japanese",
+    "availableLanguage": isEn ? ["Japanese", "English"] : "Japanese",
   },
   "sameAs": [
     sns.instagram,
@@ -42,7 +50,16 @@ const schema = {
     sns.x,
     sns.line,
   ],
-  "knowsAbout": [
+  "knowsAbout": isEn ? [
+    "Flower cultivation",
+    "Lisianthus",
+    "Spray chrysanthemums",
+    "Campanula",
+    "Stock",
+    "Snapdragons",
+    "Loss Flower",
+    "Data-driven agriculture",
+  ] : [
     "花き栽培",
     "トルコギキョウ",
     "スプレー菊",
@@ -52,7 +69,7 @@ const schema = {
     "ロスフラワー",
     "データ駆動型農業",
   ],
-  "priceRange": "¥1,300〜¥4,180",
+  "priceRange": isEn ? "¥1,300 to ¥4,180" : "¥1,300〜¥4,180",
 };
 ---
 

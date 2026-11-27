@@ -6,18 +6,35 @@
  */
 import { SITE_CONFIG } from '../../config/site';
 
+interface Props {
+  lang?: 'ja' | 'en';
+}
+const { lang = 'ja' } = Astro.props;
+const isEn = lang === 'en';
+
 const { person, sns, business } = SITE_CONFIG;
+
+// 英語ページ用の値（既定 'ja' は site.ts の値のまま）。@id・url は英語の /en/about/ 側にする
+const personEn = {
+  name: 'Takuma Sekiguchi',
+  alternateName: 'Sekiguchi Takuma',
+  jobTitle: 'Farm owner (new farmer)',
+  description: 'Former town magazine editor who started farming. Runs Farm Eolica in Namie, Fukushima, growing lisianthus, spray chrysanthemums, stock and other flowers with data-driven smart farming, developed in-house from the commuting farming support system by NARO (National Agriculture and Food Research Organization).',
+  knowsAbout: ['Loss Flower', 'Flower cultivation', 'Starting a farm as a new farmer'],
+  url: 'https://farmeolica.com/en/about/',
+};
+const p = isEn ? personEn : person;
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  "@id": `${person.url}#person-takuma`,
-  "name": person.name,
-  "alternateName": person.alternateName,
-  "jobTitle": person.jobTitle,
-  "description": person.description,
-  "url": person.url,
-  "knowsAbout": person.knowsAbout,
+  "@id": `${p.url}#person-takuma`,
+  "name": p.name,
+  "alternateName": p.alternateName,
+  "jobTitle": p.jobTitle,
+  "description": p.description,
+  "url": p.url,
+  "knowsAbout": p.knowsAbout,
   "sameAs": [sns.note, sns.x],
   "worksFor": {
     "@id": `${business.url}/#organization`,

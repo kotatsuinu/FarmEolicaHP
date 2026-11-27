@@ -37,7 +37,7 @@ export const NAV = {
       { href: { ja: '/products/bouquet', en: '/en/products/bouquet' }, label: { ja: '花束・テーブルフラワー', en: 'Bouquets & table flowers' } },
       { href: { ja: '/products/market', en: '/en/products/market' }, label: { ja: '市場出荷品', en: 'Wholesale market' } },
       { href: { ja: '/products/imperfect', en: '/en/products/imperfect' }, label: { ja: '規格外', en: 'Imperfect flowers' } },
-      { href: { ja: '/products/loss-flower', en: '/en/products/loss-flower' }, label: { ja: 'ロスフラワー', en: 'Loss flowers' } },
+      { href: { ja: '/products/loss-flower', en: '/en/products/loss-flower' }, label: { ja: 'ロスフラワー', en: 'Loss Flower' } },
       { href: { ja: '/products/dry-flower', en: '/en/products/dry-flower' }, label: { ja: 'ドライフラワー', en: 'Dried flowers' } },
       { href: { ja: '/products/research', en: '/en/products/research' }, label: { ja: '農園の仕組みづくり', en: 'Farm systems' } },
     ] satisfies NavChild[],

@@ -2,16 +2,46 @@
 /**
  * お支払い・ご購入の流れの中身（InfoRow の中に置く）。
  * 内容は各ページの Payment と PurchaseGuide（問い合わせフォーム・Instagram DM）と同じ。
+ * lang='en' のときは英語（英語ページ用。注文の案内は /en/contact/ へ）。既定 'ja' の出力は従来と同一。
  */
 import { SITE_CONFIG } from '../../../config/site';
+
+interface Props {
+  lang?: 'ja' | 'en';
+}
+const { lang = 'ja' } = Astro.props;
+const t = {
+  ja: {
+    pay: 'お支払い',
+    payText: 'PayPay・銀行振込・請求書がご利用いただけます。',
+    payNote: '※初回お取引については原則ご入金確認後の発送となります',
+    buy: 'ご購入・お問い合わせ',
+    formHref: '/contact?type=estimate',
+    form: '問い合わせ・ご注文フォーム',
+    formNote: '（見積もり内容を引き継いでお問い合わせいただけます）',
+    dmNote: '（@farm_eolica へDMでお気軽に）',
+    note: 'ご不明な点がございましたら、お気軽にお問い合わせください。農作業中は返信にお時間いただく場合がございます。',
+  },
+  en: {
+    pay: 'Payment',
+    payText: 'You can pay by PayPay, bank transfer, or invoice.',
+    payNote: 'Note: For first-time customers, we generally ship after payment is confirmed.',
+    buy: 'How to order and get in touch',
+    formHref: '/en/contact/',
+    form: 'Order & inquiry form',
+    formNote: '',
+    dmNote: ' (feel free to DM @farm_eolica)',
+    note: 'If you have any questions, please get in touch. Replies may take a while when we are working in the fields.',
+  },
+}[lang];
 ---
 
-<h4>お支払い</h4>
-<p>PayPay・銀行振込・請求書がご利用いただけます。</p>
-<p class="note">※初回お取引については原則ご入金確認後の発送となります</p>
-<h4>ご購入・お問い合わせ</h4>
+<h4>{t.pay}</h4>
+<p>{t.payText}</p>
+<p class="note">{t.payNote}</p>
+<h4>{t.buy}</h4>
 <ul>
-  <li><a href="/contact?type=estimate">問い合わせ・ご注文フォーム</a>（見積もり内容を引き継いでお問い合わせいただけます）</li>
-  <li><a href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener noreferrer">Instagram DM</a>（@farm_eolica へDMでお気軽に）</li>
+  <li><a href={t.formHref}>{t.form}</a>{t.formNote}</li>
+  <li><a href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener noreferrer">Instagram DM</a>{t.dmNote}</li>
 </ul>
-<p class="note">ご不明な点がございましたら、お気軽にお問い合わせください。農作業中は返信にお時間いただく場合がございます。</p>
+<p class="note">{t.note}</p>{lang === 'en' && <p class="note">We ship within Japan only.</p>}

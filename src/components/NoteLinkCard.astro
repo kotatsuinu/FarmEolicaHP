@@ -10,6 +10,7 @@ interface Props {
   description?: string;
   image?: string;
   variant?: 'featured' | 'default' | 'subtle';
+  lang?: 'ja' | 'en';
 }
 
 const {
@@ -19,7 +20,31 @@ const {
   description,
   image,
   variant = 'default',
+  lang = 'ja',
 } = Astro.props;
+
+// 英語ページ用。呼び出し側が日本語の題・説明を渡してきたときだけ、ここの英語に差し替える
+// （英語を渡してきたらそのまま使う）。note の記事は日本語なので、英語の案内には (Japanese) を添える。
+const EN_TITLE: Record<string, string> = {
+  '新規就農のリアルを綴ったnote': 'Notes on what becoming a farmer is really like',
+  '農家が語る、ロスフラワーのこと': 'A farmer talks about Loss Flower',
+  '農家通信（風の花だより）': "Farmer's Letter",
+  '農業DX実践シリーズ': 'Agri-DX Series',
+  '新規就農リアル体験記': 'New Farmer Journey',
+};
+const EN_DESC: Record<string, string> = {
+  'なぜロスフラワーが生まれるのか、農家の想いを綴ったnote記事です。': 'A note article on why Loss Flower happens, and what the farmer thinks about it.',
+  '農園の日々や季節の話題をお届けする農家通信です。': 'Letters from the farm on daily life and seasonal topics.',
+  'IoT・データ活用で農業を進化させる取り組みの記録。': 'A record of using IoT and data to improve farming.',
+  '新規就農のリアルな道のりを綴っています。': 'The real path of becoming a new farmer.',
+};
+const hasJa = (s: string) => /[\u3000-\u9fff\uff00-\uffef]/.test(s);
+const isEn = lang === 'en';
+const shownTitle = isEn && hasJa(title) ? (EN_TITLE[title] ?? title) : title;
+const shownDesc = isEn && description && hasJa(description) ? (EN_DESC[description] ?? description) : description;
+const subtleTitle = isEn ? `${shownTitle} (Japanese)` : title;
+const readLabel = isEn ? 'Read the article (Japanese)' : '記事を読む';
+const readOn = isEn ? 'READ ON NOTE (JAPANESE)' : 'READ ON NOTE';
 ---
 
 {/* --- featured: 商品ページ内 記事リンク用 --- */}
@@ -39,15 +64,15 @@ const {
       <div class="flex-1">
         <p class="font-mono text-[10px] tracking-widest text-warm-gray-500 mb-1">NOTE ARTICLE</p>
         <h4 class="font-serif text-base md:text-lg text-wet-soil group-hover:text-eolica-green transition-colors duration-300 mb-2">
-          {title}
+          {shownTitle}
         </h4>
         {description && (
           <p class="font-serif text-sm text-warm-gray-600 leading-relaxed">
-            {description}
+            {shownDesc}
           </p>
         )}
         <span class="inline-flex items-center gap-1 mt-3 font-mono text-xs text-old-copper group-hover:text-eolica-green transition-colors duration-300">
-          記事を読む
+          {readLabel}
           <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
@@ -69,7 +94,7 @@ const {
       <div class="aspect-[16/9] overflow-hidden bg-warm-gray-200">
         <img
           src={image}
-          alt={title}
+          alt={shownTitle}
           class="w-full h-full object-cover"
           loading="lazy"
           width="800"
@@ -84,15 +109,15 @@ const {
         </p>
       )}
       <h3 class="font-serif text-lg md:text-xl text-wet-soil group-hover:text-eolica-green transition-colors duration-300 mb-3">
-        {title}
+        {shownTitle}
       </h3>
       {description && (
         <p class="font-serif text-sm text-warm-gray-600 leading-relaxed mb-4">
-          {description}
+          {shownDesc}
         </p>
       )}
       <div class="flex items-center gap-2 text-old-copper group-hover:text-eolica-green transition-colors duration-300">
-        <span class="font-mono text-xs tracking-widest">READ ON NOTE</span>
+        <span class="font-mono text-xs tracking-widest">{readOn}</span>
         <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
         </svg>
@@ -113,7 +138,7 @@ const {
       <path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
     </svg>
     <span class="font-serif text-sm text-warm-gray-500 group-hover:text-wet-soil transition-colors duration-300">
-      {title}
+      {subtleTitle}
     </span>
     <svg class="w-3 h-3 text-warm-gray-400 group-hover:text-old-copper group-hover:translate-x-0.5 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

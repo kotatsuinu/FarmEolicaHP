@@ -1,0 +1,119 @@
+---
+/**
+ * Dried flowers page (English). Same layout as /products/dry-flower/.
+ * Stage 3: shelves for heads and long stems, later list, past strip.
+ */
+import Layout from '../../../layouts/Layout.astro';
+import dryFlowerHeroImage from '../../../assets/images/products/dry-flower-hero.jpg';
+import BreadcrumbSchema from '../../../components/seo/BreadcrumbSchema.astro';
+import PageShell from '../../../components/products/catalog/PageShell.astro';
+import PageHero from '../../../components/products/catalog/PageHero.astro';
+import PageIntro from '../../../components/products/catalog/PageIntro.astro';
+import InfoRows from '../../../components/products/catalog/InfoRows.astro';
+import InfoRow from '../../../components/products/catalog/InfoRow.astro';
+import InfoNotice from '../../../components/products/catalog/InfoNotice.astro';
+import InfoBuy from '../../../components/products/catalog/InfoBuy.astro';
+import OtherCategories from '../../../components/products/catalog/OtherCategories.astro';
+import ContactBand from '../../../components/products/catalog/ContactBand.astro';
+
+const noticeItems = [
+  {
+    title: 'Product characteristics',
+    items: [
+      'Because these are natural materials, color, shape and size vary from piece to piece',
+      'Stock is limited by the harvest on the farm and by how well the flowers have dried',
+      'Dried flowers are delicate, so please handle them with care',
+    ]
+  },
+  {
+    title: 'Storage',
+    text: 'Keep them out of direct sunlight and high humidity, in a well-ventilated place. A humid place can cause mold, so please take care.'
+  },
+  {
+    title: 'Packing',
+    text: 'The flowers go in a hard case, protected with cushioning, and are packed in a Click Post cardboard box. Please take them out promptly after they arrive and store them in a well-ventilated place.'
+  },
+  {
+    title: 'About Click Post delivery',
+    items: [
+      'Packed in a hard case up to 3 cm thick and dropped into a mailbox',
+      'No one needs to be home to receive it (no hand-to-hand delivery)',
+      'A delivery date and time cannot be specified (because of how Click Post works)',
+      'We tell you the tracking number when the parcel is sent',
+      'Long-stem items are not eligible (they are sent separately by standard parcel, 80 size)',
+    ]
+  }
+];
+---
+
+<Layout
+  lang="en"
+  title="Dried flowers | Farm Eolica"
+  description="The bloom is not over. This is where it gets beautiful. Dried flowers from Farm Eolica, grown on our own farm, carefully dried and sent as craft material."
+  image={dryFlowerHeroImage.src}
+  ogType="website"
+>
+  <BreadcrumbSchema items={[
+    { name: 'Home', url: '/en/' },
+    { name: 'Products & systems', url: '/en/products/' },
+    { name: 'Dried flowers', url: '/en/products/dry-flower/' },
+  ]} />
+
+  <PageShell>
+    <PageHero
+      image={dryFlowerHeroImage}
+      alt="Farm Eolica dried flowers"
+      title="Dried flowers"
+      lead="The bloom is not over. This is where it gets beautiful."
+      crumb={[
+        { name: 'Home', url: '/en/' },
+        { name: 'Products & systems', url: '/en/products/' },
+        { name: 'Dried flowers' },
+      ]}
+    />
+
+    <PageIntro>
+      <p>A flower farm has flowers it cannot ship. We take the flowers that fell short of market standards and air-dry them slowly for several weeks in a dark, well-ventilated place. This brings out a quiet beauty that is different from fresh flowers.</p>
+      <p>For crafts, interiors and swags. Sent directly from our farm.</p>
+    </PageIntro>
+
+    {/* 段3：商品の棚（英語名の辞書が入ってから）。Heads（花頭のみ）と Long stems（茎付き）の2つの棚・これから出る花・これまでの花。棚のひとこと：Heads ＝ flower heads only, dried and assorted, for resin casting, herbariums, potpourri and other crafts, from ¥700 (shipping not included)／Long stems ＝ 40 to 50 cm with stems, for a vase, swags and wreaths, from ¥88 per stem (shipping not included) */}
+
+    <InfoRows heading="Before you buy" lang="en">
+      <InfoRow title="Price & shipping" open>
+        <h4>About prices</h4>
+        <p>Shipping is added to the product price (flowers and packing included). Details on varieties, sizes and colors are shown with each product.</p>
+        <h4>Shipping for head items</h4>
+        <p>We send them by <b>Click Post</b> at a flat <span class="mono">¥185</span> nationwide.</p>
+        <ul>
+          <li>Sent in a hard case up to 3 cm thick</li>
+          <li>No one needs to be home to receive it (dropped into a mailbox)</li>
+          <li>Tracking number included, with cushioning to protect the flowers</li>
+          <li><b>The arrival date and time cannot be specified</b></li>
+        </ul>
+        <h4>Shipping for long-stem items</h4>
+        <p>We send them by <b>standard parcel, 80 size</b>. Shipping is charged at the regional rate, and a delivery date and time can be specified.</p>
+        <ul>
+          <li>Stems are cut to 30 cm to fit an 80-size box, following the shipping standard for imperfect cut flowers</li>
+          <li>Not eligible for Click Post because the stems make the parcel thick</li>
+          <li>Flowers and stems are protected with cushioning and packed in cardboard</li>
+          <li>Please take them out promptly after they arrive and keep them in a well-ventilated place</li>
+        </ul>
+        <h4>Large orders</h4>
+        <p>We quote large orders for business or event use separately. <a href="/en/contact/">Ask about large or business orders →</a></p>
+      </InfoRow>
+      <InfoRow title="Ideas for use">
+        <ul>
+          <li><b>Craft material</b> (heads): for resin, accessories and herbariums</li>
+          <li><b>Interior</b> (long stems): in a vase, for a natural space</li>
+          <li><b>Swags & wreaths</b> (heads and long stems): as material for wall decorations and gifts</li>
+        </ul>
+      </InfoRow>
+      <InfoRow title="Please note"><InfoNotice items={noticeItems} /></InfoRow>
+      <InfoRow title="Payment & how to order"><InfoBuy lang="en" /></InfoRow>
+    </InfoRows>
+
+    <OtherCategories current="dry-flower" lang="en" />
+    <ContactBand lang="en" />
+  </PageShell>
+</Layout>

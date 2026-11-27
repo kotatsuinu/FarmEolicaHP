@@ -1,0 +1,151 @@
+---
+/**
+ * Frequently asked questions (English) — /en/faq/
+ * Same order as the Japanese page, plus one question on shipping outside Japan.
+ */
+import Layout from '../../layouts/Layout.astro';
+import PlainHero from '../../components/PlainHero.astro';
+import PageShell from '../../components/products/catalog/PageShell.astro';
+import InfoRows from '../../components/products/catalog/InfoRows.astro';
+import InfoRow from '../../components/products/catalog/InfoRow.astro';
+import ContactBand from '../../components/products/catalog/ContactBand.astro';
+import FaqSchema from '../../components/seo/FaqSchema.astro';
+import lossFlowerHeroImage from '../../assets/images/products/loss-flower-hero.jpg';
+
+const title = 'Frequently asked questions (FAQ) | Farm Eolica';
+const description = 'How to buy Loss Flower, shipping costs, the flowers we can send, and use as craft materials. Answers to the questions Farm Eolica hears most often.';
+
+type FaqItem = {
+  q: string;
+  a: string; // shown text (paragraphs separated by \n\n; white-space: pre-wrap keeps the breaks)
+  link?: { href: string; label: string };
+};
+type FaqCategory = {
+  category: string;
+  items: FaqItem[];
+};
+
+const faqCategories: FaqCategory[] = [
+  {
+    category: 'About Loss Flower',
+    items: [
+      {
+        q: 'What is Loss Flower?',
+        a: 'Loss Flower is flower material made from the flower heads left over when we grow cut flowers. They cannot be shipped as cut flowers with stems, but the blooms themselves are beautiful, and that is the part we send.\n\nAs we grow lisianthus, spray chrysanthemums and other flowers in Namie, Fukushima, flower heads come off during training work (thinning side shoots and sorting out imperfect stems) and pinching. Some have 10 to 20 cm of neck left; others have almost none. Farm Eolica sends this material, which would otherwise have been thrown away, to people who will use it with care as a material for crafts and dried flowers.',
+        link: { href: '/en/products/loss-flower/', label: 'See the Loss Flower product page →' },
+      },
+      {
+        q: 'What kinds of flowers will arrive? Can I choose what is in the box?',
+        a: 'We send only the flowers that happen to come off at the time, so the contents change every time. We cannot meet every request, but if you ask us beforehand, we will sort as far as we can.\n\nLoss Flower is imperfect stock, so we cannot promise quantity or quality, and it includes bent stems, uneven color and mixed sizes. The amount is limited, and the kinds and quantities we can send change with the season. If you know the use and timing in advance, please tell us early and we will sort and prepare as much as we can.',
+        link: { href: '/en/products/loss-flower/', label: 'See the flowers we can send now →' },
+      },
+      {
+        q: 'Can I buy Loss Flower at any time?',
+        a: 'No, we do not always have it. The amount is limited, and at some times of year there is nothing available.\n\nLoss Flower comes about as a result of growing and shipping; it is not something we set out to produce. For that reason we cannot promise in advance when or how much we will have. We list the flowers we can send now on the product page, so please check there first.',
+        link: { href: '/en/products/loss-flower/', label: 'Check availability on the product page →' },
+      },
+    ],
+  },
+  {
+    category: 'Buying and delivery',
+    items: [
+      {
+        q: 'How can I buy Farm Eolica Loss Flower?',
+        a: 'Check the details on the product page, then contact us through the inquiry and order form or by Instagram DM.\n\nIf you have any questions, feel free to ask us even before you order.',
+        link: { href: '/en/contact/', label: 'Go to the inquiry and order form →' },
+      },
+      {
+        q: 'How much is shipping?',
+        a: 'We ship from Fukushima with Sagawa Express. Rough guides by region (tax included) are below.\n\nTohoku to Kanto and Shinetsu: from ¥910 / Tokai and Hokuriku: from ¥1,040 / Kansai: from ¥1,180\n\nIn summer (June to September) we recommend refrigerated delivery, which costs extra. Prices vary with size and region, so please ask us for details when you order.',
+      },
+      {
+        q: 'How long do the flowers last after they arrive?',
+        a: 'It depends on the kind of flower and the season. Because we send them fresh after harvest, they usually last 10 days or more unless there is a problem in transit.\n\nSome customers have told us the flowers were still healthy and blooming beautifully more than two weeks after arrival.\n\nPlease note that vase life varies with the variety, the time of year and the shipping conditions, and as with any fresh flowers there will be some differences. If you have concerns, please ask us before you buy.',
+        link: { href: '/en/contact/', label: 'Contact us here →' },
+      },
+      {
+        q: 'Is there a minimum order quantity (lot)?',
+        a: 'We can send even a single stem. Considering shipping and other transport costs, though, ordering 5 or more stems, or 10 or more in one order, is better value.\n\nWe suggest 5 stems or more as a guide, but we can be flexible about the number to suit what you want. Please talk to us about your use and budget.',
+        link: { href: '/en/products/loss-flower/', label: 'See prices and sizes →' },
+      },
+      {
+        q: 'What payment methods do you accept?',
+        a: 'We accept PayPay, bank transfer and invoice payment.\n\nAny of them can be used, but for a first order we ship, as a rule, after payment is confirmed. If you have questions, please feel free to ask.',
+      },
+      {
+        q: 'Do you ship outside Japan?',
+        a: 'No. We ship within Japan only.',
+      },
+    ],
+  },
+  {
+    category: 'Craft materials and business use',
+    items: [
+      {
+        q: 'Can I use them as materials for handmade items or workshops?',
+        a: "Yes. We originally made these as materials for craft makers and people who enjoy handmade work.\n\nThey are meant for uses different from cut flowers, such as dried flowers, resin casting and photo props, where each flower's beauty can be put to use. If you need a large quantity for a workshop, tell us the use and timing beforehand and we will talk it through as far as we can.",
+        link: { href: '/en/products/loss-flower/', label: 'See how to use Loss Flower →' },
+      },
+      {
+        q: 'Can a business or shop buy from you on a regular basis?',
+        a: 'Yes, we also take regular orders from businesses and shops.\n\nWe respond case by case to the quantity, frequency and kinds of flowers you need, such as ongoing use as materials or a regular delivery. Please feel free to ask first.',
+        link: { href: '/en/contact/', label: 'Contact us here →' },
+      },
+    ],
+  },
+];
+
+// For JSON-LD: collapse the \n\n display breaks into spaces (no raw line breaks in JSON-LD)
+const schemaItems = faqCategories.flatMap((c) =>
+  c.items.map((f) => ({
+    q: f.q,
+    a: f.a.replace(/\n{2,}/g, ' ').replace(/\s+/g, ' ').trim(),
+  }))
+);
+---
+
+<Layout lang="en" title={title} description={description} image={lossFlowerHeroImage.src}>
+
+<FaqSchema items={schemaItems} />
+
+<PageShell>
+  <PlainHero
+    lang="en"
+    title="Frequently asked questions"
+    description="Answers to common questions about buying Loss Flower. If anything is unclear, please do not hesitate to contact us."
+  />
+
+  {faqCategories.map((cat) => (
+    <InfoRows heading={cat.category} lang="en">
+      {cat.items.map((item) => (
+        <InfoRow title={item.q}>
+          <p class="faq-a">{item.a}</p>
+          {item.link && (
+            <p><a href={item.link.href}>{item.link.label}</a></p>
+          )}
+        </InfoRow>
+      ))}
+    </InfoRows>
+  ))}
+
+  <div class="inner more">
+    <a href="/en/products/loss-flower/">See Loss Flower →</a>
+  </div>
+
+  <div class="gap"></div>
+  <ContactBand lang="en" text="If your question is not listed here, please feel free to contact us." />
+</PageShell>
+
+<style>
+  /* FAQ answers contain paragraph breaks, so line breaks are kept (the schema gets a separate normalized array) */
+  .faq-a { white-space: pre-wrap; }
+  .inner { padding-left: 20px; padding-right: 20px; }
+  .more { padding-top: 48px; }
+  .more a { font-size: 14.5px; color: #B87333; text-decoration: underline; text-underline-offset: 3px; }
+  .gap { height: 80px; }
+  @media (min-width: 768px) {
+    .inner { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+  }
+</style>
+
+</Layout>

@@ -4,12 +4,13 @@
  */
 interface Props {
   rows: [string, string][];
+  lang?: 'ja' | 'en';
 }
-const { rows } = Astro.props;
+const { rows, lang = 'ja' } = Astro.props;
 ---
 
 <section id="person-takuma" class="profile">
-  <h2>農園概要</h2>
+  <h2>{lang === 'en' ? 'Farm overview' : '農園概要'}</h2>
   <table>
     <tbody>
       {rows.map(([k, v]) => (

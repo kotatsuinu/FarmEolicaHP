@@ -1,0 +1,209 @@
+---
+/**
+ * Loss Flower pillar page (English) — /en/loss-flower/
+ * Same order as the Japanese page. No product cards; the buying path is a link to /en/products/loss-flower/.
+ * schema: BreadcrumbSchema + FaqSchema + ArticleSchema.
+ */
+import Layout from '../../layouts/Layout.astro';
+import BreadcrumbSchema from '../../components/seo/BreadcrumbSchema.astro';
+import FaqSchema from '../../components/seo/FaqSchema.astro';
+import ArticleSchema from '../../components/seo/ArticleSchema.astro';
+import NoteLinkCard from '../../components/NoteLinkCard.astro';
+import PageShell from '../../components/products/catalog/PageShell.astro';
+import InfoRows from '../../components/products/catalog/InfoRows.astro';
+import InfoRow from '../../components/products/catalog/InfoRow.astro';
+import ContactBand from '../../components/products/catalog/ContactBand.astro';
+import LossHero from '../../components/loss-flower/LossHero.astro';
+import LossSection from '../../components/loss-flower/LossSection.astro';
+import { Image } from 'astro:assets';
+import heroImage from '../../assets/images/loss-flower/hero.jpg';
+import rulerImage from '../../assets/images/loss-flower/ruler.jpg';
+import { SITE_CONFIG } from '../../config/site';
+import lossFlowerHeroImage from '../../assets/images/products/loss-flower-hero.jpg';
+
+const title = 'Loss Flower: farm-direct flower materials, bought in bulk | Farm Eolica';
+const description = 'Farm-direct Loss Flower (imperfect and surplus cut flowers) delivered to your door. Fresh materials for dried flowers, resin work and photo props, from 5 stems. Shipped straight from a flower farm in Namie, Fukushima. Regular orders for businesses can be discussed.';
+
+const pageUrl = `${SITE_CONFIG.business.url}/en/loss-flower/`;
+const ogImageUrl = new URL(lossFlowerHeroImage.src, SITE_CONFIG.business.url).href;
+const articleHeadline = 'What is Loss Flower? Farm-direct flower materials, bought in bulk';
+const articleDescription = 'Farm Eolica, a flower farm in Namie, Fukushima, sends Loss Flower (imperfect and surplus cut flowers that come off during training and pinching) farm-direct. They are fresh materials for dried flowers, resin work and photo props, and you can buy them in larger quantities. We put this page together as first-hand information from the grower who handles everything from growing to shipping.';
+const articleDatePublished = '2026-07-23';
+const articleDateModified = '2026-07-23';
+
+// Shared by the visible breadcrumb and BreadcrumbSchema (JSON-LD).
+const breadcrumbItems = [
+  { name: 'Home', url: '/en/' },
+  { name: 'What is Loss Flower?', url: '/en/loss-flower/' },
+];
+
+type FaqItem = {
+  q: string;
+  a: string; // shown text (paragraphs separated by \n\n; white-space: pre-wrap keeps the breaks)
+};
+
+const faqItems: FaqItem[] = [
+  {
+    q: 'What is Loss Flower?',
+    a: 'Loss Flower is imperfect and surplus cut flowers that come off during training work and pinching. The condition varies, from pieces with 10 to 20 cm of neck left to pieces with almost no stem.\n\nThey come from a flower farm in Namie, Fukushima (Farm Eolica), where the grower handles everything from growing to shipping.',
+  },
+  {
+    q: 'What can I use them for as craft materials?',
+    a: 'You can use them as materials for dried flowers, resin casting and photo props.\n\nThey are for uses different from enjoying cut flowers in a vase, and let you make use of the beauty each flower has.',
+  },
+  {
+    q: 'How many can I order? (minimum lot)',
+    a: 'We can send even a single stem. Considering shipping and other transport costs, though, ordering 5 or more stems, or 10 or more in one order, is better value.\n\nWe suggest 5 stems or more as a guide, but we can be flexible about the number to suit what you want. Please feel free to ask first.',
+  },
+  {
+    q: 'How long do the flowers last after they arrive?',
+    a: 'It depends on the kind of flower and the season, but unless there is a problem in transit they usually last 10 days or more.\n\nSome customers have told us the flowers were still healthy and blooming beautifully more than two weeks after arrival.\n\nPlease note that vase life varies with the variety, the time of year and the shipping conditions, and as with any fresh flowers there will be some differences.',
+  },
+  {
+    q: 'Can a business or shop buy from you on a regular basis?',
+    a: 'Yes. We respond case by case to the quantity, frequency and kinds of flowers you need, such as ongoing use as materials or a regular delivery.\n\nPlease feel free to ask first.',
+  },
+  {
+    q: 'What about shipping and payment?',
+    a: 'We ship with Sagawa Express, and shipping starts from ¥910 depending on the region. We ship within Japan only.\n\nWe accept PayPay, bank transfer and invoice payment. For a first order we ship, as a rule, after payment is confirmed.',
+  },
+];
+
+// For JSON-LD: collapse the \n\n display breaks into spaces (same method as /en/faq/)
+const schemaFaqItems = faqItems.map((item) => ({
+  q: item.q,
+  a: item.a.replace(/\n{2,}/g, ' ').replace(/\s+/g, ' ').trim(),
+}));
+---
+
+<Layout lang="en" title={title} description={description} image={lossFlowerHeroImage.src} ogType="article">
+
+<BreadcrumbSchema items={breadcrumbItems} />
+<FaqSchema items={schemaFaqItems} />
+<ArticleSchema
+  lang="en"
+  headline={articleHeadline}
+  description={articleDescription}
+  url={pageUrl}
+  datePublished={articleDatePublished}
+  dateModified={articleDateModified}
+  image={ogImageUrl}
+  publisherId={`${SITE_CONFIG.business.url}/#organization`}
+/>
+
+<PageShell>
+  <LossHero
+    lang="en"
+    image={heroImage}
+    alt="A pale purple lisianthus held in a hand in the field"
+    crumb={breadcrumbItems}
+  />
+
+  <section class="lead">
+    <p>
+      Farm Eolica, a flower farm in Namie, Fukushima, sends Loss Flower (imperfect and surplus cut flowers that come off during training and pinching) farm-direct. They are fresh materials for dried flowers, resin work and photo props, and you can buy them in larger quantities. We put this page together as first-hand information from the grower who handles everything from growing to shipping.
+    </p>
+  </section>
+
+  <LossSection heading="What is Loss Flower?">
+    <p>
+      Loss Flower is imperfect and surplus cut flowers that come off during training work and pinching. They are not suited to being shipped to market as cut flowers, but the blooms themselves are beautiful, and we send that part as flower material.
+    </p>
+    <p>
+      The condition varies, from pieces with 10 to 20 cm of neck left to pieces with almost no stem. They come from a flower farm in Namie, Fukushima (Farm Eolica), where the grower handles everything from growing to shipping, so this is first-hand material.
+    </p>
+    <div class="photo">
+      <Image src={rulerImage} alt="Lisianthus Loss Flower with stems of different lengths, lined up next to a ruler" widths={[640, 960, 1280]} sizes="(min-width: 768px) 700px, 100vw" loading="lazy" />
+    </div>
+  </LossSection>
+
+  <LossSection heading="How it differs from imperfect cut flowers">
+    <div class="cmp-wrap">
+      <table>
+        <thead>
+          <tr><th></th><th>Loss Flower</th><th>Imperfect cut flowers</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Form</th><td>Mostly flower heads (short stem to no stem)</td><td>With stems (cut flowers)</td></tr>
+          <tr><th scope="row">Use</th><td>Crafts and dried flowers</td><td>Arranged in a vase to enjoy</td></tr>
+          <tr><th scope="row">Price</th><td>One flat price</td><td>Varies by kind of flower</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </LossSection>
+
+  <LossSection heading="Why farm-direct suits flower materials">
+    <p>
+      Farm Eolica's Loss Flower is sent farm-direct from a flower farm in Namie, Fukushima. Because the grower handles everything from growing to shipping, it is easy to prepare fresh flowers in larger quantities.
+    </p>
+    <p>
+      It is a material that farm-direct sending suits well, including for uses such as dried flowers and resin work that need a large amount.
+    </p>
+  </LossSection>
+
+  <LossSection heading="How to use it as flower material">
+    <ul class="uses">
+      <li><b>Dried flowers</b>: ideal as a material</li>
+      <li><b>Resin casting</b>: for making accessories</li>
+      <li><b>Photo props</b>: for use as props</li>
+    </ul>
+  </LossSection>
+
+  <section class="note-card">
+    <NoteLinkCard
+      lang="en"
+      url={SITE_CONFIG.noteArticles.lossFlowerStory}
+      title="A farmer talks about Loss Flower (note, in Japanese)"
+      description="A note article on why Loss Flower comes about, and the farmer's thoughts."
+      variant="featured"
+    />
+  </section>
+
+  <InfoRows heading="About buying" lang="en">
+    <InfoRow title="Price">
+      <p>Sold as assorted boxes by box size, from ¥1,300 for a small box. You can see the full price and size list on the product page.</p>
+    </InfoRow>
+    <InfoRow title="Minimum lot">
+      <p>We can send even a single stem. Considering shipping and other costs, ordering 5 or more stems, or 10 or more in one order, is better value. We suggest 5 stems or more as a guide, but we can be flexible to suit what you want.</p>
+    </InfoRow>
+    <InfoRow title="Shipping">
+      <p>We ship with Sagawa Express, and shipping starts from ¥910 depending on the region. We ship within Japan only.</p>
+    </InfoRow>
+    <InfoRow title="Payment">
+      <p>We accept PayPay, bank transfer and invoice payment. For a first order we ship, as a rule, after payment is confirmed.</p>
+    </InfoRow>
+  </InfoRows>
+  <p class="text-link"><a href="/en/products/loss-flower/">See the flowers we can send now (product page) →</a></p>
+
+  <InfoRows heading="Frequently asked questions" lang="en">
+    {faqItems.map((item) => (
+      <InfoRow title={item.q}>
+        <p class="faq-a">{item.a}</p>
+      </InfoRow>
+    ))}
+  </InfoRows>
+  <p class="text-link"><a href="/en/faq/">More questions are in the FAQ →</a></p>
+
+  <div class="gap-band"></div>
+  <ContactBand lang="en" />
+</PageShell>
+
+<style>
+  .lead { padding: 28px 20px 0; font-size: 15px; line-height: 1.9; color: #4A3B32; }
+  .lead p { margin: 0; }
+  .note-card { padding: 48px 20px 0; }
+  .text-link { padding: 16px 20px 0; margin: 0; font-size: 14px; }
+  .text-link a { color: #B87333; text-decoration: underline; text-underline-offset: 3px; }
+  .gap-band { height: 56px; }
+  /* FAQ answers contain paragraph breaks, so line breaks are kept (the schema gets a separate normalized array) */
+  .faq-a { white-space: pre-wrap; }
+  @media (min-width: 768px) {
+    .lead { padding: 36px max(48px, calc(50% - 552px)) 0; font-size: 16px; }
+    .lead p { max-width: 760px; }
+    .note-card { padding: 56px max(48px, calc(50% - 552px)) 0; }
+    .note-card > :global(a) { max-width: 760px; }
+    .text-link { padding: 16px max(48px, calc(50% - 552px)) 0; }
+  }
+</style>
+
+</Layout>

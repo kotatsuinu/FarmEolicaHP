@@ -1,0 +1,93 @@
+---
+/**
+ * English About page. Same layout as the Japanese page, text only translated.
+ */
+import Layout from '../../layouts/Layout.astro';
+import { SITE_CONFIG } from '../../config/site';
+import NoteLinkCard from '../../components/NoteLinkCard.astro';
+import PersonSchema from '../../components/seo/PersonSchema.astro';
+import PageShell from '../../components/products/catalog/PageShell.astro';
+import ContactBand from '../../components/products/catalog/ContactBand.astro';
+import AboutHero from '../../components/about/AboutHero.astro';
+import AboutStory from '../../components/about/AboutStory.astro';
+import AboutProfile from '../../components/about/AboutProfile.astro';
+
+import heroImage from '../../assets/images/about/hero.jpg';
+import originImage from '../../assets/images/about/origin.jpg';
+import identityImage from '../../assets/images/about/identity.jpg';
+import technologyImage from '../../assets/images/about/technology.jpg';
+import locationImage from '../../assets/images/about/location.jpg';
+import philosophyImage from '../../assets/images/about/philosophy.jpg';
+
+const profileRows: [string, string][] = [
+  ['Farm name', 'Farm Eolica'],
+  ['Farm owner', 'Takuma Sekiguchi'],
+  ['Location', 'Namie, Futaba District, Fukushima'],
+  ['Business', 'Production and sale of cut flowers: lisianthus, spray chrysanthemums, stock, and more'],
+  ['Started', '2024'],
+];
+---
+
+<Layout lang="en" title="About the farm | Farm Eolica" description="Read the wind, till the soil, and bring the future into bloom. The thinking and background behind Farm Eolica." image={heroImage.src}>
+
+<PersonSchema lang="en" />
+
+<PageShell>
+  <AboutHero
+    image={heroImage}
+    alt="Inside a greenhouse at Farm Eolica"
+    titleLines={['Read the wind, till the soil,', 'and bring the future into bloom.']}
+    lead="About Farm Eolica, a flower farm in Namie."
+    crumb={[
+      { name: 'Home', url: '/en/' },
+      { name: 'About the farm' },
+    ]}
+  />
+
+  <AboutStory image={originImage} alt="A farm that lives with the wind" label="Where the name comes from" heading={['A farm that lives', 'with the wind']}>
+    <p>The name "Farm Eolica" comes from Aeolus, the god of the winds in Greek mythology.</p>
+    <p>Namie, in Fukushima, where our farm stands, is surrounded by sea and mountains, and a pleasant wind always passes through. Sometimes harsh, sometimes gentle, that wind is something we accept and make our ally. We chose the name out of a wish to grow beautiful flowers in harmony with nature.</p>
+  </AboutStory>
+
+  <AboutStory image={identityImage} alt="From hands that weave words to hands that raise life" label="The farm owner" heading={['From hands that weave words,', 'to hands that raise life']} reverse>
+    <p>The farm owner used to work as an editor at a town magazine. He moved from a job of conveying the charm of a place and people's feelings in words to the world of farming, where he creates value with his own hands.</p>
+    <p>Because he came from another field, he values a perspective that is not bound by existing frameworks. Beyond the beauty of a single flower, he cares about the story of how it reaches the customer's hands, and keeps weaving that story.</p>
+    <div class="card">
+      <NoteLinkCard
+        lang="en"
+        url={SITE_CONFIG.noteMagazines.newFarmerJourney.url}
+        title="Notes on the reality of starting a farm (note, in Japanese)"
+        variant="subtle"
+      />
+    </div>
+  </AboutStory>
+
+  <AboutStory image={technologyImage} alt="Data supports, and instinct finishes" label="How we grow" heading={['Data supports,', 'and instinct finishes']}>
+    <p>At Farm Eolica, we practice smart farming that collects and analyzes environmental data such as temperature, humidity, and solar radiation in real time, using a system we developed ourselves (Note).</p>
+    <p>We listen to the silent voice of plants through data and set up the best environment. The time that frees up goes to the human eye and human hand that face each flower, one by one.</p>
+    <p>We add a touch of technology to traditional craftsmanship. With these two wheels, we aim for high-quality flower growing.</p>
+    <p class="note">Note: We operate it by adding our own improvements to the NARO "Remote Farming Support System" (Japanese).</p>
+  </AboutStory>
+
+  <AboutStory image={locationImage} alt="New colors from the land of Namie" label="The place" heading={['New colors', 'from the land of Namie']} reverse>
+    <p>Namie is moving forward with recovery from the earthquake. Because this land was once cleared to bare ground, there is a future we can draw here.</p>
+    <p>On land without color, we build greenhouses, plant seedlings, and flowers bloom. That scene is itself the path of recovery. While honoring the feelings and efforts of those who came before, I want to create new value and new scenery on this land.</p>
+  </AboutStory>
+
+  <AboutStory image={philosophyImage} alt="A farm that keeps delivering something better" label="What comes next" heading={['A farm that keeps', 'delivering something better']}>
+    <p>The wind never blows the same way twice.</p>
+    <p>Some years bring a tailwind, and some years a headwind pushes us back. Even so, we keep standing, facing the wind.</p>
+    <p>Grow slightly better flowers than last year, add slightly better ways of delivering them, and move on to the next season.</p>
+    <p><strong>To be a farm that keeps delivering something better.</strong><br />Beyond that, there is surely a view we have not yet seen.</p>
+  </AboutStory>
+
+  <AboutProfile lang="en" rows={profileRows} />
+
+  <ContactBand
+    lang="en"
+    heading="Orders and inquiries"
+    text="To keep delivering something better, the story of Farm Eolica continues."
+  />
+</PageShell>
+
+</Layout>

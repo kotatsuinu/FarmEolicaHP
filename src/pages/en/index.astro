@@ -1,0 +1,389 @@
+---
+/**
+ * English top page. Same layout as the Japanese top page, text only translated.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import { SITE_CONFIG, FORECAST_PUBLISHED } from '../../config/site';
+import PageShell from '../../components/products/catalog/PageShell.astro';
+import ContactBand from '../../components/products/catalog/ContactBand.astro';
+
+import heroImage from '../../assets/images/top/hero.jpg';
+import prologue1Image from '../../assets/images/top/prologue_1.jpg';
+import prologue2Image from '../../assets/images/top/prologue_2.jpg';
+import atelierImage from '../../assets/images/top/atelier.jpg';
+import forecastImage from '../../assets/images/top/forecast.jpg';
+import dialogueImage from '../../assets/images/top/dialogue.jpg';
+import bouquetImage from '../../assets/images/products/bouquet-hero.jpg';
+import categoryImperfectImage from '../../assets/images/products/category-imperfect.jpg';
+import dryFlowerImage from '../../assets/images/products/dry-flower-hero.jpg';
+
+const instagramImageModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/images/instagram/*.jpg',
+  { eager: true }
+);
+const instagramImages = Object.keys(instagramImageModules)
+  .sort((a, b) => a.localeCompare(b))
+  .map((path) => instagramImageModules[path].default);
+
+const tiles = [
+  { title: 'Bouquets & table flowers', note: 'For your home, or as a gift', href: '/en/products/bouquet/', image: bouquetImage },
+  { title: 'Imperfect cut flowers', note: 'For those who want plenty of flowers', href: '/en/products/imperfect/', image: categoryImperfectImage },
+  { title: 'Dried flowers', note: 'Two kinds: flower heads only, or with stems', href: '/en/products/dry-flower/', image: dryFlowerImage },
+];
+
+const notes = [
+  { ...SITE_CONFIG.noteMagazines.farmerLetter, title: "Farmer's Letter", description: 'A newsletter on daily life at the farm and the seasons (in Japanese).' },
+  { ...SITE_CONFIG.noteMagazines.agriDX, title: 'Agri-DX Series', description: 'Records of using IoT and data to advance farming (in Japanese).' },
+];
+const noteUrl = SITE_CONFIG.noteMagazines.farmerLetter.url;
+const igTop = instagramImages.slice(0, 9);
+---
+
+<Layout lang="en" title="Farm Eolica | Wind & Data Lab - Living with Wind, Evolving with Data" description="Farm Eolica is a small flower farm in Namie, Fukushima. We grow seasonal cut flowers with data-driven growing." image={heroImage.src}>
+  <section class="relative h-screen w-full overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-warm-gray-100 via-stone-white to-warm-gray-200">
+      <Image
+        src={heroImage}
+        alt="Farm Eolica - flower farm"
+        class="w-full h-full object-cover object-center"
+        widths={[640, 1280, 1920]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-eolica-green/30"></div>
+    </div>
+
+    <div class="relative h-full flex items-center justify-center">
+      <div class="text-center text-white px-6 max-w-4xl">
+        <p class="font-mono text-xs tracking-[0.3em] mb-4 opacity-80">
+          [ WIND & DATA LABORATORY ]
+        </p>
+        <h1 class="mb-4 animate-fade-in flex justify-center">
+          <img src="/logo/farm-eolica-full-white.svg" alt="Farm Eolica" class="h-32 md:h-48 lg:h-56 w-auto" />
+        </h1>
+        <p class="text-lg md:text-xl tracking-wide font-light opacity-90 font-serif italic" style="animation-delay: 0.3s;">
+          Living with Wind, Evolving with Data.
+        </p>
+        {/* The Japanese tagline line is not repeated on the English page (same sentence). */}
+      </div>
+    </div>
+
+    <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2">
+      <div class="font-mono text-xs text-white opacity-60 flex flex-col items-center gap-2">
+        <span>SCROLL</span>
+        <svg
+          class="w-5 h-5 animate-bounce"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+          ></path>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <PageShell>
+    <div class="top">
+
+      {/* ===== Mobile (up to 767px) ===== */}
+      <div class="md:hidden">
+
+        <section class="m-sec m-in">
+          <div class="m-txt">
+            <p>Farm Eolica is a small flower farm in Namie, Fukushima.</p>
+            <p>The seasonal flowers are grown by me alone, with help from my family.</p>
+            <p>An open-air atelier where wind, soil, and science live together.</p>
+            <p>We listen to nature and evolve with data.</p>
+            <p>Please take a look at our "Farm systems" too.</p>
+          </div>
+          <div class="m-about">
+            <a class="more" href="/en/about/">About the farm →</a>
+            <img class="sig" src="/images/top/signature.png" alt="Signature" loading="lazy" />
+          </div>
+          <div class="m-pair">
+            <div><Image src={prologue1Image} alt="" width={600} sizes="50vw" loading="lazy" class="fill" /></div>
+            <div><Image src={prologue2Image} alt="" width={600} sizes="50vw" loading="lazy" class="fill" /></div>
+          </div>
+        </section>
+
+        {/* 段3：商品の棚（ProductShelf・いま買える花） */}
+        <section class="m-sec m-in">
+          <div class="sh"><h2>Products</h2><a class="more" href="/en/products/">All products & systems →</a></div>
+          <div class="m-cats">
+            {tiles.map((t, i) => (
+              <a class:list={['tile', 'plx', { big: i === 0 }]} href={t.href}>
+                <Image src={t.image} alt="" width={900} sizes="100vw" loading="lazy" />
+                <span class="tt"><small>{t.note}</small><b>{t.title}</b></span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <section class="m-sec m-in">
+          <div class="sh"><h2>For markets & florists</h2></div>
+          <div class="m-rows">
+            <a class="row" href="/en/products/market/"><span><b>Wholesale market</b><small>Quality standards and the flowers we ship</small></span><i>→</i></a>
+            <a class="row" href="/cultivation"><span><b>Shipment forecast (Japanese)</b><small>{FORECAST_PUBLISHED ? 'Flowers coming up and expected timing' : 'In preparation. Contact us about the flowers available now'}</small></span><i>→</i></a>
+          </div>
+        </section>
+
+        <section class="m-sec m-in">
+          <div class="sh"><h2>Reading from the farm</h2><a class="more" href={noteUrl} target="_blank" rel="noopener">Go to note (Japanese) ↗</a></div>
+          <div class="m-notes">
+            {notes.map((n) => (
+              <a class="ncard" href={n.url} target="_blank" rel="noopener">
+                <span class="ph"><img src={n.image} alt="" loading="lazy" /></span>
+                <span><b>{n.title}</b><small>{n.description}</small><em>Read on note (Japanese) ↗</em></span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <section class="m-sec m-in">
+          <div class="sh"><h2>In the fields</h2><a class="more" href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener">Instagram ↗</a></div>
+          <div class="m-ig">
+            {igTop.map((img) => (
+              <div><Image src={img} alt="" widths={[300, 600]} sizes="33vw" format="webp" loading="lazy" decoding="async" class="fill" /></div>
+            ))}
+          </div>
+          <a class="m-btn" href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener">View on Instagram</a>
+        </section>
+
+        <div class="m-contact">
+          <ContactBand
+            lang="en"
+            heading="Tell us the flowers you want"
+            text="Your voice becomes our next growing plan. Questions about flower varieties or delivery dates are welcome."
+          />
+        </div>
+      </div>
+
+      {/* ===== Desktop (768px and up) ===== */}
+      <div class="hidden md:block">
+
+        <section class="d-in d-pro">
+          <div>
+            <div class="d-txt">
+              <p>Farm Eolica is a small flower farm<br />in Namie, Fukushima.</p>
+              <p>The seasonal flowers are grown by me alone,<br />with help from my family.</p>
+              <p>An open-air atelier where wind, soil, and science live together.</p>
+              <p>We listen to nature and evolve with data.</p>
+              <p>Please take a look at our<br />"Farm systems" too.</p>
+            </div>
+            <img class="d-sig" src="/images/top/signature.png" alt="Signature" loading="lazy" />
+            <a class="obtn" href="/en/about/">About the farm</a>
+          </div>
+          <div class="d-stack">
+            <div class="a"><Image src={prologue1Image} alt="" width={800} sizes="40vw" loading="lazy" class="fill" /></div>
+            <div class="b"><Image src={prologue2Image} alt="" width={800} sizes="40vw" loading="lazy" class="fill" /></div>
+          </div>
+        </section>
+
+        <section class="d-in d-shop">
+          <div class="ph">
+            <div class="big plx"><Image src={bouquetImage} alt="" width={1200} sizes="55vw" loading="lazy" /></div>
+            <div class="sm"><Image src={atelierImage} alt="" width={500} sizes="20vw" loading="lazy" class="fill" /></div>
+          </div>
+          <div>
+            <h2 class="eh">Products</h2>
+            <p class="lead">We send flowers grown in the fields of Namie as bouquets and cut flowers. Flowers that fall outside standard grades have other ways to be enjoyed.</p>
+            <div class="lk">
+              {tiles.map((t) => (
+                <a href={t.href}>
+                  <span class="th"><Image src={t.image} alt="" width={200} sizes="76px" loading="lazy" class="fill" /></span>
+                  <span class="nm"><b>{t.title}</b><small>{t.note}</small></span>
+                  <i>→</i>
+                </a>
+              ))}
+            </div>
+            <p class="all"><a class="more" href="/en/products/">See all products & systems →</a></p>
+          </div>
+        </section>
+        {/* 段3：商品の棚（ProductShelf・いま買える花） */}
+
+        <section class="d-biz plx">
+          <Image src={forecastImage} alt="" widths={[1280, 1920]} sizes="100vw" loading="lazy" />
+          <div class="c">
+            <div>
+              <h2 class="eh">For markets & florists</h2>
+              {FORECAST_PUBLISHED ? (
+                <p>We grow while recording temperature, humidity, and sunlight. The shipment outlook and quality standards are collected here.</p>
+              ) : (
+                <p>We grow while recording temperature, humidity, and sunlight. Our quality standards are collected here. The shipment forecast is in preparation.</p>
+              )}
+            </div>
+            <div class="rows">
+              <a class="row" href="/en/products/market/"><span><b>Wholesale market</b><small>Quality standards and the flowers we ship</small></span><i>→</i></a>
+              <a class="row" href="/cultivation"><span><b>Shipment forecast (Japanese)</b><small>{FORECAST_PUBLISHED ? 'Flowers coming up and expected timing' : 'In preparation. Contact us about the flowers available now'}</small></span><i>→</i></a>
+            </div>
+          </div>
+        </section>
+
+        <section class="d-in d-reads">
+          <div class="d-sh"><h2 class="eh">Reading from the farm</h2><a class="more" href={noteUrl} target="_blank" rel="noopener">Go to note (Japanese) ↗</a></div>
+          <div class="rg">
+            {notes.map((n) => (
+              <a class="rc" href={n.url} target="_blank" rel="noopener">
+                <div class="ph"><img src={n.image} alt="" loading="lazy" /></div>
+                <b>{n.title}</b>
+                <p>{n.description}</p>
+                <em>Read on note (Japanese) ↗</em>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <section class="d-igw">
+          <div class="d-in d-sh"><h2 class="eh">In the fields</h2><a class="more" href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener">View on Instagram ↗</a></div>
+          <div class="strip">
+            {igTop.map((img) => (
+              <div><Image src={img} alt="" widths={[300, 600]} sizes="12vw" format="webp" loading="lazy" decoding="async" class="fill" /></div>
+            ))}
+          </div>
+        </section>
+
+        <section class="d-ct plx">
+          <Image src={dialogueImage} alt="" widths={[1280, 1920]} sizes="100vw" loading="lazy" />
+          <div class="c">
+            <span class="ey">Flowers, data, and stories.</span>
+            <h2>Tell us the<br />flowers you want</h2>
+            <p>Your voice becomes our next growing plan.<br />Questions about flower varieties or delivery dates are welcome.</p>
+            <div class="cb">
+              <a class="main" href="/en/contact/">Contact form</a>
+              <a href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener">Instagram</a>
+              <a href={SITE_CONFIG.sns.line} target="_blank" rel="noopener">LINE</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </PageShell>
+</Layout>
+
+<style>
+  .m-contact :global(h2) { text-wrap: balance; }
+  .top { background: #F2F2F0; color: #33291F; }
+  .top :global(.fill) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .more { font-size: 13px; color: #B87333; white-space: nowrap; }
+
+  .m-in { padding-left: 20px; padding-right: 20px; }
+  .m-sec { padding-top: 56px; }
+  .sh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+  .sh h2 { font-size: 21px; font-weight: 600; line-height: 1.5; margin: 0; color: #33291F; }
+
+  .m-txt { display: grid; gap: 14px; font-size: 16px; line-height: 1.85; text-align: left; }
+  .m-txt p { margin: 0; }
+  .m-about { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 14px; }
+  .sig { height: 64px; width: auto; mix-blend-mode: multiply; opacity: .75; object-fit: contain; }
+  .m-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+  .m-pair > div { position: relative; aspect-ratio: 4 / 5; border-radius: 6px; overflow: hidden; }
+
+  .m-cats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tile { border-radius: 6px; aspect-ratio: 1 / 1; color: #fff; display: block; }
+  .tile.big { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+  .tile::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(22,26,24,.72), rgba(22,26,24,0) 65%); }
+  .tile .tt { position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 2; display: grid; }
+  .tile small { font-size: 11px; opacity: .9; }
+  .tile b { font-size: 17px; font-weight: 600; line-height: 1.5; }
+
+  .m-rows { border-top: 1px solid #D9D5CE; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #D9D5CE; }
+  .row b { font-weight: 600; font-size: 16px; display: block; line-height: 1.5; }
+  .row small { font-size: 12px; color: #7A6E62; }
+  .row i { font-style: normal; color: #B87333; }
+
+  .m-notes { display: grid; gap: 10px; }
+  .ncard { display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: center; background: #fff; border-radius: 6px; overflow: hidden; }
+  .ncard .ph { aspect-ratio: 1 / 1; }
+  .ncard .ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .ncard b { display: block; font-size: 15px; font-weight: 600; line-height: 1.5; }
+  .ncard small { display: block; font-size: 12px; color: #7A6E62; line-height: 1.6; padding-right: 10px; }
+  .ncard em { font-style: normal; font-size: 12px; color: #B87333; }
+
+  .m-ig { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; border-radius: 6px; overflow: hidden; }
+  .m-ig > div { position: relative; aspect-ratio: 1 / 1; }
+  .m-btn { display: block; text-align: center; border: 1px solid #B87333; color: #B87333; border-radius: 4px; padding: 11px; font-size: 14px; margin-top: 14px; }
+  .m-contact { margin-top: 56px; }
+
+  @media (min-width: 768px) {
+    .d-in { padding-left: max(48px, calc(50% - 552px)); padding-right: max(48px, calc(50% - 552px)); }
+    .eh { font-size: clamp(30px, 3.4vw, 40px); font-weight: 600; line-height: 1.45; margin: 0; color: #33291F; }
+    .more { font-size: 14px; }
+    .d-sh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 26px; }
+    .d-sh .eh { font-size: clamp(26px, 2.9vw, 34px); }
+
+    .d-pro { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 72px); align-items: center; padding-top: 130px; }
+    .d-txt { display: grid; gap: clamp(20px, 2.5vw, 30px); font-size: clamp(16px, 1.6vw, 19px); letter-spacing: .12em; line-height: 2.2; text-align: left; }
+    .d-txt p { margin: 0; }
+    .d-sig { height: 84px; width: auto; margin: 28px 0 0 auto; mix-blend-mode: multiply; opacity: .75; object-fit: contain; display: block; }
+    .obtn { display: inline-block; border: 1px solid #B87333; color: #B87333; border-radius: 4px; padding: 13px 40px; font-size: 15px; margin-top: 20px; }
+    .d-stack { position: relative; height: clamp(440px, 49vw, 580px); }
+    .d-stack .a, .d-stack .b { position: absolute; width: 78%; height: 60%; border-radius: 6px; overflow: hidden; }
+    .d-stack .a { top: 0; left: 0; }
+    .d-stack .b { bottom: 0; right: 0; outline: 10px solid #F2F2F0; }
+
+    .d-shop { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(36px, 6vw, 72px); align-items: center; padding-top: 150px; }
+    .d-shop .ph { position: relative; height: clamp(480px, 54vw, 640px); }
+    .d-shop .big { position: absolute; inset: 0 0 70px 0; border-radius: 6px; }
+    .d-shop .sm { position: absolute; right: -36px; bottom: 0; width: 42%; aspect-ratio: 1 / 1; border-radius: 6px; overflow: hidden; outline: 10px solid #F2F2F0; }
+    .lead { font-size: 16px; color: #4A3B32; margin: 14px 0 26px; }
+    .lk { display: grid; border-top: 1px solid #D9D5CE; }
+    .lk a { display: grid; grid-template-columns: 76px 1fr auto; gap: 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid #D9D5CE; }
+    .lk .th { position: relative; width: 76px; height: 76px; border-radius: 6px; overflow: hidden; }
+    .lk b { display: block; font-size: clamp(15px, 1.5vw, 18px); font-weight: 600; line-height: 1.5; word-break: keep-all; }
+    .lk .nm { min-width: 0; }
+    .lk small { font-size: 13px; color: #7A6E62; }
+    .lk i { font-style: normal; color: #B87333; }
+    .all { margin: 18px 0 0; }
+
+    .d-biz { margin-top: 150px; color: #fff; }
+    .d-biz::after { content: ''; position: absolute; inset: 0; z-index: 1; background: rgba(51,41,31,.84); }
+    .d-biz .c { position: relative; z-index: 2; padding: 110px max(48px, calc(50% - 552px)); display: grid; grid-template-columns: 5fr 6fr; gap: clamp(36px, 6vw, 72px); align-items: center; }
+    .d-biz .eh { color: #fff; }
+    .d-biz p { font-size: 16px; opacity: .88; margin: 14px 0 0; }
+    .d-biz .rows { border-top: 1px solid rgba(255,255,255,.3); }
+    .d-biz .row { padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,.3); }
+    .d-biz .row b { font-size: 22px; }
+    .d-biz .row small { font-size: 14px; color: inherit; opacity: .75; }
+    .d-biz .row i { color: #D9935A; font-size: 20px; }
+
+    .d-reads { padding-top: 150px; }
+    .rg { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .rc .ph { aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; }
+    .rc .ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .rc b { display: block; font-size: 21px; font-weight: 600; margin-top: 16px; line-height: 1.5; }
+    .rc p { font-size: 15px; color: #4A3B32; margin: 4px 0 6px; }
+    .rc em { font-style: normal; font-size: 14px; color: #B87333; }
+
+    .d-igw { padding-top: 150px; }
+    .strip { display: grid; grid-template-columns: repeat(9, 1fr); gap: 4px; }
+    .strip > div { position: relative; aspect-ratio: 1 / 1; }
+
+    .d-ct { margin-top: 150px; height: 560px; color: #fff; }
+    .d-ct::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to right, rgba(0,52,43,.9), rgba(0,52,43,.55) 55%, rgba(0,52,43,.1)); }
+    .d-ct .c { position: absolute; z-index: 2; left: max(48px, calc(50% - 552px)); top: 0; bottom: 0; width: min(560px, 80%); display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+    .d-ct .ey { font-size: 16px; opacity: .85; }
+    .d-ct h2 { font-size: clamp(28px, 3vw, 36px); font-weight: 600; line-height: 1.5; margin: 0; color: #fff; }
+    .d-ct p { font-size: 16px; opacity: .9; margin: 0; }
+    .d-ct .cb { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+    .d-ct .cb a { font-size: 15px; padding: 13px 22px; border-radius: 4px; border: 1px solid rgba(255,255,255,.7); color: #fff; }
+    .d-ct .cb a.main { background: #F2F2F0; color: #005243; font-weight: 700; border-color: #F2F2F0; }
+  }
+
+  @media (min-width: 768px) and (max-width: 1000px) {
+    .d-shop .sm { right: -12px; }
+    .d-biz .c { padding-top: 80px; padding-bottom: 80px; }
+    .strip { grid-template-columns: repeat(5, 1fr); }
+    .strip > div:nth-child(n+6) { display: none; }
+  }
+</style>

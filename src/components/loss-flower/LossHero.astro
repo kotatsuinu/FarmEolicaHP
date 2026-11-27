@@ -10,14 +10,18 @@ interface Props {
   image: ImageMetadata;
   alt?: string;
   crumb: { name: string; url?: string }[];
+  lang?: 'ja' | 'en';
 }
-const { image, alt = '', crumb } = Astro.props;
+const { image, alt = '', crumb, lang = 'ja' } = Astro.props;
+const h1 = lang === 'en'
+  ? { main: 'What is Loss Flower', sep: ' | ', sub: 'Farm-direct flowers, available in bulk online' }
+  : { main: 'ロスフラワーとは', sep: '｜', sub: '農家直送の花材を通販でまとめ買い' };
 ---
 
 <section class="plx hero">
   <Image src={image} alt={alt} widths={[640, 1280, 1920]} sizes="100vw" loading="eager" fetchpriority="high" />
   <div class="hero-txt">
-    <h1><span class="main">ロスフラワーとは</span><span class="sep">｜</span><span class="sub">農家直送の花材を通販でまとめ買い</span></h1>
+    <h1><span class="main">{h1.main}</span><span class="sep">{h1.sep}</span><span class="sub">{h1.sub}</span></h1>
   </div>
 </section>
 
