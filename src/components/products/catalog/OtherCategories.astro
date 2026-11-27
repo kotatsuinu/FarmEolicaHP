@@ -4,25 +4,30 @@
  */
 interface Props {
   current: string;
+  lang?: 'ja' | 'en';
 }
-const { current } = Astro.props;
-const all = [
-  { key: 'bouquet', title: '花束・テーブルフラワー', href: '/products/bouquet' },
-  { key: 'imperfect', title: '規格外切り花', href: '/products/imperfect' },
-  { key: 'loss-flower', title: 'ロスフラワー', href: '/products/loss-flower' },
-  { key: 'dry-flower', title: 'ドライフラワー', href: '/products/dry-flower' },
-  { key: 'market', title: '市場出荷品', href: '/products/market' },
-  { key: 'research', title: '農園の仕組みづくり', href: '/products/research' },
-];
+const { current, lang = 'ja' } = Astro.props;
+const prefix = lang === 'en' ? '/en' : '';
+const titles = {
+  ja: { bouquet: '花束・テーブルフラワー', imperfect: '規格外切り花', 'loss-flower': 'ロスフラワー', 'dry-flower': 'ドライフラワー', market: '市場出荷品', research: '農園の仕組みづくり' },
+  en: { bouquet: 'Bouquets & table flowers', imperfect: 'Imperfect cut flowers', 'loss-flower': 'Loss flowers', 'dry-flower': 'Dried flowers', market: 'Wholesale market', research: 'Farm systems' },
+}[lang];
+const heading = lang === 'en' ? 'See other categories' : 'ほかの種類を見る';
+const allLabel = lang === 'en' ? 'All products →' : '商品一覧へ →';
+const all = (['bouquet', 'imperfect', 'loss-flower', 'dry-flower', 'market', 'research'] as const).map((key) => ({
+  key,
+  title: titles[key],
+  href: `${prefix}/products/${key}`,
+}));
 const others = all.filter((c) => c.key !== current);
 ---
 
 <section class="sec inner">
-  <h2>ほかの種類を見る</h2>
+  <h2>{heading}</h2>
   <div class="btns">
     {others.map((c) => <a class="b" href={c.href}>{c.title}</a>)}
   </div>
-  <a class="all" href="/products">商品一覧へ →</a>
+  <a class="all" href={`${prefix}/products`}>{allLabel}</a>
 </section>
 
 <style>

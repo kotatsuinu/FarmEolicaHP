@@ -7,11 +7,26 @@ import { SITE_CONFIG } from '../../../config/site';
 interface Props {
   heading?: string;
   text?: string;
+  lang?: 'ja' | 'en';
 }
-const {
-  heading = 'お問い合わせ・ご注文',
-  text = '花の種類や届く日のご相談も、お気軽にどうぞ。',
-} = Astro.props;
+const { lang = 'ja' } = Astro.props;
+const T = {
+  ja: {
+    heading: 'お問い合わせ・ご注文',
+    text: '花の種類や届く日のご相談も、お気軽にどうぞ。',
+    line: '公式LINEで問い合わせる',
+    form: 'お問い合わせフォーム',
+    formHref: '/contact',
+  },
+  en: {
+    heading: 'Inquiries & orders',
+    text: 'Questions about flower varieties or delivery dates are welcome.',
+    line: 'Ask on our official LINE (Japanese)',
+    form: 'Contact form',
+    formHref: '/en/contact',
+  },
+}[lang];
+const { heading = T.heading, text = T.text } = Astro.props;
 ---
 
 <section class="contact">
@@ -21,9 +36,9 @@ const {
       <p>{text}</p>
     </div>
     <div class="cbtns">
-      <a class="cbtn main" href={SITE_CONFIG.sns.line} target="_blank" rel="noopener">公式LINEで問い合わせる</a>
+      <a class="cbtn main" href={SITE_CONFIG.sns.line} target="_blank" rel="noopener">{T.line}</a>
       <a class="cbtn" href={SITE_CONFIG.sns.instagram} target="_blank" rel="noopener">Instagram</a>
-      <a class="cbtn" href="/contact">お問い合わせフォーム</a>
+      <a class="cbtn" href={T.formHref}>{T.form}</a>
     </div>
   </div>
 </section>

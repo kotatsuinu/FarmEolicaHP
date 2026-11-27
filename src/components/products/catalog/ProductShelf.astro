@@ -20,6 +20,7 @@ interface Props {
   /** 0件の文言の後ろに出荷予報の一文を足すか。独自の文言とリンクを渡す棚は false にする */
   forecastTail?: boolean;
   airy?: boolean;
+  lang?: 'ja' | 'en';
 }
 const {
   items,
@@ -27,29 +28,33 @@ const {
   showPrice = true,
   chipLabel,
   description,
-  emptyText = 'いまは受付を休んでいます。',
+  emptyText: emptyTextProp,
   emptyHref,
   emptyCta,
   forecastTail = true,
   airy = false,
+  lang = 'ja',
 } = Astro.props;
+const en = lang === 'en';
+const emptyText = emptyTextProp ?? (en ? 'We are not taking orders right now.' : 'いまは受付を休んでいます。');
 
 // 出荷予報の公開前は、準備中の言い方にして問い合わせへ案内する（切り替えは FORECAST_PUBLISHED）
 const emptyTail = !forecastTail
   ? ''
   : FORECAST_PUBLISHED
-    ? '次に咲く花は出荷予報でご覧いただけます。'
-    : '出荷予報のページは準備中です。いま出せる花や時期は、お問い合わせください。';
-const href = emptyHref ?? (FORECAST_PUBLISHED ? '/cultivation' : '/contact');
-const cta = emptyCta ?? (FORECAST_PUBLISHED ? '出荷予報を見る →' : 'お問い合わせ →');
+    ? en ? 'See the shipment forecast (Japanese) for what blooms next.' : '次に咲く花は出荷予報でご覧いただけます。'
+    : en ? 'The shipment forecast page is in preparation. Please contact us about available flowers and timing.' : '出荷予報のページは準備中です。いま出せる花や時期は、お問い合わせください。';
+const contactHref = en ? '/en/contact' : '/contact';
+const href = emptyHref ?? (FORECAST_PUBLISHED ? '/cultivation' : contactHref);
+const cta = emptyCta ?? (FORECAST_PUBLISHED ? (en ? 'See shipment forecast →' : '出荷予報を見る →') : en ? 'Contact us →' : 'お問い合わせ →');
 const count = items.length;
-const chip = (s: string) => chipLabel ?? (s === 'seasonal' ? '季節限定' : '販売中');
+const chip = (s: string) => chipLabel ?? (s === 'seasonal' ? (en ? 'Seasonal' : '季節限定') : en ? 'On sale' : '販売中');
 ---
 
 <section class:list={['sec', 'inner', { airy }]}>
   <div class="sec-h">
     <h2>{heading}</h2>
-    <small>{count}件</small>
+    <small>{count}{en ? ' items' : '件'}</small>
   </div>
   {description && <p class="sec-d">{description}</p>}
 
@@ -62,7 +67,7 @@ const chip = (s: string) => chipLabel ?? (s === 'seasonal' ? '季節限定' : '�
               {p.data.image ? (
                 <Image src={p.data.image} alt={p.data.name} width={600} height={750} sizes="(min-width: 768px) 25vw, 66vw" loading="lazy" />
               ) : (
-                <span class="noimg">画像準備中</span>
+                <span class="noimg">{en ? 'Photo coming soon' : '画像準備中'}</span>
               )}
               <span class="chip">{chip(p.data.saleStatus)}</span>
             </div>
@@ -75,19 +80,19 @@ const chip = (s: string) => chipLabel ?? (s === 'seasonal' ? '季節限定' : '�
         ))}
         {FORECAST_PUBLISHED ? (
           <a class="pc-next" href="/cultivation">
-            <b>これから出る花</b>
-            <span>畑で育っている花と、出荷の見込み</span>
-            <i>出荷予報を見る →</i>
+            <b>{en ? 'Coming up' : 'これから出る花'}</b>
+            <span>{en ? 'Flowers growing in the field and expected shipments' : '畑で育っている花と、出荷の見込み'}</span>
+            <i>{en ? 'See shipment forecast →' : '出荷予報を見る →'}</i>
           </a>
         ) : (
-          <a class="pc-next" href="/contact">
-            <b>これから出る花</b>
-            <span>出荷予報は準備中です。いま出せる花や時期は、お問い合わせください</span>
-            <i>お問い合わせ →</i>
+          <a class="pc-next" href={contactHref}>
+            <b>{en ? 'Coming up' : 'これから出る花'}</b>
+            <span>{en ? 'The shipment forecast is in preparation. Please contact us about available flowers and timing.' : '出荷予報は準備中です。いま出せる花や時期は、お問い合わせください'}</span>
+            <i>{en ? 'Contact us →' : 'お問い合わせ →'}</i>
           </a>
         )}
       </div>
-      <p class="swipe">← 横にめくれます</p>
+      <p class="swipe">{en ? '← Swipe sideways' : '← 横にめくれます'}</p>
     </>
   ) : Astro.slots.has('empty') ? (
     <slot name="empty" />

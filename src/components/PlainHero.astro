@@ -8,12 +8,14 @@ import Breadcrumb from './Breadcrumb.astro';
 interface Props {
   title: string;
   description?: string;
+  lang?: 'ja' | 'en';
 }
-const { title, description } = Astro.props;
+const { title, description, lang = 'ja' } = Astro.props;
+const home = lang === 'en' ? { name: 'Home', url: '/en/' } : { name: 'ホーム', url: '/' };
 ---
 
 <header class="ph inner">
-  <Breadcrumb items={[{ name: 'ホーム', url: '/' }, { name: title }]} />
+  <Breadcrumb items={[home, { name: title }]} />
   <h1>{title}</h1>
   {description && <p>{description}</p>}
 </header>

@@ -9,14 +9,16 @@ interface Props {
   items: ProductEntry[];
   noun: string;
   showPrice?: boolean;
+  lang?: 'ja' | 'en';
 }
-const { items, noun, showPrice = true } = Astro.props;
-const label = (s: string) => (s === 'preparing' ? '準備中' : '在庫切れ');
+const { items, noun, showPrice = true, lang = 'ja' } = Astro.props;
+const en = lang === 'en';
+const label = (s: string) => (s === 'preparing' ? (en ? 'Coming soon' : '準備中') : en ? 'Out of stock' : '在庫切れ');
 ---
 
 {items.length > 0 && (
   <section class="sec inner">
-    <h2>花の時期になったら出る{noun}</h2>
+    <h2>{en ? `${noun} coming back in season` : `花の時期になったら出る${noun}`}</h2>
     <div class="rows">
       {items.map((p) => (
         <a class="row" href={`/products/${p.slug}`}>

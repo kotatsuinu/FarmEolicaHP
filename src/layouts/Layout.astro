@@ -153,7 +153,7 @@ const ogImage = image
       <nav class="max-w-7xl mx-auto px-6 lg:px-12 py-3">
         <div class="flex items-center justify-between">
           <!-- Logo -->
-          <a href="/" class="block hover:opacity-70 transition-opacity duration-300" aria-label="Farm Eolica">
+          <a href={NAV.home[lang]} class="block hover:opacity-70 transition-opacity duration-300" aria-label="Farm Eolica">
             <img src="/logo/farm-eolica-full-green.svg" alt="Farm Eolica" class="h-14 md:h-16 w-auto" />
           </a>
 
@@ -174,8 +174,8 @@ const ogImage = image
               <!-- Dropdown Menu -->
               <div class="nav-dropdown absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-300 z-[55]">
                 <div class="bg-stone-white/95 backdrop-blur-sm shadow-lab-lg py-3 min-w-[160px] border border-warm-gray-100">
-                  {NAV.products.children.map((c) => (
-                    <a href={c.href[lang]} class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">{NL}{c.label[lang]}{NL}</a>{' '}
+                  {NAV.products.children.map((c, i, all) => (
+                    <Fragment><a href={c.href[lang]} class="block px-5 py-2.5 text-xs font-mono text-wet-soil hover:text-old-copper hover:bg-warm-gray-50/50 transition-colors duration-200">{NL}{c.label[lang]}{NL}</a>{i < all.length - 1 && ' '}</Fragment>
                   ))}
                 </div>
               </div>
@@ -213,7 +213,7 @@ const ogImage = image
           <button
             id="hamburger-btn"
             class="md:hidden flex flex-col items-center justify-center w-12 h-12 gap-1.5 hover:opacity-70 transition-opacity duration-300"
-            aria-label="メニューを開く"
+            aria-label={MENU_LABEL.open[lang]}
           >
             <span class="w-6 h-0.5 bg-wet-soil transition-all duration-300"></span>
             <span class="w-6 h-0.5 bg-wet-soil transition-all duration-300"></span>
@@ -234,7 +234,7 @@ const ogImage = image
           <button
             id="close-menu-btn"
             class="flex items-center justify-center w-12 h-12 hover:opacity-70 transition-opacity duration-300"
-            aria-label="メニューを閉じる"
+            aria-label={MENU_LABEL.close[lang]}
           >
             <svg class="w-8 h-8 text-wet-soil" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -247,9 +247,9 @@ const ogImage = image
           <ul class="flex flex-col items-center gap-8 font-mono text-wet-soil">
             <LangSwitch lang={lang} variant="mobile" />
             <li>
-              <a href="/cultivation" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
-                <span class="text-base tracking-widest uppercase">SHIPMENT</span>
-                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">出荷予報{!FORECAST_PUBLISHED && '（準備中）'}</span>
+              <a href={NAV.shipment.href[lang]} class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-base tracking-widest uppercase">{NAV.shipment.label}</span>
+                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">{NAV.shipment.sub[lang]}{!FORECAST_PUBLISHED && SHIPMENT_PENDING[lang]}</span>
               </a>
             </li>
             <!-- Products with Submenu -->
@@ -258,65 +258,45 @@ const ogImage = image
                 id="mobile-products-toggle"
                 class="flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group"
               >
-                <span class="text-base tracking-widest uppercase flex items-center gap-2">
-                  PRODUCTS
-                  <svg id="mobile-products-arrow" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span class="text-base tracking-widest uppercase flex items-center gap-2">{NL}{NAV.products.label}{NL}<svg id="mobile-products-arrow" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                   </svg>
                 </span>
-                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">商品・仕組みづくり</span>
+                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">{NAV.products.sub[lang]}</span>
               </button>
               <!-- Mobile Submenu -->
               <div id="mobile-products-submenu" class="max-h-0 overflow-hidden transition-all duration-300">
                 <div class="pt-4 pb-2 space-y-3">
-                  <a href="/products" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
-                    商品紹介
-                  </a>
-                  <a href="/products/bouquet" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
-                    花束・テーブルフラワー
-                  </a>
-                  <a href="/products/market" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
-                    市場出荷品
-                  </a>
-                  <a href="/products/imperfect" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
-                    規格外
-                  </a>
-                  <a href="/products/loss-flower" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
-                    ロスフラワー
-                  </a>
-                  <a href="/products/dry-flower" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
-                    ドライフラワー
-                  </a>
-                  <a href="/products/research" class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">
-                    農園の仕組みづくり
-                  </a>
+                  {NAV.products.children.map((c, i, all) => (
+                    <Fragment><a href={c.href[lang]} class="mobile-menu-link block text-sm opacity-80 hover:opacity-100 hover:text-old-copper transition-colors duration-200">{NL}{c.label[lang]}{NL}</a>{i < all.length - 1 && ' '}</Fragment>
+                  ))}
                 </div>
               </div>
             </li>
             <li>
-              <a href="/about" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
-                <span class="text-base tracking-widest uppercase">ABOUT</span>
-                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">農園について</span>
+              <a href={NAV.about.href[lang]} class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-base tracking-widest uppercase">{NAV.about.label}</span>
+                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">{NAV.about.sub[lang]}</span>
               </a>
             </li>
-            {MEMBERSHIP_PUBLISHED && (
+            {MEMBERSHIP_PUBLISHED && lang === 'ja' && (
               <li>
-                <a href={SITE_CONFIG.membership.applyPath} class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
-                  <span class="text-base tracking-widest uppercase">KASHINFU</span>
-                  <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">花信風（応援会費）</span>
+                <a href={NAV.membership.href[lang]} class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
+                  <span class="text-base tracking-widest uppercase">{NAV.membership.label}</span>
+                  <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">{NAV.membership.sub[lang]}</span>
                 </a>
               </li>
             )}
             <li>
-              <a href="/faq" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
-                <span class="text-base tracking-widest uppercase">FAQ</span>
-                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">よくある質問</span>
+              <a href={NAV.faq.href[lang]} class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-base tracking-widest uppercase">{NAV.faq.label}</span>
+                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">{NAV.faq.sub[lang]}</span>
               </a>
             </li>
             <li>
-              <a href="/contact" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
-                <span class="text-base tracking-widest uppercase">CONTACT</span>
-                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">お問い合わせ</span>
+              <a href={NAV.contact.href[lang]} class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
+                <span class="text-base tracking-widest uppercase">{NAV.contact.label}</span>
+                <span class="text-sm tracking-wide opacity-60 group-hover:opacity-80">{NAV.contact.sub[lang]}</span>
               </a>
             </li>
           </ul>
@@ -375,31 +355,25 @@ const ogImage = image
           <!-- Privacy Link -->
           <div>
             <a
-              href="/privacy"
+              href={FOOTER.privacy.href[lang]}
               class="text-xs tracking-wide opacity-70 hover:opacity-100 hover:text-old-copper transition-all duration-300 font-mono"
-            >
-              Privacy Policy
-            </a>
+            >{NL}{FOOTER.privacy.label[lang]}{NL}</a>
           </div>
 
           <!-- Tokushoho Link (常時表示・法定表示) -->
           <div>
             <a
-              href={SITE_CONFIG.membership.tokushohoPath}
+              href={FOOTER.tokushoho.href[lang]}
               class="text-xs tracking-wide opacity-70 hover:opacity-100 hover:text-old-copper transition-all duration-300 font-mono"
-            >
-              特定商取引法に基づく表記（お花の販売）
-            </a>
+            >{NL}{FOOTER.tokushoho.label[lang]}{NL}</a>
           </div>
 
           <!-- Related Business Link -->
           <div>
             <a
-              href="/works/"
+              href={FOOTER.works.href[lang]}
               class="text-xs tracking-wide opacity-50 hover:opacity-90 hover:text-old-copper transition-all duration-300 font-mono"
-            >
-              関連事業: Farm Eolica Works（制作・Web・デザイン）
-            </a>
+            >{NL}{FOOTER.works.label[lang]}{NL}</a>
           </div>
 
           <!-- Copyright -->

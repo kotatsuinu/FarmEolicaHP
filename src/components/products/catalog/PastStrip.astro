@@ -8,13 +8,15 @@ import type { ProductEntry } from './split';
 
 interface Props {
   items: ProductEntry[];
+  lang?: 'ja' | 'en';
 }
-const { items } = Astro.props;
+const { items, lang = 'ja' } = Astro.props;
+const en = lang === 'en';
 ---
 
 {items.length > 0 && (
   <section class="sec inner">
-    <h2>これまでにお届けした花</h2>
+    <h2>{en ? 'Flowers we have delivered' : 'これまでにお届けした花'}</h2>
     <div class="strip">
       {items.map((p) => (
         <a class="pp" href={`/products/${p.slug}`}>
@@ -22,7 +24,7 @@ const { items } = Astro.props;
             {p.data.image ? (
               <Image src={p.data.image} alt={p.data.name} width={240} height={240} sizes="120px" loading="lazy" />
             ) : (
-              <span class="noimg">画像準備中</span>
+              <span class="noimg">{en ? 'Photo coming soon' : '画像準備中'}</span>
             )}
           </div>
           <span class="pp-nm">{p.data.name}</span>
