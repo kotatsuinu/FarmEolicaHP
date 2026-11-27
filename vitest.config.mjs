@@ -32,6 +32,19 @@ export default defineConfig({
           hookTimeout: 600000,
         },
       },
+      // en-build : 英語版（2026-11-27）。本物のビルドを1回回して日本語ページを段0の写しと突き合わせる。遅い・重い。
+      //            page-build と同じ `npm run test:build` で流す。groupOrder で page-build の後に回し、2つのビルドを同時に走らせない
+      {
+        test: {
+          name: 'en-build',
+          include: ['tests/english_version/**/*.test.mjs'],
+          environment: 'node',
+          fileParallelism: false,
+          testTimeout: 600000,
+          hookTimeout: 600000,
+          sequence: { groupOrder: 1 },
+        },
+      },
     ],
   },
 });

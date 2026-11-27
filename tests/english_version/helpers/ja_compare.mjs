@@ -126,7 +126,14 @@ export function compareJa({ baseDir, curDir, allowedFor, layoutCid }) {
       }
       c = c.split(inc.text).join('');
     }
-    for (const [o, n] of renames) c = c.split(`/${n}"`).join(`/${o}"`);
+    for (const [o, n] of renames) {
+      // 古い名前を読んでいた所は、同じ数だけ新しい名前に替わっている（消えたファイルを読み続けていない）
+      const before = count(b, `/${o}"`);
+      if (count(c, `/${o}"`) !== 0 || count(c, `/${n}"`) !== before) {
+        problems.push(`${r}: CSS の読み込み行が名前替え（${o} → ${n}）に合っていない`);
+      }
+      c = c.split(`/${n}"`).join(`/${o}"`);
+    }
     const norm = normalizeLayoutChunkMove(b, c, layoutCid);
     c = norm.html;
     chunkMoves += norm.moved;
