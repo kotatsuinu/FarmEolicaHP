@@ -6,6 +6,8 @@
 // longer need to pass `active` manually. The `active` prop is kept for
 // backward compatibility (OR'd into the path-based detection) — passing
 // it is harmless and never required.
+import LangSwitch from '../LangSwitch.astro';
+
 interface Props {
   isHome?: boolean;
   active?: 'capabilities' | 'first-time' | 'contact';
@@ -69,6 +71,7 @@ const activePartnerGroup = activePartner || activeCapabilities || activeRecords;
     <a href="/works/faq" aria-current={activeFaq ? 'page' : undefined} class:list={{ 'is-active': activeFaq }}>FAQ</a>
     <a href="/works/contact" aria-current={activeContact ? 'page' : undefined} class:list={{ 'is-active': activeContact }}>コンタクト</a>
     <a href="/" class="wh-farm-link">農場HP ↗</a>
+    <LangSwitch lang="ja" variant="works-desktop" href="/en/" />
     <a href="/works/contact" class="wh-cta" aria-current={activeContact ? 'page' : undefined}>まずは話してみる →</a>
   </nav>
 
@@ -119,6 +122,7 @@ const activePartnerGroup = activePartner || activeCapabilities || activeRecords;
     <a href="/works/faq" aria-current={activeFaq ? 'page' : undefined} class:list={{ 'is-active': activeFaq }}>FAQ</a>
     <a href="/works/contact" aria-current={activeContact ? 'page' : undefined} class:list={{ 'is-active': activeContact }}>コンタクト</a>
     <a href="/" class="wh-overlay-farm-link">農場HP ↗</a>
+    <LangSwitch lang="ja" variant="works-mobile" href="/en/" />
     <a href="/works/contact" class="wh-overlay-cta" aria-current={activeContact ? 'page' : undefined}>まずは話してみる →</a>
   </nav>
 </div>

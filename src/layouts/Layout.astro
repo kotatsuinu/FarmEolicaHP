@@ -1,6 +1,8 @@
 ---
 import { SITE_CONFIG, MEMBERSHIP_PUBLISHED, FORECAST_PUBLISHED } from '../config/site';
 import StructuredData from '../components/seo/StructuredData.astro';
+import LangSwitch from '../components/LangSwitch.astro';
+import { getAlternate } from '../config/i18n-pairs';
 import defaultOgImage from '../assets/images/top/hero.jpg';
 
 interface Props {
@@ -9,21 +11,24 @@ interface Props {
   image?: string;
   ogType?: string;
   noindex?: boolean;
+  lang?: 'ja' | 'en';
+  alternatePath?: string | null;
 }
 
-const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販売', image, ogType = 'website', noindex = false } = Astro.props;
+const { title, description = 'Farm Eolica - 花農家の栽培記録と商品販売', image, ogType = 'website', noindex = false, lang = 'ja', alternatePath } = Astro.props;
 
 const ga4Id = SITE_CONFIG.seo.ga4Id;
 const gscVerification = SITE_CONFIG.seo.gscVerification;
 const siteUrl = Astro.site?.origin ?? 'https://farmeolica.com';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const alt = alternatePath === null ? null : getAlternate(alternatePath ?? Astro.url.pathname);
 const ogImage = image
   ? new URL(image, siteUrl).href
   : new URL(defaultOgImage.src, siteUrl).href;
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -66,7 +71,8 @@ const ogImage = image
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:site_name" content="Farm Eolica" />
-    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'ja_JP'} />
+    {alt && <meta property="og:locale:alternate" content={lang === 'en' ? 'ja_JP' : 'en_US'} />}
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -76,6 +82,9 @@ const ogImage = image
     <meta name="twitter:image" content={ogImage} />
 
     <link rel="canonical" href={canonicalUrl} />
+    {alt && <link rel="alternate" hreflang="ja" href={new URL(alt.ja, siteUrl).href} />}
+    {alt && <link rel="alternate" hreflang="en" href={new URL(alt.en, siteUrl).href} />}
+    {alt && <link rel="alternate" hreflang="x-default" href={new URL(alt.ja, siteUrl).href} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <title>{title}</title>
 
@@ -212,6 +221,7 @@ const ogImage = image
                 <span class="text-[10px] tracking-wide opacity-60 group-hover:opacity-80">お問い合わせ</span>
               </a>
             </li>
+            <LangSwitch lang={lang} variant="desktop" />
           </ul>
 
           <!-- Mobile Hamburger Button (visible on mobile only) -->
@@ -250,6 +260,7 @@ const ogImage = image
         <!-- Mobile Navigation Links -->
         <nav class="flex-1 flex items-center justify-center overflow-y-auto py-8">
           <ul class="flex flex-col items-center gap-8 font-mono text-wet-soil">
+            <LangSwitch lang={lang} variant="mobile" />
             <li>
               <a href="/cultivation" class="mobile-menu-link flex flex-col items-center gap-1 hover:text-old-copper transition-colors duration-300 group">
                 <span class="text-base tracking-widest uppercase">SHIPMENT</span>
